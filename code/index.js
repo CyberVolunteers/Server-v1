@@ -3,6 +3,11 @@ const bcrypt = require('bcrypt');
 const path = require('path');
 const mysql = require('mysql')
 const bodyParser = require("body-parser");
+const passport = require('passport');
+const expressSession = require('express-session');
+const LocalStrategy = require('passport-local').Strategy;
+
+
 const app = express();
 
 const settings = require("./settings")
@@ -18,17 +23,74 @@ const connection = mysql.createConnection({
 })
 connection.connect()
 
-// connections
+//passport
+passport.use(new LocalStrategy({usernameField: 'email'},function(email, password, done) {
+  const badCredentialsMessage = "We could not find a user with this username and password.";
 
+  // find the password hash by the email
+  connection.query('SELECT * FROM `volunteers` WHERE `email`=?;', [email], function(err, results, fields){
+    if(err) return done(err);
+
+    if(results.length == 0){
+      //compare a dummy password to prevent timing attacks
+      bcrypt.compare("a dummy password", "$2b$12$6VcZHuw9wxuspyuTio3Yd.E1Il2rwwGzzRDiaffcucukfvNW7r4rC", function(err, result) {
+        if(err) return done(err);
+        // has not been verified
+        return done(null, false, {message: badCredentialsMessage});
+      });
+    }else if (results.length == 1){
+      bcrypt.compare(password, results[0].passwordHash, function(err, result) {
+        if (err) return done(err);
+
+        if(result === true){
+          //log in
+          // TODO: serialise and de-serialise
+          return done(null, results[0]);
+        }else{
+          //has not been authenticated
+          return done(null, false, {message: badCredentialsMessage});
+        }
+      });
+    }
+  });
+}));
+
+// used to serialize the user for the session
+passport.serializeUser(function(user, done) {
+  console.log(user);
+  done(null, user.id); 
+});
+
+// used to deserialize the user
+passport.deserializeUser(function(id, done) {
+  connection.query('SELECT * FROM `volunteers` WHERE `id`=?;', [id], function(err, results, fields){
+    if(err) return done(err);
+    console.log(results);
+    done(err, results[0]);
+  });
+});
+
+
+
+
+
+// connections
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(require('cookie-parser')());
+app.use(expressSession({
+  secret: require("./data/cookieSecret"),
+  resave: false,//TODO: should i change this one?
+  saveUninitialized: true//TODO: should i change this one?
+})); // TODO: research the params, esp. maxAge
+app.use(passport.initialize());
+app.use(passport.session());
 
 //sign up post
-app.post("/createAccount", function(req, res, next){
+app.post("/signup", function(req, res, next){
   // TODO: checks if the password, name or email are real and if email is not used up
 
   // check if the email is already used
@@ -43,7 +105,7 @@ app.post("/createAccount", function(req, res, next){
     bcrypt.hash(req.body.password, settings.bcryptRounds, function(err, hash) {
       if (err) return next(err);
       // Store hash in your password DB.
-      connection.query('INSERT INTO `volunteers`(firstName, lastName, email, passwordHash) VALUES (?, ?, ?, ?);', [req.body.firstName, req.body.lastName, req.body.email, hash], function (err, results, fields) {
+      connection.query('INSERT INTO `volunteers`(firstName, lastName, email, passwordHash, gender, salutation, nationality, address, postcode, city, country, phoneNumber) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);', [req.body.firstName, req.body.lastName, req.body.email, hash, req.body.gender, req.body.salutation, req.body.nationality, req.body.address, req.body.postcode, req.body.city, req.body.country, req.body.phoneNumber], function (err, results, fields) {
         if (err) return next(err);
         return res.sendStatus(200);
       });
@@ -51,32 +113,21 @@ app.post("/createAccount", function(req, res, next){
   });
 })
 
-app.post("/login", function(req, res){
-  // TODO: checks if the password, name or email are real and if email is not used up
-
-  // find the password hash by the email
-  connection.query('SELECT `passwordHash` FROM `volunteers` WHERE `email`=?;', [req.body.email], function(err, results, fields){
-    if(err) return next(err);
-
-    if(results.length == 0){
-      // TODO: also check wrong passwords here
-      // TODO: have the same error status
-      res.statusMessage = "There is no such account";
+app.post("/login", function(req, res, next){
+  passport.authenticate('local', (err, user, info) => {
+    if(info){
+      res.statusMessage = info.message;
       return res.status(400).end();
-    }else if (results.length == 1){
-      bcrypt.compare(req.body.password, results[0].passwordHash, function(err, result) {
-        if(err) return next(err);
-        console.log(result)
-        if(result){
-          //log in
-        }else{
-          res.statusMessage = "Wrong password";
-          return res.status(400).end();
-        }
-      });
     }
-  });
+    if(err) return next(err);
+    // TODO: if (!user) { return res.redirect('/login'); }
+    req.login(user, (err) => {
+      if (err) return next(err);
+      return res.sendStatus(200);
+    })
+
+  })(req, res, next);
 })
 
 
-app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
+app.listen(port, () => console.log(`Listening at http://localhost:${port}`));
