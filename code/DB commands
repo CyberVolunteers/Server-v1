@@ -1,0 +1,6 @@
+
+// empty a table
+delete from volunteers
+
+// reset autoincrement
+ALTER TABLE volunteers AUTO_INCREMENT = 1

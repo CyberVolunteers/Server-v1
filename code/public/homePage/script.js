@@ -1,6 +1,6 @@
 $(function(){
     $(".button").click(function(){
-        $.post("/createAccount", {
+        $.post("/login", {
             password: "not secure",
             firstName: "John",
             lastName: "Smith",

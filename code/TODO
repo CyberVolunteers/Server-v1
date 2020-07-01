@@ -6,7 +6,13 @@ helmet
 csrf
 tests
 
+cache
+
+automatic backups
+
 throttling
+
+error handling
 
 pools?
 
