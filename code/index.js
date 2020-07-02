@@ -66,6 +66,7 @@ passport.deserializeUser(function(id, done) {
   connection.query('SELECT * FROM `volunteers` WHERE `id`=?;', [id], function(err, results, fields){
     if(err) return done(err);
     console.log(results);
+    //TODO: cache?
     done(err, results[0]);
   });
 });
@@ -75,7 +76,7 @@ passport.deserializeUser(function(id, done) {
 
 
 // connections
-app.use(express.static(path.join(__dirname, 'public')));
+app.set("views", path.join(__dirname, 'public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
@@ -89,9 +90,20 @@ app.use(expressSession({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// public pages
+
 //sign up post
 app.post("/signup", function(req, res, next){
-  // TODO: checks if the password, name or email are real and if email is not used up
+  // TODO: checks
+  //check if any of the required fields are missing
+  const requiredFields = [req.body.firstName, req.body.lastName, req.body.email, req.body.password, req.body.gender, req.body.salutation, req.body.nationality, req.body.address, req.body.postcode, req.body.city, req.body.country, req.body.phoneNumber];
+  for(let i = 0; i < requiredFields.length; i++){
+    if(!(typeof requiredFields[i] === 'string' || requiredFields[i] instanceof String)){
+      //one of the feilds is not a string
+      res.statusMessage = "You have not filled in all the required fields";
+      return res.status(400).end();
+    }
+  }
 
   // check if the email is already used
   connection.query('SELECT `email` FROM `volunteers` WHERE `email`=?;', [req.body.email], function(err, results, fields){
@@ -105,6 +117,7 @@ app.post("/signup", function(req, res, next){
     bcrypt.hash(req.body.password, settings.bcryptRounds, function(err, hash) {
       if (err) return next(err);
       // Store hash in your password DB.
+      // TODO: insert more values
       connection.query('INSERT INTO `volunteers`(firstName, lastName, email, passwordHash, gender, salutation, nationality, address, postcode, city, country, phoneNumber) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);', [req.body.firstName, req.body.lastName, req.body.email, hash, req.body.gender, req.body.salutation, req.body.nationality, req.body.address, req.body.postcode, req.body.city, req.body.country, req.body.phoneNumber], function (err, results, fields) {
         if (err) return next(err);
         return res.sendStatus(200);
@@ -113,6 +126,7 @@ app.post("/signup", function(req, res, next){
   });
 })
 
+// TODO: check if already logged in
 app.post("/login", function(req, res, next){
   passport.authenticate('local', (err, user, info) => {
     if(info){
@@ -129,5 +143,24 @@ app.post("/login", function(req, res, next){
   })(req, res, next);
 })
 
+// TODO: do not serve html here, serve it depending on whether the page is private or public
+app.use(express.static(path.join(__dirname, 'public'))); // to serve js, html, css
+
+// private pages and requests
+
+//redirect to login if not authenticated
+// app.use(function(req, res, next){
+//   // let through if authenticated
+//   if (req.isAuthenticated()) return next();
+//   // if ajax, set send error code
+//   if (req.xhr) {
+//     return res.sendStatus(401).end();
+//   }
+//   // otherwise, return login page code
+//   return res.redirect("/login");
+// });
+
+// TODO: logout function
+// TODO: do not send the error message to the client
 
 app.listen(port, () => console.log(`Listening at http://localhost:${port}`));
