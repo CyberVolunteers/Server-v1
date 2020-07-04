@@ -152,21 +152,22 @@ app.post("/login", function(req, res, next){
 })
 
 app.get("/login", renderPage("login"));
+app.get("/signup", renderPage("signup"));
 
 // TODO: do not serve html here, serve it depending on whether the page is private or public
-app.use(express.static(path.join(__dirname, 'public'))); // to serve js, html, css
+// app.use(express.static(path.join(__dirname, 'public'))); // to serve js, html, css
 
-// redirect to login if not authenticated
-app.use(function(req, res, next){
-  // let through if authenticated
-  if (req.isAuthenticated()) return next();
-  // if ajax, set send error code
-  if (req.xhr) {
-    return res.sendStatus(401).end();
-  }
-  // otherwise, return login page code
-  return res.redirect("/login");
-});
+// // redirect to login if not authenticated
+// app.use(function(req, res, next){
+//   // let through if authenticated
+//   if (req.isAuthenticated()) return next();
+//   // if ajax, set send error code
+//   if (req.xhr) {
+//     return res.sendStatus(401).end();
+//   }
+//   // otherwise, return login page code
+//   return res.redirect("/login");
+// });
 
 // private pages and requests
 
