@@ -5,6 +5,7 @@ const mysql = require('mysql')
 const bodyParser = require("body-parser");
 const passport = require('passport');
 const expressSession = require('express-session');
+const exphbs  = require('express-handlebars');
 const LocalStrategy = require('passport-local').Strategy;
 
 
@@ -76,7 +77,14 @@ passport.deserializeUser(function(id, done) {
 
 
 // connections
+app.engine('hbs', exphbs( {
+  extname: 'hbs',
+  defaultView: 'index',
+  layoutsDir: __dirname + '/public/',
+  partialsDir: __dirname + '/public/partials/'
+}));
 app.set("views", path.join(__dirname, 'public'));
+app.set("view engine", "hbs");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
@@ -143,24 +151,43 @@ app.post("/login", function(req, res, next){
   })(req, res, next);
 })
 
+app.get("/login", renderPage("login"));
+
 // TODO: do not serve html here, serve it depending on whether the page is private or public
 app.use(express.static(path.join(__dirname, 'public'))); // to serve js, html, css
 
-// private pages and requests
+// redirect to login if not authenticated
+app.use(function(req, res, next){
+  // let through if authenticated
+  if (req.isAuthenticated()) return next();
+  // if ajax, set send error code
+  if (req.xhr) {
+    return res.sendStatus(401).end();
+  }
+  // otherwise, return login page code
+  return res.redirect("/login");
+});
 
-//redirect to login if not authenticated
-// app.use(function(req, res, next){
-//   // let through if authenticated
-//   if (req.isAuthenticated()) return next();
-//   // if ajax, set send error code
-//   if (req.xhr) {
-//     return res.sendStatus(401).end();
-//   }
-//   // otherwise, return login page code
-//   return res.redirect("/login");
-// });
+// private pages and requests
 
 // TODO: logout function
 // TODO: do not send the error message to the client
 
 app.listen(port, () => console.log(`Listening at http://localhost:${port}`));
+
+
+
+
+
+
+
+
+
+
+
+
+function renderPage(filePath){
+  return function (req, res, next){
+    return res.render(filePath + "/" + "index", {layout: false});
+  }
+}
