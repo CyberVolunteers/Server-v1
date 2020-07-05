@@ -92,6 +92,7 @@ app.use(bodyParser.urlencoded({
 app.use(require('cookie-parser')());
 app.use(expressSession({
   secret: require("./data/cookieSecret"),
+  sameSite: true,
   resave: false,//TODO: should i change this one?
   saveUninitialized: true//TODO: should i change this one?
 })); // TODO: research the params, esp. maxAge
@@ -99,6 +100,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // public pages
+
+//requests
 
 //sign up post
 app.post("/signup", function(req, res, next){
@@ -151,25 +154,29 @@ app.post("/login", function(req, res, next){
   })(req, res, next);
 })
 
+//pages
+
 app.get("/login", renderPage("login"));
 app.get("/signup", renderPage("signup"));
+app.get("/advancedSearch", renderPage("advancedSearch"));
+app.get("/basicLogin", renderPage("basicLogin"));
 
-// TODO: do not serve html here, serve it depending on whether the page is private or public
-// app.use(express.static(path.join(__dirname, 'public'))); // to serve js, html, css
+app.use(express.static(path.join(__dirname, 'public'))); // to serve js, html, css
 
-// // redirect to login if not authenticated
-// app.use(function(req, res, next){
-//   // let through if authenticated
-//   if (req.isAuthenticated()) return next();
-//   // if ajax, set send error code
-//   if (req.xhr) {
-//     return res.sendStatus(401).end();
-//   }
-//   // otherwise, return login page code
-//   return res.redirect("/login");
-// });
+// redirect to login if not authenticated
+app.use(function(req, res, next){ 
+  // let through if authenticated
+  if (req.isAuthenticated()) return next();
+  // if ajax, set send error code
+  if (req.xhr) {
+    return res.sendStatus(401).end();
+  }
+  // otherwise, return to login page
+  return res.redirect("/login");
+});
 
 // private pages and requests
+app.get("/testPage", renderPage("testPage"));
 
 // TODO: logout function
 // TODO: do not send the error message to the client
