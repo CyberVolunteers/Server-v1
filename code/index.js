@@ -58,7 +58,6 @@ passport.use(new LocalStrategy({usernameField: 'email'},function(email, password
 
 // used to serialize the user for the session
 passport.serializeUser(function(user, done) {
-  console.log(user);
   done(null, user.id); 
 });
 
@@ -66,7 +65,6 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(id, done) {
   connection.query('SELECT * FROM `volunteers` WHERE `id`=?;', [id], function(err, results, fields){
     if(err) return done(err);
-    console.log(results);
     //TODO: cache?
     done(err, results[0]);
   });
@@ -139,6 +137,7 @@ app.post("/signup", function(req, res, next){
 
 // TODO: check if already logged in
 app.post("/login", function(req, res, next){
+  //TODO: check if credentials missing
   passport.authenticate('local', (err, user, info) => {
     if(info){
       res.statusMessage = info.message;
@@ -155,11 +154,13 @@ app.post("/login", function(req, res, next){
 })
 
 //pages
-
 app.get("/login", renderPage("login"));
 app.get("/signup", renderPage("signup"));
-app.get("/advancedSearch", renderPage("advancedSearch"));
-app.get("/basicLogin", renderPage("basicLogin"));
+
+
+
+
+
 
 app.use(express.static(path.join(__dirname, 'public'))); // to serve js, html, css
 
@@ -177,14 +178,13 @@ app.use(function(req, res, next){
 
 // private pages and requests
 app.get("/testPage", renderPage("testPage"));
+app.get("/listingsPage", renderPage("listingsPage"));
+app.get("/advancedSearch", renderPage("advancedSearch"));
 
 // TODO: logout function
 // TODO: do not send the error message to the client
 
 app.listen(port, () => console.log(`Listening at http://localhost:${port}`));
-
-
-
 
 
 
