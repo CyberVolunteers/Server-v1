@@ -1,15 +1,32 @@
 jslint
 snyk
 
+npm audit
+
 winston
 helmet
 csrf
 tests
 
+look at git commands
+
+cache
+
+cookie storage?
+look at the cookie settings in the other project
+
+automatic backups
+
 throttling
+
+use layouts?
+
+error handling
 
 pools?
 
 page caching
 
 docs
+
+look into cookie laws
