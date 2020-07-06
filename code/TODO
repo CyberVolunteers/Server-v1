@@ -6,7 +6,6 @@ snyk test
 npx eslint yourfile.js
 
 
-winston
 csrf
 tests
 

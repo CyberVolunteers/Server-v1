@@ -17,13 +17,13 @@ const settings = require("./settings");
 const port = process.env.PORT || 1234;
 
 // connect to the mysql db
-const connection = mysql.createConnection({
+const pool = mysql.createPool({
+	connectionLimit : 10,
 	host: "localhost",
 	user: "serverQueryManager",
 	password: require("./data/serverQueryManagerPass"),
 	database: "cybervolunteers"
 });
-connection.connect();
 
 //winston
 const logger = require("./utils/winston");
@@ -33,7 +33,7 @@ passport.use(new LocalStrategy({usernameField: "email"},function(email, password
 	const badCredentialsMessage = "We could not find a user with this username and password.";
 
 	// find the password hash by the email
-	connection.query("SELECT * FROM `volunteers` WHERE `email`=?;", [email], function(err, results){
+	pool.query("SELECT * FROM `volunteers` WHERE `email`=?;", [email], function(err, results){
 		if(err) return done(err);
 
 		if(results.length == 0){
@@ -67,7 +67,7 @@ passport.serializeUser(function(user, done) {
 
 // used to deserialize the user
 passport.deserializeUser(function(id, done) {
-	connection.query("SELECT * FROM `volunteers` WHERE `id`=?;", [id], function(err, results){
+	pool.query("SELECT * FROM `volunteers` WHERE `id`=?;", [id], function(err, results){
 		if(err) return done(err);
 		//TODO: cache?
 		done(err, results[0]);
@@ -132,22 +132,32 @@ app.post("/signup", function(req, res, next){
 		}
 	}
 
-	// check if the email is already used
-	connection.query("SELECT `email` FROM `volunteers` WHERE `email`=?;", [req.body.email], function(err, results){
+	pool.getConnection(function(err, connection) {
 		if (err) return next(err);
 
-		// if email is already used
-		if(results.length != 0){
-			res.statusMessage = "This email is already used";
-			return res.status(400).end();
-		}
-		bcrypt.hash(req.body.password, settings.bcryptRounds, function(err, hash) {
-			if (err) return next(err);
-			// Store hash in your password DB.
-			// TODO: insert more values
-			connection.query("INSERT INTO `volunteers`(firstName, lastName, email, passwordHash, gender, salutation, nationality, address, postcode, city, country, phoneNumber) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", [req.body.firstName, req.body.lastName, req.body.email, hash, req.body.gender, req.body.salutation, req.body.nationality, req.body.address, req.body.postcode, req.body.city, req.body.country, req.body.phoneNumber], function (err) {
+		// check if the email is already used
+		connection.query("SELECT `email` FROM `volunteers` WHERE `email`=?;", [req.body.email], function(err, results){
+			if (err) {
+				connection.release();
+				return next(err);
+			}
+
+			// if email is already used
+			if(results.length != 0){
+				connection.release();
+				res.statusMessage = "This email is already used";
+				return res.status(400).end();
+			}
+			bcrypt.hash(req.body.password, settings.bcryptRounds, function(err, hash) {
 				if (err) return next(err);
-				return res.sendStatus(200);
+				// Store hash in your password DB.
+				// TODO: insert more values
+				connection.query("INSERT INTO `volunteers`(firstName, lastName, email, passwordHash, gender, salutation, nationality, address, postcode, city, country, phoneNumber) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", [req.body.firstName, req.body.lastName, req.body.email, hash, req.body.gender, req.body.salutation, req.body.nationality, req.body.address, req.body.postcode, req.body.city, req.body.country, req.body.phoneNumber], function (err) {
+					connection.release();
+					if (err) return next(err);
+
+					return res.sendStatus(200);
+				});
 			});
 		});
 	});
