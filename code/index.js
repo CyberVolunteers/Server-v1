@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const passport = require('passport');
 const expressSession = require('express-session');
 const exphbs  = require('express-handlebars');
+const helmet = require('helmet');
 const LocalStrategy = require('passport-local').Strategy;
 
 
@@ -83,6 +84,8 @@ app.engine('hbs', exphbs( {
 }));
 app.set("views", path.join(__dirname, 'public'));
 app.set("view engine", "hbs");
+
+app.use(helmet())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
@@ -90,9 +93,12 @@ app.use(bodyParser.urlencoded({
 app.use(require('cookie-parser')());
 app.use(expressSession({
   secret: require("./data/cookieSecret"),
-  sameSite: true,
+  name: 'sessionId',
+  secure : false, // TODO: set true in production?
+  httpOnly: true,
+  sameSite: true,// TODO: expiration + domain and path?
   resave: false,//TODO: should i change this one?
-  saveUninitialized: true//TODO: should i change this one?
+  saveUninitialized: true,//TODO: should i change this one?
 })); // TODO: research the params, esp. maxAge
 app.use(passport.initialize());
 app.use(passport.session());
