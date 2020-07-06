@@ -25,6 +25,9 @@ const connection = mysql.createConnection({
 })
 connection.connect()
 
+//winston
+const logger = require("./utils/winston");
+
 //passport
 passport.use(new LocalStrategy({usernameField: 'email'},function(email, password, done) {
   const badCredentialsMessage = "We could not find a user with this username and password.";
@@ -102,6 +105,15 @@ app.use(expressSession({
 })); // TODO: research the params, esp. maxAge
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+
+
+//express routing
+app.use( (req, res, next) => {
+  logger.info("requested " + req.originalUrl + " using " + req.method + ". is ajax? " + req.xhr);
+  next();
+});
 
 // public pages
 
@@ -190,9 +202,16 @@ app.get("/advancedSearch", renderPage("advancedSearch"));
 // TODO: logout function
 // TODO: do not send the error message to the client
 
-app.listen(port, () => console.log(`Listening at http://localhost:${port}`));
 
 
+
+//TODO: better 500 page
+app.use(function (err, req, res, next) {
+  logger.error(err.stack)
+  res.status(500).send('Something broke!')
+})
+
+app.listen(port, () => logger.info(`Listening at http://localhost:${port}`));
 
 
 
