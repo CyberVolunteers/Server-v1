@@ -1,8 +1,9 @@
-jslint
+eslint
 snyk
 
 npm audit
 snyk test
+npx eslint yourfile.js
 
 
 winston
