@@ -3,7 +3,7 @@ snyk
 
 npm audit
 snyk test
-npx eslint yourfile.js
+npx eslint yourfile.js on all files
 
 
 csrf
@@ -33,7 +33,7 @@ look at the cookie settings in the other project
 
 favicon
 
-automatic backups
+automatic backups https://www.jotform.com/blog/how-to-backup-mysql-database/
 
 throttling
 
@@ -41,11 +41,11 @@ use layouts?
 
 error handling
 
-pools for sql?
-
 page caching
 
 docs
+
+split index.js into files
 
 look into cookie laws
 
