@@ -22,8 +22,13 @@ const pool = mysql.createPool({
 	host: "localhost",
 	user: "serverQueryManager",
 	password: require("./data/serverQueryManagerPass"),
-	database: "cybervolunteers"
+	database: "cybervolunteers",
+	timezone: "utc"
 });
+
+//set the utc timezone
+const timezone = 'UTC'
+process.env.TZ = timezone
 
 //winston
 const logger = require("./utils/winston");
@@ -165,7 +170,12 @@ app.post("/signup", function(req, res, next){
 
 // TODO: check if already logged in
 app.post("/login", function(req, res, next){
-	//TODO: check if credentials missing
+	//if credentials are missing
+	if(!req.body.email || !req.body.password){
+		res.statusMessage = "Please, enter your email and passowrd";
+		return res.status(400).end();
+	}
+
 	passport.authenticate("local", (err, user, info) => {
 		if(info){
 			res.statusMessage = info.message;
@@ -209,13 +219,38 @@ app.get("/testPage", renderPage("testPage"));
 app.get("/listingsPage", renderPage("listingsPage"));
 app.get("/advancedSearch", renderPage("advancedSearch"));
 
+app.post("/createListing", function(req, res, next){
+	//TODO: check if the requesting party is a company or a person
+	//TODO: check if all the fields are correct
+	pool.query("INSERT INTO `listings`(timeRequirements, timeForVolunteering, placeForVolunteering, targetAudience, skills, createdDate, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, lengthOfTime) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);", [req.body.timeRequirements, req.body.timeForVolunteering, req.body.placeForVolunteering, req.body.targetAudience, req.body.skills, new Date(), req.body.requirements, req.body.opportunityDesc, req.body.opportunityCategory, req.body.opportunityTitle, req.body.numOfvolunteers, req.body.lengthOfTime], function(err, results){
+		if (err) {
+			return next(err);
+		}
+
+		return res.sendStatus(200);
+	});
+})
+
+app.get("/getListings", function(req, res, next){
+	//TODO: check if the requesting party is a company or a person
+	//TODO: check if all the fields are correct
+	//TODO: sort which fields to serve
+	pool.query("SELECT * FROM `listings`", [], function(err, results){
+		if (err) {
+			return next(err);
+		}
+
+		return status(200).send(results);
+	});
+})
+
 // TODO: logout function
 // TODO: do not send the error message to the client
 
 
 
 
-//TODO: better 500 page
+//TODO: better 500 page and check for ajax
 app.use(function (err, req, res) {
 	logger.error(err.stack);
 	res.status(500).send("Something broke!");

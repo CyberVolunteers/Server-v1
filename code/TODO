@@ -1,6 +1,8 @@
 eslint
 snyk
 
+different port for ssh
+
 npm audit
 snyk test
 npx eslint yourfile.js on all files
@@ -9,11 +11,15 @@ npx eslint yourfile.js on all files
 csrf
 tests
 
+check if listings page date is accurate
+
 nginx for TLS
 
 https://expressjs.com/en/advanced/best-practice-performance.html
 https://expressjs.com/en/advanced/best-practice-security.html
 + look up additionally
+
+!!!!Create a foreign key in listings on organisations
 
 look at git commands
 
