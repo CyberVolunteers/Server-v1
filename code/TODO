@@ -12,6 +12,7 @@ csrf
 tests
 
 check if listings page date is accurate
+test listings
 
 nginx for TLS
 
@@ -28,6 +29,10 @@ cache
 throttling:The first is number of consecutive failed attempts by the same user name and IP address.
 The second is number of failed attempts from an IP address over some long period of time. For example, block an IP address if it makes 100 failed attempts in one day.
 + other actions
+
+a store for throttling data
+skipFailedRequests?
+skipSuccessfulRequests?
 
 Use csurf middleware to protect against cross-site request forgery (CSRF).
 Always filter and sanitize user input to protect against cross-site scripting (XSS) and command injection attacks.

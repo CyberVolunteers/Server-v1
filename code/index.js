@@ -7,8 +7,11 @@ const passport = require("passport");
 const expressSession = require("express-session");
 const exphbs  = require("express-handlebars");
 const helmet = require("helmet");
+const slowDown = require("express-slow-down");
+
 const LocalStrategy = require("passport-local").Strategy;
 
+// SET UP
 
 const app = express();
 
@@ -27,8 +30,8 @@ const pool = mysql.createPool({
 });
 
 //set the utc timezone
-const timezone = 'UTC'
-process.env.TZ = timezone
+const timezone = "UTC";
+process.env.TZ = timezone;
 
 //winston
 const logger = require("./utils/winston");
@@ -64,6 +67,27 @@ passport.use(new LocalStrategy({usernameField: "email"},function(email, password
 		}
 	});
 }));
+
+// throttling
+// TODO: set actual times
+//TODO: for other endpoints, use passport id as the id
+//TODO:protect other endpoints
+//TODO: tell the client that the limit has been reached and time left
+const shortTermLoginRateLimit = slowDown({
+	windowMs: 15 * 60 * 1000, // 15 minutes
+	delayAfter: 10, // limit each IP to 100 requests per windowMs,
+	delayMs: 10000,
+	skipSuccessfulRequests: true
+});
+
+const longTermLoginRateLimit = slowDown({
+	windowMs: 24 * 60 * 60 * 1000, // 1 day
+	delayAfter: 50, // limit each IP to 100 requests per windowMs
+	delayMs: 1 * 60 * 60 * 1000, // 1 hour
+	skipSuccessfulRequests: true
+});
+
+
 
 // used to serialize the user for the session
 passport.serializeUser(function(user, done) {
@@ -169,7 +193,7 @@ app.post("/signup", function(req, res, next){
 });
 
 // TODO: check if already logged in
-app.post("/login", function(req, res, next){
+app.post("/login", shortTermLoginRateLimit, longTermLoginRateLimit, function(req, res, next){
 	//if credentials are missing
 	if(!req.body.email || !req.body.password){
 		res.statusMessage = "Please, enter your email and passowrd";
@@ -222,14 +246,14 @@ app.get("/advancedSearch", renderPage("advancedSearch"));
 app.post("/createListing", function(req, res, next){
 	//TODO: check if the requesting party is a company or a person
 	//TODO: check if all the fields are correct
-	pool.query("INSERT INTO `listings`(timeRequirements, timeForVolunteering, placeForVolunteering, targetAudience, skills, createdDate, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, lengthOfTime) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);", [req.body.timeRequirements, req.body.timeForVolunteering, req.body.placeForVolunteering, req.body.targetAudience, req.body.skills, new Date(), req.body.requirements, req.body.opportunityDesc, req.body.opportunityCategory, req.body.opportunityTitle, req.body.numOfvolunteers, req.body.lengthOfTime], function(err, results){
+	pool.query("INSERT INTO `listings`(timeRequirements, timeForVolunteering, placeForVolunteering, targetAudience, skills, createdDate, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, lengthOfTime) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);", [req.body.timeRequirements, req.body.timeForVolunteering, req.body.placeForVolunteering, req.body.targetAudience, req.body.skills, new Date(), req.body.requirements, req.body.opportunityDesc, req.body.opportunityCategory, req.body.opportunityTitle, req.body.numOfvolunteers, req.body.lengthOfTime], function(err){
 		if (err) {
 			return next(err);
 		}
 
 		return res.sendStatus(200);
 	});
-})
+});
 
 app.get("/getListings", function(req, res, next){
 	//TODO: check if the requesting party is a company or a person
@@ -242,7 +266,7 @@ app.get("/getListings", function(req, res, next){
 
 		return status(200).send(results);
 	});
-})
+});
 
 // TODO: logout function
 // TODO: do not send the error message to the client
