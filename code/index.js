@@ -8,6 +8,7 @@ const expressSession = require("express-session");
 const exphbs  = require("express-handlebars");
 const helmet = require("helmet");
 const slowDown = require("express-slow-down");
+const cookieParser = require('cookie-parser')
 
 const LocalStrategy = require("passport-local").Strategy;
 
@@ -67,9 +68,11 @@ passport.use(new LocalStrategy({usernameField: "email"},function(email, password
 	});
 }));
 
+// TODO: only check the data on the client, send errors to the client
+
 // throttling
 // TODO: set actual times
-//TODO: for other endpoints, use passport id as the id
+//TODO: for other endpoints, use passport id as the id?
 //TODO:protect other endpoints
 //TODO: tell the client that the limit has been reached and time left
 const shortTermLoginRateLimit = slowDown({
@@ -117,6 +120,7 @@ app.set("views", path.join(__dirname, "public"));
 app.set("view engine", "hbs");
 
 app.use(helmet());
+app.use(cookieParser())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
 	extended: true
@@ -149,17 +153,6 @@ app.use( (req, res, next) => {
 
 //sign up post
 app.post("/signup", function(req, res, next){
-	// TODO: checks
-	//check if any of the required fields are missing
-	const requiredFields = [req.body.firstName, req.body.lastName, req.body.email, req.body.password, req.body.gender, req.body.salutation, req.body.nationality, req.body.address, req.body.postcode, req.body.city, req.body.country, req.body.phoneNumber];
-	for(let i = 0; i < requiredFields.length; i++){
-		if(!(typeof requiredFields[i] === "string" || requiredFields[i] instanceof String)){
-			//one of the feilds is not a string
-			res.statusMessage = "You have not filled in all the required fields";
-			return res.status(400).end();
-		}
-	}
-
 	pool.getConnection(function(err, connection) {
 		if (err) return next(err);
 
@@ -167,7 +160,9 @@ app.post("/signup", function(req, res, next){
 		connection.query("SELECT `email` FROM `volunteers` WHERE `email`=?;", [req.body.email], function(err, results){
 			if (err) {
 				connection.release();
-				return next(err);
+				res.statusMessage = "Bad data";
+				logger.error(err.stack);
+				return res.status(500).end();
 			}
 
 			// if email is already used
@@ -182,7 +177,11 @@ app.post("/signup", function(req, res, next){
 				// TODO: insert the other values as well values
 				connection.query("INSERT INTO `volunteers`(firstName, lastName, email, passwordHash, gender, salutation, nationality, address, postcode, city, country, phoneNumber) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", [req.body.firstName, req.body.lastName, req.body.email, hash, req.body.gender, req.body.salutation, req.body.nationality, req.body.address, req.body.postcode, req.body.city, req.body.country, req.body.phoneNumber], function (err) {
 					connection.release();
-					if (err) return next(err);
+					if (err) {
+						res.statusMessage = "Bad data";
+						logger.error(err.stack);
+						return res.status(500).end();
+					}
 
 					return res.sendStatus(200);
 				});
@@ -244,26 +243,13 @@ app.get("/advancedSearch", renderPage("advancedSearch"));
 
 app.post("/createListing", function(req, res, next){
 	//TODO: check if the requesting party is a company or a person
-	//TODO: check if all the fields are correct
 	//TODO: test
-	const requiredStringFields = [req.body.timeRequirements, req.body.timeForVolunteering, req.body.placeForVolunteering, req.body.targetAudience, req.body.skills, req.body.requirements, req.body.opportunityDesc, req.body.opportunityCategory, req.body.opportunityTitle, req.body.lengthOfTime];
-	for(let i = 0; i < requiredStringFields.length; i++){
-		if(!(typeof requiredStringFields[i] === "string" || requiredStringFields[i] instanceof String)){
-			//one of the feilds is not a string
-			res.statusMessage = "You have not filled in all the required fields";
-			return res.status(400).end();
-		}
-	}
-
-	if(typeof req.body.numOfvolunteers != "number" || req.body.numOfvolunteers.isInteger()){
-		//it is not a number
-		res.statusMessage = "You have not filled in all the required fields";
-		return res.status(400).end();
-	}
 
 	pool.query("INSERT INTO `listings`(timeRequirements, timeForVolunteering, placeForVolunteering, targetAudience, skills, createdDate, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, lengthOfTime) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);", [req.body.timeRequirements, req.body.timeForVolunteering, req.body.placeForVolunteering, req.body.targetAudience, req.body.skills, new Date(), req.body.requirements, req.body.opportunityDesc, req.body.opportunityCategory, req.body.opportunityTitle, req.body.numOfvolunteers, req.body.lengthOfTime], function(err){
 		if (err) {
-			return next(err);
+			res.statusMessage = "Bad data";
+			logger.error(err.stack);
+			return res.status(500).end();
 		}
 
 		return res.sendStatus(200);
@@ -276,9 +262,7 @@ app.get("/getListings", function(req, res, next){
 	// TODO: if it is a company, show its own listings instead
 	//TODO: sort which fields to serve
 	pool.query("SELECT * FROM `listings`", [], function(err, results){
-		if (err) {
-			return next(err);
-		}
+		if (err) return next(err);
 
 		return status(200).send(results);
 	});
@@ -287,6 +271,7 @@ app.get("/getListings", function(req, res, next){
 // TODO: logout function
 // TODO: do not send the error message to the client
 
+app.get("/logout", logout());
 
 
 
@@ -305,4 +290,38 @@ function renderPage(filePath){
 	return function (req, res){
 		return res.render(filePath + "/" + "index", {layout: false});
 	};
+}
+
+function logout(){
+	return function (req, res, next) {
+
+		// do not logout remember me but if not logout completely
+		//TODO: do client-side remember me cookie
+        if (req.cookies["rememberMe"] === "true" && !req.logoutAnyway) {
+            return next();
+        }
+
+
+        // clear cookies
+        for (let cookieName of Object.keys(req.cookies)) {
+            res.clearCookie(cookieName);
+        }
+
+        // if not logged out and passport session exists
+        if (req.session.passport) {
+            // log out and destroy session
+            req.logout();
+            logger.debug("Logged out");
+
+            // deletes the record in passport
+            req.session.destroy(function (err) {
+                if (err) return next(err);
+                logger.debug("Session destroyed by logout request");
+                next();
+            });
+        } else {
+            // the end
+            next();
+        }
+    }
 }

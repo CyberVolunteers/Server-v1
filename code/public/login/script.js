@@ -5,7 +5,7 @@
 
 $(function(){
     $(".submit-button").click(function(){
-        $.post("/login", {
+        $.post("/signup", {
             password: $("#password").val(),
             email: $("#email").val(),
         }, function(data) {
