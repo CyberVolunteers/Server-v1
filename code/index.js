@@ -57,7 +57,6 @@ passport.use(new LocalStrategy({usernameField: "email"},function(email, password
 
 				if(result === true){
 					//log in
-					// TODO: serialise and de-serialise
 					return done(null, results[0]);
 				}else{
 					//has not been authenticated
@@ -180,7 +179,7 @@ app.post("/signup", function(req, res, next){
 			bcrypt.hash(req.body.password, settings.bcryptRounds, function(err, hash) {
 				if (err) return next(err);
 				// Store hash in your password DB.
-				// TODO: insert more values
+				// TODO: insert the other values as well values
 				connection.query("INSERT INTO `volunteers`(firstName, lastName, email, passwordHash, gender, salutation, nationality, address, postcode, city, country, phoneNumber) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", [req.body.firstName, req.body.lastName, req.body.email, hash, req.body.gender, req.body.salutation, req.body.nationality, req.body.address, req.body.postcode, req.body.city, req.body.country, req.body.phoneNumber], function (err) {
 					connection.release();
 					if (err) return next(err);
@@ -246,6 +245,22 @@ app.get("/advancedSearch", renderPage("advancedSearch"));
 app.post("/createListing", function(req, res, next){
 	//TODO: check if the requesting party is a company or a person
 	//TODO: check if all the fields are correct
+	//TODO: test
+	const requiredStringFields = [req.body.timeRequirements, req.body.timeForVolunteering, req.body.placeForVolunteering, req.body.targetAudience, req.body.skills, req.body.requirements, req.body.opportunityDesc, req.body.opportunityCategory, req.body.opportunityTitle, req.body.lengthOfTime];
+	for(let i = 0; i < requiredStringFields.length; i++){
+		if(!(typeof requiredStringFields[i] === "string" || requiredStringFields[i] instanceof String)){
+			//one of the feilds is not a string
+			res.statusMessage = "You have not filled in all the required fields";
+			return res.status(400).end();
+		}
+	}
+
+	if(typeof req.body.numOfvolunteers != "number" || req.body.numOfvolunteers.isInteger()){
+		//it is not a number
+		res.statusMessage = "You have not filled in all the required fields";
+		return res.status(400).end();
+	}
+
 	pool.query("INSERT INTO `listings`(timeRequirements, timeForVolunteering, placeForVolunteering, targetAudience, skills, createdDate, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, lengthOfTime) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);", [req.body.timeRequirements, req.body.timeForVolunteering, req.body.placeForVolunteering, req.body.targetAudience, req.body.skills, new Date(), req.body.requirements, req.body.opportunityDesc, req.body.opportunityCategory, req.body.opportunityTitle, req.body.numOfvolunteers, req.body.lengthOfTime], function(err){
 		if (err) {
 			return next(err);
@@ -255,9 +270,10 @@ app.post("/createListing", function(req, res, next){
 	});
 });
 
+//TODO: check if it is a person or a company if the listing is accepted
+
 app.get("/getListings", function(req, res, next){
-	//TODO: check if the requesting party is a company or a person
-	//TODO: check if all the fields are correct
+	// TODO: if it is a company, show its own listings instead
 	//TODO: sort which fields to serve
 	pool.query("SELECT * FROM `listings`", [], function(err, results){
 		if (err) {
