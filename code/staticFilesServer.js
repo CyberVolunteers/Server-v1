@@ -18,10 +18,10 @@ app.get("*", function(req, res, next){
 app.get("*", function(req, res, next){
     if(req.url.includes(".")) return next();
 
-    res.render(__dirname + "/public/web/HTML/" + req.url.substring(0, req.url.length - 1) + ".hbs", {layout: false});
+    res.render(__dirname + "/public/webproper/HTML/" + req.url.substring(0, req.url.length - 1) + ".hbs", {layout: false});
 })
 
 app.use('/', express.static(path.join(__dirname, 'public')));
-app.use('/', express.static(path.join(__dirname, 'public/web')));
+app.use('/', express.static(path.join(__dirname, 'public/webproper')));
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
