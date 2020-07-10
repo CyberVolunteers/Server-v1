@@ -116,7 +116,7 @@ app.engine("hbs", exphbs( {
 	layoutsDir: __dirname + "/public/",
 	partialsDir: __dirname + "/public/partials/"
 }));
-app.set("views", path.join(__dirname, "public"));
+app.set("views", path.join(__dirname, "public/web/HTML"));
 app.set("view engine", "hbs");
 
 app.use(helmet());
@@ -222,7 +222,7 @@ app.get("/signup", renderPage("signup"));
 
 
 
-app.use(express.static(path.join(__dirname, "public"))); // to serve js, html, css
+app.use(express.static(path.join(__dirname, "public/web"))); // to serve js, html, css
 
 // redirect to login if not authenticated
 app.use(function(req, res, next){ 
@@ -288,7 +288,7 @@ app.listen(port, () => logger.info(`Listening at http://localhost:${port}`));
 
 function renderPage(filePath){
 	return function (req, res){
-		return res.render(filePath + "/" + "index", {layout: false});
+		return res.render(filePath, {layout: false});
 	};
 }
 
