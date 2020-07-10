@@ -12,22 +12,36 @@
     <title>LoginPage</title>
     <style>/* Bordered form */
         form {
-          border: 3px solid #f1f1f1;
-          padding: 200px 0;
+          border: none;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          padding: 100px 0;
           font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
           margin-left: auto;
           margin-right: auto;
+          
         }
         
         /* Full-width inputs */
+<<<<<<< HEAD:code/public/web/HTML/Login Page.html
+        input[type=text], input[type=password] {
+          
+          width: 390px;
+=======
         input[type=text], input[type=email], input[type=password] {
           width: 40%;
+>>>>>>> df779c04079673ab122b4c81e0f6af9b3da845e4:code/public/web/HTML/login.hbs
           font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-          padding: 12px 20px;
-          margin-bottom: 25px;
+          padding: 10px 20px;
+          margin-bottom: 5px;
           display: inline-block;
           border: 1px solid #ccc;
           box-sizing: border-box;
+          font-size: 16px;
+          
+         
         }
         
         /* Set a style for all buttons */
@@ -36,12 +50,14 @@
           color: white;
           font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
           padding: 14px 20px;
-          margin-top: 15px;
+          margin-top: 30px;
           margin-bottom: 20px;
-          margin-left: 90px;
+          margin-left: auto;
+          margin-right: auto;
+          text-align: center;
           border: none;
           cursor: pointer;
-          width: 40%;
+          width: 390px;
         }
         
         /* Add a hover effect for buttons */
@@ -51,8 +67,12 @@
         
         /* Add padding to containers */
         .container {
+          width: 100vw;
           padding: 16px;
-          margin-left: 30%;
+          display: flex;
+          justify-content: center;
+          flex-direction: column;
+          
         }
 
         .header {
@@ -61,7 +81,39 @@
           color: #f44336;
           font-size: 30px; 
         }
+        #rememberme{
+          margin-right:8px;
+        }
+        .username{
+          margin-right: auto;
+          margin-left: auto;
+        }
+        .password{
+    
+          margin-right: auto;
+          margin-left: auto;
 
+        }
+        .passwordlabel{
+          position: relative;
+          left: -90px;
+          width: 20px;
+          top: 25px;
+          font-weight: 600;
+          
+        }
+        .usernamelabel{
+          position: relative;
+          margin-left: -90px;
+          top: 25px;
+          width: 20px;
+          font-weight: 600;
+        }
+        .rememberme{
+          margin-left: auto;
+          margin-right: auto;
+          
+        }
     </style>
 </head>
 
@@ -85,6 +137,18 @@
         </div>
 
         <div class="container">
+<<<<<<< HEAD:code/public/web/HTML/Login Page.html
+          <div class="username">
+            <div class="usernamelabel">Username</div>
+            <input type="text"  placeholder="Enter Username" name="uname" required>
+          </div>
+          
+          <div class="password">
+            <div class="passwordlabel">Password</div>
+            <input type="password"  placeholder="Enter Password" name="psw" required>
+          </div>
+        
+=======
           <label for="email"><b>Email</b></label>
           <input class="email" type="email" style="margin-left:8px" placeholder="Enter Email" name="email" required>
 
@@ -94,14 +158,16 @@
           <input class="password" type="password" style="margin-left:15px" placeholder="Enter Password" name="psw" required>
       
           <p> </p>
+>>>>>>> df779c04079673ab122b4c81e0f6af9b3da845e4:code/public/web/HTML/login.hbs
 
           <button type="submit">Submit</button>
 
-          <p> </p>
-
-          <label>
-            <input type="checkbox" style="margin-left:230px" checked="checked" name="remember"> Remember me
-          </label>
+         
+          <div class="rememberme">
+            
+              <input type="checkbox" id="rememberme" checked="checked" name="remember">Remember me
+            
+          </div>
         </div>
 
       </form>

@@ -1,0 +1,75 @@
+body {
+	background-color: aqua;
+}
+.opertunitytitle {
+	text-align: center;
+	font-size: 35px;
+	padding-top: 90px;
+}
+.opertunityorg {
+	text-align: center;
+	font-size: 25px;
+	padding-top: 20px;
+}
+.opinfowrap {
+	display: flex;
+	flex-direction: row;
+	margin-top: 40px;
+	justify-content: center;
+}
+.basicinfobox {
+	width: 350px;
+	height: 500px;
+	border: black 1px solid;
+	margin-left: 10vw;
+}
+.opdescription {
+	width: 600px;
+	background-color: ;
+}
+.wantToHelpButton {
+	position: relative;
+	width: 240px;
+	height: 45px;
+	background-color: chocolate;
+	border: none;
+	margin-top: 50px;
+	margin-left: 200px;
+	border-radius: 50px;
+}
+#whiteArrow {
+	width: 35px;
+	height: 30px;
+	position: absolute;
+	left: 170px;
+}
+.wantToHelpButton {
+	display: flex;
+	align-items: center;
+}
+.buttontext {
+	position: absolute;
+	left: 30px;
+}
+.basicinfoboxheader {
+	text-align: center;
+	padding-top: 10px;
+	font-size: 22px;
+}
+.basicinfotitle {
+	padding-left: 20px;
+	padding-top: 15px;
+	font-size: 19px;
+}
+
+.basicinfo {
+	width: 165px;
+	padding-left: 20px;
+	padding-top: 5px;
+}
+.basicinfoinfo {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-content: space-between;
+}
