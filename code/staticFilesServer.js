@@ -11,12 +11,17 @@ app.set('views', path.join(__dirname, '/public'));
 // serve the pages
 app.get("*", function(req, res, next){
     if(req.url.includes(".")) return next();
-
-    res.render(__dirname + "/public" + req.url + "/" + "index.hbs", {layout: false});
+    //return res.render(__dirname + "/public" + req.url + "/" + "index.hbs", {layout: false});
+    next()
 })
 
+app.get("*", function(req, res, next){
+    if(req.url.includes(".")) return next();
 
+    res.render(__dirname + "/public/web/HTML/" + req.url.substring(0, req.url.length - 1) + ".hbs", {layout: false});
+})
 
 app.use('/', express.static(path.join(__dirname, 'public')));
+app.use('/', express.static(path.join(__dirname, 'public/web')));
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
