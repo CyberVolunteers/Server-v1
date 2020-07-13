@@ -16,6 +16,8 @@ test listings
 
 nginx for TLS
 
+store a number for date and use date object to get current global time
+
 https://expressjs.com/en/advanced/best-practice-performance.html
 https://expressjs.com/en/advanced/best-practice-security.html
 + look up additionally
