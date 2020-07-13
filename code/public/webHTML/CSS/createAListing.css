@@ -1,0 +1,93 @@
+.title {
+	font-size: 40px;
+	text-align: center;
+	padding-top: 90px;
+	font-weight: 550;
+	padding-bottom: 40px;
+}
+.enterytitle {
+	font-size: 20px;
+	padding-left: 100px;
+}
+
+.time {
+	width: 35px;
+}
+#Describe {
+	width: 750px;
+	height: 450px;
+	border: none;
+	border-radius: 10px;
+	box-shadow: rgba(0, 0, 0, 0.438) 2px 2px 5px;
+	padding: 10px 10px;
+}
+.wrapper {
+	display: flex;
+
+	justify-content: center;
+}
+.nextButton {
+	position: relative;
+	width: 140px;
+	height: 45px;
+	background-color: #f85120;
+	border: none;
+	margin-top: 50px;
+
+	border-radius: 50px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+}
+#whiteArrow {
+	width: 25px;
+	height: 30px;
+	position: absolute;
+	left: 85px;
+}
+
+.buttontext {
+	position: absolute;
+	left: 30px;
+}
+.prevButton {
+	position: relative;
+	width: 140px;
+	height: 45px;
+	background-color: #e4e4e4;
+	border: none;
+	margin-top: 50px;
+	margin-right: 50px;
+	border-radius: 50px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.fowardAndBack {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.cats {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	background-color: pink;
+	align-content: center;
+	flex-direction: row;
+	margin: 0px 10%;
+	padding-top: ;
+	flex-wrap: wrap;
+}
+.individualCat {
+	background-color: purple;
+	position: relative;
+	margin-top: 30px;
+	margin-left: 30px;
+
+	width: 300px;
+	height: 400px;
+
+	border: solid 1px grey;
+}
