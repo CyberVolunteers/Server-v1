@@ -46,16 +46,37 @@
                     <div class="basicinfo">X-Y hours per week</div>
                 </div>
                 <div class="basicinfogroup">
-                    <div class="basicinfotitle">Skills Requirements</div>
-                    <div class="basicinfo">Thes are the skills you need</div>
+                    <div class="basicinfotitle">Skills</div>
+                    <div class="basicinfo">These are the skills you need</div>
                 </div>
                 <div class="basicinfogroup">
                     <div class="basicinfotitle">Good For</div>
                     <div class="basicinfo">Groups of people to cater to e.g. age</div>
                 </div>
+                <div id="map"></div>
+                <div class="basicinfogroupreq">
+                    <div class="basicinfotitle">Requirements</div>
+                    <div class="basicinfo">Requirements needed e.g. background check</div>
+                </div>
             </div>
         </div>   
     </div>
     
+    <script>
+        // Initialize and add the map
+        function initMap() {
+          // The location of Uluru
+          var uluru = {lat: -25.344, lng: 131.036};
+          // The map, centered at Uluru
+          var map = new google.maps.Map(
+              document.getElementById('map'), {zoom: 4, center: uluru});
+          // The marker, positioned at Uluru
+          var marker = new google.maps.Marker({position: uluru, map: map});
+        }
+            </script>
+            <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAep8QXlF5z5kp2EDn0yo1le289I-e4YyQ&callback=initMap">
+            </script>
+
 </body>
 </html>
