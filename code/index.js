@@ -245,7 +245,6 @@ app.get("/advancedSearch", renderPage("advancedSearch"));
 
 app.post("/createListing", function(req, res, next){
 	//TODO: check if the requesting party is a company or a person
-	//TODO: test
 
 	pool.query("INSERT INTO `listings`(timeRequirements, timeForVolunteering, placeForVolunteering, targetAudience, skills, createdDate, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, lengthOfTime) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);", [req.body.timeRequirements, req.body.timeForVolunteering, req.body.placeForVolunteering, req.body.targetAudience, req.body.skills, new Date(), req.body.requirements, req.body.opportunityDesc, req.body.opportunityCategory, req.body.opportunityTitle, req.body.numOfvolunteers, req.body.lengthOfTime], function(err){
 		if (err) {

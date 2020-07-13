@@ -1,6 +1,6 @@
 $(function(){
     $("form").submit(function(){
-        $.get("/getListings", {
+        $.post("/createListing", {
             timeRequirements: "timeRequirements",
             timeForVolunteering: "timeForVolunteering", 
             placeForVolunteering: "placeForVolunteering", 
