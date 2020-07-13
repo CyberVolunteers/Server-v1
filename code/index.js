@@ -217,6 +217,8 @@ app.post("/login", shortTermLoginRateLimit, longTermLoginRateLimit, function(req
 app.get("/login", renderPage("login"));
 app.get("/signup", renderPage("signup"));
 
+app.get("/exampleForm", renderPage("exampleForm"));
+
 
 
 
@@ -224,17 +226,17 @@ app.get("/signup", renderPage("signup"));
 
 app.use(express.static(path.join(__dirname, "public/web"))); // to serve js, html, css
 
-// redirect to login if not authenticated
-app.use(function(req, res, next){ 
-	// let through if authenticated
-	if (req.isAuthenticated()) return next();
-	// if ajax, set send error code
-	if (req.xhr) {
-		return res.sendStatus(401).end();
-	}
-	// otherwise, return to login page
-	return res.redirect("/login");
-});
+// // redirect to login if not authenticated
+// app.use(function(req, res, next){ 
+// 	// let through if authenticated
+// 	if (req.isAuthenticated()) return next();
+// 	// if ajax, set send error code
+// 	if (req.xhr) {
+// 		return res.sendStatus(401).end();
+// 	}
+// 	// otherwise, return to login page
+// 	return res.redirect("/login");
+// });
 
 // private pages and requests
 app.get("/testPage", renderPage("testPage"));
@@ -247,9 +249,14 @@ app.post("/createListing", function(req, res, next){
 
 	pool.query("INSERT INTO `listings`(timeRequirements, timeForVolunteering, placeForVolunteering, targetAudience, skills, createdDate, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, lengthOfTime) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);", [req.body.timeRequirements, req.body.timeForVolunteering, req.body.placeForVolunteering, req.body.targetAudience, req.body.skills, new Date(), req.body.requirements, req.body.opportunityDesc, req.body.opportunityCategory, req.body.opportunityTitle, req.body.numOfvolunteers, req.body.lengthOfTime], function(err){
 		if (err) {
-			res.statusMessage = "Bad data";
-			logger.error(err.stack);
-			return res.status(500).end();
+			if(err.code === "ER_BAD_NULL_ERROR"){
+				logger.error("Tried to put a null value");
+				logger.error(err.stack);
+				res.statusMessage = "Bad data";
+				return res.status(500).end();
+			}else{
+				return next(err);
+			}
 		}
 
 		return res.sendStatus(200);
@@ -261,10 +268,10 @@ app.post("/createListing", function(req, res, next){
 app.get("/getListings", function(req, res, next){
 	// TODO: if it is a company, show its own listings instead
 	//TODO: sort which fields to serve
-	pool.query("SELECT * FROM `listings`", [], function(err, results){
+	pool.query("SELECT timeRequirements, timeForVolunteering, placeForVolunteering, targetAudience, skills, createdDate, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, lengthOfTime FROM `listings`", [], function(err, results){
 		if (err) return next(err);
 
-		return status(200).send(results);
+		return res.status(200).json(results);
 	});
 });
 
@@ -276,7 +283,8 @@ app.get("/logout", logout());
 
 
 //TODO: better 500 page and check for ajax
-app.use(function (err, req, res) {
+app.use(function (err, req, res, next) {
+	logger.error("error:");
 	logger.error(err.stack);
 	res.status(500).send("Something broke!");
 });
