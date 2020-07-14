@@ -1,6 +1,6 @@
 $(function(){
     $("form").submit(function(){
-        $.get("/getListings", {
+        $.post("/createListing", {
             timeRequirements: "timeRequirements",
             timeForVolunteering: "timeForVolunteering", 
             placeForVolunteering: "placeForVolunteering", 
@@ -11,7 +11,8 @@ $(function(){
             opportunityCategory: "opportunityCategory", 
             opportunityTitle: "opportunityTitle", 
             numOfvolunteers: 1234, 
-            lengthOfTime: "lengthOfTime"
+            minHoursPerWeek: 2, 
+            maxHoursPerWeek: 4
         })
         .done(function(data, textStatus){
             console.log(data);

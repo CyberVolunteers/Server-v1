@@ -241,12 +241,13 @@ app.use(express.static(path.join(__dirname, "public/web"))); // to serve js, htm
 // private pages and requests
 app.get("/testPage", renderPage("testPage"));
 app.get("/listingsPage", renderPage("listingsPage"));
+app.get("/listing", renderPage("listing"));
 app.get("/advancedSearch", renderPage("advancedSearch"));
 
 app.post("/createListing", function(req, res, next){
 	//TODO: check if the requesting party is a company or a person
 
-	pool.query("INSERT INTO `listings`(timeRequirements, timeForVolunteering, placeForVolunteering, targetAudience, skills, createdDate, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, lengthOfTime) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);", [req.body.timeRequirements, req.body.timeForVolunteering, req.body.placeForVolunteering, req.body.targetAudience, req.body.skills, new Date(), req.body.requirements, req.body.opportunityDesc, req.body.opportunityCategory, req.body.opportunityTitle, req.body.numOfvolunteers, req.body.lengthOfTime], function(err){
+	pool.query("INSERT INTO `listings`(id, timeRequirements, timeForVolunteering, placeForVolunteering, targetAudience, skills, createdDate, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek) VALUES (uuid(), ?,?,?,?,?,?,?,?,?,?,?,?,?);", [req.body.timeRequirements, req.body.timeForVolunteering, req.body.placeForVolunteering, req.body.targetAudience, req.body.skills, new Date(), req.body.requirements, req.body.opportunityDesc, req.body.opportunityCategory, req.body.opportunityTitle, req.body.numOfvolunteers, req.body.minHoursPerWeek, req.body.maxHoursPerWeek], function(err){
 		if (err) {
 			if(err.code === "ER_BAD_NULL_ERROR"){
 				logger.error("Tried to put a null value");
@@ -267,7 +268,17 @@ app.post("/createListing", function(req, res, next){
 app.get("/getListings", function(req, res, next){
 	// TODO: if it is a company, show its own listings instead
 	//TODO: sort which fields to serve
-	pool.query("SELECT timeRequirements, timeForVolunteering, placeForVolunteering, targetAudience, skills, createdDate, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, lengthOfTime FROM `listings`", [], function(err, results){
+	pool.query("SELECT id, timeRequirements, timeForVolunteering, placeForVolunteering, targetAudience, skills, createdDate, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek FROM `listings`", [], function(err, results){
+		if (err) return next(err);
+
+		return res.status(200).json(results);
+	});
+});
+
+app.get("/getListing", function(req, res, next){
+	// TODO: if it is a company, show its own listings instead
+	//TODO: sort which fields to serve
+	pool.query("SELECT timeRequirements, timeForVolunteering, placeForVolunteering, targetAudience, skills, createdDate, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek FROM `listings` WHERE `id`=?", [req.query.id], function(err, results){
 		if (err) return next(err);
 
 		return res.status(200).json(results);

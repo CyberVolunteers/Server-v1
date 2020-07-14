@@ -7,9 +7,17 @@ npm audit
 snyk test
 npx eslint yourfile.js on all files
 
+replace requirements with skills
+
+change uuid structure (e.g. remove the dashes)
 
 csrf
 tests
+
+escape html tags
+xss
+
+uncoment the auth
 
 check if listings page date is accurate
 test listings

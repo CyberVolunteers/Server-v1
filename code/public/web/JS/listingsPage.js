@@ -1,16 +1,18 @@
+let listingsData;
+
 $(function(){
     console.log("E");
     $.get("/getListings")
     .done(function(data, textStatus){
-        console.log(data);
+        listingsData = data;
 
         for(let i = 0; i < data.length; i++){
-            const entry = data[0];
+            const entry = data[i];
             const templateHTML = `
             <div class="listings" id="listing${i}" >
                 <div class="listingHeader"><div class="listingscat">${entry.opportunityCategory}</div></div>
                 <div class="listingsTime">
-                    <div class="timehrs">${entry.timeRequirements}</div>
+                    <div class="timehrs">${entry.minHoursPerWeek}-${entry.maxHoursPerWeek}</div>
                     <div class="perw">Hours per Week</div>
                 </div>
                 <div class="listingsloc"><div class="listingslocwriting">${entry.placeForVolunteering}</div>
@@ -32,5 +34,11 @@ $(function(){
         // TODO: show the error message
     })
 
-    return false;
+    $(".listingsWrapper").on("click", ".listings", function() {
+        let indexInData = $(this).attr("id").match(/[0-9]+/)[0];
+
+        let listingId = listingsData[indexInData].id;
+
+        window.location.href = '../listing?id=' + listingId;
+    });
 })
