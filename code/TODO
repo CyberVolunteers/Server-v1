@@ -17,20 +17,21 @@ tests
 escape html tags
 xss
 
-uncoment the auth
+verification emails
+
+uncomment the auth
 
 check if listings page date is accurate
-test listings
 
 nginx for TLS
-
-store a number for date and use date object to get current global time
 
 https://expressjs.com/en/advanced/best-practice-performance.html
 https://expressjs.com/en/advanced/best-practice-security.html
 + look up additionally
 
 !!!!Create a foreign key in listings on organisations
+
+async await?
 
 look at git commands
 
@@ -74,3 +75,5 @@ move all js and css into separate files
 remove test values from login .js file
 
 CAPTCHA?
+
+start transaction

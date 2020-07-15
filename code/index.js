@@ -8,7 +8,8 @@ const expressSession = require("express-session");
 const exphbs  = require("express-handlebars");
 const helmet = require("helmet");
 const slowDown = require("express-slow-down");
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
+const util = require("util");
 
 const LocalStrategy = require("passport-local").Strategy;
 
@@ -38,34 +39,32 @@ process.env.TZ = timezone;
 const logger = require("./utils/winston");
 
 //passport
-passport.use(new LocalStrategy({usernameField: "email"},function(email, password, done) {
+passport.use(new LocalStrategy({usernameField: "email"}, async function(email, password, done) {
 	const badCredentialsMessage = "We could not find a user with this username and password.";
 
-	// find the password hash by the email
-	pool.query("SELECT * FROM `volunteers` WHERE `email`=?;", [email], function(err, results){
-		if(err) return done(err);
-
+	try{
+		const query = util.promisify(pool.query).bind(pool);
+		// find the password hash by the email
+		const results = await query("SELECT * FROM `volunteers` WHERE `email`=?;", [email]);
 		if(results.length == 0){
 			//compare a dummy password to prevent timing attacks
-			bcrypt.compare("a dummy password", "$2b$12$6VcZHuw9wxuspyuTio3Yd.E1Il2rwwGzzRDiaffcucukfvNW7r4rC", function(err) {
-				if(err) return done(err);
-				// has not been verified
-				return done(null, false, {message: badCredentialsMessage});
-			});
+			await bcrypt.compare("a dummy password", "$2b$12$6VcZHuw9wxuspyuTio3Yd.E1Il2rwwGzzRDiaffcucukfvNW7r4rC");
+			return done(null, false, {message: badCredentialsMessage});
+		//actual check
 		}else if (results.length == 1){
-			bcrypt.compare(password, results[0].passwordHash, function(err, result) {
-				if (err) return done(err);
-
-				if(result === true){
-					//log in
-					return done(null, results[0]);
-				}else{
-					//has not been authenticated
-					return done(null, false, {message: badCredentialsMessage});
-				}
-			});
+			const result = await bcrypt.compare(password, results[0].passwordHash);
+			
+			if(result === true){
+				//log in
+				return done(null, results[0]);
+			}else{
+				//has not been authenticated
+				return done(null, false, {message: badCredentialsMessage});
+			}
 		}
-	});
+	}catch(err){
+		return done(err);
+	}
 }));
 
 // TODO: only check the data on the client, send errors to the client
@@ -97,12 +96,15 @@ passport.serializeUser(function(user, done) {
 });
 
 // used to deserialize the user
-passport.deserializeUser(function(id, done) {
-	pool.query("SELECT * FROM `volunteers` WHERE `id`=?;", [id], function(err, results){
-		if(err) return done(err);
+passport.deserializeUser(async function(id, done) {
+	const query = util.promisify(pool.query).bind(pool);
+	try{
+		const results = await query("SELECT * FROM `volunteers` WHERE `id`=?;", [id]);
 		//TODO: cache?
-		done(err, results[0]);
-	});
+		done(undefined, results[0]);
+	}catch (err) {
+		return done(err);
+	}
 });
 
 
@@ -152,42 +154,39 @@ app.use( (req, res, next) => {
 //requests
 
 //sign up post
-app.post("/signup", function(req, res, next){
-	pool.getConnection(function(err, connection) {
-		if (err) return next(err);
+app.post("/signup", async function(req, res, next){
 
+	//get connection
+	let connection;
+	try{
+		connection = await getConnection(pool);
+	}catch(err){
+		return next(err);
+	}
+	const query = util.promisify(connection.query).bind(connection);
+
+	try{
 		// check if the email is already used
-		connection.query("SELECT `email` FROM `volunteers` WHERE `email`=?;", [req.body.email], function(err, results){
-			if (err) {
-				connection.release();
-				res.statusMessage = "Bad data";
-				logger.error(err.stack);
-				return res.status(500).end();
-			}
+		const results = await query("SELECT `email` FROM `volunteers` WHERE `email`=?;", [req.body.email]);
 
-			// if email is already used
-			if(results.length != 0){
-				connection.release();
-				res.statusMessage = "This email is already used";
-				return res.status(400).end();
-			}
-			bcrypt.hash(req.body.password, settings.bcryptRounds, function(err, hash) {
-				if (err) return next(err);
-				// Store hash in your password DB.
-				// TODO: insert the other values as well values
-				connection.query("INSERT INTO `volunteers`(firstName, lastName, email, passwordHash, gender, salutation, nationality, address, postcode, city, country, phoneNumber) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", [req.body.firstName, req.body.lastName, req.body.email, hash, req.body.gender, req.body.salutation, req.body.nationality, req.body.address, req.body.postcode, req.body.city, req.body.country, req.body.phoneNumber], function (err) {
-					connection.release();
-					if (err) {
-						res.statusMessage = "Bad data";
-						logger.error(err.stack);
-						return res.status(500).end();
-					}
+		// if email is already used
+		if(results.length != 0){
+			logger.debug("Email already used");
+			res.statusMessage = "This email is already used";
+			return res.status(400).end();
+		}
 
-					return res.sendStatus(200);
-				});
-			});
-		});
-	});
+		const hash = await bcrypt.hash(req.body.password, settings.bcryptRounds);
+		// Store hash in your password DB.
+		await query("INSERT INTO `volunteers`(firstName, lastName, email, passwordHash, gender, salutation, nationality, address, postcode, city, country, phoneNumber) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", [req.body.firstName, req.body.lastName, req.body.email, hash, req.body.gender, req.body.salutation, req.body.nationality, req.body.address, req.body.postcode, req.body.city, req.body.country, req.body.phoneNumber]);
+		return res.sendStatus(200);
+	}catch(err){
+		res.statusMessage = "Bad data";
+		logger.error(err.stack);
+		return res.status(500).end();
+	}finally{
+		connection.release();
+	}
 });
 
 // TODO: check if already logged in
@@ -199,12 +198,15 @@ app.post("/login", shortTermLoginRateLimit, longTermLoginRateLimit, function(req
 	}
 
 	passport.authenticate("local", (err, user, info) => {
+		if(err) return next(err);
 		if(info){
 			res.statusMessage = info.message;
 			return res.status(400).end();
 		}
-		if(err) return next(err);
-		// TODO: if (!user) { return res.redirect('/login'); }
+		if(!user){
+			res.statusMessage = "Please, check your email and passowrd";
+			return res.status(400).end();
+		}
 		req.login(user, (err) => {
 			if (err) return next(err);
 			return res.sendStatus(200);
@@ -217,6 +219,10 @@ app.post("/login", shortTermLoginRateLimit, longTermLoginRateLimit, function(req
 app.get("/login", renderPage("login"));
 app.get("/signup", renderPage("signup"));
 
+// TODO: test the logout function
+// TODO: a logout page
+app.get("/logout", logout(true));
+
 app.get("/exampleForm", renderPage("exampleForm"));
 
 
@@ -226,17 +232,17 @@ app.get("/exampleForm", renderPage("exampleForm"));
 
 app.use(express.static(path.join(__dirname, "public/web"))); // to serve js, html, css
 
-// // redirect to login if not authenticated
-// app.use(function(req, res, next){ 
-// 	// let through if authenticated
-// 	if (req.isAuthenticated()) return next();
-// 	// if ajax, set send error code
-// 	if (req.xhr) {
-// 		return res.sendStatus(401).end();
-// 	}
-// 	// otherwise, return to login page
-// 	return res.redirect("/login");
-// });
+// redirect to login if not authenticated
+app.use(function(req, res, next){ 
+	// let through if authenticated
+	if (req.isAuthenticated()) return next();
+	// if ajax, set send error code
+	if (req.xhr) {
+		return res.sendStatus(401).end();
+	}
+	// otherwise, return to login page
+	return res.redirect("/login");
+});
 
 // private pages and requests
 app.get("/testPage", renderPage("testPage"));
@@ -247,7 +253,7 @@ app.get("/advancedSearch", renderPage("advancedSearch"));
 app.post("/createListing", function(req, res, next){
 	//TODO: check if the requesting party is a company or a person
 
-	pool.query("INSERT INTO `listings`(id, timeRequirements, timeForVolunteering, placeForVolunteering, targetAudience, skills, createdDate, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek) VALUES (uuid(), ?,?,?,?,?,?,?,?,?,?,?,?,?);", [req.body.timeRequirements, req.body.timeForVolunteering, req.body.placeForVolunteering, req.body.targetAudience, req.body.skills, new Date(), req.body.requirements, req.body.opportunityDesc, req.body.opportunityCategory, req.body.opportunityTitle, req.body.numOfvolunteers, req.body.minHoursPerWeek, req.body.maxHoursPerWeek], function(err){
+	pool.query("INSERT INTO `listings`(id, timeRequirements, timeForVolunteering, placeForVolunteering, targetAudience, skills, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek, createdDate) VALUES (uuid(), ?,?,?,?,?,?,?,?,?,?,?,?,UNIX_TIMESTAMP());", [req.body.timeRequirements, req.body.timeForVolunteering, req.body.placeForVolunteering, req.body.targetAudience, req.body.skills, req.body.requirements, req.body.opportunityDesc, req.body.opportunityCategory, req.body.opportunityTitle, req.body.numOfvolunteers, req.body.minHoursPerWeek, req.body.maxHoursPerWeek], function(err){
 		if (err) {
 			if(err.code === "ER_BAD_NULL_ERROR"){
 				logger.error("Tried to put a null value");
@@ -267,7 +273,6 @@ app.post("/createListing", function(req, res, next){
 
 app.get("/getListings", function(req, res, next){
 	// TODO: if it is a company, show its own listings instead
-	//TODO: sort which fields to serve
 	pool.query("SELECT id, timeRequirements, timeForVolunteering, placeForVolunteering, targetAudience, skills, createdDate, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek FROM `listings`", [], function(err, results){
 		if (err) return next(err);
 
@@ -276,19 +281,12 @@ app.get("/getListings", function(req, res, next){
 });
 
 app.get("/getListing", function(req, res, next){
-	// TODO: if it is a company, show its own listings instead
-	//TODO: sort which fields to serve
 	pool.query("SELECT timeRequirements, timeForVolunteering, placeForVolunteering, targetAudience, skills, createdDate, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek FROM `listings` WHERE `id`=?", [req.query.id], function(err, results){
 		if (err) return next(err);
 
 		return res.status(200).json(results);
 	});
 });
-
-// TODO: logout function
-// TODO: do not send the error message to the client
-
-app.get("/logout", logout());
 
 
 
@@ -310,12 +308,15 @@ function renderPage(filePath){
 	};
 }
 
-function logout(){
+function logout(logoutAnyway){
 	return function (req, res, next) {
 
 		// do not logout remember me but if not logout completely
 		//TODO: do client-side remember me cookie
-        if (req.cookies["rememberMe"] === "true" && !req.logoutAnyway) {
+		console.log(req.cookies["rememberMe"] === "true")
+        if (req.cookies["rememberMe"] === "true" && !logoutAnyway) {
+			logger.debug("did not log out because of rememberme");
+			// TODO: what to do in this case?
             return next();
         }
 
@@ -342,4 +343,13 @@ function logout(){
             next();
         }
     }
+}
+
+function getConnection(pool){
+	return new Promise((resolve, reject) => {
+		pool.getConnection(async function(err, connection) {
+			if (err) return reject(err)
+      		resolve(connection)
+		});
+	})
 }
