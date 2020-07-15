@@ -6,7 +6,7 @@
     <title>Create a Listing</title>
     <link rel="stylesheet" href="../CSS/header.css">
     <link rel="stylesheet" href="../CSS/createAListing.css">
-    <script type="text/javascript" src="../Scripts/dropdown.js"></script>
+   
 </head>
 <body>
     <header id="header">
@@ -27,16 +27,14 @@
         <div class="generalTitle">When will the Volunteering Happen</div>
         <input type="text" name="" id="" class="generalInput">
         <div class="generalTitle">How Long will this Oppurtunity Last</div>
-        <input type="number" name="" id="" class="generalInput">
-        <div class="dropdown">
-            <button onclick="DropDownFunction()" class="dropbtn">Dropdown</button>
-            <div id="myDropdown" class="dropdown-content">
-              <div>Weeks</div>
-              <div>Months</div>
-              <div>Years</div>
-              <div>Indefinitly</div>
-            </div>
-          </div>
+        <input type="number" name="" id="generalInputNum" class="generalInput">
+        <select name="" id="time-select">
+            <option value="weeks">Weeks</option>
+            <option value="months">Months</option>
+            <option value="years">Years</option>
+            <option value="indefinatly">Indefinatly</option>
+        </select>   
+        
         <div class="generalTitle">How Long will the Volunteering Take</div>
         <div>between <input type="number" name="" id="" class="generalInputNum"> hours and <input type="number" name="" id="" class="generalInputNum"> hours per week</div>
         <div class="generalTitle">What Group of People is this best for</div>
@@ -57,7 +55,7 @@
         <div class="generalTitle">How Many People are you looking for</div>
         <input type="number" name="" id="" class="generalInputNum">
     </div>
-            
+     
             
    
     <div class="fowardAndBack">   
