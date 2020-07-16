@@ -62,7 +62,6 @@ module.exports = class UserManager {
 		    return {code: 400, message: "Bad data"};
         }finally{
             connection.release();
-            this.logger.info("released connection");
         }
     }
 }

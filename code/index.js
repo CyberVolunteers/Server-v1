@@ -40,6 +40,7 @@ const logger = require("./utils/winston");
 
 //layers
 const UserManager = new (require("./utils/serviceLayer/UserManager"))(pool, logger);
+const ListingsManager = new (require("./utils/serviceLayer/ListingsManager"))(pool, logger);
 
 //passport
 passport.use(new LocalStrategy({usernameField: "email"}, UserManager.localPassportVerify.bind(UserManager)));
@@ -150,6 +151,8 @@ app.post("/signup", async function(req, res, next){
 
 // TODO: check if already logged in
 app.post("/login", shortTermLoginRateLimit, longTermLoginRateLimit, function(req, res, next){
+
+	//TODO: a separate validation file
 	//if credentials are missing
 	if(!req.body.email || !req.body.password){
 		res.statusMessage = "Please, enter your email and passowrd";
@@ -209,23 +212,21 @@ app.get("/listingsPage", renderPage("listingsPage"));
 app.get("/listing", renderPage("listing"));
 app.get("/advancedSearch", renderPage("advancedSearch"));
 
-app.post("/createListing", function(req, res, next){
-	//TODO: check if the requesting party is a company or a person
-
-	pool.query("INSERT INTO `listings`(id, timeRequirements, timeForVolunteering, placeForVolunteering, targetAudience, skills, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek, createdDate) VALUES (uuid(), ?,?,?,?,?,?,?,?,?,?,?,?,UNIX_TIMESTAMP());", [req.body.timeRequirements, req.body.timeForVolunteering, req.body.placeForVolunteering, req.body.targetAudience, req.body.skills, req.body.requirements, req.body.opportunityDesc, req.body.opportunityCategory, req.body.opportunityTitle, req.body.numOfvolunteers, req.body.minHoursPerWeek, req.body.maxHoursPerWeek], function(err){
-		if (err) {
-			if(err.code === "ER_BAD_NULL_ERROR"){
-				logger.error("Tried to put a null value");
-				logger.error(err.stack);
-				res.statusMessage = "Bad data";
-				return res.status(500).end();
-			}else{
-				return next(err);
-			}
-		}
-
+app.post("/createListing", async function(req, res, next){
+	const params = req.body;
+	try{
+		await ListingsManager.createListing(params);
 		return res.sendStatus(200);
-	});
+	}catch(err){
+		if(err.code === "ER_BAD_NULL_ERROR"){
+			logger.error("Tried to put a null value");
+			logger.error(err.stack);
+			res.statusMessage = "Bad data";
+			return res.status(400).end();
+		}else{
+			return next(err);
+		}
+	}
 });
 
 //TODO: check if it is a person or a company if the listing is accepted
