@@ -38,34 +38,11 @@ process.env.TZ = timezone;
 //winston
 const logger = require("./utils/winston");
 
-//passport
-passport.use(new LocalStrategy({usernameField: "email"}, async function(email, password, done) {
-	const badCredentialsMessage = "We could not find a user with this username and password.";
+//layers
+const UserManager = new (require("./utils/serviceLayer/UserManager"))(pool, logger);
 
-	try{
-		const query = util.promisify(pool.query).bind(pool);
-		// find the password hash by the email
-		const results = await query("SELECT * FROM `volunteers` WHERE `email`=?;", [email]);
-		if(results.length == 0){
-			//compare a dummy password to prevent timing attacks
-			await bcrypt.compare("a dummy password", "$2b$12$6VcZHuw9wxuspyuTio3Yd.E1Il2rwwGzzRDiaffcucukfvNW7r4rC");
-			return done(null, false, {message: badCredentialsMessage});
-		//actual check
-		}else if (results.length == 1){
-			const result = await bcrypt.compare(password, results[0].passwordHash);
-			
-			if(result === true){
-				//log in
-				return done(null, results[0]);
-			}else{
-				//has not been authenticated
-				return done(null, false, {message: badCredentialsMessage});
-			}
-		}
-	}catch(err){
-		return done(err);
-	}
-}));
+//passport
+passport.use(new LocalStrategy({usernameField: "email"}, UserManager.localPassportVerify.bind(UserManager)));
 
 // TODO: only check the data on the client, send errors to the client
 
@@ -106,8 +83,6 @@ passport.deserializeUser(async function(id, done) {
 		return done(err);
 	}
 });
-
-
 
 
 
@@ -156,36 +131,20 @@ app.use( (req, res, next) => {
 //sign up post
 app.post("/signup", async function(req, res, next){
 
-	//get connection
-	let connection;
+	const params = req.body;
+
+	//TODO: validate email and password
+
 	try{
-		connection = await getConnection(pool);
+		const result = await UserManager.signUp(params);
+		if(result.code === 200){
+			return res.sendStatus(200);
+		}else{
+			res.statusMessage = result.message;
+			return res.status(result.code).end();
+		}
 	}catch(err){
 		return next(err);
-	}
-	const query = util.promisify(connection.query).bind(connection);
-
-	try{
-		// check if the email is already used
-		const results = await query("SELECT `email` FROM `volunteers` WHERE `email`=?;", [req.body.email]);
-
-		// if email is already used
-		if(results.length != 0){
-			logger.debug("Email already used");
-			res.statusMessage = "This email is already used";
-			return res.status(400).end();
-		}
-
-		const hash = await bcrypt.hash(req.body.password, settings.bcryptRounds);
-		// Store hash in your password DB.
-		await query("INSERT INTO `volunteers`(firstName, lastName, email, passwordHash, gender, salutation, nationality, address, postcode, city, country, phoneNumber) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", [req.body.firstName, req.body.lastName, req.body.email, hash, req.body.gender, req.body.salutation, req.body.nationality, req.body.address, req.body.postcode, req.body.city, req.body.country, req.body.phoneNumber]);
-		return res.sendStatus(200);
-	}catch(err){
-		res.statusMessage = "Bad data";
-		logger.error(err.stack);
-		return res.status(500).end();
-	}finally{
-		connection.release();
 	}
 });
 
@@ -345,11 +304,3 @@ function logout(logoutAnyway){
     }
 }
 
-function getConnection(pool){
-	return new Promise((resolve, reject) => {
-		pool.getConnection(async function(err, connection) {
-			if (err) return reject(err)
-      		resolve(connection)
-		});
-	})
-}

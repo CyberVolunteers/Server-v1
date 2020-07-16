@@ -3,7 +3,7 @@ $(function(){
         $.post("/signup", {
             firstName: "firstName", 
             lastName: "lastName", 
-            email: "a_new_email@a.com", 
+            email: "new_email@a.com", 
             password: "Password1", 
             gender: "m", 
             salutation: "Mr", 
