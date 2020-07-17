@@ -194,17 +194,17 @@ app.get("/exampleForm", renderPage("exampleForm"));
 
 app.use(express.static(path.join(__dirname, "public/web"))); // to serve js, html, css
 
-// redirect to login if not authenticated
-app.use(function(req, res, next){ 
-	// let through if authenticated
-	if (req.isAuthenticated()) return next();
-	// if ajax, set send error code
-	if (req.xhr) {
-		return res.sendStatus(401).end();
-	}
-	// otherwise, return to login page
-	return res.redirect("/login");
-});
+// // redirect to login if not authenticated
+// app.use(function(req, res, next){ 
+// 	// let through if authenticated
+// 	if (req.isAuthenticated()) return next();
+// 	// if ajax, set send error code
+// 	if (req.xhr) {
+// 		return res.sendStatus(401).end();
+// 	}
+// 	// otherwise, return to login page
+// 	return res.redirect("/login");
+// });
 
 // private pages and requests
 app.get("/testPage", renderPage("testPage"));
@@ -248,7 +248,15 @@ app.get("/getListing", function(req, res, next){
 	});
 });
 
-
+app.get("/searchListings", async function (req, res, next) {
+	const params = req.query;
+	try{
+		let results = await ListingsManager.searchListings(params);
+		return res.status(200).send(results);
+	}catch(err){
+		return next(err);
+	}
+})
 
 //TODO: better 500 page and check for ajax
 app.use(function (err, req, res, next) {

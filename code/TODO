@@ -11,6 +11,12 @@ replace requirements with skills
 
 change uuid structure (e.g. remove the dashes)
 
+use the same escaped string for search
+
+convert the rest of listings to async
+
+limit max searching length
+
 csrf
 tests
 

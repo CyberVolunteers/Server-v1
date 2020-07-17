@@ -20,4 +20,28 @@ module.exports = class ListingsManager {
             connection.release();
         }
     }
+
+    async searchListings(params) {
+        //TODO: check if the requesting party is a company or a person
+        const connection = await utils.getConnection(this.pool);
+        const query = util.promisify(connection.query).bind(connection);
+        
+        try{
+            let searchQuery = "%";
+            for(let term of params.terms){
+                searchQuery += term.toLowerCase() + "%";
+            }
+
+            //searchQuery = connection.escape(searchQuery);
+
+            return await query(`SELECT * FROM listings WHERE
+            LOWER(opportunityDesc) LIKE ? OR 
+            LOWER(opportunityCategory) LIKE ? OR 
+            LOWER(opportunityTitle) LIKE ?`, [searchQuery, searchQuery, searchQuery]);
+        }catch (err) {
+            throw err;
+        }finally{
+            connection.release();
+        }
+    }
 }
