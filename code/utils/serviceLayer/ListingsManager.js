@@ -31,17 +31,32 @@ module.exports = class ListingsManager {
         const query = util.promisify(connection.query).bind(connection);
         
         try{
-            let searchQuery = "%";
+            // let searchQuery = "%";
+            // for(let term of params.terms){
+            //     searchQuery += term.toLowerCase() + "%";
+            // }
+
+            let searchQuery = "";
             for(let term of params.terms){
-                searchQuery += term.toLowerCase() + "%";
+                searchQuery += term.toLowerCase() + " ";
             }
 
+            const results = await this.listingsIndex.search({
+                query: searchQuery,
+                suggest: true
+            });
+
+            const listingsData = await query(`SELECT uuid, timeRequirements, timeForVolunteering, placeForVolunteering, targetAudience, skills, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek, createdDate FROM listings WHERE id IN (?)`, [results])
+            return listingsData;
+
+            //todo:
             //searchQuery = connection.escape(searchQuery);
 
-            return await query(`SELECT * FROM listings WHERE
-            LOWER(opportunityDesc) LIKE ? OR 
-            LOWER(opportunityCategory) LIKE ? OR 
-            LOWER(opportunityTitle) LIKE ?`, [searchQuery, searchQuery, searchQuery]);
+            // return await query(`SELECT * FROM listings WHERE
+            // LOWER(opportunityDesc) LIKE ? OR 
+            // LOWER(opportunityCategory) LIKE ? OR 
+            // LOWER(opportunityTitle) LIKE ?`, [searchQuery, searchQuery, searchQuery]);
+
         }catch (err) {
             throw err;
         }finally{

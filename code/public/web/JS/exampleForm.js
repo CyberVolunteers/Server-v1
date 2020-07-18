@@ -1,6 +1,6 @@
 $(function(){
     $("form").submit(function(){
-        $.post("/createListing", {
+        $.get("/searchListings", {
             // firstName: "firstName", 
             // lastName: "lastName", 
             // email: "new_email@a.com", 
@@ -14,20 +14,20 @@ $(function(){
             // country: "Antarctica", 
             // phoneNumber: "1234567899876"
 
-            timeRequirements: "timeRequirements",
-            timeForVolunteering: "timeForVolunteering", 
-            placeForVolunteering: "placeForVolunteering", 
-            targetAudience: "targetAudience", 
-            skills: "skills", 
-            requirements: "requirements", 
-            opportunityDesc: "test apple - word", 
-            opportunityCategory: "test orange", 
-            opportunityTitle: "test banana", 
-            numOfvolunteers: 1234, 
-            minHoursPerWeek: 2, 
-            maxHoursPerWeek: 4
+            // timeRequirements: "timeRequirements",
+            // timeForVolunteering: "timeForVolunteering", 
+            // placeForVolunteering: "placeForVolunteering", 
+            // targetAudience: "targetAudience", 
+            // skills: "skills", 
+            // requirements: "requirements", 
+            // opportunityDesc: "test apple - word", 
+            // opportunityCategory: "test orange", 
+            // opportunityTitle: "test banana", 
+            // numOfvolunteers: 1234, 
+            // minHoursPerWeek: 2, 
+            // maxHoursPerWeek: 4
 
-            // terms: ["desc"]
+            terms: ["desc"]
         })
         .done(function(data, textStatus){
             console.log(data);
