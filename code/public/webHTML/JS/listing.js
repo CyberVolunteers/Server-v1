@@ -1,9 +1,9 @@
 $(function(){
     const url = new URL(window.location.href);
-    const id = url.searchParams.get("id");
+    const uuid = url.searchParams.get("uuid");
     $.get("/getListing",
     {
-        id: id
+        uuid: uuid
     }
     )
     .done(function(data, textStatus){

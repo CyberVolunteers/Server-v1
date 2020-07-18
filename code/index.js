@@ -9,6 +9,7 @@ const exphbs  = require("express-handlebars");
 const helmet = require("helmet");
 const slowDown = require("express-slow-down");
 const cookieParser = require('cookie-parser');
+const flexSearch = require("flexsearch");
 const util = require("util");
 
 const LocalStrategy = require("passport-local").Strategy;
@@ -31,6 +32,26 @@ const pool = mysql.createPool({
 	timezone: "utc"
 });
 
+//set up the full text search
+const listingsIndex = flexSearch.create({
+	tokenize: "full",
+	encode: "advanced",
+	threshold: 0,
+    async: true,
+    worker: false,
+    cache: false
+});
+
+// add all the existing listings
+pool.query("SELECT id, opportunityDesc, opportunityCategory, opportunityTitle FROM `listings`", function(err, results){
+	if (err) throw err;
+
+	for(let i = 0; i < results.length; i++){
+		const valueString = results[i].opportunityDesc + " " + results[i].opportunityCategory + " " + results[i].opportunityTitle;
+		listingsIndex.add(results[i].id, valueString);
+	}
+});
+
 //set the utc timezone
 const timezone = "UTC";
 process.env.TZ = timezone;
@@ -40,7 +61,7 @@ const logger = require("./utils/winston");
 
 //layers
 const UserManager = new (require("./utils/serviceLayer/UserManager"))(pool, logger);
-const ListingsManager = new (require("./utils/serviceLayer/ListingsManager"))(pool, logger);
+const ListingsManager = new (require("./utils/serviceLayer/ListingsManager"))(pool, logger, listingsIndex);
 
 //passport
 passport.use(new LocalStrategy({usernameField: "email"}, UserManager.localPassportVerify.bind(UserManager)));
@@ -233,7 +254,7 @@ app.post("/createListing", async function(req, res, next){
 
 app.get("/getListings", function(req, res, next){
 	// TODO: if it is a company, show its own listings instead
-	pool.query("SELECT id, timeRequirements, timeForVolunteering, placeForVolunteering, targetAudience, skills, createdDate, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek FROM `listings`", [], function(err, results){
+	pool.query("SELECT uuid, timeRequirements, timeForVolunteering, placeForVolunteering, targetAudience, skills, createdDate, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek FROM `listings`", [], function(err, results){
 		if (err) return next(err);
 
 		return res.status(200).json(results);
@@ -241,7 +262,7 @@ app.get("/getListings", function(req, res, next){
 });
 
 app.get("/getListing", function(req, res, next){
-	pool.query("SELECT timeRequirements, timeForVolunteering, placeForVolunteering, targetAudience, skills, createdDate, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek FROM `listings` WHERE `id`=?", [req.query.id], function(err, results){
+	pool.query("SELECT timeRequirements, timeForVolunteering, placeForVolunteering, targetAudience, skills, createdDate, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek FROM `listings` WHERE `uuid`=?", [req.query.uuid], function(err, results){
 		if (err) return next(err);
 
 		return res.status(200).json(results);
@@ -281,7 +302,6 @@ function logout(logoutAnyway){
 
 		// do not logout remember me but if not logout completely
 		//TODO: do client-side remember me cookie
-		console.log(req.cookies["rememberMe"] === "true")
         if (req.cookies["rememberMe"] === "true" && !logoutAnyway) {
 			logger.debug("did not log out because of rememberme");
 			// TODO: what to do in this case?

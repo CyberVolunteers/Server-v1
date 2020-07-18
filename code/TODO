@@ -17,6 +17,14 @@ convert the rest of listings to async
 
 limit max searching length
 
+full text search on listings with cache
+https://www.npmjs.com/package/flexsearch
+https://medium.com/dev-channel/how-to-add-full-text-search-to-your-website-4e9c80ce2bf4
+
+add the listing index on create and remove on destroy
+
+error messages on all pages
+
 csrf
 tests
 

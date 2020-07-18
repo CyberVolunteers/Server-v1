@@ -37,8 +37,8 @@ $(function(){
     $(".listingsWrapper").on("click", ".listings", function() {
         let indexInData = $(this).attr("id").match(/[0-9]+/)[0];
 
-        let listingId = listingsData[indexInData].id;
+        let listingUuid = listingsData[indexInData].uuid;
 
-        window.location.href = '../listing?id=' + listingId;
+        window.location.href = '../listing?uuid=' + listingUuid;
     });
 })
