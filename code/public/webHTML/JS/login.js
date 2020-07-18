@@ -1,7 +1,13 @@
 $(function(){
-    $("form").submit(function(){
+    $("form").submit(function(evt){
         let email = $(".email").val();
         let password = $(".password").val();
+
+        console.log(email, password);
+
+        //TODO: set the expiry, etc.
+        // remember me cookie
+        document.cookie = "rememberMe=" + $("#rememberMeCheckbox").is(':checked');
 
         $.post("/login", {
             email: email,
