@@ -202,3 +202,7 @@ option {
 .iconGroup:hover {
 	background-color: #f85220c0;
 }
+
+.hiddenElement{
+	display:none
+}
