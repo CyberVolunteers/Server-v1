@@ -254,7 +254,7 @@ app.post("/createListing", async function(req, res, next){
 
 app.get("/getListings", function(req, res, next){
 	// TODO: if it is a company, show its own listings instead
-	pool.query("SELECT uuid, timeRequirements, timeForVolunteering, placeForVolunteering, targetAudience, skills, createdDate, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek FROM `listings`", [], function(err, results){
+	pool.query("SELECT uuid, timeForVolunteering, placeForVolunteering, targetAudience, skills, createdDate, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek FROM `listings`", [], function(err, results){
 		if (err) return next(err);
 
 		return res.status(200).json(results);
@@ -262,7 +262,7 @@ app.get("/getListings", function(req, res, next){
 });
 
 app.get("/getListing", function(req, res, next){
-	pool.query("SELECT timeRequirements, timeForVolunteering, placeForVolunteering, targetAudience, skills, createdDate, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek FROM `listings` WHERE `uuid`=?", [req.query.uuid], function(err, results){
+	pool.query("SELECT timeForVolunteering, placeForVolunteering, targetAudience, skills, createdDate, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek FROM `listings` WHERE `uuid`=?", [req.query.uuid], function(err, results){
 		if (err) return next(err);
 
 		return res.status(200).json(results);
