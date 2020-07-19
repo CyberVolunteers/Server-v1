@@ -215,22 +215,23 @@ app.get("/exampleForm", renderPage("exampleForm"));
 
 app.use(express.static(path.join(__dirname, "public/web"))); // to serve js, html, css
 
-// // redirect to login if not authenticated
-// app.use(function(req, res, next){ 
-// 	// let through if authenticated
-// 	if (req.isAuthenticated()) return next();
-// 	// if ajax, set send error code
-// 	if (req.xhr) {
-// 		return res.sendStatus(401).end();
-// 	}
-// 	// otherwise, return to login page
-// 	return res.redirect("/login");
-// });
+// redirect to login if not authenticated
+app.use(function(req, res, next){ 
+	// let through if authenticated
+	if (req.isAuthenticated()) return next();
+	// if ajax, set send error code
+	if (req.xhr) {
+		return res.sendStatus(401).end();
+	}
+	// otherwise, return to login page
+	return res.redirect("/login");
+});
 
 // private pages and requests
 app.get("/testPage", renderPage("testPage"));
 app.get("/listingsPage", renderPage("listingsPage"));
 app.get("/listing", renderPage("listing"));
+app.get("/createListing", renderPage("createListing"));
 app.get("/advancedSearch", renderPage("advancedSearch"));
 
 app.post("/createListing", async function(req, res, next){
