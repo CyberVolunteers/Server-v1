@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../CSS/speclisting.css">
     <link rel="stylesheet" href="../CSS/header.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="../JS/listing.js"></script>
+
     <title>Listing1</title>
 </head>
 <body>
@@ -20,7 +24,7 @@
         </nav>
     </header>
     <div class="opertunitytitle">Some sort of Volunteering Gig</div>
-    <div class="opertunityorg">Some Charity</div>
+    <div class="opertunityorg">TODO: change</div>
     <div class="opinfowrap">
         <div class="opdescription"> 
             <div class="opdescriptiontext">Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda, minus quasi! Cum labore dolore dolor magnam voluptates. Laboriosam architecto minus est nam quisquam in optio repellendus dolorem id sapiente incidunt, fugiat quasi molestiae ipsa labore corporis ea suscipit aliquam! Ex, temporibus iusto aliquid ullam natus quia quibusdam, aliquam maiores voluptatibus est ea? Molestiae ea impedit pariatur provident corporis? Praesentium tenetur dolores beatae minima obcaecati! Corporis veritatis illum consectetur exercitationem culpa architecto quisquam porro? Tempora inventore autem mollitia exercitationem vel commodi recusandae optio quia veniam voluptatum vitae atque officiis fuga incidunt eum sed a assumenda, porro voluptas eaque modi, quibusdam unde.
@@ -35,33 +39,30 @@
             <div class="basicinfoinfo">
                 <div class="basicinfogroup">
                     <div class="basicinfotitle">When</div>
-                    <div class="basicinfo">When you have to do the volunteering thing</div>
+                    <div class="basicinfo timeInfo">When you have to do the volunteering thing</div>
                 </div>
                 <div class="basicinfogroup">
                     <div class="basicinfotitle">Where</div>
-                    <div class="basicinfo">Where you have to do the volunteering thing</div>
+                    <div class="basicinfo placeInfo">Where you have to do the volunteering thing</div>
                 </div>
                 <div class="basicinfogroup">
                     <div class="basicinfotitle">Time Requirements</div>
-                    <div class="basicinfo">X-Y hours per week</div>
+                    <div class="basicinfo timeReq">
+                        <span class="timeReqNumbers">X-Y</span> hours per week
+                    </div>
                 </div>
                 <div class="basicinfogroup">
-                    <div class="basicinfotitle">Skills</div>
-                    <div class="basicinfo">These are the skills you need</div>
+                    <div class="basicinfotitle">Skills Requirements</div>
+                    <div class="basicinfo skills">Thes are the skills you need</div>
                 </div>
                 <div class="basicinfogroup">
                     <div class="basicinfotitle">Good For</div>
-                    <div class="basicinfo">Groups of people to cater to e.g. age</div>
-                </div>
-                <div id="map"></div>
-                <div class="basicinfogroupreq">
-                    <div class="basicinfotitle">Requirements</div>
-                    <div class="basicinfo">Requirements needed e.g. background check</div>
+                    <div class="basicinfo recommendedGroups">Groups of people to cater to e.g. age</div>
                 </div>
             </div>
         </div>   
     </div>
-    
+
     <script>
         // Initialize and add the map
         function initMap() {
@@ -73,10 +74,10 @@
           // The marker, positioned at Uluru
           var marker = new google.maps.Marker({position: uluru, map: map});
         }
-            </script>
-            <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAep8QXlF5z5kp2EDn0yo1le289I-e4YyQ&callback=initMap">
-            </script>
-
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAep8QXlF5z5kp2EDn0yo1le289I-e4YyQ&callback=initMap">
+    </script>
+    
 </body>
 </html>
