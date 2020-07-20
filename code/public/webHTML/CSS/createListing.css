@@ -199,8 +199,18 @@ option {
 	border-radius: 12px;
 	cursor: pointer;
 }
+
+.selectedIcon{
+	background-color: #f85220c0 !important;
+}
+
+.selectedIcon:hover{
+	background-color: #f34510c0 !important;
+}
+
 .iconGroup:hover {
-	background-color: #f85220c0;
+	background-color: #f0683fc0;
+	/* f85220c0 */
 }
 
 .hiddenElement{
