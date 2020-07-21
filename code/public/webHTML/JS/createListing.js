@@ -1,4 +1,4 @@
-const orderOfPages = ["cat", "desc", "reqAndSkills", "otherFields"];
+const orderOfPages = ["otherFields", "desc", "reqAndSkills", "cat"];
 
 const arrowHTML = {
     next : `
@@ -14,6 +14,16 @@ $(function(){
     let pageIndex = 0;
 
     setPage(pageIndex);
+
+    //selecting the category
+    $(".iconGroup").click(function(){
+        // remove the class from everything
+        $(".iconGroup").each(function(index){
+            $(this).removeClass("selectedIcon");
+        });
+
+        $(this).addClass("selectedIcon");
+    })
 
     $(".prevButton").click(function(){
         if(pageIndex > 0){
@@ -35,7 +45,7 @@ $(function(){
                 skills: $("#skills").val(), 
                 requirements: $("#requirements").val(), 
                 opportunityDesc: $("#describtion").val(), 
-                opportunityCategory: "test orange", 
+                opportunityCategory: $(".selectedIcon").find(".catName").text(), 
                 opportunityTitle: $("#opportunityTitle").val(), 
                 numOfvolunteers: $("#numOfvolunteers").val(), 
                 minHoursPerWeek: $("#minHoursPerWeek").val(), 
@@ -48,7 +58,7 @@ $(function(){
                 skills: $("#skills").val(), 
                 requirements: $("#requirements").val(), 
                 opportunityDesc: $("#describtion").val(), 
-                opportunityCategory: "test orange", 
+                opportunityCategory: $(".selectedIcon").find(".catName").text(), 
                 opportunityTitle: $("#opportunityTitle").val(), 
                 numOfvolunteers: $("#numOfvolunteers").val(), 
                 minHoursPerWeek: $("#minHoursPerWeek").val(), 
