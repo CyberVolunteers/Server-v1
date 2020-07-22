@@ -38,19 +38,6 @@ $(function(){
             setPage(pageIndex);
         }else{
             //submit
-            console.log({
-                timeForVolunteering: $("#timeForVolunteering").val(), 
-                placeForVolunteering: $("#placeForVolunteering").val(), 
-                targetAudience: getBestForData(), 
-                skills: $("#skills").val(), 
-                requirements: $("#requirements").val(), 
-                opportunityDesc: $("#describtion").val(), 
-                opportunityCategory: $(".selectedIcon").find(".catName").text(), 
-                opportunityTitle: $("#opportunityTitle").val(), 
-                numOfvolunteers: $("#numOfvolunteers").val(), 
-                minHoursPerWeek: $("#minHoursPerWeek").val(), 
-                maxHoursPerWeek: $("#maxHoursPerWeek").val()
-            });
             $.post("/createListing", {
                 timeForVolunteering: $("#timeForVolunteering").val(), 
                 placeForVolunteering: $("#placeForVolunteering").val(), 

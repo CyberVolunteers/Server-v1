@@ -14,7 +14,7 @@ module.exports = class ListingsManager {
         const query = util.promisify(connection.query).bind(connection);
         
         try{
-            await query("INSERT INTO `listings`(uuid, timeForVolunteering, placeForVolunteering, targetAudience, skills, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek, createdDate) VALUES (uuid(), ?,?,?,?,?,?,?,?,?,?,?,UNIX_TIMESTAMP());", [params.timeRequirements, params.timeForVolunteering, params.placeForVolunteering, params.targetAudience, params.skills, params.requirements, params.opportunityDesc, params.opportunityCategory, params.opportunityTitle, params.numOfvolunteers, params.minHoursPerWeek, params.maxHoursPerWeek]);
+            await query("INSERT INTO `listings`(uuid, timeForVolunteering, placeForVolunteering, targetAudience, skills, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek, createdDate) VALUES (uuid(), ?,?,?,?,?,?,?,?,?,?,?,UNIX_TIMESTAMP());", [params.timeForVolunteering, params.placeForVolunteering, this.createTargetAudienceString(params.targetAudience), params.skills, params.requirements, params.opportunityDesc, params.opportunityCategory, params.opportunityTitle, params.numOfvolunteers, params.minHoursPerWeek, params.maxHoursPerWeek]);
             const queryResults = await query("SELECT LAST_INSERT_ID();");
             const valueString = params.opportunityDesc + " " + params.opportunityCategory + " " + params.opportunityTitle;
             this.listingsIndex.add(queryResults[0]["LAST_INSERT_ID()"], valueString);
@@ -31,11 +31,6 @@ module.exports = class ListingsManager {
         const query = util.promisify(connection.query).bind(connection);
         
         try{
-            // let searchQuery = "%";
-            // for(let term of params.terms){
-            //     searchQuery += term.toLowerCase() + "%";
-            // }
-
             let searchQuery = "";
             for(let term of params.terms){
                 searchQuery += term.toLowerCase() + " ";
@@ -62,5 +57,18 @@ module.exports = class ListingsManager {
         }finally{
             connection.release();
         }
+    }
+
+    createTargetAudienceString(selectedOptions){
+        const audiences = ["teens", "people aged 18-55", "people over 55"];
+
+        let selectedAudiences = [];
+        for(let selectedOption of selectedOptions){
+            if(audiences[Number(selectedOption)] !== undefined){
+                selectedAudiences.push(audiences[Number(selectedOption)]);
+            }
+        }
+
+        return selectedAudiences.join(", ");
     }
 }
