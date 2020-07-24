@@ -62,6 +62,7 @@ const logger = require("./utils/winston");
 //layers
 const UserManager = new (require("./utils/serviceLayer/UserManager"))(pool, logger);
 const ListingsManager = new (require("./utils/serviceLayer/ListingsManager"))(pool, logger, listingsIndex);
+const NodemailerManager = new (require("./utils/serviceLayer/NodemailerManager"))(pool, logger);
 
 //passport
 passport.use(new LocalStrategy({usernameField: "email"}, UserManager.localPassportVerify.bind(UserManager)));

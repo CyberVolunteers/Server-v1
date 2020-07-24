@@ -69,6 +69,12 @@ module.exports = class ListingsManager {
             }
         }
 
-        return selectedAudiences.join(", ");
+        const output =  selectedAudiences.join(", ");
+
+        if(output === ""){
+            return "everyone";
+        }else{
+            return output;
+        }
     }
 }

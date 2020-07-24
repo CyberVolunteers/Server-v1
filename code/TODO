@@ -11,6 +11,10 @@ validate target audience
 
 tests
 
+assemble time requirements similarly to age
+
+redis or memcached for email tokens and caches
+
 npm audit
 snyk test
 npx eslint yourfile.js on all files
