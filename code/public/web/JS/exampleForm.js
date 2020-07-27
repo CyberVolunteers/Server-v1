@@ -1,6 +1,6 @@
 $(function(){
     $("form").submit(function(){
-        $.get("/searchListings", {
+        $.post("/sendConfirmationEmail", {
             // firstName: "firstName", 
             // lastName: "lastName", 
             // email: "new_email@a.com", 
@@ -27,7 +27,9 @@ $(function(){
             // minHoursPerWeek: 2, 
             // maxHoursPerWeek: 4
 
-            terms: ["desc"]
+            // terms: ["desc"]
+
+            email: "anotherjsmith@gmail.com", 
         })
         .done(function(data, textStatus){
             console.log(data);

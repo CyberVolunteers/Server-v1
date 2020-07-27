@@ -209,24 +209,55 @@ app.get("/logout", logout(true));
 
 app.get("/exampleForm", renderPage("exampleForm"));
 
+app.get("/verifyEmailToken", async function(req, res, next){
+	const query = req.query;
 
+	const uuid = query.uuid;
+	const email = query.email;
 
+	//if successful, show one page, otherwise, show another
+	//TODO: set pages
+	try{
+		if(await NodemailerManager.verifyEmailToken(email, uuid)){
+			logger.info("verified");
+		}else{
+			logger.info("not verified");
+		}
+	}catch(err){
+		return next(err);
+	}
+})
 
+app.post("/sendConfirmationEmail", async function(req, res, next){
+	const params = req.body;
 
+	try{
+		const reply = await NodemailerManager.sendConfirmationEmail(params.email);
+		if(reply === true){
+			return res.sendStatus(200);
+		}else{
+			logger.error(reply);
+			res.statusMessage = reply;
+			return res.status(500).end();
+		}
+	}catch(err){
+		return next(err);
+	}
+})
 
 app.use(express.static(path.join(__dirname, "public/web"))); // to serve js, html, css
 
 // redirect to login if not authenticated
-// app.use(function(req, res, next){ 
-// 	// let through if authenticated
-// 	if (req.isAuthenticated()) return next();
-// 	// if ajax, set send error code
-// 	if (req.xhr) {
-// 		return res.sendStatus(401).end();
-// 	}
-// 	// otherwise, return to login page
-// 	return res.redirect("/login");
-// });
+app.use(function(req, res, next){ 
+	// let through if authenticated
+	if (req.isAuthenticated()) return next();
+	// if ajax, set send error code
+	if (req.xhr) {
+		return res.sendStatus(401).end();
+	}
+	// otherwise, return to login page
+	return res.redirect("/login");
+});
 
 // private pages and requests
 app.get("/testPage", renderPage("testPage"));
