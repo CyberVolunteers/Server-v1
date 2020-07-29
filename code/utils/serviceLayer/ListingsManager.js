@@ -60,6 +60,8 @@ module.exports = class ListingsManager {
     }
 
     createTargetAudienceString(selectedOptions){
+        
+
         const audiences = ["teens", "people aged 18-55", "people over 55"];
 
         let selectedAudiences = [];

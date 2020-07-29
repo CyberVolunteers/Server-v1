@@ -11,6 +11,8 @@ const arrowHTML = {
 }
 
 $(function(){
+    console.log($('meta[name="csrf-token"]'))
+
     let pageIndex = 0;
 
     setPage(pageIndex);

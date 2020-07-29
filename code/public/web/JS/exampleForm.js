@@ -1,4 +1,6 @@
 $(function(){
+    const csrfToken = $('meta[name="csrf-token"]').attr("content");
+
     $("form").submit(function(){
         $.post("/sendConfirmationEmail", {
             // firstName: "firstName", 
@@ -30,6 +32,8 @@ $(function(){
             // terms: ["desc"]
 
             email: "anotherjsmith@gmail.com", 
+
+            _csrf: csrfToken
         })
         .done(function(data, textStatus){
             console.log(data);
