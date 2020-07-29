@@ -11,7 +11,11 @@ const arrowHTML = {
 }
 
 $(function(){
+<<<<<<< HEAD
     const csrfToken = $('meta[name="csrf-token"]').attr("content");
+=======
+    console.log($('meta[name="csrf-token"]'))
+>>>>>>> 18097a95d1e2bb1f7e266557b392e0877bb24918
 
     let pageIndex = 0;
 
