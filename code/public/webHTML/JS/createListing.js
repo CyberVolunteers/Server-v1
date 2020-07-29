@@ -11,6 +11,8 @@ const arrowHTML = {
 }
 
 $(function(){
+    const csrfToken = $('meta[name="csrf-token"]').attr("content");
+
     let pageIndex = 0;
 
     setPage(pageIndex);
@@ -49,7 +51,8 @@ $(function(){
                 opportunityTitle: $("#opportunityTitle").val(), 
                 numOfvolunteers: $("#numOfvolunteers").val(), 
                 minHoursPerWeek: $("#minHoursPerWeek").val(), 
-                maxHoursPerWeek: $("#maxHoursPerWeek").val()
+                maxHoursPerWeek: $("#maxHoursPerWeek").val(),
+                _csrf: csrfToken
             })
             .done(function(data, textStatus){
                 console.log(data);

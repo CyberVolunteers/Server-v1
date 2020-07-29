@@ -31,9 +31,9 @@ module.exports = class NodemailerManager{
             }
         });
 
-        this.confirmEmailTextTemplate = Handlebars.compile(fs.readFileSync("./emails/confirmEmail.txt", "utf8"));
+        this.confirmEmailTextTemplate = Handlebars.compile(fs.readFileSync("./public/emails/confirmEmail.txt", "utf8"));
 
-        this.confirmEmailHTMLTemplate = Handlebars.compile(fs.readFileSync("./emails/confirmEmail.hbs", "utf8"));
+        this.confirmEmailHTMLTemplate = Handlebars.compile(fs.readFileSync("./public/emails/confirmEmail.hbs", "utf8"));
     }
 
     async sendConfirmationEmail(email){

@@ -11,6 +11,7 @@ const slowDown = require("express-slow-down");
 const cookieParser = require('cookie-parser');
 const flexSearch = require("flexsearch");
 const util = require("util");
+const csurf = require('csurf');
 
 const LocalStrategy = require("passport-local").Strategy;
 
@@ -107,13 +108,13 @@ passport.deserializeUser(async function(id, done) {
 	}
 });
 
-
+//csrf
+const csrfProtection = csurf();
 
 // connections
 app.engine("hbs", exphbs( {
 	extname: "hbs",
 	defaultView: "index",
-	layoutsDir: __dirname + "/public/",
 	partialsDir: __dirname + "/public/partials/"
 }));
 app.set("views", path.join(__dirname, "public/web/HTML"));
@@ -207,7 +208,7 @@ app.get("/signup", renderPage("signup"));
 // TODO: a logout page
 app.get("/logout", logout(true));
 
-app.get("/exampleForm", renderPage("exampleForm"));
+app.get("/exampleForm", csrfProtection, renderPage("exampleForm"));
 
 app.get("/verifyEmailToken", async function(req, res, next){
 	const query = req.query;
@@ -228,7 +229,7 @@ app.get("/verifyEmailToken", async function(req, res, next){
 	}
 })
 
-app.post("/sendConfirmationEmail", async function(req, res, next){
+app.post("/sendConfirmationEmail", csrfProtection, async function(req, res, next){
 	const params = req.body;
 
 	try{
@@ -260,13 +261,12 @@ app.use(function(req, res, next){
 });
 
 // private pages and requests
-app.get("/testPage", renderPage("testPage"));
 app.get("/listingsPage", renderPage("listingsPage"));
 app.get("/listing", renderPage("listing"));
-app.get("/createListing", renderPage("createListing"));
-app.get("/advancedSearch", renderPage("advancedSearch"));
+app.get("/createListing", csrfProtection, renderPage("createListing"));
+//app.get("/advancedSearch", csrfProtection, renderPage("advancedSearch"));
 
-app.post("/createListing", async function(req, res, next){
+app.post("/createListing", csrfProtection, async function(req, res, next){
 	const params = req.body;
 	try{
 		await ListingsManager.createListing(params);
@@ -313,6 +313,15 @@ app.get("/searchListings", async function (req, res, next) {
 	}
 })
 
+//csrf errors
+app.use(function (err, req, res, next) {
+	if (err.code !== 'EBADCSRFTOKEN') return next(err);
+   
+	// handle CSRF token errors here
+	logger.warn("csrf failed");
+	res.status(403).end();
+})
+
 //TODO: better 500 page and check for ajax
 app.use(function (err, req, res, next) {
 	logger.error("error:");
@@ -327,7 +336,10 @@ app.listen(port, () => logger.info(`Listening at http://localhost:${port}`));
 
 function renderPage(filePath){
 	return function (req, res){
-		return res.render(filePath, {layout: false});
+		let params = {layout: false};
+
+		if(req.csrfToken !== undefined) params.csrfToken = req.csrfToken();
+		return res.render(filePath, params);
 	};
 }
 

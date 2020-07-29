@@ -9,6 +9,7 @@ throttling
 
 validate target audience
 validation everywhere
+validate instead inserting in the db
 
 create listing page creating inputs check
 
@@ -40,7 +41,6 @@ add the listing index on create and remove on destroy
 
 error messages on all pages
 
-csrf
 tests
 
 escape html tags
