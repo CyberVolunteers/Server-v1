@@ -17,7 +17,7 @@
 .time {
 	width: 35px;
 }
-#Describe {
+#description {
 	width: 750px;
 	height: 450px;
 	border: none;
@@ -25,7 +25,8 @@
 	box-shadow: rgba(0, 0, 0, 0.438) 2px 2px 5px;
 	padding: 10px 10px;
 }
-#reqAndSkills {
+#requirements,
+#skills {
 	width: 750px;
 	height: 215px;
 	border: none;
