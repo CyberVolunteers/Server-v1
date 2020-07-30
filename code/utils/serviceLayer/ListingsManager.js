@@ -43,15 +43,6 @@ module.exports = class ListingsManager {
 
             const listingsData = await query(`SELECT uuid, timeForVolunteering, placeForVolunteering, targetAudience, skills, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek, createdDate FROM listings WHERE id IN (?)`, [results])
             return listingsData;
-
-            //todo:
-            //searchQuery = connection.escape(searchQuery);
-
-            // return await query(`SELECT * FROM listings WHERE
-            // LOWER(opportunityDesc) LIKE ? OR 
-            // LOWER(opportunityCategory) LIKE ? OR 
-            // LOWER(opportunityTitle) LIKE ?`, [searchQuery, searchQuery, searchQuery]);
-
         }catch (err) {
             throw err;
         }finally{
@@ -60,8 +51,6 @@ module.exports = class ListingsManager {
     }
 
     createTargetAudienceString(selectedOptions){
-        
-
         const audiences = ["teens", "people aged 18-55", "people over 55"];
 
         let selectedAudiences = [];

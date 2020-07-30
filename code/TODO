@@ -1,6 +1,8 @@
 eslint
 snyk
 
+replace console.log
+
 different port for ssh
 
 check if the word "null" works
@@ -8,8 +10,12 @@ check if the word "null" works
 throttling
 
 validate target audience
-validation everywhere
-validate instead inserting in the db
+
+check validation for search page and getListing, signup
+
+revisit createListing page
+
+set non-required fields on signup, too
 
 create listing page creating inputs check
 

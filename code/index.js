@@ -64,6 +64,7 @@ const logger = require("./utils/winston");
 const UserManager = new (require("./utils/serviceLayer/UserManager"))(pool, logger);
 const ListingsManager = new (require("./utils/serviceLayer/ListingsManager"))(pool, logger, listingsIndex);
 const NodemailerManager = new (require("./utils/serviceLayer/NodemailerManager"))(pool, logger);
+const Validator = new (require("./utils/Validator"))();
 
 //passport
 passport.use(new LocalStrategy({usernameField: "email"}, UserManager.localPassportVerify.bind(UserManager)));
@@ -156,6 +157,11 @@ app.use( (req, res, next) => {
 app.post("/signup", async function(req, res, next){
 
 	const params = req.body;
+
+	if(!Validator.signUpValidate(params)){
+		res.statusMessage = "Bad data";
+		return res.status(400).end();
+	}
 
 	//TODO: validate email and password
 
@@ -268,19 +274,17 @@ app.get("/createListing", csrfProtection, renderPage("createListing"));
 
 app.post("/createListing", csrfProtection, async function(req, res, next){
 	const params = req.body;
+
+	if(!Validator.createListingValidate(params)){
+		res.statusMessage = "Bad data";
+		return res.status(400).end();
+	}
+
 	try{
 		await ListingsManager.createListing(params);
 		return res.sendStatus(200);
 	}catch(err){
-		//TODO: check if a non-integer was supplied when an integer was needed
-		if(err.code === "ER_BAD_NULL_ERROR"){
-			logger.error("Tried to put a null value");
-			logger.error(err.stack);
-			res.statusMessage = "Bad data";
-			return res.status(400).end();
-		}else{
-			return next(err);
-		}
+		return next(err);
 	}
 });
 
@@ -296,6 +300,10 @@ app.get("/getListings", function(req, res, next){
 });
 
 app.get("/getListing", function(req, res, next){
+	if(!Validator.getListingValidate(req.query.uuid)){
+		res.statusMessage = "Bad data";
+		return res.status(400).end();
+	}
 	pool.query("SELECT timeForVolunteering, placeForVolunteering, targetAudience, skills, createdDate, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek FROM `listings` WHERE `uuid`=?", [req.query.uuid], function(err, results){
 		if (err) return next(err);
 
@@ -305,6 +313,11 @@ app.get("/getListing", function(req, res, next){
 
 app.get("/searchListings", async function (req, res, next) {
 	const params = req.query;
+	if(!Validator.searchListingsValidate(params)){
+		res.statusMessage = "Bad data";
+		return res.status(400).end();
+	}
+
 	try{
 		let results = await ListingsManager.searchListings(params);
 		return res.status(200).send(results);
