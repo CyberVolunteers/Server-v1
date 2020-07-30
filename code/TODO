@@ -13,6 +13,8 @@ validate target audience
 
 check validation for search page and getListing, signup
 
+check if an organisation before even showing createListing
+
 revisit createListing page
 
 set non-required fields on signup, too
@@ -111,4 +113,4 @@ remove test values from login .js file
 
 CAPTCHA?
 
-start transaction
+!!!! start transaction

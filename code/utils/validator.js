@@ -23,7 +23,7 @@ module.exports = class Validator {
     }
 
     createListingValidate(params){
-        return this.checkIfUndefinedAndConvertToStrings(params, ["timeForVolunteering", "placeForVolunteering", "targetAudience", "skills", "requirements", "opportunityDesc", "opportunityCategory", "opportunityTitle", "numOfvolunteers", "minHoursPerWeek", "maxHoursPerWeek"])
+        return this.checkIfUndefinedAndConvertToStrings(params, ["timeForVolunteering", "placeForVolunteering", "targetAudience", "skills", "requirements", "opportunityDesc", "opportunityCategory", "opportunityTitle", "numOfvolunteers", "minHoursPerWeek", "maxHoursPerWeek", "duration"])
         && this.isSuitableLength(params["timeForVolunteering"], 100)
         && this.isSuitableLength(params["placeForVolunteering"], 150)
         && this.isSuitableLength(params["targetAudience"], 100)
@@ -32,6 +32,7 @@ module.exports = class Validator {
         && this.isSuitableLength(params["opportunityDesc"], 1250)
         && this.isSuitableLength(params["opportunityCategory"], 50)
         && this.isSuitableLength(params["opportunityTitle"], 50)
+        && this.isSuitableLength(params["duration"], 15)
 
         && validator.isInt(params["numOfvolunteers"], {min: 0})
         && validator.isFloat(params["minHoursPerWeek"], {min: 0})
@@ -52,7 +53,6 @@ module.exports = class Validator {
     checkIfUndefinedAndConvertToStrings(params, reqParams){
         for(let i = 0; i < reqParams.length; i++){
             const param = params[reqParams[i]];
-            console.log([params[reqParams[i]], reqParams[i]])
             if(param === undefined || param === "" || param === null) return false;
 
             //convert to a string
