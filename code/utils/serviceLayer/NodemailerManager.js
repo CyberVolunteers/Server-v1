@@ -98,4 +98,35 @@ module.exports = class NodemailerManager{
             connection.release();
         }
     }
+
+    async applyForListing(params){
+        const connection = await utils.getConnection(this.pool);
+        const query = util.promisify(connection.query).bind(connection);
+
+        try{
+            //get listing id
+            let results = await query("SELECT id FROM listings WHERE uuid=?", [params.listingUUID]);
+
+            if(results.length == 0){
+                return "Bad data";
+            }
+
+            const listingId = results[0].id;
+
+            //check if a user has already signed up for the listing
+            results = await query("SELECT * FROM volunteers_listings WHERE volunteerId=? AND listingId=?", [params.volunteerId, listingId]);
+
+            if(results.length != 0){
+                return "You have already applied to this listing";
+            }
+
+            await query("INSERT INTO volunteers_listings(volunteerId, listingId, isConfirmed, appliedDate) VALUES(?, ?, ?, UNIX_TIMESTAMP())", [params.volunteerId, listingId, 0]);
+
+            //TODO: send email?
+        }catch(err){
+            throw err;
+        }finally{
+            connection.release();
+        }
+    }
 }

@@ -326,6 +326,33 @@ app.get("/searchListings", async function (req, res, next) {
 	}
 })
 
+app.post("/applyForListing", csrfProtection, async function(req, res, next){
+	const params = {
+		"volunteerId": req.user.id,
+		"listingUUID": req.body.listingUUID
+	}
+
+	if(!Validator.applyForListingValidate(params)){
+		res.statusMessage = "Bad data";
+		return res.status(400).end();
+	}
+
+	logger.info(params)
+
+	try{
+		const message = await NodemailerManager.applyForListing(params);
+		if(message === undefined){
+			
+			return res.sendStatus(200);
+		}else{
+			res.statusMessage = message;
+			return res.status(400).end();
+		}
+	}catch(err){
+		return next(err);
+	}
+})
+
 //csrf errors
 app.use(function (err, req, res, next) {
 	if (err.code !== 'EBADCSRFTOKEN') return next(err);

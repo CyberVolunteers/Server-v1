@@ -11,6 +11,11 @@ throttling
 
 validate target audience
 
+signup add optional information
+
+test xss
+continue with xss
+
 check validation for search page and getListing, signup
 
 check if an organisation before even showing createListing
@@ -23,19 +28,15 @@ create listing page creating inputs check
 
 tests
 
-assemble time requirements similarly to age
-
 redis or memcached for email tokens and caches
 
 npm audit
 snyk test
 npx eslint yourfile.js on all files
 
-replace requirements with skills
+change uuid structure (e.g. remove the dashes)?
 
-change uuid structure (e.g. remove the dashes)
-
-use the same escaped string for search
+store age groups as an array
 
 convert the rest of listings to async
 
@@ -51,11 +52,6 @@ error messages on all pages
 
 tests
 
-escape html tags
-xss
-
-verification emails
-
 uncomment the auth
 
 check if listings page date is accurate
@@ -67,8 +63,6 @@ https://expressjs.com/en/advanced/best-practice-security.html
 + look up additionally
 
 !!!!Create a foreign key in listings on organisations
-
-async await?
 
 look at git commands
 

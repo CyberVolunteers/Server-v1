@@ -1,7 +1,12 @@
 const validator = require("validator");
+const xss = require("xss");
 
 module.exports = class Validator {
     constructor(){
+    }
+
+    applyForListingValidate(params){
+        return this.checkIfUndefinedAndConvertToStrings(params, ["volunteerId", "listingUUID"]);
     }
 
     signUpValidate(params){
@@ -20,6 +25,7 @@ module.exports = class Validator {
 
         && validator.isEmail(params["email"])
 
+        && this.filterXSS(params, ["firstName", "lastName", "email", "password", "gender", "salutation", "nationality", "address", "postcode", "city", "country", "phoneNumber"])
     }
 
     createListingValidate(params){
@@ -38,7 +44,9 @@ module.exports = class Validator {
         && validator.isFloat(params["minHoursPerWeek"], {min: 0})
         && validator.isFloat(params["maxHoursPerWeek"], {min: 0})
 
-        && parseFloat(params["minHoursPerWeek"]) <= parseFloat(params["maxHoursPerWeek"]);
+        && parseFloat(params["minHoursPerWeek"]) <= parseFloat(params["maxHoursPerWeek"])
+
+        && this.filterXSS(params, ["timeForVolunteering", "placeForVolunteering", "targetAudience", "skills", "requirements", "opportunityDesc", "opportunityCategory", "opportunityTitle", "numOfvolunteers", "minHoursPerWeek", "maxHoursPerWeek", "duration"])
     }
 
     searchListingsValidate(params){
@@ -59,6 +67,14 @@ module.exports = class Validator {
             if(!Array.isArray(param)) params[reqParams[i]] = params[reqParams[i]] + "";
 
         }
+        return true;
+    }
+
+    filterXSS(params, reqParams){
+        for(let i = 0; i < reqParams.length; i++){            
+            params[reqParams[i]] = xss(params[reqParams[i]]);
+        }
+
         return true;
     }
 
