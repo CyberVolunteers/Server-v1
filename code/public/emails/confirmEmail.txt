@@ -1,1 +1,3 @@
-If you didn't sigh up on the cybervolunteers website, please ignore this email. \n Please go to {{link}} to verify your email address
+Thanks for signing up, {{firstName}} {{lastName}}
+Please verify your email address to get access to the charity listings
+Verify your email now by going to {{link}}
