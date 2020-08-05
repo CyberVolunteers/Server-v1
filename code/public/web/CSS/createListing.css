@@ -217,3 +217,8 @@ option {
 .hiddenElement {
 	display: none;
 }
+
+#generalInputNum[disabled] {
+    background-color: #d6d2d2;
+    background-image: none;
+}
