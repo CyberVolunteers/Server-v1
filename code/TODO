@@ -1,0 +1,114 @@
+eslint
+snyk
+
+replace console.log
+
+different port for ssh
+
+check if the word "null" works
+
+email verification tokens in the db instead of cache?
+
+get the verification email sorted out
+
+throttling
+
+validate target audience
+
+signup add optional information
+
+test xss
+continue with xss
+
+check validation for search page and getListing, signup
+
+check if an organisation before even showing createListing
+
+revisit createListing page
+
+set non-required fields on signup, too
+
+create listing page creating inputs check
+
+tests
+
+redis or memcached for email tokens and caches
+
+npm audit
+snyk test
+npx eslint yourfile.js on all files
+
+change uuid structure (e.g. remove the dashes)?
+
+store age groups as an array
+
+convert the rest of listings to async
+
+limit max searching length
+
+full text search on listings with cache
+https://www.npmjs.com/package/flexsearch
+https://medium.com/dev-channel/how-to-add-full-text-search-to-your-website-4e9c80ce2bf4
+
+add the listing index on create and remove on destroy
+
+error messages on all pages
+
+tests
+
+uncomment the auth
+
+check if listings page date is accurate
+
+nginx for TLS
+
+https://expressjs.com/en/advanced/best-practice-performance.html
+https://expressjs.com/en/advanced/best-practice-security.html
++ look up additionally
+
+!!!!Create a foreign key in listings on organisations
+
+look at git commands
+
+cache
+
+throttling:The first is number of consecutive failed attempts by the same user name and IP address.
+The second is number of failed attempts from an IP address over some long period of time. For example, block an IP address if it makes 100 failed attempts in one day.
++ other actions
+
+a store for throttling data
+test it
+skipFailedRequests?
+skipSuccessfulRequests?
+
+Use csurf middleware to protect against cross-site request forgery (CSRF).
+Always filter and sanitize user input to protect against cross-site scripting (XSS) and command injection attacks.
+Use the open-source sqlmap tool to detect SQL injection vulnerabilities in your app.
+Use the nmap and sslyze tools to test the configuration of your SSL ciphers, keys, and renegotiation as well as the validity of your certificate.
+
+cookie session store?
+look at the cookie settings in the other project
+
+favicon
+
+automatic backups https://www.jotform.com/blog/how-to-backup-mysql-database/
+
+use layouts?
+
+error handling
+
+page caching
+
+docs
+
+split index.js into files
+
+look into cookie laws
+
+move all js and css into separate files
+
+remove test values from login .js file
+
+CAPTCHA?
+
+!!!! start transaction

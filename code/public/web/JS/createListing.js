@@ -11,14 +11,17 @@ const arrowHTML = {
 }
 
 $(function(){
-<<<<<<< HEAD
-=======
     const csrfToken = $('meta[name="csrf-token"]').attr("content");
 
->>>>>>> 24c69caeeaf904ca9920997a9b383a57136ad9a5
     let pageIndex = 0;
 
     setPage(pageIndex);
+
+    // if the time is indefinite, don't allow the number
+    $("#time-select").change(function(){
+        if($("#time-select").val() === "indefinitely") $("#generalInputNum").prop("disabled", true);
+        else $("#generalInputNum").prop("disabled", false);
+    })
 
     //selecting the category
     $(".iconGroup").click(function(){
@@ -43,23 +46,8 @@ $(function(){
             setPage(pageIndex);
         }else{
             //submit
-<<<<<<< HEAD
-            console.log({
-                timeForVolunteering: $("#timeForVolunteering").val(), 
-                placeForVolunteering: $("#placeForVolunteering").val(), 
-                targetAudience: getBestForData(), 
-                skills: $("#skills").val(), 
-                requirements: $("#requirements").val(), 
-                opportunityDesc: $("#describtion").val(), 
-                opportunityCategory: $(".selectedIcon").find(".catName").text(), 
-                opportunityTitle: $("#opportunityTitle").val(), 
-                numOfvolunteers: $("#numOfvolunteers").val(), 
-                minHoursPerWeek: $("#minHoursPerWeek").val(), 
-                maxHoursPerWeek: $("#maxHoursPerWeek").val()
-            });
-=======
->>>>>>> 24c69caeeaf904ca9920997a9b383a57136ad9a5
             $.post("/createListing", {
+                duration: createDurationString($("#generalInputNum").val(), $("#time-select").val()),
                 timeForVolunteering: $("#timeForVolunteering").val(), 
                 placeForVolunteering: $("#placeForVolunteering").val(), 
                 targetAudience: getBestForData(), 
@@ -70,12 +58,8 @@ $(function(){
                 opportunityTitle: $("#opportunityTitle").val(), 
                 numOfvolunteers: $("#numOfvolunteers").val(), 
                 minHoursPerWeek: $("#minHoursPerWeek").val(), 
-<<<<<<< HEAD
-                maxHoursPerWeek: $("#maxHoursPerWeek").val()
-=======
                 maxHoursPerWeek: $("#maxHoursPerWeek").val(),
                 _csrf: csrfToken
->>>>>>> 24c69caeeaf904ca9920997a9b383a57136ad9a5
             })
             .done(function(data, textStatus){
                 console.log(data);
@@ -121,4 +105,11 @@ function getBestForData(){
     });
 
     return checkedBoxes;
+}
+
+function createDurationString(num, units){
+    if(units === "indefinitely") return units;
+
+    if (num == 1) return num + " " + units;
+    return num + " " + units + "s";
 }
