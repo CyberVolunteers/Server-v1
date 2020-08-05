@@ -17,12 +17,6 @@ $(function(){
 
     setPage(pageIndex);
 
-    // if the time is indefinite, don't allow the number
-    $("#time-select").change(function(){
-        if($("#time-select").val() === "indefinitely") $("#generalInputNum").prop("disabled", true);
-        else $("#generalInputNum").prop("disabled", false);
-    })
-
     //selecting the category
     $(".iconGroup").click(function(){
         // remove the class from everything
@@ -47,7 +41,6 @@ $(function(){
         }else{
             //submit
             $.post("/createListing", {
-                duration: createDurationString($("#generalInputNum").val(), $("#time-select").val()),
                 timeForVolunteering: $("#timeForVolunteering").val(), 
                 placeForVolunteering: $("#placeForVolunteering").val(), 
                 targetAudience: getBestForData(), 
@@ -105,11 +98,4 @@ function getBestForData(){
     });
 
     return checkedBoxes;
-}
-
-function createDurationString(num, units){
-    if(units === "indefinitely") return units;
-
-    if (num == 1) return num + " " + units;
-    return num + " " + units + "s";
 }

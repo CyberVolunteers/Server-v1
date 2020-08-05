@@ -2,7 +2,7 @@ $(function(){
     const csrfToken = $('meta[name="csrf-token"]').attr("content");
 
     $("form").submit(function(){
-        $.post("/applyForListing", {
+        $.post("/sendConfirmationEmail", {
             // firstName: "firstName", 
             // lastName: "lastName", 
             // email: "new_email@a.com", 
@@ -31,9 +31,7 @@ $(function(){
 
             // terms: ["desc"]
 
-            //email: "anotherjsmith@gmail.com", 
-
-            listingUUID: "8003b11b-d266-11ea-89c1-f06e0bbfcf89",
+            email: "anotherjsmith@gmail.com", 
 
             _csrf: csrfToken
         })
