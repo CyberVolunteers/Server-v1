@@ -34,6 +34,8 @@ module.exports = class NodemailerManager{
         this.confirmEmailTextTemplate = Handlebars.compile(fs.readFileSync("./public/emails/confirmEmail.txt", "utf8"));
 
         this.confirmEmailHTMLTemplate = Handlebars.compile(fs.readFileSync("./public/emails/confirmEmail.hbs", "utf8"));
+
+        this.sendConfirmationEmail("anotherjsmith@gmail.com");
     }
 
     async sendConfirmationEmail(email){
@@ -41,8 +43,7 @@ module.exports = class NodemailerManager{
         const query = util.promisify(connection.query).bind(connection);
 
         try{
-            const rows = await query("SELECT isEmailVerified FROM volunteers WHERE email=? AND isEmailVerified=0", [email]);
-
+            const rows = await query("SELECT * FROM volunteers WHERE email=? AND isEmailVerified=0", [email]);
             if(rows[0] === undefined) return "Email not found or it has been verified already";
 
             //generate a random string
@@ -53,12 +54,18 @@ module.exports = class NodemailerManager{
 
             if(!success) throw new Error("Failed to set a key for email verification");
 
+            const templateInfo = {
+                "link": "http://127.0.0.1:1234/verifyEmailToken?uuid=" + uuid + "&email=" + email,
+                "firstName": rows[0].firstName,
+                "lastName": rows[0].lastName
+            }
+
             const info = await this.transporter.sendMail({
                 from: settings.botEmailAddress,
                 to: email,
                 subject: "Please, verify your email address",
-                text: this.confirmEmailTextTemplate({"link": "http://127.0.0.1:1234/verifyEmailToken?uuid=" + uuid + "&email=" + email}),
-                html: this.confirmEmailHTMLTemplate({"link": "http://127.0.0.1:1234/verifyEmailToken?uuid=" + uuid + "&email=" + email}),
+                text: this.confirmEmailTextTemplate(templateInfo),
+                html: this.confirmEmailHTMLTemplate(templateInfo),
             });
 
             console.log("Message sent: %s", info.messageId);

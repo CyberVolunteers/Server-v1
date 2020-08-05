@@ -7,6 +7,10 @@ different port for ssh
 
 check if the word "null" works
 
+email verification tokens in the db instead of cache?
+
+get the verification email sorted out
+
 throttling
 
 validate target audience
