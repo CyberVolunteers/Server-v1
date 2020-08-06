@@ -3,6 +3,12 @@ snyk
 
 replace console.log
 
+add listing column for the required number of participants and show the number of participants in the email
+
+convert createdDate to date posted 
+
+show languages and skills and interests in the email
+
 different port for ssh
 
 check if the word "null" works
