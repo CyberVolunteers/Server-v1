@@ -61,10 +61,11 @@ process.env.TZ = timezone;
 const logger = require("./utils/winston");
 
 //layers
-const UserManager = new (require("./utils/serviceLayer/UserManager"))(pool, logger);
-const ListingsManager = new (require("./utils/serviceLayer/ListingsManager"))(pool, logger, listingsIndex);
-const NodemailerManager = new (require("./utils/serviceLayer/NodemailerManager"))(pool, logger);
+const UserManager = new (require("./utils/serviceLayer/UserManager.js"))(pool, logger);
+const ListingsManager = new (require("./utils/serviceLayer/ListingsManager.js"))(pool, logger, listingsIndex);
+const NodemailerManager = new (require("./utils/serviceLayer/NodemailerManager.js"))(pool, logger);
 const Validator = new (require("./utils/Validator"))();
+
 
 //passport
 passport.use(new LocalStrategy({usernameField: "email"}, UserManager.localPassportVerify.bind(UserManager)));
