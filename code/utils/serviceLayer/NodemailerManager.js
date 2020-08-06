@@ -39,38 +39,50 @@ module.exports = class NodemailerManager{
 
         this.volunteerHelpOfferEmailHTMLTemplate = Handlebars.compile(fs.readFileSync("./public/emails/volunteerHelpOfferEmail.hbs", "utf8"));
 
-        this.sendVolunteerHelpOfferEmail(1);
+        this.sendVolunteerHelpOfferEmail([1, 2]);
     }
 
-    async sendVolunteerHelpOfferEmail(volunteers_listingsId){
+    processInfoForVolunteerHelpOfferEmail(rowInfo, templateInfo){
+        switch (rowInfo.gender) {
+            case "m":
+                rowInfo.gender = "male";
+            break;
+            case "f":
+                rowInfo.gender = "female";
+            break;
+            case "o":
+                rowInfo.gender = "other";
+            break;
+        }
+
+        //get the difference, convert it to years, and floor it
+        rowInfo.age = Math.floor((Date.now()-rowInfo.birthDate)/ 1000 / 60 / 60 / 24 / 365.25);
+
+        //convert seconds to milliseconds and create a new date object
+        const dateCreationOptions = {year: "numeric", month: "long", day: "numeric"};
+        rowInfo.createdDate = new Date(rowInfo.createdDate * 1000).toLocaleDateString("en-UK", dateCreationOptions);
+
+        // add the data to the entries
+        templateInfo.entries.push(rowInfo);
+
+        return rowInfo;
+    }
+
+    async sendVolunteerHelpOfferEmail(volunteers_listingsIds){
         const connection = await utils.getConnection(this.pool);
         const query = util.promisify(connection.query).bind(connection);
 
         try{
-            const rows = await query("SELECT listings.opportunityTitle, listings.createdDate, volunteers.firstName, volunteers.lastName, volunteers.email, volunteers.phoneNumber, volunteers.address, volunteers.nationality, volunteers.occupation, volunteers.linkedIn, volunteers.gender, volunteers.birthDate FROM volunteers_listings INNER JOIN volunteers ON volunteers.id=volunteers_listings.volunteerId INNER JOIN listings ON listings.id=listingId WHERE volunteers_listings.id=?", [volunteers_listingsId]);
+            const rows = await query("SELECT listings.opportunityTitle, listings.createdDate, volunteers.firstName, volunteers.lastName, volunteers.email, volunteers.phoneNumber, volunteers.address, volunteers.nationality, volunteers.occupation, volunteers.linkedIn, volunteers.gender, volunteers.birthDate FROM volunteers_listings INNER JOIN volunteers ON volunteers.id=volunteers_listings.volunteerId INNER JOIN listings ON listings.id=listingId WHERE volunteers_listings.id IN (?)", [volunteers_listingsIds]);
 
-            if(rows.length != 1) throw new Error("Can not find this listing");
+            if(rows.length == 0) throw new Error("Can not find this listing");
 
-            let templateInfo = rows[0];
-
-            switch (templateInfo.gender) {
-                case "m":
-                    templateInfo.gender = "male";
-                break;
-                case "f":
-                    templateInfo.gender = "female";
-                break;
-                case "o":
-                    templateInfo.gender = "other";
-                break;
+            let templateInfo = {
+                entries: []
+            };
+            for(let i = 0; i < rows.length; i++){
+                this.processInfoForVolunteerHelpOfferEmail(rows[i], templateInfo);
             }
-
-            //get the difference, convert it to years, and floor it
-            templateInfo.age = Math.floor((Date.now()-rows[0].birthDate)/ 1000 / 60 / 60 / 24 / 365.25);
-
-            //convert seconds to milliseconds and create a new date object
-            const dateCreationOptions = {year: "numeric", month: "long", day: "numeric"};
-            templateInfo.createdDate = new Date(templateInfo.createdDate * 1000).toLocaleDateString("en-UK", dateCreationOptions);
 
             const info = await this.transporter.sendMail({
                 from: settings.botEmailAddress,

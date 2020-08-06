@@ -5,6 +5,8 @@ replace console.log
 
 add listing column for the required number of participants and show the number of participants in the email
 
+set the receiver email for volunteer joined emails
+
 convert createdDate to date posted 
 
 show languages and skills and interests in the email
