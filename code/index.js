@@ -269,7 +269,7 @@ app.use(function(req, res, next){
 
 // private pages and requests
 app.get("/listingsPage", renderPage("listingsPage"));
-app.get("/listing", renderPage("listing"));
+app.get("/listing", csrfProtection, renderPage("listing"));
 app.get("/createListing", csrfProtection, renderPage("createListing"));
 //app.get("/advancedSearch", csrfProtection, renderPage("advancedSearch"));
 
