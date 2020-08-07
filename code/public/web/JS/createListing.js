@@ -53,7 +53,7 @@ $(function(){
                 targetAudience: getBestForData(), 
                 skills: $("#skills").val(), 
                 requirements: $("#requirements").val(), 
-                opportunityDesc: $("#describtion").val(), 
+                opportunityDesc: $("#description").val(), 
                 opportunityCategory: $(".selectedIcon").find(".catName").text(), 
                 opportunityTitle: $("#opportunityTitle").val(), 
                 numOfvolunteers: $("#numOfvolunteers").val(), 

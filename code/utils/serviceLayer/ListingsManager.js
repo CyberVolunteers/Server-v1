@@ -14,7 +14,7 @@ module.exports = class ListingsManager {
         const query = util.promisify(connection.query).bind(connection);
         
         try{
-            await query("INSERT INTO `listings`(uuid, timeForVolunteering, placeForVolunteering, targetAudience, skills, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek, duration, createdDate) VALUES (uuid(), ?,?,?,?,?,?,?,?,?,?,?,?,UNIX_TIMESTAMP());", [params.timeForVolunteering, params.placeForVolunteering, this.createTargetAudienceString(params.targetAudience), params.skills, params.requirements, params.opportunityDesc, params.opportunityCategory, params.opportunityTitle, params.numOfvolunteers, params.minHoursPerWeek, params.maxHoursPerWeek, params.duration]);
+            await query("INSERT INTO `listings`(uuid, timeForVolunteering, placeForVolunteering, targetAudience, skills, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek, duration, charityId, createdDate) VALUES (uuid(), ?,?,?,?,?,?,?,?,?,?,?,?,?,UNIX_TIMESTAMP());", [params.timeForVolunteering, params.placeForVolunteering, this.createTargetAudienceString(params.targetAudience), params.skills, params.requirements, params.opportunityDesc, params.opportunityCategory, params.opportunityTitle, params.numOfvolunteers, params.minHoursPerWeek, params.maxHoursPerWeek, params.duration, 1]);
             const queryResults = await query("SELECT LAST_INSERT_ID();");
             const valueString = params.opportunityDesc + " " + params.opportunityCategory + " " + params.opportunityTitle;
             this.listingsIndex.add(queryResults[0]["LAST_INSERT_ID()"], valueString);

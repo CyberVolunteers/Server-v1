@@ -173,13 +173,14 @@ module.exports = class NodemailerManager{
 
         try{
             //get listing id
-            let results = await query("SELECT id FROM listings WHERE uuid=?", [params.listingUUID]);
+            let results = await query("SELECT id, charityId FROM listings WHERE uuid=?", [params.listingUUID]);
 
             if(results.length == 0){
                 return "Bad data";
             }
 
             const listingId = results[0].id;
+            const charityId = results[0].charityId;
 
             //check if a user has already signed up for the listing
             results = await query("SELECT * FROM volunteers_listings WHERE volunteerId=? AND listingId=?", [params.volunteerId, listingId]);
@@ -189,6 +190,20 @@ module.exports = class NodemailerManager{
             }
 
             await query("INSERT INTO volunteers_listings(volunteerId, listingId, isConfirmed, appliedDate) VALUES(?, ?, ?, UNIX_TIMESTAMP())", [params.volunteerId, listingId, 0]);
+
+            //check if the charity wants to receive emails in groups
+            results = await query("SELECT sendHelpEmailsPeopleInGroups FROM charities WHERE id=?", [charityId]);
+
+            const sendHelpEmailsPeopleInGroups = results[0].sendHelpEmailsPeopleInGroups;
+
+            //TODO: if need to send the emails, add that to the list
+            if(sendHelpEmailsPeopleInGroups){
+
+            }else{
+                results = await query("SELECT LAST_INSERT_ID()");
+                const volunteers_listingsId = results[0]["LAST_INSERT_ID()"]
+                this.sendVolunteerHelpOfferEmail([volunteers_listingsId])
+            }
 
             //TODO: send email?
         }catch(err){

@@ -3,6 +3,8 @@ snyk
 
 replace console.log
 
+change charityId from 1 to a sensible value in listingsManager create listing
+
 add listing column for the required number of participants and show the number of participants in the email
 
 set the receiver email for volunteer joined emails
@@ -10,6 +12,8 @@ set the receiver email for volunteer joined emails
 convert createdDate to date posted 
 
 show languages and skills and interests in the email
+
+show error messages
 
 different port for ssh
 
