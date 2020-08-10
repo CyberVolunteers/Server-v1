@@ -68,7 +68,7 @@ const Validator = new (require("./utils/Validator"))();
 
 
 //passport
-passport.use(new LocalStrategy({usernameField: "email"}, UserManager.localPassportVerify.bind(UserManager)));
+passport.use(new LocalStrategy({usernameField: "email", passReqToCallback: true,}, UserManager.localPassportVerify.bind(UserManager)));
 
 // TODO: only check the data on the client, send errors to the client
 
@@ -95,14 +95,22 @@ const longTermLoginRateLimit = slowDown({
 
 // used to serialize the user for the session
 passport.serializeUser(function(user, done) {
-	done(null, user.id); 
+	done(null, {
+		id: user.id,
+		isVolunteer: user.isVolunteer
+	}); 
 });
 
 // used to deserialize the user
 passport.deserializeUser(async function(id, done) {
 	const query = util.promisify(pool.query).bind(pool);
 	try{
-		const results = await query("SELECT * FROM `volunteers` WHERE `id`=?;", [id]);
+		let results;
+		if(id.isVolunteer){
+			results = await query("SELECT * FROM `volunteers` WHERE `id`=?;", [id.id]);
+		}else{
+			results = await query("SELECT * FROM `charities` WHERE `id`=?;", [id.id]);
+		}
 		//TODO: cache?
 		done(undefined, results[0]);
 	}catch (err) {
@@ -158,16 +166,20 @@ app.use( (req, res, next) => {
 app.post("/signup", async function(req, res, next){
 
 	const params = req.body;
+	const isVolunteer = params.isVolunteer === "true";
 
 	if(!Validator.signUpValidate(params)){
 		res.statusMessage = "Bad data";
 		return res.status(400).end();
 	}
 
-	//TODO: validate email and password
-
 	try{
-		const result = await UserManager.signUp(params);
+		let result;
+		if(params.isVolunteer === "true"){
+			result = await UserManager.signUpVolunteer(params);
+		}else{
+			result = await UserManager.signUpCharity(params);
+		}
 		if(result.code === 200){
 			return res.sendStatus(200);
 		}else{
@@ -183,6 +195,7 @@ app.post("/signup", async function(req, res, next){
 app.post("/login", shortTermLoginRateLimit, longTermLoginRateLimit, function(req, res, next){
 
 	//TODO: a separate validation file
+	
 	//if credentials are missing
 	if(!req.body.email || !req.body.password){
 		res.statusMessage = "Please, enter your email and passowrd";
@@ -237,10 +250,11 @@ app.get("/verifyEmailToken", async function(req, res, next){
 })
 
 app.post("/sendConfirmationEmail", csrfProtection, async function(req, res, next){
-	const params = req.body;
+	const email = req.user.email;
+	const isVolunteer = req.session.passport.user.isVolunteer;
 
 	try{
-		const reply = await NodemailerManager.sendConfirmationEmail(params.email);
+		const reply = await NodemailerManager.sendConfirmationEmail(email, isVolunteer);
 		if(reply === true){
 			return res.sendStatus(200);
 		}else{
@@ -289,9 +303,12 @@ app.post("/createListing", csrfProtection, async function(req, res, next){
 	}
 });
 
-//TODO: check if it is a person or a company if the listing is accepted
+//TODO: check if it is a person or a company if the listings are requested
 
 app.get("/getListings", function(req, res, next){
+
+	
+
 	// TODO: if it is a company, show its own listings instead
 	pool.query("SELECT uuid, timeForVolunteering, placeForVolunteering, targetAudience, skills, createdDate, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek FROM `listings`", [], function(err, results){
 		if (err) return next(err);
@@ -328,6 +345,12 @@ app.get("/searchListings", async function (req, res, next) {
 })
 
 app.post("/applyForListing", csrfProtection, async function(req, res, next){
+
+	if(req.session.passport.user.isVolunteer !== true){
+		res.statusMessage = "You need to be a volunteer to apply for a listing";
+		return res.status(400).end();
+	}
+
 	const params = {
 		"volunteerId": req.user.id,
 		"listingUUID": req.body.listingUUID

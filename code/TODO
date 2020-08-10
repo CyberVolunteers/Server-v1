@@ -1,7 +1,23 @@
 eslint
 snyk
 
+go over every single endpoint and check for verification
+
 replace console.log
+
+test charity signup
+
+test filtering xss
+
+fix signup validation
+
+test user signup as well
+
+create listing check if a charity
+
+do not allow unverified charities to do anything
+
+test with undefined websiteUrl from a user request
 
 change charityId from 1 to a sensible value in listingsManager create listing
 

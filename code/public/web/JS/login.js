@@ -11,7 +11,8 @@ $(function(){
 
         $.post("/login", {
             email: email,
-            password: password
+            password: password,
+            isVolunteer: false
         })
         .done(function(data, textStatus){
             console.log(data);

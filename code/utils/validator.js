@@ -9,7 +9,7 @@ module.exports = class Validator {
         return this.checkIfUndefinedAndConvertToStrings(params, ["volunteerId", "listingUUID"]);
     }
 
-    signUpValidate(params){
+    signUpValidateVolunteer(params){
         return this.checkIfUndefinedAndConvertToStrings(params, ["firstName", "lastName", "email", "password", "gender", "salutation", "nationality", "address", "postcode", "city", "country", "phoneNumber"])
         && this.isSuitableLength(params["firstName"], 30)
         && this.isSuitableLength(params["lastName"], 30)
@@ -26,6 +26,20 @@ module.exports = class Validator {
         && validator.isEmail(params["email"])
 
         && this.filterXSS(params, ["firstName", "lastName", "email", "password", "gender", "salutation", "nationality", "address", "postcode", "city", "country", "phoneNumber"])
+    }
+
+    signUpValidateCharity(params){
+        return this.checkIfUndefinedAndConvertToStrings(params, ["email", "password", "charityType", "charityName", "charityDesc", "phoneNumber", "charityLocation", "sendHelpEmailsPeopleInGroups"])
+        && this.isSuitableLength(params["email"], 320)
+        && this.isSuitableLength(params["charityType"], 30)
+        && this.isSuitableLength(params["charityName"], 100)
+        && this.isSuitableLength(params["charityDesc"], 1000)
+        && this.isSuitableLength(params["phoneNumber"], 16)
+        && this.isSuitableLength(params["charityLocation"], 150)
+        && this.isSuitableLength(params["websiteURL"], 50)
+        && this.isSuitableLength(params["sendHelpEmailsPeopleInGroups"], 1)
+
+        && this.filterXSS(params, ["email", "password", "charityType", "charityName", "charityDesc", "phoneNumber", "charityLocation", "websiteURL"])
     }
 
     createListingValidate(params){
@@ -55,6 +69,7 @@ module.exports = class Validator {
     }
 
     isSuitableLength(string, maxLen){
+        if(string === undefined) return true;
         return string.length <= maxLen;
     }
 

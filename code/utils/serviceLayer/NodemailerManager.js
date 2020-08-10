@@ -66,7 +66,7 @@ module.exports = class NodemailerManager{
         return rowInfo;
     }
 
-    async sendVolunteerHelpOfferEmail(volunteers_listingsIds){
+    async sendVolunteerHelpOfferEmail(volunteers_listingsIds, email){
         const connection = await utils.getConnection(this.pool);
         const query = util.promisify(connection.query).bind(connection);
 
@@ -84,7 +84,7 @@ module.exports = class NodemailerManager{
 
             const info = await this.transporter.sendMail({
                 from: settings.botEmailAddress,
-                to: "email@email.com",
+                to: email,
                 subject: "Someone has applied to your listing",
                 text: this.volunteerHelpOfferEmailTextTemplate(templateInfo),
                 html: this.volunteerHelpOfferEmailHTMLTemplate(templateInfo),
@@ -99,12 +99,17 @@ module.exports = class NodemailerManager{
         }
     }
 
-    async sendConfirmationEmail(email){
+    async sendConfirmationEmail(email, isVolunteer){
         const connection = await utils.getConnection(this.pool);
         const query = util.promisify(connection.query).bind(connection);
 
         try{
-            const rows = await query("SELECT * FROM volunteers WHERE email=? AND isEmailVerified=0", [email]);
+            let rows;
+            if(isVolunteer){
+                rows = await query("SELECT * FROM volunteers WHERE email=? AND isEmailVerified=0", [email]);
+            }else{
+                rows = await query("SELECT * FROM charities WHERE email=? AND isEmailVerified=0", [email]);
+            }
             if(rows[0] === undefined) return "Email not found or it has been verified already";
 
             //generate a random string
@@ -192,9 +197,10 @@ module.exports = class NodemailerManager{
             await query("INSERT INTO volunteers_listings(volunteerId, listingId, isConfirmed, appliedDate) VALUES(?, ?, ?, UNIX_TIMESTAMP())", [params.volunteerId, listingId, 0]);
 
             //check if the charity wants to receive emails in groups
-            results = await query("SELECT sendHelpEmailsPeopleInGroups FROM charities WHERE id=?", [charityId]);
+            results = await query("SELECT sendHelpEmailsPeopleInGroups, email FROM charities WHERE id=?", [charityId]);
 
             const sendHelpEmailsPeopleInGroups = results[0].sendHelpEmailsPeopleInGroups;
+            const email = results[0].email;
 
             //TODO: if need to send the emails, add that to the list
             if(sendHelpEmailsPeopleInGroups){
@@ -202,7 +208,7 @@ module.exports = class NodemailerManager{
             }else{
                 results = await query("SELECT LAST_INSERT_ID()");
                 const volunteers_listingsId = results[0]["LAST_INSERT_ID()"]
-                this.sendVolunteerHelpOfferEmail([volunteers_listingsId])
+                this.sendVolunteerHelpOfferEmail([volunteers_listingsId], email);
             }
 
             //TODO: send email?

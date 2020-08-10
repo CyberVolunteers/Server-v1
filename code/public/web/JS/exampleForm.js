@@ -2,7 +2,7 @@ $(function(){
     const csrfToken = $('meta[name="csrf-token"]').attr("content");
 
     $("form").submit(function(){
-        $.post("/applyForListing", {
+        $.post("/sendConfirmationEmail", {
             // firstName: "firstName", 
             // lastName: "lastName", 
             // email: "new_email@a.com", 
