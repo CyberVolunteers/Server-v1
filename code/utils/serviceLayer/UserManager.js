@@ -66,9 +66,7 @@ module.exports = class UserManager {
             await query("INSERT INTO `volunteers`(firstName, lastName, email, passwordHash, gender, salutation, nationality, address, postcode, city, country, phoneNumber) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", [params.firstName, params.lastName, params.email, hash, params.gender, params.salutation, params.nationality, params.address, params.postcode, params.city, params.country, params.phoneNumber]);
             return {code: 200};
         }catch(err){
-            this.logger.error("error on signup");
-		    this.logger.error(err.stack);
-		    return {code: 400, message: "Bad data"};
+            throw err;
         }finally{
             connection.release();
         }
@@ -91,12 +89,10 @@ module.exports = class UserManager {
 
             const hash = await bcrypt.hash(params.password, settings.bcryptRounds);
             // Store hash in your password DB.
-            await query("INSERT INTO `charities`() VALUES (email, passwordHash, charityType, charityName, charityDesc, phoneNumber, charityLocation, websiteURL, sendHelpEmailsPeopleInGroups, isEmailVerified, isVerifiedByUs);", [params.email, hash, params.charityType, params.charityName, params.charityDesc, params.phoneNumber, params.charityLocation, params.websiteURL, params.sendHelpEmailsPeopleInGroups === "true", 0, 0]);
+            await query("INSERT INTO `charities`(email, passwordHash, charityType, charityName, charityDesc, phoneNumber, charityLocation, websiteURL, sendHelpEmailsPeopleInGroups, isEmailVerified, isVerifiedByUs) VALUES (?,?,?,?,?,?,?,?,?,?,?);", [params.email, hash, params.charityType, params.charityName, params.charityDesc, params.phoneNumber, params.charityLocation, params.websiteURL, params.sendHelpEmailsPeopleInGroups === "true", 0, 0]);
             return {code: 200};
         }catch(err){
-            this.logger.error("error on signup");
-		    this.logger.error(err.stack);
-		    return {code: 400, message: "Bad data"};
+            throw err;
         }finally{
             connection.release();
         }

@@ -1,6 +1,8 @@
 eslint
 snyk
 
+go over all the TODOs in the files themselves
+
 go over every single endpoint and check for verification
 
 replace console.log
@@ -9,15 +11,15 @@ test charity signup
 
 test filtering xss
 
-fix signup validation
+volunteer - filter xss for non-compulsory fields
+
++ filter xss client-side
 
 test user signup as well
 
 create listing check if a charity
 
 do not allow unverified charities to do anything
-
-test with undefined websiteUrl from a user request
 
 change charityId from 1 to a sensible value in listingsManager create listing
 
@@ -84,8 +86,6 @@ error messages on all pages
 
 tests
 
-uncomment the auth
-
 check if listings page date is accurate
 
 nginx for TLS
@@ -140,3 +140,10 @@ remove test values from login .js file
 CAPTCHA?
 
 !!!! start transaction
+
+
+
+
+-------
+
+ssh mikhail@95.165.145.146

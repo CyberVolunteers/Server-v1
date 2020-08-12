@@ -37,7 +37,8 @@ module.exports = class Validator {
         && this.isSuitableLength(params["phoneNumber"], 16)
         && this.isSuitableLength(params["charityLocation"], 150)
         && this.isSuitableLength(params["websiteURL"], 50)
-        && this.isSuitableLength(params["sendHelpEmailsPeopleInGroups"], 1)
+
+        && (params["websiteURL"] === undefined || validator.isURL(params["websiteURL"]))
 
         && this.filterXSS(params, ["email", "password", "charityType", "charityName", "charityDesc", "phoneNumber", "charityLocation", "websiteURL"])
     }

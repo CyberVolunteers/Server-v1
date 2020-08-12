@@ -2,7 +2,7 @@ $(function(){
     const csrfToken = $('meta[name="csrf-token"]').attr("content");
 
     $("form").submit(function(){
-        $.post("/sendConfirmationEmail", {
+        $.post("/signup", {
             // firstName: "firstName", 
             // lastName: "lastName", 
             // email: "new_email@a.com", 
@@ -14,7 +14,17 @@ $(function(){
             // postcode: "ABC234", 
             // city: "Kazan", 
             // country: "Antarctica", 
-            // phoneNumber: "1234567899876"
+            // phoneNumber: "1234567899876",
+
+            "email": "email2@email.com",
+            "password": "not secure",
+            "charityType": "charityType",
+            "charityName": "charityName",
+            "charityDesc": "charityDesc",
+            "phoneNumber": "1234567899876",
+            "charityLocation": "charityLocation",
+            "sendHelpEmailsPeopleInGroups": true,
+            //"websiteURL": "https://reee.com",
 
             // timeRequirements: "timeRequirements",
             // timeForVolunteering: "timeForVolunteering", 
@@ -33,7 +43,9 @@ $(function(){
 
             //email: "anotherjsmith@gmail.com", 
 
-            listingUUID: "8003b11b-d266-11ea-89c1-f06e0bbfcf89",
+            //listingUUID: "8003b11b-d266-11ea-89c1-f06e0bbfcf89",
+
+            isVolunteer: false,
 
             _csrf: csrfToken
         })

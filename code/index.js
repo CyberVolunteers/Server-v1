@@ -168,14 +168,21 @@ app.post("/signup", async function(req, res, next){
 	const params = req.body;
 	const isVolunteer = params.isVolunteer === "true";
 
-	if(!Validator.signUpValidate(params)){
+	let validationSuccess;
+	if(isVolunteer){
+		validationSuccess = Validator.signUpValidateVolunteer(params);
+	}else{
+		validationSuccess = Validator.signUpValidateCharity(params);
+	}
+
+	if(!validationSuccess){
 		res.statusMessage = "Bad data";
 		return res.status(400).end();
 	}
 
 	try{
 		let result;
-		if(params.isVolunteer === "true"){
+		if(isVolunteer){
 			result = await UserManager.signUpVolunteer(params);
 		}else{
 			result = await UserManager.signUpCharity(params);
@@ -191,7 +198,6 @@ app.post("/signup", async function(req, res, next){
 	}
 });
 
-// TODO: check if already logged in
 app.post("/login", shortTermLoginRateLimit, longTermLoginRateLimit, function(req, res, next){
 
 	//TODO: a separate validation file
@@ -221,11 +227,9 @@ app.post("/login", shortTermLoginRateLimit, longTermLoginRateLimit, function(req
 });
 
 //pages
-app.get("/login", renderPage("login"));
+app.get("/login", logout(false), renderPage("login"));
 app.get("/signup", renderPage("signup"));
 
-// TODO: test the logout function
-// TODO: a logout page
 app.get("/logout", logout(true));
 
 app.get("/exampleForm", csrfProtection, renderPage("exampleForm"));
@@ -282,6 +286,21 @@ app.use(function(req, res, next){
 });
 
 // private pages and requests
+
+// don't allow charities that are not verified to access these pages
+app.all("*", function(req, res, next){
+	if(req.session.passport.user.isVolunteer !== true){
+		if(req.user.isEmailVerified === 0 || req.user.isVerifiedByUs === 0){
+			//TODO: redirect them to the page
+			console.log("STOP");
+		}else{
+			return next();
+		}
+	}else{
+		return next();
+	}
+})
+
 app.get("/listingsPage", renderPage("listingsPage"));
 app.get("/listing", csrfProtection, renderPage("listing"));
 app.get("/createListing", csrfProtection, renderPage("createListing"));
@@ -303,13 +322,7 @@ app.post("/createListing", csrfProtection, async function(req, res, next){
 	}
 });
 
-//TODO: check if it is a person or a company if the listings are requested
-
 app.get("/getListings", function(req, res, next){
-
-	
-
-	// TODO: if it is a company, show its own listings instead
 	pool.query("SELECT uuid, timeForVolunteering, placeForVolunteering, targetAudience, skills, createdDate, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek FROM `listings`", [], function(err, results){
 		if (err) return next(err);
 
@@ -411,10 +424,8 @@ function logout(logoutAnyway){
 	return function (req, res, next) {
 
 		// do not logout remember me but if not logout completely
-		//TODO: do client-side remember me cookie
         if (req.cookies["rememberMe"] === "true" && !logoutAnyway) {
 			logger.debug("did not log out because of rememberme");
-			// TODO: what to do in this case?
             return next();
         }
 
