@@ -1,9 +1,49 @@
 Someone wants to help your organization!
-Cyber Volunteers is happy to let you know that someone is interested in your volunteering opportunity.
-Opportunity Information:
-Title: {{title}}
-Organization: {{the organization}}
-Date Posted: {{date posted}}
-Number of people that have shown interest: {{number who have volunteered for the opportunity}}
 
-© 2020 Cyber Volunteers. All Rights Reserved.
+Cyber Volunteers is happy to let you know that someone is interested in your volunteering opportunity. 
+
+
+
+{{#each entries}}
+
+Opportunity Information:
+
+Title: {{opportunityTitle}}
+
+Date Posted: {{createdDate}}
+
+Number of people that have shown interest: \{{number who have volunteered for the opportunity}}
+
+Volunteer Information:
+
+Full Name: {{firstName}} {{lastName}}
+
+Email: {{email}}
+
+Phone Number: {{phoneNumber}}
+
+Address: \{{address}}
+
+Gender: {{gender}}
+
+Age: {{age}}
+
+Nationality: {{nationality}}
+
+{{#if occupation}}
+Occupation: {{occupation}}
+{{/if}}
+
+Languages: \{{languages}}
+
+Skills and Interests: \{{skills and interests}}
+
+{{#if linkedIn}}
+Linked In Account: {{linkedIn}}
+{{/if}}
+
+-----
+
+{{/each}}
+
+Our volunteers are very eager to help so please get back to them as soon as you can. Thank you. 
