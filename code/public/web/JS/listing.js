@@ -19,6 +19,7 @@ $(function(){
         $(".timeReqNumbers").text(listing.minHoursPerWeek + "-" + listing.maxHoursPerWeek);
         $(".skills").text(listing.skills);
         $(".recommendedGroups").text(listing.targetAudience);
+        $(".opertunityorg").text(listing.charityName)
     })
     .fail(function(jqXHR){
         let errorText = jqXHR.statusText;

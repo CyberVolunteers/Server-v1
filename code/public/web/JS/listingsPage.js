@@ -6,6 +6,8 @@ $(function(){
     .done(function(data, textStatus){
         listingsData = data;
 
+        console.log(data);
+
         for(let i = 0; i < data.length; i++){
             const entry = data[i];
             const templateHTML = `
@@ -21,7 +23,7 @@ $(function(){
                 </div>
                 <div class="imageholder" id="image${i}"></div>
                 <div class="lstitle">${entry.opportunityTitle}</div>
-                <div class="lstcharity">TODO: fill in the charity name</div>
+                <div class="lstcharity">${entry.charityName}</div>
             </div>
             `
 

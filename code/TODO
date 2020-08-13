@@ -3,9 +3,9 @@ snyk
 
 go over all the TODOs in the files themselves
 
-go over every single endpoint and check for verification
+check if it a scompany or a person
 
-replace console.log
+go over every single endpoint and check for verification
 
 test charity signup
 
@@ -143,6 +143,10 @@ CAPTCHA?
 
 
 
+
+-------
+
+replace console.log
 
 -------
 

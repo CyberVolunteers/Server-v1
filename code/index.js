@@ -292,12 +292,17 @@ app.all("*", function(req, res, next){
 	if(req.session.passport.user.isVolunteer !== true){
 		if(req.user.isEmailVerified === 0 || req.user.isVerifiedByUs === 0){
 			//TODO: redirect them to the page
-			console.log("STOP");
+			console.log("STOP charity");
 		}else{
 			return next();
 		}
 	}else{
-		return next();
+		if(req.user.isEmailVerified === 0){
+			//TODO: redirect them to the page
+			console.log("STOP volunteer");
+		}else{
+			return next();
+		}
 	}
 })
 
@@ -323,7 +328,7 @@ app.post("/createListing", csrfProtection, async function(req, res, next){
 });
 
 app.get("/getListings", function(req, res, next){
-	pool.query("SELECT uuid, timeForVolunteering, placeForVolunteering, targetAudience, skills, createdDate, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek FROM `listings`", [], function(err, results){
+	pool.query("SELECT charities.charityName, listings.uuid, listings.timeForVolunteering, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.createdDate, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek FROM `listings` INNER JOIN charities ON listings.charityId=charities.id", [], function(err, results){
 		if (err) return next(err);
 
 		return res.status(200).json(results);
@@ -335,7 +340,7 @@ app.get("/getListing", function(req, res, next){
 		res.statusMessage = "Bad data";
 		return res.status(400).end();
 	}
-	pool.query("SELECT timeForVolunteering, placeForVolunteering, targetAudience, skills, createdDate, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek FROM `listings` WHERE `uuid`=?", [req.query.uuid], function(err, results){
+	pool.query("SELECT charities.charityName, listings.timeForVolunteering, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.createdDate, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek FROM `listings` INNER JOIN charities ON listings.charityId=charities.id  WHERE `uuid`=?", [req.query.uuid], function(err, results){
 		if (err) return next(err);
 
 		return res.status(200).json(results);

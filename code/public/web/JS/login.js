@@ -12,7 +12,7 @@ $(function(){
         $.post("/login", {
             email: email,
             password: password,
-            isVolunteer: false
+            isVolunteer: true
         })
         .done(function(data, textStatus){
             console.log(data);
