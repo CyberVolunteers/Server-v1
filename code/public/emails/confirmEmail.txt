@@ -1,0 +1,3 @@
+Thanks for signing up, {{firstName}} {{lastName}}
+Please verify your email address to get access to the charity listings
+Verify your email now by going to {{link}}

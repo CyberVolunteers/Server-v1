@@ -1,0 +1,224 @@
+.title {
+	font-size: 40px;
+	text-align: center;
+	padding-top: 90px;
+	font-weight: 550;
+	padding-bottom: 40px;
+}
+.title,
+#requirementsSkills {
+	padding-bottom: 0px;
+}
+.enterytitle {
+	font-size: 20px;
+	padding-left: 100px;
+}
+
+.time {
+	width: 35px;
+}
+#description {
+	width: 750px;
+	height: 450px;
+	border: none;
+	border-radius: 10px;
+	box-shadow: rgba(0, 0, 0, 0.438) 2px 2px 5px;
+	padding: 10px 10px;
+}
+#requirements,
+#skills {
+	width: 750px;
+	height: 215px;
+	border: none;
+	border-radius: 10px;
+	box-shadow: rgba(0, 0, 0, 0.438) 2px 2px 5px;
+	padding: 10px 10px;
+}
+.reqAndSkillsTitle {
+	text-align: center;
+	margin-bottom: 10px;
+	margin-top: 20px;
+	font-size: 25px;
+}
+.wrapper {
+	display: flex;
+
+	justify-content: center;
+}
+.nextButton {
+	position: relative;
+	width: 140px;
+	height: 45px;
+	background-color: #f85120;
+	border: none;
+	margin-top: 50px;
+
+	border-radius: 50px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+}
+#whiteArrow {
+	width: 25px;
+	height: 30px;
+	position: absolute;
+	left: 85px;
+}
+
+.buttontext {
+	position: absolute;
+	left: 30px;
+}
+.prevButton {
+	position: relative;
+	width: 140px;
+	height: 45px;
+	background-color: #e4e4e4;
+	border: none;
+	margin-top: 50px;
+	margin-right: 50px;
+	border-radius: 50px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.prevButton,
+.nextButton,
+#RSButton {
+	margin-top: 15px;
+}
+.fowardAndBack {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 70px;
+}
+.cats {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	background-color: ;
+	align-content: center;
+	flex-direction: row;
+	margin: 0px 10%;
+	padding-top: ;
+	flex-wrap: wrap;
+}
+.individualCat {
+	background-color: ;
+	position: relative;
+	margin-top: 30px;
+	margin-left: 30px;
+	width: 300px;
+	height: 200px;
+	border: solid 1px grey;
+}
+.basicInfo {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color: ;
+}
+.generalTitle {
+	font-size: 25px;
+	padding-top: 15px;
+	padding-bottom: 10px;
+}
+.generalInput {
+	width: 400px;
+	text-align: center;
+	border-radius: 1px;
+	border: 0.5px solid gray;
+	padding: 5px 5px;
+}
+#generalInputNum {
+	width: 300px;
+	text-align: left;
+	position: relative;
+	margin-left: -99px;
+}
+.generalInputNum {
+	width: 50px;
+}
+.bestForTitle {
+	text-align: center;
+}
+.bestForWrapper {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+label {
+	margin-left: 10px;
+	font-size: 17px;
+}
+
+option {
+	color: black;
+	padding: 5px 16px;
+
+	cursor: pointer;
+}
+
+#time-select {
+	height: 26.5px;
+	width: 90px;
+	cursor: pointer;
+	position: relative;
+	display: inline-block;
+	margin-left: 290px;
+	margin-top: -26.5px;
+}
+.SelectableCats {
+	display: flex;
+	justify-content: flex-start;
+	background-color: ;
+	padding: 0 0;
+	width: 1000px;
+
+	margin-left: auto;
+	margin-right: auto;
+	flex-wrap: wrap;
+}
+
+.icon {
+	width: 60px;
+	height: 60px;
+}
+.iconGroup {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-left: 40px;
+	margin-top: 20px;
+	width: 90px;
+	height: 90px;
+	background-color: ;
+	border-radius: 12px;
+	cursor: pointer;
+}
+
+.selectedIcon {
+	background-color: #f85220c0 !important;
+}
+
+.selectedIcon:hover {
+	background-color: #f34510c0 !important;
+}
+
+.iconGroup:hover {
+	background-color: #f0683fc0;
+	/* f85220c0 */
+}
+
+.hiddenElement {
+	display: none;
+}
+
+#generalInputNum[disabled] {
+    background-color: #d6d2d2;
+    background-image: none;
+}

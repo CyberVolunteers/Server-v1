@@ -1,22 +1,94 @@
 eslint
 snyk
 
+go over all the TODOs in the files themselves
+
+check if it a scompany or a person
+
+go over every single endpoint and check for verification
+
+test charity signup
+
+test filtering xss
+
+volunteer - filter xss for non-compulsory fields
+
++ filter xss client-side
+
+test user signup as well
+
+create listing check if a charity
+
+do not allow unverified charities to do anything
+
+change charityId from 1 to a sensible value in listingsManager create listing
+
+add listing column for the required number of participants and show the number of participants in the email
+
+set the receiver email for volunteer joined emails
+
+convert createdDate to date posted 
+
+show languages and skills and interests in the email
+
+show error messages
+
 different port for ssh
+
+check if the word "null" works
+
+email verification tokens in the db instead of cache?
+
+get the verification email sorted out
+
+throttling
+
+validate target audience
+
+signup add optional information
+
+test xss
+continue with xss
+
+check validation for search page and getListing, signup
+
+check if an organisation before even showing createListing
+
+revisit createListing page
+
+set non-required fields on signup, too
+
+create listing page creating inputs check
+
+tests
+
+redis or memcached for email tokens and caches
 
 npm audit
 snyk test
 npx eslint yourfile.js on all files
 
+change uuid structure (e.g. remove the dashes)?
 
-csrf
+store age groups as an array
+
+convert the rest of listings to async
+
+limit max searching length
+
+full text search on listings with cache
+https://www.npmjs.com/package/flexsearch
+https://medium.com/dev-channel/how-to-add-full-text-search-to-your-website-4e9c80ce2bf4
+
+add the listing index on create and remove on destroy
+
+error messages on all pages
+
 tests
 
 check if listings page date is accurate
-test listings
 
 nginx for TLS
-
-store a number for date and use date object to get current global time
 
 https://expressjs.com/en/advanced/best-practice-performance.html
 https://expressjs.com/en/advanced/best-practice-security.html
@@ -66,3 +138,16 @@ move all js and css into separate files
 remove test values from login .js file
 
 CAPTCHA?
+
+!!!! start transaction
+
+
+
+
+-------
+
+replace console.log
+
+-------
+
+ssh mikhail@95.165.145.146
