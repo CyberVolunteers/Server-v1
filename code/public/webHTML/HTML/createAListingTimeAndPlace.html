@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a Listing</title>
+    <link rel="stylesheet" href="../CSS/header.css">
+    <link rel="stylesheet" href="../CSS/createListing.css">
+   
+</head>
+<body>
+    <header id="header">
+        <a href="#" id="mainLink">CONNECT VOLUNTEERS</a>
+        <nav>
+            <ul class="nav_links">
+                <li><a href="#">CONTACT</a></li>
+                <li><a href="#">JOIN</a></li>
+                <li><a href="#">ABOUT</a></li>
+                <li><a href="#">SEARCH</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="title">Some Basic Information About the Listing</div>
+    <div class="basicInfo">
+        <div class="generalTitle">What is the Title of the Oppurtunity</div>
+        <input type="text" name="" id="" class="generalInput">
+        <div class="generalTitle">When will the Volunteering Happen</div>
+        <input type="text" name="" id="" class="generalInput">
+        <div class="generalTitle">How Long will this Oppurtunity Last</div>
+        <input type="number" name="" id="generalInputNum" class="generalInput">
+        <select name="" id="time-select">
+            <option value="weeks">Weeks</option>
+            <option value="months">Months</option>
+            <option value="years">Years</option>
+            <option value="indefinatly">Indefinatly</option>
+        </select>   
+        
+        <div class="generalTitle">How Long will the Volunteering Take</div>
+        <div>between <input type="number" name="" id="" class="generalInputNum"> hours and <input type="number" name="" id="" class="generalInputNum"> hours per week</div>
+        <div class="generalTitle">What Group of People is this best for</div>
+        <div class="bestForWrapper">
+            <div class="over55">
+                <label for="#over55">Over 55</label>
+                <input type="checkbox" name="" id="over55" class="generalInputBox" value="">
+            </div>
+            <div class="18-55">
+                <label for="#18-55">18-55</label>
+                <input type="checkbox" name="" id="over55" class="generalInputBox" value="">
+            </div>
+            <div class="teens">
+                <label for="#over55">Teens</label>
+                <input type="checkbox" name="" id="over55" class="generalInputBox" value="">
+            </div>
+        </div>
+        <div class="generalTitle">How Many People are you looking for</div>
+        <input type="number" name="" id="" class="generalInputNum">
+    </div>
+    
+   
+    <div class="fowardAndBack">   
+        <button type="submit" class="prevButton">
+            Previous
+        </button>
+        <button type="submit" class="nextButton">
+            <div class="buttontext">Next</div>
+            <img src="../IMG/whiteArrow2.svg" class="icon" id="whiteArrow">
+        </button>
+        
+    </div> 
+</body>
+</html>
