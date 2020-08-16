@@ -4,13 +4,13 @@
 
 
 $(function(){
-    $(".submit-button").click(function(){
-        $.post("/signup", {
-            password: $("#password").val(),
-            email: $("#email").val(),
-        }, function(data) {
-            console.log(data);
+	$(".submit-button").click(function(){
+		$.post("/signup", {
+			password: $("#password").val(),
+			email: $("#email").val(),
+		}, function(data) {
+			console.log(data);
             
-          });
-    })
-})
+		});
+	});
+});

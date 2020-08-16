@@ -2,19 +2,19 @@ const validator = require("validator");
 const xss = require("xss");
 
 module.exports = class Validator {
-    constructor(){
-    }
+	constructor(){
+	}
 
-    applyForListingValidate(params){
-        return this.checkIfUndefinedAndConvertToStrings(params, ["volunteerId", "listingUUID"]);
-    }
+	applyForListingValidate(params){
+		return this.checkIfUndefinedAndConvertToStrings(params, ["volunteerId", "listingUUID"]);
+	}
 
-    verifyEmailTokenValidate(params){
-        return this.checkIfUndefinedAndConvertToStrings(params, ["uuid", "email"]);
-    }
+	verifyEmailTokenValidate(params){
+		return this.checkIfUndefinedAndConvertToStrings(params, ["uuid", "email"]);
+	}
 
-    signUpValidateVolunteer(params){
-        return this.checkIfUndefinedAndConvertToStrings(params, ["firstName", "lastName", "email", "password", "gender", "salutation", "nationality", "address", "postcode", "city", "country", "phoneNumber"])
+	signUpValidateVolunteer(params){
+		return this.checkIfUndefinedAndConvertToStrings(params, ["firstName", "lastName", "email", "password", "gender", "salutation", "nationality", "address", "postcode", "city", "country", "phoneNumber"])
         && this.isSuitableLength(params["firstName"], 30)
         && this.isSuitableLength(params["lastName"], 30)
         && this.isSuitableLength(params["email"], 320)
@@ -29,11 +29,11 @@ module.exports = class Validator {
 
         && validator.isEmail(params["email"])
 
-        && this.filterXSS(params, ["firstName", "lastName", "email", "password", "gender", "salutation", "nationality", "address", "postcode", "city", "country", "phoneNumber"])
-    }
+        && this.filterXSS(params, ["firstName", "lastName", "email", "password", "gender", "salutation", "nationality", "address", "postcode", "city", "country", "phoneNumber"]);
+	}
 
-    signUpValidateCharity(params){
-        return this.checkIfUndefinedAndConvertToStrings(params, ["email", "password", "charityType", "charityName", "charityDesc", "phoneNumber", "charityLocation", "sendHelpEmailsPeopleInGroups"])
+	signUpValidateCharity(params){
+		return this.checkIfUndefinedAndConvertToStrings(params, ["email", "password", "charityType", "charityName", "charityDesc", "phoneNumber", "charityLocation", "sendHelpEmailsPeopleInGroups"])
         && this.isSuitableLength(params["email"], 320)
         && this.isSuitableLength(params["charityType"], 30)
         && this.isSuitableLength(params["charityName"], 100)
@@ -44,11 +44,11 @@ module.exports = class Validator {
 
         && (params["websiteURL"] === undefined || validator.isURL(params["websiteURL"]))
 
-        && this.filterXSS(params, ["email", "password", "charityType", "charityName", "charityDesc", "phoneNumber", "charityLocation", "websiteURL"])
-    }
+        && this.filterXSS(params, ["email", "password", "charityType", "charityName", "charityDesc", "phoneNumber", "charityLocation", "websiteURL"]);
+	}
 
-    createListingValidate(params){
-        return this.checkIfUndefinedAndConvertToStrings(params, ["timeForVolunteering", "placeForVolunteering", "targetAudience", "skills", "requirements", "opportunityDesc", "opportunityCategory", "opportunityTitle", "numOfvolunteers", "minHoursPerWeek", "maxHoursPerWeek", "duration"])
+	createListingValidate(params){
+		return this.checkIfUndefinedAndConvertToStrings(params, ["timeForVolunteering", "placeForVolunteering", "targetAudience", "skills", "requirements", "opportunityDesc", "opportunityCategory", "opportunityTitle", "numOfvolunteers", "minHoursPerWeek", "maxHoursPerWeek", "duration"])
         && this.isSuitableLength(params["timeForVolunteering"], 100)
         && this.isSuitableLength(params["placeForVolunteering"], 150)
         && this.isSuitableLength(params["targetAudience"], 100)
@@ -65,40 +65,40 @@ module.exports = class Validator {
 
         && parseFloat(params["minHoursPerWeek"]) <= parseFloat(params["maxHoursPerWeek"])
 
-        && this.filterXSS(params, ["timeForVolunteering", "placeForVolunteering", "targetAudience", "skills", "requirements", "opportunityDesc", "opportunityCategory", "opportunityTitle", "numOfvolunteers", "minHoursPerWeek", "maxHoursPerWeek", "duration"])
-    }
+        && this.filterXSS(params, ["timeForVolunteering", "placeForVolunteering", "targetAudience", "skills", "requirements", "opportunityDesc", "opportunityCategory", "opportunityTitle", "numOfvolunteers", "minHoursPerWeek", "maxHoursPerWeek", "duration"]);
+	}
 
-    searchListingsValidate(params){
-        return this.checkIfUndefinedAndConvertToStrings(params, ["terms"])
+	searchListingsValidate(params){
+		return this.checkIfUndefinedAndConvertToStrings(params, ["terms"])
         && Array.isArray(params.terms);
-    }
+	}
 
-    isSuitableLength(string, maxLen){
-        if(string === undefined) return true;
-        return string.length <= maxLen;
-    }
+	isSuitableLength(string, maxLen){
+		if(string === undefined) return true;
+		return string.length <= maxLen;
+	}
 
-    checkIfUndefinedAndConvertToStrings(params, reqParams){
-        for(let i = 0; i < reqParams.length; i++){
-            const param = params[reqParams[i]];
-            if(param === undefined || param === "" || param === null) return false;
+	checkIfUndefinedAndConvertToStrings(params, reqParams){
+		for(let i = 0; i < reqParams.length; i++){
+			const param = params[reqParams[i]];
+			if(param === undefined || param === "" || param === null) return false;
 
-            //convert to a string
-            if(!Array.isArray(param)) params[reqParams[i]] = params[reqParams[i]] + "";
+			//convert to a string
+			if(!Array.isArray(param)) params[reqParams[i]] = params[reqParams[i]] + "";
 
-        }
-        return true;
-    }
+		}
+		return true;
+	}
 
-    filterXSS(params, reqParams){
-        for(let i = 0; i < reqParams.length; i++){            
-            params[reqParams[i]] = xss(params[reqParams[i]]);
-        }
+	filterXSS(params, reqParams){
+		for(let i = 0; i < reqParams.length; i++){            
+			params[reqParams[i]] = xss(params[reqParams[i]]);
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    getListingValidate(uuid){
-        return uuid != undefined && validator.isUUID(uuid);
-    }
-}
+	getListingValidate(uuid){
+		return uuid != undefined && validator.isUUID(uuid);
+	}
+};

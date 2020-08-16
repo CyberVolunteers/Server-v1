@@ -1,5 +1,4 @@
 const express = require("express");
-const bcrypt = require("bcrypt");
 const path = require("path");
 const mysql = require("mysql");
 const bodyParser = require("body-parser");
@@ -8,18 +7,16 @@ const expressSession = require("express-session");
 const exphbs  = require("express-handlebars");
 const helmet = require("helmet");
 const slowDown = require("express-slow-down");
-const cookieParser = require('cookie-parser');
+const cookieParser = require("cookie-parser");
 const flexSearch = require("flexsearch");
 const util = require("util");
-const csurf = require('csurf');
+const csurf = require("csurf");
 
 const LocalStrategy = require("passport-local").Strategy;
 
 // SET UP
 
 const app = express();
-
-const settings = require("./settings");
 
 const port = process.env.PORT || 1234;
 
@@ -38,9 +35,9 @@ const listingsIndex = flexSearch.create({
 	tokenize: "full",
 	encode: "advanced",
 	threshold: 0,
-    async: true,
-    worker: false,
-    cache: false
+	async: true,
+	worker: false,
+	cache: false
 });
 
 // add all the existing listings
@@ -74,7 +71,6 @@ passport.use(new LocalStrategy({usernameField: "email", passReqToCallback: true,
 
 // throttling
 // TODO: set actual times
-//TODO: for other endpoints, use passport id as the id?
 //TODO:protect other endpoints
 //TODO: tell the client that the limit has been reached and time left
 const shortTermLoginRateLimit = slowDown({
@@ -122,6 +118,7 @@ passport.deserializeUser(async function(id, done) {
 const csrfProtection = csurf();
 
 // connections
+app.set("trust proxy", 1);
 app.engine("hbs", exphbs( {
 	extname: "hbs",
 	defaultView: "index",
@@ -131,7 +128,7 @@ app.set("views", path.join(__dirname, "public/web/HTML"));
 app.set("view engine", "hbs");
 
 app.use(helmet());
-app.use(cookieParser())
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
 	extended: true
@@ -140,11 +137,11 @@ app.use(require("cookie-parser")());
 app.use(expressSession({
 	secret: require("./data/cookieSecret"),
 	name: "sessionId",
-	secure : false, // TODO: set true in production?
+	secure : true,
 	httpOnly: true,
 	sameSite: true,// TODO: expiration + domain and path?
 	resave: false,//TODO: should i change this one?
-	saveUninitialized: true,//TODO: should i change this one?
+	saveUninitialized: false,//TODO: should i change this one?
 })); // TODO: research the params, esp. maxAge
 app.use(passport.initialize());
 app.use(passport.session());
@@ -200,8 +197,6 @@ app.post("/signup", async function(req, res, next){
 
 app.post("/login", shortTermLoginRateLimit, longTermLoginRateLimit, function(req, res, next){
 
-	//TODO: a separate validation file
-	
 	//if credentials are missing
 	if(!req.body.email || !req.body.password){
 		res.statusMessage = "Please, enter your email and passowrd";
@@ -258,7 +253,7 @@ app.get("/verifyEmailToken", async function(req, res, next){
 	}catch(err){
 		return next(err);
 	}
-})
+});
 
 app.post("/sendConfirmationEmail", csrfProtection, async function(req, res, next){
 	const email = req.user.email;
@@ -276,7 +271,7 @@ app.post("/sendConfirmationEmail", csrfProtection, async function(req, res, next
 	}catch(err){
 		return next(err);
 	}
-})
+});
 
 app.use(express.static(path.join(__dirname, "public/web"))); // to serve js, html, css
 
@@ -297,21 +292,24 @@ app.use(function(req, res, next){
 // don't allow charities that are not verified to access these pages
 app.all("*", function(req, res, next){
 	if(req.session.passport.user.isVolunteer !== true){
-		if(req.user.isEmailVerified === 0 || req.user.isVerifiedByUs === 0){
+		if(req.user.isEmailVerified === 0){
 			//TODO: redirect them to the page
-			console.log("STOP charity");
+		}else if (req.user.isVerifiedByUs === 0){
+			return res.render("needToBeVerified", {layout: false});
 		}else{
 			return next();
 		}
 	}else{
 		if(req.user.isEmailVerified === 0){
 			//TODO: redirect them to the page
+			
 			console.log("STOP volunteer");
+
 		}else{
 			return next();
 		}
 	}
-})
+});
 
 app.get("/listingsPage", renderPage("listingsPage"));
 app.get("/listing", csrfProtection, renderPage("listing"));
@@ -379,7 +377,7 @@ app.get("/searchListings", async function (req, res, next) {
 	}catch(err){
 		return next(err);
 	}
-})
+});
 
 app.post("/applyForListing", csrfProtection, async function(req, res, next){
 
@@ -391,14 +389,14 @@ app.post("/applyForListing", csrfProtection, async function(req, res, next){
 	const params = {
 		"volunteerId": req.user.id,
 		"listingUUID": req.body.listingUUID
-	}
+	};
 
 	if(!Validator.applyForListingValidate(params)){
 		res.statusMessage = "Bad data";
 		return res.status(400).end();
 	}
 
-	logger.info(params)
+	logger.info(params);
 
 	try{
 		const message = await NodemailerManager.applyForListing(params);
@@ -412,7 +410,7 @@ app.post("/applyForListing", csrfProtection, async function(req, res, next){
 	}catch(err){
 		return next(err);
 	}
-})
+});
 
 //404 page
 app.all("*", function(req, res, next){
@@ -423,16 +421,16 @@ app.all("*", function(req, res, next){
 	}else{
 		res.render("Error404", {layout: false});
 	}
-})
+});
 
 //csrf errors
 app.use(function (err, req, res, next) {
-	if (err.code !== 'EBADCSRFTOKEN') return next(err);
+	if (err.code !== "EBADCSRFTOKEN") return next(err);
    
 	// handle CSRF token errors here
 	logger.warn("csrf failed");
 	res.status(403).end();
-})
+});
 
 app.use(function (err, req, res, next) {
 	logger.error("error:");
@@ -465,33 +463,33 @@ function logout(logoutAnyway){
 	return function (req, res, next) {
 
 		// do not logout remember me but if not logout completely
-        if (req.cookies["rememberMe"] === "true" && !logoutAnyway) {
+		if (req.cookies["rememberMe"] === "true" && !logoutAnyway) {
 			logger.debug("did not log out because of rememberme");
-            return next();
-        }
+			return next();
+		}
 
 
-        // clear cookies
-        for (let cookieName of Object.keys(req.cookies)) {
-            res.clearCookie(cookieName);
-        }
+		// clear cookies
+		for (let cookieName of Object.keys(req.cookies)) {
+			res.clearCookie(cookieName);
+		}
 
-        // if not logged out and passport session exists
-        if (req.session.passport) {
-            // log out and destroy session
-            req.logout();
-            logger.debug("Logged out");
+		// if not logged out and passport session exists
+		if (req.session.passport) {
+			// log out and destroy session
+			req.logout();
+			logger.debug("Logged out");
 
-            // deletes the record in passport
-            req.session.destroy(function (err) {
-                if (err) return next(err);
-                logger.debug("Session destroyed by logout request");
-                next();
-            });
-        } else {
-            // the end
-            next();
-        }
-    }
+			// deletes the record in passport
+			req.session.destroy(function (err) {
+				if (err) return next(err);
+				logger.debug("Session destroyed by logout request");
+				next();
+			});
+		} else {
+			// the end
+			next();
+		}
+	};
 }
 

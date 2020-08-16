@@ -1,9 +1,15 @@
-eslint
+eslint - eslint . --ext .js for all files
 snyk
 
-volunteers_listings date when signed up to make the list of senders thing
+go over all the TODOs in the files themselves - indexjs left
 
-go over all the TODOs in the files themselves
+email verification pages
+
+storage for multiple threads
+
+new pages
+
+make secure nodemailer
 
 test charities email verification
 
@@ -31,46 +37,42 @@ test user signup as well
 
 create listing check if a charity
 
-add listing column for the required number of participants and show the number of participants in the email
-
-set the receiver email for volunteer joined emails
-
-convert createdDate to date posted 
+(show the number of participants in the email?)
 
 show languages and skills and interests in the email
 
 show error messages
 
-different port for ssh
-
 check if the word "null" works
 
 email verification tokens in the db instead of cache?
 
-get the verification email sorted out
+test email verification
+
 
 throttling
 
 validate target audience
 
-signup add optional information
-
 test xss
 continue with xss
 
-check validation for search page and getListing, signup
-
 check if an organisation before even showing createListing
-
-revisit createListing page
 
 set non-required fields on signup, too
 
+client side validation
+
 create listing page creating inputs check
+
+-----
+check validation for search page and getListing, signup
 
 tests
 
-redis or memcached for email tokens and caches
+redis or memcached for email tokens and caches OR db for email
+
+different port for ssh?
 
 npm audit
 snyk test
@@ -79,8 +81,6 @@ npx eslint yourfile.js on all files
 change uuid structure (e.g. remove the dashes)?
 
 store age groups as an array
-
-convert the rest of listings to async
 
 limit max searching length
 

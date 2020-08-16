@@ -1,16 +1,16 @@
 let listingsData;
 
 $(function(){
-    console.log("E");
-    $.get("/getListings")
-    .done(function(data, textStatus){
-        listingsData = data;
+	console.log("E");
+	$.get("/getListings")
+		.done(function(data, textStatus){
+			listingsData = data;
 
-        console.log(data);
+			console.log(data);
 
-        for(let i = 0; i < data.length; i++){
-            const entry = data[i];
-            const templateHTML = `
+			for(let i = 0; i < data.length; i++){
+				const entry = data[i];
+				const templateHTML = `
             <div class="listings" id="listing${i}" >
                 <div class="listingHeader"><div class="listingscat">${entry.opportunityCategory}</div></div>
                 <div class="listingsTime">
@@ -25,22 +25,22 @@ $(function(){
                 <div class="lstitle">${entry.opportunityTitle}</div>
                 <div class="lstcharity">${entry.charityName}</div>
             </div>
-            `
+            `;
 
-            $(".listingsWrapper").append(templateHTML);
-        }
-        // TODO: redirect to a page
-    })
-    .fail(function(jqXHR){
-        let errorText = jqXHR.statusText;
-        // TODO: show the error message
-    })
+				$(".listingsWrapper").append(templateHTML);
+			}
+			// TODO: redirect to a page
+		})
+		.fail(function(jqXHR){
+			let errorText = jqXHR.statusText;
+			// TODO: show the error message
+		});
 
-    $(".listingsWrapper").on("click", ".listings", function() {
-        let indexInData = $(this).attr("id").match(/[0-9]+/)[0];
+	$(".listingsWrapper").on("click", ".listings", function() {
+		let indexInData = $(this).attr("id").match(/[0-9]+/)[0];
 
-        let listingUuid = listingsData[indexInData].uuid;
+		let listingUuid = listingsData[indexInData].uuid;
 
-        window.location.href = '../listing?uuid=' + listingUuid;
-    });
-})
+		window.location.href = "../listing?uuid=" + listingUuid;
+	});
+});

@@ -1,12 +1,12 @@
 module.exports = {
-    getConnection: getConnection
-}
+	getConnection: getConnection
+};
 
 function getConnection(pool){
 	return new Promise((resolve, reject) => {
 		pool.getConnection(async function(err, connection) {
-			if (err) return reject(err)
-      		resolve(connection)
+			if (err) return reject(err);
+			resolve(connection);
 		});
-	})
+	});
 }
