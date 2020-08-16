@@ -5,14 +5,17 @@ $(function(){
 
         console.log(email, password);
 
-        //TODO: set the expiry, etc.
+        // time 2 weeks
+        let maxAge = 2 * 7 * 24*60*60;
+
         // remember me cookie
-        document.cookie = "rememberMe=" + $("#rememberMeCheckbox").is(':checked');
+        document.cookie = "rememberMe=" + $("#rememberMeCheckbox").is(':checked') + ";max-age=" + maxAge + ";path=/;";
+        console.log("rememberMe=" + $("#rememberMeCheckbox").is(':checked') + ";max-age=" + maxAge + ";path=/;");
 
         $.post("/login", {
             email: email,
             password: password,
-            isVolunteer: true
+            isVolunteer: false
         })
         .done(function(data, textStatus){
             console.log(data);

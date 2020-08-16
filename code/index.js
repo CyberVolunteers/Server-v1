@@ -240,6 +240,13 @@ app.get("/verifyEmailToken", async function(req, res, next){
 	const uuid = query.uuid;
 	const email = query.email;
 
+	if(!Validator.verifyEmailTokenValidate(query)){
+		res.statusMessage = "Bad data";
+		return res.status(400).end();
+	}
+
+
+
 	//if successful, show one page, otherwise, show another
 	//TODO: set pages
 	try{
@@ -308,11 +315,23 @@ app.all("*", function(req, res, next){
 
 app.get("/listingsPage", renderPage("listingsPage"));
 app.get("/listing", csrfProtection, renderPage("listing"));
-app.get("/createListing", csrfProtection, renderPage("createListing"));
+app.get("/createListing", function(req, res, next){
+	if(req.session.passport.user.isVolunteer === false) return next();
+	//TODO: make a page
+	console.log("STOP");
+}, csrfProtection, renderPage("createListing"));
 //app.get("/advancedSearch", csrfProtection, renderPage("advancedSearch"));
 
 app.post("/createListing", csrfProtection, async function(req, res, next){
 	const params = req.body;
+	const isVolunteer = req.session.passport.user.isVolunteer;
+
+	params.charityId = req.user.id;
+
+	if(isVolunteer){
+		res.statusMessage = "You don't have permission to create a listing";
+		return res.status(403).end();
+	}
 
 	if(!Validator.createListingValidate(params)){
 		res.statusMessage = "Bad data";
@@ -366,7 +385,7 @@ app.post("/applyForListing", csrfProtection, async function(req, res, next){
 
 	if(req.session.passport.user.isVolunteer !== true){
 		res.statusMessage = "You need to be a volunteer to apply for a listing";
-		return res.status(400).end();
+		return res.status(403).end();
 	}
 
 	const params = {
@@ -395,6 +414,17 @@ app.post("/applyForListing", csrfProtection, async function(req, res, next){
 	}
 })
 
+//404 page
+app.all("*", function(req, res, next){
+	//if ajax, send message, otherwise, show page
+	if (req.xhr) {
+		res.statusMessage = "Not found";
+		res.status(400).send("Not found");
+	}else{
+		res.render("Error404", {layout: false});
+	}
+})
+
 //csrf errors
 app.use(function (err, req, res, next) {
 	if (err.code !== 'EBADCSRFTOKEN') return next(err);
@@ -404,11 +434,17 @@ app.use(function (err, req, res, next) {
 	res.status(403).end();
 })
 
-//TODO: better 500 page and check for ajax
 app.use(function (err, req, res, next) {
 	logger.error("error:");
 	logger.error(err.stack);
-	res.status(500).send("Something broke!");
+
+	//if ajax, send message, otherwise, show page
+	if (req.xhr) {
+		res.statusMessage = "Something broke!";
+		res.status(500).send("Something broke!");
+	}else{
+		res.render("Error500", {layout: false});
+	}
 });
 
 app.listen(port, () => logger.info(`Listening at http://localhost:${port}`));

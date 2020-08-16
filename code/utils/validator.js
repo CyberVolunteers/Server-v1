@@ -9,6 +9,10 @@ module.exports = class Validator {
         return this.checkIfUndefinedAndConvertToStrings(params, ["volunteerId", "listingUUID"]);
     }
 
+    verifyEmailTokenValidate(params){
+        return this.checkIfUndefinedAndConvertToStrings(params, ["uuid", "email"]);
+    }
+
     signUpValidateVolunteer(params){
         return this.checkIfUndefinedAndConvertToStrings(params, ["firstName", "lastName", "email", "password", "gender", "salutation", "nationality", "address", "postcode", "city", "country", "phoneNumber"])
         && this.isSuitableLength(params["firstName"], 30)

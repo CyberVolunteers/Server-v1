@@ -40,6 +40,7 @@ $(function(){
 
         .fail(function(jqXHR){
             let errorText = jqXHR.statusText;
+            console.log(errorText);
             // TODO: show the error message
         })
     })

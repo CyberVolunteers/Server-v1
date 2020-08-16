@@ -217,8 +217,11 @@ option {
 .hiddenElement {
 	display: none;
 }
+<<<<<<< HEAD
+=======
 
 #generalInputNum[disabled] {
     background-color: #d6d2d2;
     background-image: none;
 }
+>>>>>>> server

@@ -1,27 +1,35 @@
 eslint
 snyk
 
+volunteers_listings date when signed up to make the list of senders thing
+
 go over all the TODOs in the files themselves
 
-check if it a scompany or a person
+test charities email verification
 
-go over every single endpoint and check for verification
+run sendBatchApplicationEmails periodically
+
+test rememberme cookie + duration
+
+test sending multiple emails at once
 
 test charity signup
+
+test verifyEmailToken validate
+
+check that all is xss-ed
 
 test filtering xss
 
 volunteer - filter xss for non-compulsory fields
+
+add non-compulsory fields for signups and creates
 
 + filter xss client-side
 
 test user signup as well
 
 create listing check if a charity
-
-do not allow unverified charities to do anything
-
-change charityId from 1 to a sensible value in listingsManager create listing
 
 add listing column for the required number of participants and show the number of participants in the email
 

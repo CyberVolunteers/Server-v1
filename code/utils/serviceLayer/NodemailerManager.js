@@ -7,6 +7,7 @@ const {v4: uuidv4} = require('uuid');
 const NodeCache = require("node-cache");
 const emailsVerificationTokensCache = new NodeCache({stdTTL: settings.emailVerificationTime, checkperiod: settings.emailVerificationTime/2});
 
+
 const fs = require("fs");
 
 const nodemailer = require("nodemailer");
@@ -116,7 +117,10 @@ module.exports = class NodemailerManager{
             const uuid = uuidv4();
 
             //set it
-            const success = emailsVerificationTokensCache.set(email, uuid);
+            const success = emailsVerificationTokensCache.set(email, {
+                uuid: uuid,
+                isVolunteer: isVolunteer
+            });
 
             if(!success) throw new Error("Failed to set a key for email verification");
 
@@ -151,7 +155,9 @@ module.exports = class NodemailerManager{
 
         try{
 
-            const uuidRetreived = emailsVerificationTokensCache.get(email);
+            const cachedObj = emailsVerificationTokensCache.get(email);
+            const uuidRetreived = cachedObj.uuid;
+            const isVolunteer = cachedObj.isVolunteer;
 
             //prevent timing attacks
             if(uuidRetreived == undefined){
@@ -161,7 +167,11 @@ module.exports = class NodemailerManager{
 
             const result =  secureCompare(uuid, uuidRetreived);
             if(result == true){
-                await query("UPDATE volunteers SET isEmailVerified=1 WHERE email=?", [email]);
+                if(isVolunteer){
+                    await query("UPDATE volunteers SET isEmailVerified=1 WHERE email=?", [email]);
+                }else{
+                    await query("UPDATE charities SET isEmailVerified=1 WHERE email=?", [email]);
+                }
             }
 
             return result;
@@ -202,7 +212,6 @@ module.exports = class NodemailerManager{
             const sendHelpEmailsPeopleInGroups = results[0].sendHelpEmailsPeopleInGroups;
             const email = results[0].email;
 
-            //TODO: if need to send the emails, add that to the list
             if(sendHelpEmailsPeopleInGroups){
 
             }else{
@@ -210,8 +219,48 @@ module.exports = class NodemailerManager{
                 const volunteers_listingsId = results[0]["LAST_INSERT_ID()"]
                 this.sendVolunteerHelpOfferEmail([volunteers_listingsId], email);
             }
+        }catch(err){
+            throw err;
+        }finally{
+            connection.release();
+        }
+    }
 
-            //TODO: send email?
+    async sendBatchApplicationEmails(){
+        const connection = await utils.getConnection(this.pool);
+        const query = util.promisify(connection.query).bind(connection);
+
+        const currentTime = new Date().getTime()/1000;
+
+        let emailsToSend = {};
+
+        try{
+            const results = await query("SELECT volunteers_listings.id, volunteers_listings.hasBeenSent, charities.email, charities.sendHelpEmailsPeopleInGroups, volunteers_listings.appliedDate FROM volunteers_listings INNER JOIN listings ON volunteers_listings.listingId=listings.id INNER JOIN charities ON listings.charityId=charities.id");
+            for(let i = 0; i < results.length; i++){
+                const row = results[i];
+                //wait until the next tick
+                await util.promisify(setImmediate)();
+                const sendHelpEmailsPeopleInGroups = row.sendHelpEmailsPeopleInGroups === 1
+                const timePassed = currentTime - row.appliedDate;
+                const hasBeenSent = row.hasBeenSent === 1
+
+                if((timePassed >= settings.emailBatchSendingTime) && sendHelpEmailsPeopleInGroups && !hasBeenSent){
+                    if(emailsToSend[row.email] == undefined){
+                        emailsToSend[row.email] = [];
+                    }
+                    emailsToSend[row.email].push(row.id);
+                }
+            }
+
+            await query("UPDATE volunteers_listings set hasBeenSent=1 where hasBeenSent=0");
+
+            //send the emails
+            const keys = Object.keys(emailsToSend)
+            for (const email of keys) {
+                await util.promisify(setImmediate)();
+                const ids = emailsToSend[email];
+                this.sendVolunteerHelpOfferEmail(ids, email);
+            }
         }catch(err){
             throw err;
         }finally{
