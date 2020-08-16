@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href = "../CSS/header.css" rel = "stylesheet" type = "text/css" >
+    <link href = "../CSS/newUserSignUpPage.css" rel = "stylesheet" type = "text/css" >
+    <title>Charity Sign Up</title>
+    
+</head>
+
+<body>
+    <header>
+        <a href="#" id="mainLink">CONNECT VOLUNTEERS</a>
+        <nav>
+            <ul class="nav_links">
+                <li><a href="#">CONTACT</a></li>
+                <li><a href="#">JOIN</a></li>
+                <li><a href="#">ABOUT</a></li>
+                <li><a href="#">SEARCH</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+
+    <div class="header">
+        <h1>Sign Up as a Charity</h1>
+    </div>
+
+    <div class="container">
+    <form action="/action_page.php">
+
+        <label for="username">Email</label>
+        <input type = "text" id="username" name="username" placeholder="Your email">
+
+        <label for="password">Password</label>
+        <input type = "text" id="password" name="password" placeholder="Your password">
+
+        <label for="name">Name of Organisation</label>
+        <input type = "text" id="name" name="name" placeholder="Name of organisation">
+
+        <label for="type">Type of Organisation</label>
+        <input type = "text" id="type" name="type" placeholder="Type of organisation">
+
+        <label for="location">Location of Organisation</label>
+        <input type = "text" id="location" name="location" placeholder="Location where your organisation is based">
+
+        <label for="subject">Mission Statement or Description of Organisation</label>
+        <textarea id="description" name="description" placeholder="Your mission statement, or a description of your organisation (include any areas of particular focus)" style="height:100px"></textarea>
+
+        <label for="location">Mobile Number</label>
+        <input type="text" name="num" id="num" placeholder="Your mobile number">
+
+        <label for="num">Telephone Number</label>
+        <input type="text" name="num" id="num" placeholder="Your telephone number">
+
+        <label for="web">Website URL</label>
+        <input type="text" name="web" id="web" placeholder="Website of organisation">
+
+        <div class="label1">
+          <label for="myfile">Upload your Logo (OPTIONAL): </label>
+          <input type="file" id="myfile" name="myfile">
+        </div>
+
+        <p></p>
+
+        <input type="submit" value="Submit">
+    </form>
+    </div>
+
+    </body>
