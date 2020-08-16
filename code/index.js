@@ -223,7 +223,8 @@ app.post("/login", shortTermLoginRateLimit, longTermLoginRateLimit, function(req
 
 //pages
 app.get("/login", logout(false), renderPage("login"));
-app.get("/signup", renderPage("signup"));
+app.get("/volunteerSignUp", renderPage("volunteerSignUp"));
+app.get("/charitySignUp", renderPage("charitySignUp"));
 
 app.get("/logout", logout(true));
 
@@ -315,8 +316,7 @@ app.get("/listingsPage", renderPage("listingsPage"));
 app.get("/listing", csrfProtection, renderPage("listing"));
 app.get("/createListing", function(req, res, next){
 	if(req.session.passport.user.isVolunteer === false) return next();
-	//TODO: make a page
-	console.log("STOP");
+	res.render("needToBeACharity", {layout: false});
 }, csrfProtection, renderPage("createListing"));
 //app.get("/advancedSearch", csrfProtection, renderPage("advancedSearch"));
 
@@ -419,7 +419,7 @@ app.all("*", function(req, res, next){
 		res.statusMessage = "Not found";
 		res.status(400).send("Not found");
 	}else{
-		res.render("Error404", {layout: false});
+		return res.render("Error404", {layout: false});
 	}
 });
 
@@ -441,7 +441,7 @@ app.use(function (err, req, res, next) {
 		res.statusMessage = "Something broke!";
 		res.status(500).send("Something broke!");
 	}else{
-		res.render("Error500", {layout: false});
+		return res.render("Error500", {layout: false});
 	}
 });
 

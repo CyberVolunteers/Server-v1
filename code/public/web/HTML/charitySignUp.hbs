@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href = "../CSS/header.css" rel = "stylesheet" type = "text/css" >
-    <link href = "../CSS/newUserSignUpPage.css" rel = "stylesheet" type = "text/css" >
+    <link href = "../CSS/newUserSignUpPage.css" rel = "stylesheet" type = "text/css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="../JS/charitySignUp.js"></script>
+
     <title>Charity Sign Up</title>
     
 </head>
@@ -31,10 +35,10 @@
     <form action="/action_page.php">
 
         <label for="username">Email</label>
-        <input type = "text" id="username" name="username" placeholder="Your email">
+        <input type = "email" id="username" name="username" placeholder="Your email">
 
         <label for="password">Password</label>
-        <input type = "text" id="password" name="password" placeholder="Your password">
+        <input type = "password" id="password" name="password" placeholder="Your password">
 
         <label for="name">Name of Organisation</label>
         <input type = "text" id="name" name="name" placeholder="Name of organisation">
@@ -50,9 +54,6 @@
 
         <label for="location">Mobile Number</label>
         <input type="text" name="num" id="num" placeholder="Your mobile number">
-
-        <label for="num">Telephone Number</label>
-        <input type="text" name="num" id="num" placeholder="Your telephone number">
 
         <label for="web">Website URL</label>
         <input type="text" name="web" id="web" placeholder="Website of organisation">
