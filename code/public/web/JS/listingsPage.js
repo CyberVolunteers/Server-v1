@@ -23,7 +23,7 @@ $(function(){
                 </div>
                 <div class="imageholder" id="image${i}"></div>
                 <div class="lstitle">${entry.opportunityTitle}</div>
-                <div class="lstcharity">${entry.charityName}</div>
+                <div class="lstcharity">TODO: fill in the charity name</div>
             </div>
             `;
 
