@@ -8,21 +8,20 @@ $(function(){
 
 		// remember me cookie
 		document.cookie = "rememberMe=" + $("#rememberMeCheckbox").is(":checked") + ";max-age=" + maxAge + ";path=/;";
-		console.log("rememberMe=" + $("#rememberMeCheckbox").is(":checked") + ";max-age=" + maxAge + ";path=/;");
 
 		$.post("/login", {
 			email: email,
 			password: password,
 			isVolunteer: true
 		})
-			.done(function(data, textStatus){
-				console.log(data);
-				// TODO: redirect to a page
-			})
-			.fail(function(jqXHR){
-				let errorText = jqXHR.statusText;
-				// TODO: show the error message
-			});
+		.done(function(data, textStatus){
+			console.log(data);
+			// TODO: redirect to a page
+		})
+		.fail(function(jqXHR){
+			let errorText = jqXHR.statusText;
+			// TODO: show the error message
+		});
 
 		return false;
 	});
