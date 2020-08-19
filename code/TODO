@@ -43,10 +43,6 @@ show languages and skills and interests in the email
 
 show error messages
 
-check if the word "null" works
-
-email verification tokens in the db instead of cache?
-
 test email verification
 
 
@@ -57,15 +53,13 @@ validate target audience
 test xss
 continue with xss
 
-check if an organisation before even showing createListing
-
 set non-required fields on signup, too
 
 client side validation
-
-create listing page creating inputs check
-
 -----
+
+email verification tokens in the db instead of cache?
+
 logos and listings pictures
 
 check validation for search page and getListing, signup
@@ -160,4 +154,9 @@ replace console.log
 
 -------
 
-ssh mikhail@95.165.145.146
+ssh root@165.232.38.165
+
+mysql -u root -p
+password: <password>
+
+same with serverQueryManager

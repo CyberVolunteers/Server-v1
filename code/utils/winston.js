@@ -30,7 +30,9 @@ const logger = winston.createLogger({
 			level: "debug",
 			format: winston.format.combine(
 				timestamp(),
-				winston.format.json(),
+				timestampedFormat,
+				winston.format.colorize(),
+				winston.format.simple()
 			)
 		})
 	],

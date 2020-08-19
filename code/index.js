@@ -61,7 +61,7 @@ const logger = require("./utils/winston");
 const UserManager = new (require("./utils/serviceLayer/UserManager.js"))(pool, logger);
 const ListingsManager = new (require("./utils/serviceLayer/ListingsManager.js"))(pool, logger, listingsIndex);
 const NodemailerManager = new (require("./utils/serviceLayer/NodemailerManager.js"))(pool, logger);
-const Validator = new (require("./utils/Validator"))();
+const Validator = new (require("./utils/validator"))();
 
 
 //passport

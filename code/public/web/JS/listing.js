@@ -12,14 +12,14 @@ $(function(){
 	)
 		.done(function(data, textStatus){
 			const listing = data[0];
-			$(".opertunitytitle").text(listing.opportunityTitle);
-			$(".opdescriptiontext").text(listing.opportunityDesc);
-			$(".placeInfo").text(listing.placeForVolunteering);
-			$(".timeInfo").text(listing.opportunityDesc);
-			$(".timeReqNumbers").text(listing.minHoursPerWeek + "-" + listing.maxHoursPerWeek);
-			$(".skills").text(listing.skills);
-			$(".recommendedGroups").text(listing.targetAudience);
-			$(".opertunityorg").text(listing.charityName);
+			$(".opertunitytitle").text(filterXSS(listing.opportunityTitle));
+			$(".opdescriptiontext").text(filterXSS(listing.opportunityDesc));
+			$(".placeInfo").text(filterXSS(listing.placeForVolunteering));
+			$(".timeInfo").text(filterXSS(listing.opportunityDesc));
+			$(".timeReqNumbers").text(filterXSS(listing.minHoursPerWeek + "-" + listing.maxHoursPerWeek));
+			$(".skills").text(filterXSS(listing.skills));
+			$(".recommendedGroups").text(filterXSS(listing.targetAudience));
+			$(".opertunityorg").text(filterXSS(listing.charityName));
 		})
 		.fail(function(jqXHR){
 			let errorText = jqXHR.statusText;
