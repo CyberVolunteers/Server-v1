@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/volunteerMyAccount.css">
+    <title>My Account</title>
+</head>
+<body>
+    {{> header}}
+    <div class="welcomeTitle">Welcome {your name}</div>
+    <div class="yourAccountInfo">
+        <div class="yourAccountInfoTitle">Your Information</div>
+        <table class="yourAccountInfoMain">
+            <tr>
+                <td>Name:</td>
+                <td>{name}</td>
+            </tr>
+            <tr>
+                <td>Email Adress:</td>
+                <td>{ }</td>
+            </tr>
+            <tr>
+                <td>Phone Number:</td>
+                <td>{ }</td>
+            </tr>
+            
+        </table>
+          
+    </div>
+    {{!-- <div class="signOutButton">
+        <div class="signOutButtonText">Change Password</div>
+    </div> --}}
+    <div class="signOutButton">
+        <div class="signOutButtonText">Sign Out</div>
+    </div>
+</body>
+</html>

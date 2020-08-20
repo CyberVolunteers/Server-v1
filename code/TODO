@@ -3,7 +3,11 @@ snyk
 
 go over all the TODOs in the files themselves - indexjs left
 
+remove all console.logs, including public
+
 email verification pages
+
+do pages
 
 do languages for signup
 
@@ -13,11 +17,15 @@ make secure nodemailer
 
 test charities email verification
 
-run sendBatchApplicationEmails periodically
-
 test rememberme cookie + duration
 
 test sending multiple emails at once
+
+csrf for rest
+
+change host for emails
+
+test production
 
 test charity signup
 
@@ -30,6 +38,8 @@ test filtering xss
 volunteer - filter xss for non-compulsory fields
 
 add non-compulsory fields for signups and creates
+
+let users who aren't logged in see listings and listingsPage
 
 + filter xss client-side
 
@@ -45,6 +55,7 @@ show error messages
 
 test email verification
 
+bots.txt + get on google
 
 throttling
 

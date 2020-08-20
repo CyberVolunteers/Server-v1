@@ -20,7 +20,6 @@ module.exports = class NodemailerManager{
 		this.logger = logger;
 		this.pool = pool;
 
-
 		this.transporter = nodemailer.createTransport({
 			host: "smtp.ethereal.email",
 			port: 587,

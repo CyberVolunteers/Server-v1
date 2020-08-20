@@ -14,6 +14,8 @@ const csurf = require("csurf");
 
 const LocalStrategy = require("passport-local").Strategy;
 
+const settings = require("./settings");
+
 // SET UP
 
 const app = express();
@@ -225,6 +227,9 @@ app.post("/login", shortTermLoginRateLimit, longTermLoginRateLimit, function(req
 app.get("/login", logout(false), renderPage("login"));
 app.get("/volunteerSignUp", renderPage("volunteerSignUp"));
 app.get("/charitySignUp", renderPage("charitySignUp"));
+app.get("/joinUs", renderPage("joinUs"));
+//app.get("/contactUs", renderPage("contactUs"));
+//app.get("/contactUsLinks", renderPage("contactUsLinks"));
 
 app.get("/logout", logout(true));
 
@@ -246,33 +251,20 @@ app.get("/verifyEmailToken", async function(req, res, next){
 	//if successful, show one page, otherwise, show another
 	//TODO: set pages
 	try{
-		if(await NodemailerManager.verifyEmailToken(email, uuid)){
+		const isSuccess = await NodemailerManager.verifyEmailToken(email, uuid);
+		if(isSuccess){
 			logger.info("verified");
 		}else{
 			logger.info("not verified");
 		}
+
+		res.isSuccessful = isSuccess;
+
+		return next();
 	}catch(err){
 		return next(err);
 	}
-});
-
-app.post("/sendConfirmationEmail", csrfProtection, async function(req, res, next){
-	const email = req.user.email;
-	const isVolunteer = req.session.passport.user.isVolunteer;
-
-	try{
-		const reply = await NodemailerManager.sendConfirmationEmail(email, isVolunteer);
-		if(reply === true){
-			return res.sendStatus(200);
-		}else{
-			logger.error(reply);
-			res.statusMessage = reply;
-			return res.status(500).end();
-		}
-	}catch(err){
-		return next(err);
-	}
-});
+}, renderPage("verificationResult"));
 
 app.use(express.static(path.join(__dirname, "public/web"))); // to serve js, html, css
 
@@ -289,36 +281,60 @@ app.use(function(req, res, next){
 });
 
 // private pages and requests
+app.get("/sendConfirmationEmail", csrfProtection, async function(req, res, next){
+	const email = req.user.email;
+	const isVolunteer = req.session.passport.user.isVolunteer;
+
+	try{
+		const reply = await NodemailerManager.sendConfirmationEmail(email, isVolunteer);
+		if(reply === true){
+			return next();
+		}else{
+			logger.error(reply);
+			res.statusMessage = reply;
+			return res.status(500).end();
+		}
+	}catch(err){
+		return next(err);
+	}
+}, renderPage("verificationEmailSent"));
 
 // don't allow charities that are not verified to access these pages
 app.all("*", function(req, res, next){
-	if(req.session.passport.user.isVolunteer !== true){
-		if(req.user.isEmailVerified === 0){
-			//TODO: redirect them to the page
-		}else if (req.user.isVerifiedByUs === 0){
-			return res.render("needToBeVerified", {layout: false});
+	if(req.user.isEmailVerified === 0){
+		//TODO: redirect them to the page
+		if(req.method === "GET" && !req.xhr) {
+			return res.redirect("sendConfirmationEmail");
 		}else{
-			return next();
-		}
-	}else{
-		if(req.user.isEmailVerified === 0){
-			//TODO: redirect them to the page
-			
-			console.log("STOP volunteer");
-
-		}else{
-			return next();
+			res.statusMessage = "You don't have permission to create a listing";
+			return res.send();
 		}
 	}
+	if(req.session.passport.user.isVolunteer !== true){
+		if (req.user.isVerifiedByUs === 0){
+			return renderPage("needToBeVerified")(req, res);
+		}
+	}
+
+	return next();
 });
 
 app.get("/listingsPage", renderPage("listingsPage"));
 app.get("/listing", csrfProtection, renderPage("listing"));
 app.get("/createListing", function(req, res, next){
 	if(req.session.passport.user.isVolunteer === false) return next();
-	res.render("needToBeACharity", {layout: false});
+	return renderPage("needToBeACharity")(req, res);
 }, csrfProtection, renderPage("createListing"));
 //app.get("/advancedSearch", csrfProtection, renderPage("advancedSearch"));
+app.get("/myAccount", function(req, res, next){
+	const isVolunteer = req.session.passport.user.isVolunteer;
+
+	if(isVolunteer){
+		return renderPage("myAccountVolunteer")(req, res, next);
+	}else{
+		return renderPage("myAccountCharity")(req, res, next);
+	}
+});
 
 app.post("/createListing", csrfProtection, async function(req, res, next){
 	const params = req.body;
@@ -419,7 +435,7 @@ app.all("*", function(req, res, next){
 		res.statusMessage = "Not found";
 		res.status(400).send("Not found");
 	}else{
-		return res.render("Error404", {layout: false});
+		return renderPage("error404")(req, res);
 	}
 });
 
@@ -441,18 +457,29 @@ app.use(function (err, req, res, next) {
 		res.statusMessage = "Something broke!";
 		res.status(500).send("Something broke!");
 	}else{
-		return res.render("Error500", {layout: false});
+		return renderPage("error500")(req, res);
 	}
 });
 
 app.listen(port, () => logger.info(`Listening at http://localhost:${port}`));
+
+//functions run periodically
+setInterval(async function(){
+	logger.info("checking batch application emails");
+	await NodemailerManager.sendBatchApplicationEmails()
+}, settings.emailBatchCheckTime);
+
 
 
 
 
 function renderPage(filePath){
 	return function (req, res){
-		let params = {layout: false};
+		let params = {
+			layout: false,
+			isLoggedIn: req.user !== undefined,
+			isSuccessful: res.isSuccessful
+		};
 
 		if(req.csrfToken !== undefined) params.csrfToken = req.csrfToken();
 		return res.render(filePath, params);
