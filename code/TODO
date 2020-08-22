@@ -3,17 +3,15 @@ snyk
 
 go over all the TODOs in the files themselves - indexjs left
 
-remove all console.logs, including public
+update categories list on createlisting page
 
-email verification pages
+show error messages
+
+remove all console.logs, including public
 
 do pages
 
 do languages for signup
-
-storage for multiple threads
-
-make secure nodemailer
 
 test charities email verification
 
@@ -47,11 +45,12 @@ test user signup as well
 
 create listing check if a charity
 
+storage for multiple threads
+
 (show the number of participants in the email?)
 
 show languages and skills and interests in the email
 
-show error messages
 
 test email verification
 
@@ -132,7 +131,6 @@ Use the nmap and sslyze tools to test the configuration of your SSL ciphers, key
 cookie session store?
 look at the cookie settings in the other project
 
-favicon
 
 automatic backups https://www.jotform.com/blog/how-to-backup-mysql-database/
 

@@ -11,6 +11,7 @@ const cookieParser = require("cookie-parser");
 const flexSearch = require("flexsearch");
 const util = require("util");
 const csurf = require("csurf");
+const favicon = require('serve-favicon');
 
 const LocalStrategy = require("passport-local").Strategy;
 
@@ -21,6 +22,8 @@ const settings = require("./settings");
 const app = express();
 
 const port = process.env.PORT || 1234;
+const isProduction = process.platform !== "win32";
+const hostName = isProduction? "https://cybervolunteers.org.uk/": "http://localhost:1234/";
 
 // connect to the mysql db
 const pool = mysql.createPool({
@@ -62,7 +65,7 @@ const logger = require("./utils/winston");
 //layers
 const UserManager = new (require("./utils/serviceLayer/UserManager.js"))(pool, logger);
 const ListingsManager = new (require("./utils/serviceLayer/ListingsManager.js"))(pool, logger, listingsIndex);
-const NodemailerManager = new (require("./utils/serviceLayer/NodemailerManager.js"))(pool, logger);
+const NodemailerManager = new (require("./utils/serviceLayer/NodemailerManager.js"))(pool, logger, hostName);
 const Validator = new (require("./utils/validator"))();
 
 
@@ -145,6 +148,7 @@ app.use(expressSession({
 	resave: false,//TODO: should i change this one?
 	saveUninitialized: false,//TODO: should i change this one?
 })); // TODO: research the params, esp. maxAge
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -511,9 +515,11 @@ function logout(logoutAnyway){
 			req.session.destroy(function (err) {
 				if (err) return next(err);
 				logger.debug("Session destroyed by logout request");
+				req.user = undefined;
 				next();
 			});
 		} else {
+			req.user = undefined;
 			// the end
 			next();
 		}

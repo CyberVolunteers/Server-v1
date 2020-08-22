@@ -13,21 +13,27 @@ const fs = require("fs");
 const nodemailer = require("nodemailer");
 const Handlebars = require("handlebars");
 const secureCompare = require("secure-compare");
-
+const aws = require('aws-sdk');
 
 module.exports = class NodemailerManager{
-	constructor(pool, logger){
+	constructor(pool, logger, hostName){
 		this.logger = logger;
 		this.pool = pool;
+		this.hostName = hostName;
+
+		aws.config.loadFromPath('./data/awsConfig.json');
 
 		this.transporter = nodemailer.createTransport({
-			host: "smtp.ethereal.email",
-			port: 587,
-			secure: false,
-			auth: {
-				user: "zua5w3gpzvpz52mx@ethereal.email",
-				pass: "xHwKvsu3chdWD6kk9x"
-			}
+			SES: new aws.SES({
+				apiVersion: '2010-12-01'
+			})
+			// host: "smtp.ethereal.email",
+			// port: 587,
+			// secure: false,
+			// auth: {
+			// 	user: "zua5w3gpzvpz52mx@ethereal.email",
+			// 	pass: "xHwKvsu3chdWD6kk9x"
+			// }
 		});
 
 		this.confirmEmailTextTemplate = Handlebars.compile(fs.readFileSync("./public/emails/confirmEmail.txt", "utf8"));
@@ -89,8 +95,6 @@ module.exports = class NodemailerManager{
 				html: this.volunteerHelpOfferEmailHTMLTemplate(templateInfo),
 			});
 
-			console.log("Message sent: %s", info.messageId);
-			console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
 		}finally{
 			connection.release();
 		}
@@ -121,10 +125,13 @@ module.exports = class NodemailerManager{
 			if(!success) throw new Error("Failed to set a key for email verification");
 
 			const templateInfo = {
-				"link": "http://127.0.0.1:1234/verifyEmailToken?uuid=" + uuid + "&email=" + email,
+				"link": this.hostName + "verifyEmailToken?uuid=" + uuid + "&email=" + email,
 				"firstName": rows[0].firstName,
 				"lastName": rows[0].lastName
 			};
+
+			console.log(this.confirmEmailTextTemplate(templateInfo))
+			console.log(this.confirmEmailHTMLTemplate(templateInfo))
 
 			const info = await this.transporter.sendMail({
 				from: settings.botEmailAddress,
@@ -132,10 +139,10 @@ module.exports = class NodemailerManager{
 				subject: "Please, verify your email address",
 				text: this.confirmEmailTextTemplate(templateInfo),
 				html: this.confirmEmailHTMLTemplate(templateInfo),
+			}, (err, info) => {
+				console.log(info.envelope);
+				console.log(info.messageId);
 			});
-
-			console.log("Message sent: %s", info.messageId);
-			console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
 
 			return true;
 		}finally{
