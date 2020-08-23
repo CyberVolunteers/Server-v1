@@ -1,0 +1,8 @@
+<link href = "../CSS/header.css" rel = "stylesheet" type = "text/css" >
+<script src="../JS/header.js"></script>
+
+{{#if isLoggedIn}}
+    {{> signedInHeader}}
+{{else}}
+    {{> notSignedInHeader}}
+{{/if}}

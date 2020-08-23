@@ -1,27 +1,32 @@
 $(function(){
-    $("form").submit(function(evt){
-        let email = $(".email").val();
-        let password = $(".password").val();
+	$("form").submit(function(){
+		let email = $(".email").val();
+		let password = $(".password").val();
 
-        console.log(email, password);
+		// time 2 weeks
+		let maxAge = 2 * 7 * 24*60*60;
 
-        //TODO: set the expiry, etc.
-        // remember me cookie
-        document.cookie = "rememberMe=" + $("#rememberMeCheckbox").is(':checked');
+		// remember me cookie
+		document.cookie = "rememberMe=" + $("#rememberMeCheckbox").is(":checked") + ";max-age=" + maxAge + ";path=/;";
 
-        $.post("/login", {
-            email: email,
-            password: password
-        })
-        .done(function(data, textStatus){
-            console.log(data);
-            // TODO: redirect to a page
-        })
-        .fail(function(jqXHR){
-            let errorText = jqXHR.statusText;
-            // TODO: show the error message
-        })
+		$.post("/login", {
+			email: email,
+			password: password,
+			isVolunteer: true
+		})
+		.done(function(data, textStatus){
+			const params = new URLSearchParams(window.location.search)
+			if(params.has("redirect")){
+				window.location.href = `${window.location.protocol}//${window.location.host}/${params.get("redirect")}`
+			}else{
+				window.location.href = `${window.location.protocol}//${window.location.host}/listingsPage`;
+			}
+		})
+		.fail(function(jqXHR){
+			let errorText = jqXHR.statusText;
+			$(".errorMessage").text(errorText);
+		});
 
-        return false;
-    })
-})
+		return false;
+	});
+});
