@@ -23,6 +23,7 @@ $(function(){
 		})
 		.fail(function(jqXHR){
 			let errorText = jqXHR.statusText;
+			$(".errorMessage").text(errorText);
 			// TODO: show the error message
 		});
 
@@ -40,7 +41,11 @@ $(function(){
 
 			.fail(function(jqXHR){
 				let errorText = jqXHR.statusText;
-				console.log(errorText);
+				console.log(jqXHR)
+				$(".errorMessage").text(errorText);
+				if(jqXHR.status === 401){
+					window.location.href = `${window.location.protocol}//${window.location.host}/login?redirect=${escape("listing" + window.location.search)}`;
+				}
 				// TODO: show the error message
 			});
 	});

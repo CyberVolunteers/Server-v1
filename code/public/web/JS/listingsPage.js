@@ -1,7 +1,6 @@
 let listingsData;
 
 $(function(){
-	console.log("E");
 	$.get("/getListings")
 		.done(function(data, textStatus){
 			listingsData = data;
@@ -31,6 +30,7 @@ $(function(){
 		})
 		.fail(function(jqXHR){
 			let errorText = jqXHR.statusText;
+			$(".errorMessage").text(errorText);
 			// TODO: show the error message
 		});
 

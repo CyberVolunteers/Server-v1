@@ -29,7 +29,7 @@ module.exports = class Validator {
 
         && validator.isEmail(params["email"])
 
-        && this.filterXSS(params, ["firstName", "lastName", "email", "password", "gender", "salutation", "nationality", "address", "postcode", "city", "country", "phoneNumber"]);
+		&& this.filterXSS(params, ["firstName", "lastName", "email", "password", "gender", "salutation", "nationality", "address", "postcode", "city", "country", "phoneNumber", "birthDate", "occupation", "state", "linkedIn"]);
 	}
 
 	signUpValidateCharity(params){

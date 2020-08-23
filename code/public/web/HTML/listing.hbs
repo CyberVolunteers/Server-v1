@@ -1,15 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        
+        {{> common}}
+
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="../CSS/speclisting.css">
         <link rel="stylesheet" href="../CSS/header.css">
+
+        <script src="https://rawgit.com/leizongmin/js-xss/master/dist/xss.js"></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="../JS/listing.js"></script>
+
         <title>Listing1</title>
     </head>
 <body>
 
     {{> header}}
+
+    {{> errorSnippet}}
     
     <div class="opertunitytitle">Some sort of Volunteering Gig</div>
     <div class="opertunityorg">TODO: change</div>
@@ -55,22 +66,5 @@
             </div>
         </div>   
     </div>
-
-    <script>
-        // Initialize and add the map
-        function initMap() {
-          // The location of Uluru
-          var uluru = {lat: -25.344, lng: 131.036};
-          // The map, centered at Uluru
-          var map = new google.maps.Map(
-              document.getElementById('map'), {zoom: 4, center: uluru});
-          // The marker, positioned at Uluru
-          var marker = new google.maps.Marker({position: uluru, map: map});
-        }
-    </script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAep8QXlF5z5kp2EDn0yo1le289I-e4YyQ&callback=initMap">
-    </script>
-    
 </body>
 </html>

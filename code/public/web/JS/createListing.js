@@ -67,6 +67,7 @@ $(function(){
 				})
 				.fail(function(jqXHR){
 					let errorText = jqXHR.statusText;
+					$(".errorMessage").text(errorText);
 					// TODO: show the error message
 				});
 		}
@@ -76,7 +77,6 @@ $(function(){
 		//TODO: checks of whether there is the data there
 		//TODO: validate
 		//TODO: finish the rest
-
         
 	});
 });

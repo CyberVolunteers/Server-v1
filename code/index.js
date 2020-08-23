@@ -165,6 +165,17 @@ app.use( (req, res, next) => {
 
 //requests
 
+//pages
+app.get("/", renderPage("homepage"))
+app.get("/login", logout(false), renderPage("login"));
+app.get("/volunteerSignUp", renderPage("volunteerSignUp"));
+app.get("/charitySignUp", renderPage("charitySignUp"));
+app.get("/joinUs", renderPage("joinUs"));
+app.get("/contactUs", renderPage("contactUs"));
+app.get("/contactUsLinks", renderPage("contactUsLinks"));
+app.get("/listingsPage", renderPage("listingsPage"));
+app.get("/listing", csrfProtection, renderPage("listing"));
+
 //sign up post
 app.post("/signup", async function(req, res, next){
 
@@ -227,15 +238,9 @@ app.post("/login", shortTermLoginRateLimit, longTermLoginRateLimit, function(req
 	})(req, res, next);
 });
 
-//pages
-app.get("/login", logout(false), renderPage("login"));
-app.get("/volunteerSignUp", renderPage("volunteerSignUp"));
-app.get("/charitySignUp", renderPage("charitySignUp"));
-app.get("/joinUs", renderPage("joinUs"));
-//app.get("/contactUs", renderPage("contactUs"));
-//app.get("/contactUsLinks", renderPage("contactUsLinks"));
-
-app.get("/logout", logout(true));
+app.get("/logout", logout(true), function(req, res, next){
+	res.redirect("/login");
+});
 
 app.get("/exampleForm", csrfProtection, renderPage("exampleForm"));
 
@@ -269,6 +274,26 @@ app.get("/verifyEmailToken", async function(req, res, next){
 		return next(err);
 	}
 }, renderPage("verificationResult"));
+
+app.get("/getListings", function(req, res, next){
+	pool.query("SELECT charities.charityName, listings.uuid, listings.timeForVolunteering, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.createdDate, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek FROM `listings` INNER JOIN charities ON listings.charityId=charities.id", [], function(err, results){
+		if (err) return next(err);
+
+		return res.status(200).json(results);
+	});
+});
+
+app.get("/getListing", function(req, res, next){
+	if(!Validator.getListingValidate(req.query.uuid)){
+		res.statusMessage = "Bad data";
+		return res.status(400).end();
+	}
+	pool.query("SELECT charities.charityName, listings.timeForVolunteering, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.createdDate, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek FROM `listings` INNER JOIN charities ON listings.charityId=charities.id  WHERE `uuid`=?", [req.query.uuid], function(err, results){
+		if (err) return next(err);
+
+		return res.status(200).json(results);
+	});
+});
 
 app.use(express.static(path.join(__dirname, "public/web"))); // to serve js, html, css
 
@@ -322,9 +347,6 @@ app.all("*", function(req, res, next){
 
 	return next();
 });
-
-app.get("/listingsPage", renderPage("listingsPage"));
-app.get("/listing", csrfProtection, renderPage("listing"));
 app.get("/createListing", function(req, res, next){
 	if(req.session.passport.user.isVolunteer === false) return next();
 	return renderPage("needToBeACharity")(req, res);
@@ -362,26 +384,6 @@ app.post("/createListing", csrfProtection, async function(req, res, next){
 	}catch(err){
 		return next(err);
 	}
-});
-
-app.get("/getListings", function(req, res, next){
-	pool.query("SELECT charities.charityName, listings.uuid, listings.timeForVolunteering, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.createdDate, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek FROM `listings` INNER JOIN charities ON listings.charityId=charities.id", [], function(err, results){
-		if (err) return next(err);
-
-		return res.status(200).json(results);
-	});
-});
-
-app.get("/getListing", function(req, res, next){
-	if(!Validator.getListingValidate(req.query.uuid)){
-		res.statusMessage = "Bad data";
-		return res.status(400).end();
-	}
-	pool.query("SELECT charities.charityName, listings.timeForVolunteering, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.createdDate, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek FROM `listings` INNER JOIN charities ON listings.charityId=charities.id  WHERE `uuid`=?", [req.query.uuid], function(err, results){
-		if (err) return next(err);
-
-		return res.status(200).json(results);
-	});
 });
 
 app.get("/searchListings", async function (req, res, next) {

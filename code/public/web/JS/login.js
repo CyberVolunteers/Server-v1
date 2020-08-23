@@ -15,12 +15,16 @@ $(function(){
 			isVolunteer: true
 		})
 		.done(function(data, textStatus){
-			console.log(data);
-			// TODO: redirect to a page
+			const params = new URLSearchParams(window.location.search)
+			if(params.has("redirect")){
+				window.location.href = `${window.location.protocol}//${window.location.host}/${params.get("redirect")}`
+			}else{
+				window.location.href = `${window.location.protocol}//${window.location.host}/listingsPage`;
+			}
 		})
 		.fail(function(jqXHR){
 			let errorText = jqXHR.statusText;
-			// TODO: show the error message
+			$(".errorMessage").text(errorText);
 		});
 
 		return false;

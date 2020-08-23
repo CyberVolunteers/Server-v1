@@ -20,6 +20,7 @@ $(function(){
 		.fail(function(jqXHR){
             let errorText = jqXHR.statusText;
             console.log(errorText);
+            $(".errorMessage").text(errorText);
 			// TODO: show the error message
         });
         

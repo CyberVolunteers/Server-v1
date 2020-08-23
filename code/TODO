@@ -3,60 +3,45 @@ snyk
 
 go over all the TODOs in the files themselves - indexjs left
 
-update categories list on createlisting page
+reset data on pages
 
-show error messages
+check that all pages are working
+
+do homepage links
+
+isvolunteer toggle login
 
 remove all console.logs, including public
 
 do pages
 
+new signup + new data
+
+check client side
+
+remove or add the listings pictures functionality
+
 do languages for signup
-
-test charities email verification
-
-test rememberme cookie + duration
-
-test sending multiple emails at once
 
 csrf for rest
 
-change host for emails
-
-test production
-
-test charity signup
-
-test verifyEmailToken validate
-
 check that all is xss-ed
-
-test filtering xss
-
-volunteer - filter xss for non-compulsory fields
-
-add non-compulsory fields for signups and creates
 
 let users who aren't logged in see listings and listingsPage
 
-+ filter xss client-side
++ filter xss client-side - check that all is working
 
 test user signup as well
-
-create listing check if a charity
-
-storage for multiple threads
 
 (show the number of participants in the email?)
 
 show languages and skills and interests in the email
 
-
 test email verification
 
 bots.txt + get on google
 
-throttling
+throttling - discuss times and add it to other places
 
 validate target audience
 
@@ -66,9 +51,26 @@ continue with xss
 set non-required fields on signup, too
 
 client side validation
+
 -----
 
+test charities email verification
+
+test rememberme cookie + duration
+
+test sending multiple emails at once
+
+test production
+
+test charity signup
+
+test verifyEmailToken validate
+
+test filtering xss
+
 email verification tokens in the db instead of cache?
+
+storage for multiple threads
 
 logos and listings pictures
 
