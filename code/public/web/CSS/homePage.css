@@ -19,6 +19,7 @@ button {
 
 header {
 	width: 100vw;
+	max-width: 100%;
 	position: fixed;
 	display: flex;
 	justify-content: flex-end;
@@ -40,6 +41,7 @@ header {
 #mainLink {
 	margin-right: auto;
 }
+
 .frontpage {
 	background-image: url("../IMG/bgimage.jpg");
 	background-size: cover;
@@ -57,10 +59,26 @@ header {
 }
 #searchforlistings {
 	cursor: pointer;
-	padding: 20px 20px;
+	padding: 30px 35px;
+	border-radius: 60px;
 	border: none;
 	background-color: #f85220;
 	font-size: 30px;
+	color: black;
+}
+.slogan {
+	color: white;
+	font-size: 55px;
+	width: 500px;
+	text-align: center;
+	position: absolute;
+	top: 120px;
+}
+.aboutUsText {
+	margin-left: 50px;
+	margin-right: 50px;
+	margin-top: 20px;
+	font-size: 20px;
 }
 .caticonstitle {
 	text-align: center;
@@ -150,6 +168,7 @@ header {
 }
 .joinUsBanner {
 	width: 100vw;
+	max-width: 100%;
 	height: 600px;
 	background-color: #f85220;
 	margin-top: 50px;
@@ -217,6 +236,7 @@ header {
 }
 .currentProjects {
 	width: 100vw;
+	max-width: 100%;
 	height: auto;
 }
 .currentProjectsTitle {

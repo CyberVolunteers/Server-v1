@@ -6,11 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href = "../CSS/Login Page.css" rel = "stylesheet" type = "text/css" >
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="../JS/login.js"></script>
-
-    <title>Login Page</title>
+    <title>LoginPage</title>
     <style>/* Bordered form */
         form {
           border: none;
@@ -26,7 +22,7 @@
         }
         
         /* Full-width inputs */
-        input[type=text], input[type=email], input[type=password] {
+        input[type=text], input[type=password] {
           
           width: 390px;
           font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -84,7 +80,7 @@
           margin-right: auto;
           margin-left: auto;
         }
-        .passwordContainer{
+        .password{
     
           margin-right: auto;
           margin-left: auto;
@@ -115,7 +111,6 @@
 
 <body>
     
-    {{> header}}
 
     <form action="action_page.php" method="post">
       
@@ -125,16 +120,15 @@
 
         <div class="container">
           <div class="username">
-            <div class="usernamelabel">Email</div>
-            <input type="email" class="email" placeholder="Enter Email" name="uname" required>
+            <div class="usernamelabel">Username</div>
+            <input type="text"  placeholder="Enter Username" name="uname" required>
           </div>
           
-          <div class="passwordContainer">
+          <div class="password">
             <div class="passwordlabel">Password</div>
-            <input type="password" class="password" placeholder="Enter Password" name="psw" required>
+            <input type="password"  placeholder="Enter Password" name="psw" required>
           </div>
-
-          {{> errorSnippet}}
+        
 
           <button type="submit">Submit</button>
 

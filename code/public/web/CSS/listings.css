@@ -45,12 +45,8 @@ button {
 	flex-direction: row;
 	justify-content: flex-start;
 	margin: 0px 10%;
-	padding-top: 40px;
+	padding-top: 50px;
 	flex-wrap: wrap;
-}
-
-.errorMessage {
-	padding-top: 70px;
 }
 
 .listings {
