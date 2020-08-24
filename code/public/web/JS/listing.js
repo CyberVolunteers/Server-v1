@@ -24,7 +24,7 @@ $(function(){
 		.fail(function(jqXHR){
 			let errorText = jqXHR.statusText;
 			$(".errorMessage").text(errorText);
-			// TODO: show the error message
+			$(".errorMessage").show(500);
 		});
 
 	const helpOfferButton = $(".wantToHelpButton");
@@ -43,8 +43,11 @@ $(function(){
 				let errorText = jqXHR.statusText;
 				console.log(jqXHR)
 				$(".errorMessage").text(errorText);
+				$(".errorMessage").show(500);
 				if(jqXHR.status === 401){
 					window.location.href = `${window.location.protocol}//${window.location.host}/login?redirect=${escape("listing" + window.location.search)}`;
+				}else{
+
 				}
 				// TODO: show the error message
 			});

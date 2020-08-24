@@ -21,6 +21,7 @@ $(function(){
             let errorText = jqXHR.statusText;
             console.log(errorText);
             $(".errorMessage").text(errorText);
+            $(".errorMessage").show(500);
 			// TODO: show the error message
         });
         
