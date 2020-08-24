@@ -63,7 +63,7 @@ module.exports = class UserManager {
 
 			const hash = await bcrypt.hash(params.password, settings.bcryptRounds);
 			// Store hash in your password DB.
-			await query("INSERT INTO `volunteers`(firstName, lastName, email, passwordHash, gender, salutation, nationality, address, postcode, city, country, phoneNumber, birthDate, occupation, state, linkedIn) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", [params.firstName, params.lastName, params.email, hash, params.gender, params.salutation, params.nationality, params.address, params.postcode, params.city, params.country, params.phoneNumber, params.birthDate, params.occuation, params.state, params.linkedIn]);
+			await query("INSERT INTO `volunteers`(firstName, lastName, email, passwordHash, gender, salutation, nationality, address, postcode, city, country, phoneNumber, birthDate, occupation, state, linkedIn, languages, skillsAndInterests) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", [params.firstName, params.lastName, params.email, hash, params.gender, params.salutation, params.nationality, params.address, params.postcode, params.city, params.country, params.phoneNumber, params.birthDate, params.occuation, params.state, params.linkedIn, params.languages, params.skillsAndInterests]);
 			return {code: 200};
 		}finally{
 			connection.release();

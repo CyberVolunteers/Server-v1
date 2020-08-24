@@ -72,8 +72,6 @@ const Validator = new (require("./utils/validator"))();
 //passport
 passport.use(new LocalStrategy({usernameField: "email", passReqToCallback: true,}, UserManager.localPassportVerify.bind(UserManager)));
 
-// TODO: only check the data on the client, send errors to the client
-
 // throttling
 // TODO: set actual times
 //TODO:protect other endpoints
@@ -258,7 +256,6 @@ app.get("/verifyEmailToken", async function(req, res, next){
 
 
 	//if successful, show one page, otherwise, show another
-	//TODO: set pages
 	try{
 		const isSuccess = await NodemailerManager.verifyEmailToken(email, uuid);
 		if(isSuccess){
@@ -331,12 +328,11 @@ app.get("/sendConfirmationEmail", csrfProtection, async function(req, res, next)
 // don't allow charities that are not verified to access these pages
 app.all("*", function(req, res, next){
 	if(req.user.isEmailVerified === 0){
-		//TODO: redirect them to the page
 		if(req.method === "GET" && !req.xhr) {
 			return res.redirect("sendConfirmationEmail");
 		}else{
 			res.statusMessage = "You don't have permission to create a listing";
-			return res.send();
+			return res.status(403).end();
 		}
 	}
 	if(req.session.passport.user.isVolunteer !== true){

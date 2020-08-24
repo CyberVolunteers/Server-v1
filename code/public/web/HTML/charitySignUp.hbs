@@ -25,10 +25,10 @@
     <form action="/action_page.php">
 
         <label for="username">Email</label>
-        <input type = "text" id="username" name="username" placeholder="Your email">
+        <input type = "email" id="username" name="username" placeholder="Your email">
 
         <label for="password">Password</label>
-        <input type = "text" id="password" name="password" placeholder="Your password">
+        <input type = "password" id="password" name="password" placeholder="Your password">
 
         <label for="name">Name of Organisation</label>
         <input type = "text" id="name" name="name" placeholder="Name of organisation">
@@ -45,9 +45,6 @@
         <label for="location">Mobile Number</label>
         <input type="text" name="num" id="num" placeholder="Your mobile number">
 
-        <label for="num">Telephone Number</label>
-        <input type="text" name="num" id="num" placeholder="Your telephone number">
-
         <label for="web">Website URL</label>
         <input type="text" name="web" id="web" placeholder="Website of organisation">
 
@@ -55,8 +52,6 @@
           <label for="myfile">Upload your Logo (OPTIONAL): </label>
           <input type="file" id="myfile" name="myfile">
         </div>
-
-        <p></p>
 
         {{> errorSnippet}}
 

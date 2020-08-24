@@ -14,22 +14,28 @@ module.exports = class Validator {
 	}
 
 	signUpValidateVolunteer(params){
-		return this.checkIfUndefinedAndConvertToStrings(params, ["firstName", "lastName", "email", "password", "gender", "salutation", "nationality", "address", "postcode", "city", "country", "phoneNumber"])
+		return this.checkIfUndefinedAndConvertToStrings(params, ["firstName", "lastName", "email", "password", "gender", "salutation", "nationality", "address", "postcode", "city", "country", "phoneNumber", "languages", "skillsAndInterests"])
         && this.isSuitableLength(params["firstName"], 30)
         && this.isSuitableLength(params["lastName"], 30)
-        && this.isSuitableLength(params["email"], 320)
+		&& this.isSuitableLength(params["email"], 320)
+		&& function(){console.log("E");return true;}()
         && this.isSuitableLength(params["gender"], 1)
         && this.isSuitableLength(params["salutation"], 5)
         && this.isSuitableLength(params["nationality"], 56)
         && this.isSuitableLength(params["address"], 150)
-        && this.isSuitableLength(params["postcode"], 12)
+		&& this.isSuitableLength(params["postcode"], 12)
         && this.isSuitableLength(params["city"], 85)
         && this.isSuitableLength(params["country"], 56)
-        && this.isSuitableLength(params["phoneNumber"], 16)
+		&& this.isSuitableLength(params["phoneNumber"], 16)
+		&& this.isSuitableLength(params["occupation"], 30)
+		&& this.isSuitableLength(params["state"], 50)
+		&& this.isSuitableLength(params["linkedIn"], 75)
+		&& this.isSuitableLength(params["languages"], 200)
+		&& this.isSuitableLength(params["skillsAndInterests"], 400)
 
         && validator.isEmail(params["email"])
 
-		&& this.filterXSS(params, ["firstName", "lastName", "email", "password", "gender", "salutation", "nationality", "address", "postcode", "city", "country", "phoneNumber", "birthDate", "occupation", "state", "linkedIn"]);
+		&& this.filterXSS(params, ["firstName", "lastName", "email", "gender", "salutation", "nationality", "address", "postcode", "city", "country", "phoneNumber", "occupation", "state", "linkedIn", "languages", "skillsAndInterests"]);
 	}
 
 	signUpValidateCharity(params){
@@ -79,8 +85,10 @@ module.exports = class Validator {
 	}
 
 	checkIfUndefinedAndConvertToStrings(params, reqParams){
+		console.log(params)
 		for(let i = 0; i < reqParams.length; i++){
 			const param = params[reqParams[i]];
+			console.log(param);
 			if(param === undefined || param === "" || param === null) return false;
 
 			//convert to a string

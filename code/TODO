@@ -1,7 +1,9 @@
 eslint - eslint . --ext .js for all files
 snyk
 
-go over all the TODOs in the files themselves - indexjs left
+check on the client side
+
+erro snippet for volunteer signup
 
 reset data on pages
 
@@ -17,11 +19,7 @@ do pages
 
 new signup + new data
 
-check on the client side
-
 remove or add the listings pictures functionality
-
-do languages for signup
 
 csrf for rest
 
@@ -53,6 +51,9 @@ set non-required fields on signup, too
 client side validation
 
 -----
+sort out css naming
+
+go over all the TODOs in the files themselves
 
 test charities email verification
 

@@ -17,8 +17,12 @@ $(function(){
             country: $("#country").val(),
             city: $("#city").val(),
             subject: $("#subject").val(),
+            languages: $("#lang").val(),
+            skillsAndInterests: $("#subject").val(),
             isVolunteer: true
         };
+
+        //checks
         
         $.post("/signup", options)
 		.done(function(data, textStatus){
