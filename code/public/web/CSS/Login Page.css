@@ -100,7 +100,7 @@ input[type=password] {
 	margin-top: 20px;
 	cursor: pointer;
 	border-radius: 20px;
-	text-decoration: underline;
+	text-decoration: none;
 }
 #char {
 	width: 290px;
@@ -115,10 +115,10 @@ input[type=password] {
 	padding-top: 25px;
 }
 
-.selectedOption{
+.selectedOption {
 	background-color: #f4433670;
 }
 
-.selectedOption:hover{
+.selectedOption:hover {
 	background-color: #d62b1f70 !important;
 }

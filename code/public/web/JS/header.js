@@ -7,6 +7,10 @@ $(function(){
         window.location.href = `${window.location.protocol}//${window.location.host}/myAccount`;
     })
 
+    $("a.about").click(function(){
+        window.location.href = `${window.location.protocol}//${window.location.host}/aboutUs`;
+    })
+
     $("a.join").click(function(){
         window.location.href = `${window.location.protocol}//${window.location.host}/joinUs`;
     })
