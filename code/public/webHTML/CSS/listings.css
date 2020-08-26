@@ -19,6 +19,13 @@ header {
 	background-color: rgba(255, 255, 255, 0.781);
 	z-index: 100;
 }
+.header {
+	padding-top: 60px;
+	margin-bottom: 35px;
+	text-align: center;
+	color: #f44336;
+	font-size: 30px;
+}
 li,
 a,
 button {
@@ -155,4 +162,17 @@ button {
 	position: absolute;
 	top: 10px;
 	left: 10px;
+}
+
+.cut-text { 
+	text-overflow: ellipsis;
+	overflow: hidden; 
+	width: 160px; 
+	height: 1.2em; 
+	white-space: nowrap;
+}
+
+.errorMessage{
+	padding-top: 60px;
+	margin-bottom: 35px;
 }

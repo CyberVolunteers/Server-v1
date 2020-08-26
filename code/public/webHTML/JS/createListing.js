@@ -10,10 +10,11 @@ const arrowHTML = {
     `
 };
 
+let pageIndex = 0;
+let hasSelectedCat = false;
+
 $(function(){
 	const csrfToken = $("meta[name=\"csrf-token\"]").attr("content");
-
-	let pageIndex = 0;
 
 	setPage(pageIndex);
 
@@ -31,6 +32,8 @@ $(function(){
 		});
 
 		$(this).addClass("selectedIcon");
+
+		hasSelectedCat = true;
 	});
 
 	$(".prevButton").click(function(){
@@ -41,6 +44,7 @@ $(function(){
 	});
 
 	$(".nextButton").click(function(){
+		if(!checkFieldsOnPage()) return;
 		if(pageIndex < orderOfPages.length - 1){
 			pageIndex++;
 			setPage(pageIndex);
@@ -50,7 +54,7 @@ $(function(){
 				duration: createDurationString($("#generalInputNum").val(), $("#time-select").val()),
 				timeForVolunteering: $("#timeForVolunteering").val(), 
 				placeForVolunteering: $("#placeForVolunteering").val(), 
-				targetAudience: getBestForData(), 
+				targetAudience: getBestForData().toString(), 
 				skills: $("#skills").val(), 
 				requirements: $("#requirements").val(), 
 				opportunityDesc: $("#description").val(), 
@@ -62,22 +66,14 @@ $(function(){
 				_csrf: csrfToken
 			})
 				.done(function(data, textStatus){
-					console.log(data);
-					// TODO: redirect to a page
+					window.location.href = `${window.location.protocol}//${window.location.host}/formComplete`;
 				})
 				.fail(function(jqXHR){
 					let errorText = jqXHR.statusText;
 					$(".errorMessage").text(errorText);
-					// TODO: show the error message
+					$(".errorMessage").show(500);
 				});
 		}
-
-		//sending the data
-
-		//TODO: checks of whether there is the data there
-		//TODO: validate
-		//TODO: finish the rest
-        
 	});
 });
 
@@ -104,6 +100,8 @@ function getBestForData(){
 		if($(this).is(":checked")) checkedBoxes.push(index);
 	});
 
+	checkedBoxes = "[" + checkedBoxes.toString() + "]";
+
 	return checkedBoxes;
 }
 
@@ -112,4 +110,24 @@ function createDurationString(num, units){
 
 	if (num == 1) return num + " " + units;
 	return num + " " + units + "s";
+}
+
+function checkFieldsOnPage(){
+	if(orderOfPages[pageIndex] === "cat"){
+		if(!hasSelectedCat){
+			$(".errorMessage").text("Please, select a category");
+			$(".errorMessage").show(500);
+		}
+		return hasSelectedCat;
+	}else
+	{
+		let result = true
+		$("input, textarea").each(function (){
+			if($(this).closest('.hiddenElement').length == 0){
+				if(!$(this)[0].reportValidity()) result = false;
+			}
+		});
+
+		return result;
+	}
 }

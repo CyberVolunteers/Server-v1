@@ -1,5 +1,12 @@
 body {
 }
+.header {
+	padding-top: 60px;
+	margin-bottom: 35px;
+	text-align: center;
+	color: #f44336;
+	font-size: 30px;
+}
 .opertunitytitle {
 	text-align: center;
 	font-size: 35px;
@@ -80,4 +87,8 @@ body {
 	position: absolute;
 	margin-left: 190px;
 	top: 445px;
+}
+
+.overflowControl{
+	overflow-wrap: break-word;
 }

@@ -18,13 +18,14 @@ $(function(){
 			$(".timeInfo").text(filterXSS(listing.opportunityDesc));
 			$(".timeReqNumbers").text(filterXSS(listing.minHoursPerWeek + "-" + listing.maxHoursPerWeek));
 			$(".skills").text(filterXSS(listing.skills));
+			$(".requirements").text(filterXSS(listing.requirements));
 			$(".recommendedGroups").text(filterXSS(listing.targetAudience));
 			$(".opertunityorg").text(filterXSS(listing.charityName));
 		})
 		.fail(function(jqXHR){
 			let errorText = jqXHR.statusText;
 			$(".errorMessage").text(errorText);
-			// TODO: show the error message
+			$(".errorMessage").show(500);
 		});
 
 	const helpOfferButton = $(".wantToHelpButton");
@@ -36,17 +37,17 @@ $(function(){
 				_csrf: csrfToken
 			})
 			.done(function(data, textStatus){
-				console.log(data, textStatus);
+				window.location.href = `${window.location.protocol}//${window.location.host}/thankYouForHelping`;
 			})
 
 			.fail(function(jqXHR){
 				let errorText = jqXHR.statusText;
-				console.log(jqXHR)
-				$(".errorMessage").text(errorText);
 				if(jqXHR.status === 401){
 					window.location.href = `${window.location.protocol}//${window.location.host}/login?redirect=${escape("listing" + window.location.search)}`;
+				}else{
+					$(".errorMessage").text(errorText);
+					$(".errorMessage").show(500);
 				}
-				// TODO: show the error message
 			});
 	});
 });

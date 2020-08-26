@@ -12,21 +12,17 @@
 </head>
 <body>
     {{> header}}
-    <div class="welcomeTitle">Welcome {your name}</div>
+    <div class="welcomeTitle">Welcome {{firstName}} {{lastName}}</div>
     <div class="yourAccountInfo">
         <div class="yourAccountInfoTitle">Your Information</div>
         <table class="yourAccountInfoMain">
             <tr>
-                <td>Name:</td>
-                <td>{name}</td>
-            </tr>
-            <tr>
                 <td>Email Adress:</td>
-                <td>{ }</td>
+                <td>{{email}}</td>
             </tr>
             <tr>
                 <td>Phone Number:</td>
-                <td>{ }</td>
+                <td>{{phoneNumber}}</td>
             </tr>
             
         </table>

@@ -20,13 +20,17 @@
 
     {{> header}}
 
+    <div class="header">
+        <h1>Listing information</h1>
+    </div>
+
     {{> errorSnippet}}
     
-    <div class="opertunitytitle">Some sort of Volunteering Gig</div>
-    <div class="opertunityorg">TODO: change</div>
+    <div class="opertunitytitle overflowControl">Some sort of Volunteering Gig</div>
+    <div class="opertunityorg overflowControl">TODO: change</div>
     <div class="opinfowrap">
         <div class="opdescription"> 
-            <div class="opdescriptiontext">Loading...
+            <div class="opdescriptiontext overflowControl">Loading...
             </div>
             <button type="submit" class="wantToHelpButton">
                 <div class="buttontext">I Want to Help</div>
@@ -38,30 +42,30 @@
             <div class="basicinfoinfo">
                 <div class="basicinfogroup">
                     <div class="basicinfotitle">When</div>
-                    <div class="basicinfo timeInfo">Loading...</div>
+                    <div class="basicinfo timeInfo overflowControl">Loading...</div>
                 </div>
                 <div class="basicinfogroup">
                     <div class="basicinfotitle">Where</div>
-                    <div class="basicinfo placeInfo">Loading...</div>
+                    <div class="basicinfo placeInfo overflowControl">Loading...</div>
                 </div>
                 <div class="basicinfogroup">
                     <div class="basicinfotitle">Time Requirements</div>
                     <div class="basicinfo timeReq">
-                        <span class="timeReqNumbers">Loading...</span> hours per week
+                        <span class="timeReqNumbers overflowControl">Loading...</span> hours per week
                     </div>
                 </div>
                 <div class="basicinfogroup">
                     <div class="basicinfotitle">Skills</div>
-                    <div class="basicinfo skills">Loading...</div>
+                    <div class="basicinfo skills overflowControl">Loading...</div>
                 </div>
                 <div class="basicinfogroup">
                     <div class="basicinfotitle">Good For</div>
-                    <div class="basicinfo recommendedGroups">Loading...</div>
+                    <div class="basicinfo recommendedGroups overflowControl">Loading...</div>
                 </div>
                 <div id="map"></div>
                 <div class="basicinfogroupreq">
                     <div class="basicinfotitle">Requirements</div>
-                    <div class="basicinfo">Loading...</div>
+                    <div class="basicinfo requirements overflowControl">Loading...</div>
                 </div>
             </div>
         </div>   

@@ -3,8 +3,9 @@
 }
 
 input[type=text],
-input[type=password],
 input[type=email],
+input[type=password],
+input[type=number],
 select,
 textarea {
 	width: 100%;
@@ -50,4 +51,16 @@ input[type=submit]:hover {
 .label1 {
 	margin-top: 17px;
 	margin-bottom: 27px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

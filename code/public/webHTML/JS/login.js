@@ -1,7 +1,21 @@
 $(function(){
+	let isVolunteer = true;
+
+	$("#char").click(function(){
+		isVolunteer = false;
+		$("#vol").removeClass("selectedOption");
+		$("#char").addClass("selectedOption");
+	})
+
+	$("#vol").click(function(){
+		isVolunteer = true;
+		$("#vol").addClass("selectedOption");
+		$("#char").removeClass("selectedOption");
+	})
+
 	$("form").submit(function(){
-		let email = $(".email").val();
-		let password = $(".password").val();
+		let email = $("#email").val();
+		let password = $("#password").val();
 
 		// time 2 weeks
 		let maxAge = 2 * 7 * 24*60*60;
@@ -12,7 +26,7 @@ $(function(){
 		$.post("/login", {
 			email: email,
 			password: password,
-			isVolunteer: true
+			isVolunteer: isVolunteer
 		})
 		.done(function(data, textStatus){
 			const params = new URLSearchParams(window.location.search)
@@ -25,6 +39,7 @@ $(function(){
 		.fail(function(jqXHR){
 			let errorText = jqXHR.statusText;
 			$(".errorMessage").text(errorText);
+			$(".errorMessage").show(500);
 		});
 
 		return false;
