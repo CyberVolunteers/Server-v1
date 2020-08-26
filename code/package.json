@@ -1,6 +1,6 @@
 {
   "name": "code",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "a website to connect the volunteers and the companies providing the opportunities",
   "main": "index.js",
   "scripts": {
