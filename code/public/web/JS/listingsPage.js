@@ -9,30 +9,28 @@ $(function(){
 				const entry = data[i];
 				const templateHTML = `
 				<div class="listings" id="listing${i}" >
-					<div class="listingHeader"><div class="listingscat">${filterXSS(entry.opportunityCategory)}</div></div>
+					<div class="listingHeader"><div class="listingscat cut-text">${filterXSS(entry.opportunityCategory)}</div></div>
 					<div class="listingsTime">
-						<div class="timehrs">${filterXSS(entry.minHoursPerWeek)}-${filterXSS(entry.maxHoursPerWeek)}</div>
+						<div class="timehrs cut-text">${filterXSS(entry.minHoursPerWeek)}-${filterXSS(entry.maxHoursPerWeek)}</div>
 						<div class="perw">Hours per Week</div>
 					</div>
-					<div class="listingsloc"><div class="listingslocwriting">${filterXSS(entry.placeForVolunteering)}</div>
+					<div class="listingsloc"><div class="listingslocwriting cut-text">${filterXSS(entry.placeForVolunteering)}</div>
 					</div>
-					<div class="listingxp"><div class="listingsxpwriting">${filterXSS(entry.requirements)}</div>
+					<div class="listingxp"><div class="listingsxpwriting cut-text">${filterXSS(entry.requirements)}</div>
 					</div>
-					<div class="imageholder" id="image${i}"></div>
-					<div class="lstitle">${filterXSS(entry.opportunityTitle)}</div>
-					<div class="lstcharity">TODO: fill in the charity name</div>
+					<!--<div class="imageholder" id="image${i}"></div>-->
+					<div class="lstitle cut-text">${filterXSS(entry.opportunityTitle)}</div>
+					<div class="lstcharity cut-text">${filterXSS(entry.charityName)}</div>
 				</div>
 				`;
 
 				$(".listingsWrapper").append(templateHTML);
 			}
-			// TODO: redirect to a page
 		})
 		.fail(function(jqXHR){
 			let errorText = jqXHR.statusText;
 			$(".errorMessage").text(errorText);
 			$(".errorMessage").show(500);
-			// TODO: show the error message
 		});
 
 	$(".listingsWrapper").on("click", ".listings", function() {

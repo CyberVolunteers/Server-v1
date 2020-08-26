@@ -25,7 +25,7 @@ module.exports = class ListingsManager {
 	async searchListings(params) {
 		const connection = await utils.getConnection(this.pool);
 		const query = util.promisify(connection.query).bind(connection);
-        
+
 		try{
 			let searchQuery = "";
 			for(let term of params.terms){
@@ -45,6 +45,7 @@ module.exports = class ListingsManager {
 	}
 
 	createTargetAudienceString(selectedOptions){
+		selectedOptions = JSON.parse(selectedOptions);
 		const audiences = ["teens", "people aged 18-55", "people over 55"];
 
 		let selectedAudiences = [];

@@ -18,7 +18,6 @@ module.exports = class Validator {
         && this.isSuitableLength(params["firstName"], 30)
         && this.isSuitableLength(params["lastName"], 30)
 		&& this.isSuitableLength(params["email"], 320)
-		&& function(){console.log("E");return true;}()
         && this.isSuitableLength(params["gender"], 1)
         && this.isSuitableLength(params["salutation"], 5)
         && this.isSuitableLength(params["nationality"], 56)
@@ -47,10 +46,10 @@ module.exports = class Validator {
         && this.isSuitableLength(params["phoneNumber"], 16)
         && this.isSuitableLength(params["charityLocation"], 150)
 		&& this.isSuitableLength(params["websiteURL"], 50)
-		
-        && (params["websiteURL"] === undefined || validator.isURL(params["websiteURL"]))
 
-        && this.filterXSS(params, ["email", "password", "charityType", "charityName", "charityDesc", "phoneNumber", "charityLocation", "websiteURL"]);
+        && (params["websiteURL"] === "" || validator.isURL(params["websiteURL"]))
+				
+		&& this.filterXSS(params, ["email", "password", "charityType", "charityName", "charityDesc", "phoneNumber", "charityLocation", "websiteURL"]);
 	}
 
 	createListingValidate(params){
@@ -80,15 +79,13 @@ module.exports = class Validator {
 	}
 
 	isSuitableLength(string, maxLen){
-		if(string === undefined) return true;
+		if(string === undefined || string === "") return true;
 		return string.length <= maxLen;
 	}
 
 	checkIfUndefinedAndConvertToStrings(params, reqParams){
-		console.log(params)
 		for(let i = 0; i < reqParams.length; i++){
 			const param = params[reqParams[i]];
-			console.log(param);
 			if(param === undefined || param === "" || param === null) return false;
 
 			//convert to a string

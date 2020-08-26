@@ -1,56 +1,28 @@
 eslint - eslint . --ext .js for all files
 snyk
 
-check on the client side
-
-error snippet for volunteer signup
-
-reset data in db + in production
-
-check that all pages are working
-
-do homepage links
-
-isvolunteer toggle login
-
-remove all console.logs, including public
-
-do pages
-
-new signup + new data
-
-remove or add the listings pictures functionality
-
-csrf for rest
-
-check that all is xss-ed
-
-let users who aren't logged in see listings and listingsPage
-
-+ filter xss client-side - check that all is working
-
-test user signup as well
-
-(show the number of participants in the email?)
-
-show languages and skills and interests in the email
-
-test email verification
 
 bots.txt + get on google
 
-throttling - discuss times and add it to other places
-
-validate target audience
-
+check that all is xss-ed
 test xss
 continue with xss
++ filter xss client-side - check that all is working
 
-set non-required fields on signup, too
+check that all pages are working
 
-client side validation
-
+reset data in db + in production
 -----
+add the listings and charity pictures functionality
+
+automatically remember which option for login was selected
+
+make a better telephone field with a consistent format
+
+show languages and skills and interests in the email?
+
+(show the number of participants in the email?)
+
 sort out css naming
 
 go over all the TODOs in the files themselves

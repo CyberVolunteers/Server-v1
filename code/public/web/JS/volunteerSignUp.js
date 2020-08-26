@@ -1,4 +1,6 @@
 $(function(){
+    const csrfToken = $("meta[name=\"csrf-token\"]").attr("content");
+
     $("form").submit(function(){
         const options = {
             email: $("#username").val(),
@@ -8,7 +10,6 @@ $(function(){
             firstName: $("#fname").val(),
             lastName: $("#lname").val(),
             phoneNumber: $("#num").val(),
-            birthDate: $("#bday").val(),
             nationality: $("#nation").val(),
             occupation: $("#occ").val(),
             address: $("#address").val(),
@@ -16,25 +17,25 @@ $(function(){
             birthDate: $("#bday").val(),
             country: $("#country").val(),
             city: $("#city").val(),
-            subject: $("#subject").val(),
+            state: $("#state").val(),
             languages: $("#lang").val(),
             skillsAndInterests: $("#subject").val(),
-            isVolunteer: true
+            linkedIn: $("#linkedIn").val(),
+            isVolunteer: true,
+
+            _csrf: csrfToken
         };
 
         //checks
         
         $.post("/signup", options)
 		.done(function(data, textStatus){
-			console.log(data);
-			// TODO: redirect to a page
+			window.location.href = `${window.location.protocol}//${window.location.host}/formComplete`;
 		})
 		.fail(function(jqXHR){
             let errorText = jqXHR.statusText;
             $(".errorMessage").text(errorText);
             $(".errorMessage").show(500);
-            console.log(errorText);
-			// TODO: show the error message
         });
         
         return false;

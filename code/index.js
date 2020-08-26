@@ -6,12 +6,13 @@ const passport = require("passport");
 const expressSession = require("express-session");
 const exphbs  = require("express-handlebars");
 const helmet = require("helmet");
-const slowDown = require("express-slow-down");
+const rateLimit = require("express-rate-limit");
 const cookieParser = require("cookie-parser");
 const flexSearch = require("flexsearch");
 const util = require("util");
 const csurf = require("csurf");
 const favicon = require('serve-favicon');
+const xss = require("xss");
 
 const LocalStrategy = require("passport-local").Strategy;
 
@@ -76,21 +77,32 @@ passport.use(new LocalStrategy({usernameField: "email", passReqToCallback: true,
 // TODO: set actual times
 //TODO:protect other endpoints
 //TODO: tell the client that the limit has been reached and time left
-const shortTermLoginRateLimit = slowDown({
-	windowMs: 15 * 60 * 1000, // 15 minutes
-	delayAfter: 10, // limit each IP to 100 requests per windowMs,
-	delayMs: 10000,
-	skipSuccessfulRequests: true
-});
-
-const longTermLoginRateLimit = slowDown({
+const shortTermLoginRateLimit = rateLimit({
 	windowMs: 24 * 60 * 60 * 1000, // 1 day
-	delayAfter: 50, // limit each IP to 100 requests per windowMs
-	delayMs: 1 * 60 * 60 * 1000, // 1 hour
+	max: 7, // limit each IP to 7 requests per windowMs,
 	skipSuccessfulRequests: true
 });
 
+const longTermLoginRateLimit = rateLimit({
+	windowMs: 24 * 24 * 60 * 60 * 1000, // 24 days
+	max: 21, // limit each IP to 21 requests per windowMs
+	skipSuccessfulRequests: true
+});
 
+const signUpRateLimit = rateLimit({
+	windowMs: 24 * 24 * 60 * 60 * 1000, // 24 days
+	max: 3, // limit each IP to 21 requests per windowMs
+});
+
+const createListingRateLimit = rateLimit({
+	windowMs: 7 * 24 * 60 * 60 * 1000, // 1 week
+	max: 100, // limit each IP to 100 requests per windowMs
+});
+
+const getListingRateLimit = rateLimit({
+	windowMs: 1 * 24 * 60 * 60 * 1000, // 1 day
+	max: 1000, // limit each IP to 100 requests per windowMs
+});
 
 // used to serialize the user for the session
 passport.serializeUser(function(user, done) {
@@ -166,16 +178,17 @@ app.use( (req, res, next) => {
 //pages
 app.get("/", renderPage("homepage"))
 app.get("/login", logout(false), renderPage("login"));
-app.get("/volunteerSignUp", renderPage("volunteerSignUp"));
-app.get("/charitySignUp", renderPage("charitySignUp"));
+app.get("/volunteerSignUp", csrfProtection, renderPage("volunteerSignUp"));
+app.get("/charitySignUp", csrfProtection, renderPage("charitySignUp"));
 app.get("/joinUs", renderPage("joinUs"));
 app.get("/contactUs", renderPage("contactUs"));
 app.get("/contactUsLinks", renderPage("contactUsLinks"));
 app.get("/listingsPage", renderPage("listingsPage"));
 app.get("/listing", csrfProtection, renderPage("listing"));
+app.get("/formComplete", renderPage("formComplete"));
 
 //sign up post
-app.post("/signup", async function(req, res, next){
+app.post("/signup", csrfProtection, signUpRateLimit, async function(req, res, next){
 
 	const params = req.body;
 	const isVolunteer = params.isVolunteer === "true";
@@ -214,7 +227,7 @@ app.post("/login", shortTermLoginRateLimit, longTermLoginRateLimit, function(req
 
 	//if credentials are missing
 	if(!req.body.email || !req.body.password){
-		res.statusMessage = "Please, enter your email and passowrd";
+		res.statusMessage = "Please, enter your email and password";
 		return res.status(400).end();
 	}
 
@@ -272,7 +285,7 @@ app.get("/verifyEmailToken", async function(req, res, next){
 	}
 }, renderPage("verificationResult"));
 
-app.get("/getListings", function(req, res, next){
+app.get("/getListings", getListingRateLimit, function(req, res, next){
 	pool.query("SELECT charities.charityName, listings.uuid, listings.timeForVolunteering, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.createdDate, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek FROM `listings` INNER JOIN charities ON listings.charityId=charities.id", [], function(err, results){
 		if (err) return next(err);
 
@@ -280,7 +293,7 @@ app.get("/getListings", function(req, res, next){
 	});
 });
 
-app.get("/getListing", function(req, res, next){
+app.get("/getListing", getListingRateLimit, function(req, res, next){
 	if(!Validator.getListingValidate(req.query.uuid)){
 		res.statusMessage = "Bad data";
 		return res.status(400).end();
@@ -343,6 +356,11 @@ app.all("*", function(req, res, next){
 
 	return next();
 });
+
+app.get("/thankYouForHelping", renderPage("thankYouForHelping"));
+
+//private pages
+
 app.get("/createListing", function(req, res, next){
 	if(req.session.passport.user.isVolunteer === false) return next();
 	return renderPage("needToBeACharity")(req, res);
@@ -358,7 +376,7 @@ app.get("/myAccount", function(req, res, next){
 	}
 });
 
-app.post("/createListing", csrfProtection, async function(req, res, next){
+app.post("/createListing", csrfProtection, createListingRateLimit, async function(req, res, next){
 	const params = req.body;
 	const isVolunteer = req.session.passport.user.isVolunteer;
 
@@ -484,6 +502,14 @@ function renderPage(filePath){
 		};
 
 		if(req.csrfToken !== undefined) params.csrfToken = req.csrfToken();
+		if(params.isLoggedIn){
+			params.charityName = xss(req.user.charityName);
+			params.firstName = xss(req.user.firstName);
+			params.lastName = xss(req.user.lastName);
+			params.email = xss(req.user.email);
+			params.phoneNumber = xss(req.user.phoneNumber);
+		}
+
 		return res.render(filePath, params);
 	};
 }
@@ -523,4 +549,3 @@ function logout(logoutAnyway){
 		}
 	};
 }
-

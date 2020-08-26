@@ -88,3 +88,7 @@ body {
 	margin-left: 190px;
 	top: 445px;
 }
+
+.overflowControl{
+	overflow-wrap: break-word;
+}

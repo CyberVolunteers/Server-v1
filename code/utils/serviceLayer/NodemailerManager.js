@@ -130,18 +130,12 @@ module.exports = class NodemailerManager{
 				"lastName": rows[0].lastName
 			};
 
-			console.log(this.confirmEmailTextTemplate(templateInfo))
-			console.log(this.confirmEmailHTMLTemplate(templateInfo))
-
 			const info = await this.transporter.sendMail({
 				from: settings.botEmailAddress,
 				to: email,
 				subject: "Please, verify your email address",
 				text: this.confirmEmailTextTemplate(templateInfo),
 				html: this.confirmEmailHTMLTemplate(templateInfo),
-			}, (err, info) => {
-				console.log(info.envelope);
-				console.log(info.messageId);
 			});
 
 			return true;
