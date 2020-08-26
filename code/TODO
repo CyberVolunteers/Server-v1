@@ -137,6 +137,9 @@ CAPTCHA?
 replace console.log
 
 -------
+pm2 start 0 --watch
+ALWAYS LOOK AT THIS 
+https://pm2.keymetrics.io/docs/usage/watch-and-restart/
 
 ssh root@165.232.38.165
 
