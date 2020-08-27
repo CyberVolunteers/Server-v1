@@ -1,5 +1,8 @@
+const path = require("path");
+
 module.exports = {
-	getConnection: getConnection
+	getConnection: getConnection,
+	imageValidator: imageValidator
 };
 
 function getConnection(pool){
@@ -9,4 +12,20 @@ function getConnection(pool){
 			resolve(connection);
 		});
 	});
+}
+
+function imageValidator(req, file, cb){
+	const allowedExtentions = ["jpg", "jpeg", "png", "gif"];
+	const fileExtention = path.extname(file.originalname).toLowerCase();
+
+	let hasFound = false;
+	for(let i = 0; i < allowedExtentions.length; i++){
+		if(allowedExtentions[i] === fileExtention){
+			hasFound = true;
+			break;
+		}
+	}
+
+	if(!hasFound) return cb(new Error("Only image files with extentions jpg, jpeg, png and gif are allowed"), false);
+	cb(null, true);
 }

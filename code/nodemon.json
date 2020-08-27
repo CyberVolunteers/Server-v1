@@ -1,0 +1,4 @@
+{
+    "watch": ["index.js", "settings.js", "utils/"],
+    "ext": "js"
+  }

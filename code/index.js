@@ -14,6 +14,8 @@ const csurf = require("csurf");
 const favicon = require('serve-favicon');
 const xss = require("xss");
 const multer = require('multer');
+const crypto = require("crypto");
+
 
 const LocalStrategy = require("passport-local").Strategy;
 
@@ -110,7 +112,25 @@ const getListingRateLimit = rateLimit({
 	message: "You are doing this too much. Please try doing this a day later or contact us if you think this was a mistake"
 });
 
+//multer
+const Storage = multer.diskStorage({
+	destination: function(req, file, callback) {
+		callback(null, "./pictures/listingsPictures");
+	},
+	filename: function(req, file, callback) {
+		req.body.fileName = crypto.randomBytes(3*4).toString('base64').replace("+", "f").replace("/", "0");
+		req.body.fileExt = path.extname(file.originalname);
+		callback(null, req.body.fileName + req.body.fileExt);
+	}
+});
 
+const listingImageUpload = multer({
+	storage: Storage,
+	limits: {
+		fileSize: 7 * 1024 * 1024 //7 MB
+	},
+	fileFilter: util.imageValidator
+});
 
 // used to serialize the user for the session
 passport.serializeUser(function(user, done) {
@@ -387,6 +407,11 @@ app.get("/myAccount", function(req, res, next){
 });
 
 app.post("/createListing", csrfProtection, createListingRateLimit, async function(req, res, next){
+
+	listingImageUpload.single("listingPicture")(req, res, function(err){
+		
+	})
+
 	const params = req.body;
 	const isVolunteer = req.session.passport.user.isVolunteer;
 
