@@ -95,6 +95,8 @@ module.exports = class NodemailerManager{
 				html: this.volunteerHelpOfferEmailHTMLTemplate(templateInfo),
 			});
 
+			this.logger.info("sent an application email to '" + email + "'");
+
 		}finally{
 			connection.release();
 		}
@@ -138,6 +140,8 @@ module.exports = class NodemailerManager{
 				html: this.confirmEmailHTMLTemplate(templateInfo),
 			});
 
+			this.logger.info("sent a verification email to '" + email + "'");
+
 			return true;
 		}finally{
 			connection.release();
@@ -151,14 +155,15 @@ module.exports = class NodemailerManager{
 		try{
 
 			const cachedObj = emailsVerificationTokensCache.get(email);
-			const uuidRetreived = cachedObj.uuid;
-			const isVolunteer = cachedObj.isVolunteer;
 
 			//prevent timing attacks
-			if(uuidRetreived == undefined){
+			if(cachedObj == undefined){
 				secureCompare(uuid, "84f3df83-3bb8-4d90-8ea4-c4c7af2aa0d4");
 				return false;
 			}
+
+			const uuidRetreived = cachedObj.uuid;
+			const isVolunteer = cachedObj.isVolunteer;
 
 			const result =  secureCompare(uuid, uuidRetreived);
 			if(result == true){

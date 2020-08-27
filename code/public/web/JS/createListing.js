@@ -50,7 +50,6 @@ $(function(){
 			setPage(pageIndex);
 		}else{
 			let formData = new FormData();
-			console.log($('#listingPicture')[0].files[0])
 			formData.append('listingPicture', $('#listingPicture')[0].files[0]);
 
 			formData.append("duration", createDurationString($("#generalInputNum").val(), $("#time-select").val()))

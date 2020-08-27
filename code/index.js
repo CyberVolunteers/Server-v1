@@ -10,6 +10,7 @@ const rateLimit = require("express-rate-limit");
 const cookieParser = require("cookie-parser");
 const flexSearch = require("flexsearch");
 const util = require("util");
+const utils = require("./utils/utils");
 const csurf = require("csurf");
 const favicon = require('serve-favicon');
 const xss = require("xss");
@@ -118,9 +119,10 @@ const Storage = multer.diskStorage({
 		callback(null, "./pictures/listingsPictures");
 	},
 	filename: function(req, file, callback) {
-		req.body.fileName = crypto.randomBytes(3*4).toString('base64').replace("+", "f").replace("/", "0");
+		req.body.newFileName = crypto.randomBytes(24).toString('hex');
 		req.body.fileExt = path.extname(file.originalname);
-		callback(null, req.body.fileName + req.body.fileExt);
+		req.body.fullNewFileName = req.body.newFileName + req.body.fileExt;
+		callback(null, req.body.fullNewFileName);
 	}
 });
 
@@ -129,7 +131,7 @@ const listingImageUpload = multer({
 	limits: {
 		fileSize: 7 * 1024 * 1024 //7 MB
 	},
-	fileFilter: util.imageValidator
+	fileFilter: utils.imageValidator
 });
 
 // used to serialize the user for the session
@@ -216,6 +218,7 @@ app.get("/listingsPage", renderPage("fakeListings"));
 app.get("/listing", csrfProtection, renderPage("listing"));
 app.get("/aboutUs", renderPage("aboutUs"));
 app.get("/formComplete", renderPage("formComplete"));
+app.get("/signUpComplete", renderPage("signUpComplete"));
 
 //sign up post
 app.post("/signup", csrfProtection, signUpRateLimit, async function(req, res, next){
@@ -408,9 +411,18 @@ app.get("/myAccount", function(req, res, next){
 
 app.post("/createListing", csrfProtection, createListingRateLimit, async function(req, res, next){
 
-	listingImageUpload.single("listingPicture")(req, res, function(err){
-		
-	})
+	try{
+		await util.promisify(listingImageUpload.single("listingPicture"))(req, res);
+	}catch(err){
+		if (err instanceof multer.MulterError) {
+			return next(err);
+		}else{
+			res.statusMessage = "An error occured, please try again later";
+			logger.error("Error:")
+			logger.error(err.stack);
+			return res.status(400).end();
+		}
+	}
 
 	const params = req.body;
 	const isVolunteer = req.session.passport.user.isVolunteer;

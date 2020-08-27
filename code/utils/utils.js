@@ -15,7 +15,7 @@ function getConnection(pool){
 }
 
 function imageValidator(req, file, cb){
-	const allowedExtentions = ["jpg", "jpeg", "png", "gif"];
+	const allowedExtentions = [".jpg", ".jpeg", ".png", ".gif"];
 	const fileExtention = path.extname(file.originalname).toLowerCase();
 
 	let hasFound = false;
@@ -27,5 +27,5 @@ function imageValidator(req, file, cb){
 	}
 
 	if(!hasFound) return cb(new Error("Only image files with extentions jpg, jpeg, png and gif are allowed"), false);
-	cb(null, true);
+	return cb(null, true);
 }

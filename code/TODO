@@ -13,6 +13,8 @@ check that all pages are working
 
 reset data in db + in production
 -----
+ajax if 401, redirect to login
+
 clean up the css
 
 responsive design for mobile
@@ -119,7 +121,9 @@ error handling
 
 page caching
 
-docs
+docs?
+
+ssh block unsuccessful requests
 
 split index.js into files
 
