@@ -38,6 +38,8 @@ $(function(){
 		})
 		.fail(function(jqXHR){
 			let errorText = jqXHR.statusText;
+
+			if(jqXHR.status === 429) errorText = jqXHR.responseText
 			$(".errorMessage").text(errorText);
 			$(".errorMessage").show(500);
 		});

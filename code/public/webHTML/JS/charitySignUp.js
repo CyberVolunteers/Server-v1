@@ -22,8 +22,9 @@ $(function(){
 		})
 		.fail(function(jqXHR){
             let errorText = jqXHR.statusText;
-            $(".errorMessage").text(errorText);
-            $(".errorMessage").show(500);
+            if(jqXHR.status === 429) errorText = jqXHR.responseText
+			$(".errorMessage").text(errorText);
+			$(".errorMessage").show(500);
         });
         
         return false;
