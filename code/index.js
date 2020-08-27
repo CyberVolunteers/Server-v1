@@ -13,6 +13,7 @@ const util = require("util");
 const csurf = require("csurf");
 const favicon = require('serve-favicon');
 const xss = require("xss");
+const multer = require('multer');
 
 const LocalStrategy = require("passport-local").Strategy;
 
@@ -80,29 +81,36 @@ passport.use(new LocalStrategy({usernameField: "email", passReqToCallback: true,
 const shortTermLoginRateLimit = rateLimit({
 	windowMs: 24 * 60 * 60 * 1000, // 1 day
 	max: 7, // limit each IP to 7 requests per windowMs,
-	skipSuccessfulRequests: true
+	skipSuccessfulRequests: true,
+	message: "You are doing this too much. Please try doing this a day later or contact us if you think this was a mistake"
 });
 
 const longTermLoginRateLimit = rateLimit({
 	windowMs: 24 * 24 * 60 * 60 * 1000, // 24 days
 	max: 21, // limit each IP to 21 requests per windowMs
-	skipSuccessfulRequests: true
+	skipSuccessfulRequests: true,
+	message: "You are doing this too much. Please try doing this later or contact us if you think this was a mistake"
 });
 
 const signUpRateLimit = rateLimit({
 	windowMs: 24 * 24 * 60 * 60 * 1000, // 24 days
 	max: 3, // limit each IP to 21 requests per windowMs
+	message: "You are doing this too much. Please try doing this later or contact us if you think this was a mistake"
 });
 
 const createListingRateLimit = rateLimit({
 	windowMs: 7 * 24 * 60 * 60 * 1000, // 1 week
 	max: 100, // limit each IP to 100 requests per windowMs
+	message: "You are doing this too much. Please try doing this a week later or contact us if you think this was a mistake"
 });
 
 const getListingRateLimit = rateLimit({
 	windowMs: 1 * 24 * 60 * 60 * 1000, // 1 day
 	max: 1000, // limit each IP to 100 requests per windowMs
+	message: "You are doing this too much. Please try doing this a day later or contact us if you think this was a mistake"
 });
+
+
 
 // used to serialize the user for the session
 passport.serializeUser(function(user, done) {
