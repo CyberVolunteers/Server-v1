@@ -205,6 +205,8 @@ app.use( (req, res, next) => {
 
 //requests
 
+app.use(express.static(path.join(__dirname, "pictures"))); // to serve pictures
+
 //pages
 app.get("/", renderPage("homepage"))
 app.get("/login", logout(false), renderPage("login"));
@@ -318,7 +320,7 @@ app.get("/verifyEmailToken", async function(req, res, next){
 }, renderPage("verificationResult"));
 
 app.get("/getListings", getListingRateLimit, function(req, res, next){
-	pool.query("SELECT charities.charityName, listings.uuid, listings.timeForVolunteering, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.createdDate, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek FROM `listings` INNER JOIN charities ON listings.charityId=charities.id", [], function(err, results){
+	pool.query("SELECT charities.charityName, listings.uuid, listings.timeForVolunteering, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.createdDate, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek, listings.pictureName FROM `listings` INNER JOIN charities ON listings.charityId=charities.id", [], function(err, results){
 		if (err) return next(err);
 
 		return res.status(200).json(results);
@@ -330,7 +332,7 @@ app.get("/getListing", getListingRateLimit, function(req, res, next){
 		res.statusMessage = "Bad data";
 		return res.status(400).end();
 	}
-	pool.query("SELECT charities.charityName, listings.timeForVolunteering, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.createdDate, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek FROM `listings` INNER JOIN charities ON listings.charityId=charities.id  WHERE `uuid`=?", [req.query.uuid], function(err, results){
+	pool.query("SELECT charities.charityName, listings.timeForVolunteering, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.createdDate, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek, listings.pictureName FROM `listings` INNER JOIN charities ON listings.charityId=charities.id  WHERE `uuid`=?", [req.query.uuid], function(err, results){
 		if (err) return next(err);
 
 		return res.status(200).json(results);
@@ -494,6 +496,13 @@ app.post("/applyForListing", csrfProtection, async function(req, res, next){
 	}
 });
 
+app.get("/getCharitiesWaitingForVerification", blockNonAdmins, function(req, res, next){
+	pool.query("SELECT * FROM charities WHERE isVerifiedByUs=0", [], function(err, results){
+		if(err) return res.send(err);
+		return res.json(results);
+	});
+});
+
 //404 page
 app.all("*", function(req, res, next){
 	//if ajax, send message, otherwise, show page
@@ -594,4 +603,14 @@ function logout(logoutAnyway){
 			next();
 		}
 	};
+}
+
+function blockNonAdmins(req, res, next){
+	console.log([req.user.isAdmin]);
+	logger.info("accessing admin pages, isAdmin=" + req.user.isAdmin);
+	if(req.user.isAdmin === 1){
+		return next();
+	}else{
+		return renderPage("error404")(req, res);
+	}
 }

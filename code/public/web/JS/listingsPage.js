@@ -18,7 +18,9 @@ $(function(){
 					</div>
 					<div class="listingxp"><div class="listingsxpwriting cut-text">${filterXSS(entry.requirements)}</div>
 					</div>
-					<!--<div class="imageholder" id="image${i}"></div>-->
+					<div class="imageholder" id="image${1}" style="background-image: url(listingsPictures/${filterXSS(entry.pictureName)});
+					background-size: cover;
+					background-position: center;"></div>
 					<div class="lstitle cut-text">${filterXSS(entry.opportunityTitle)}</div>
 					<div class="lstcharity cut-text">${filterXSS(entry.charityName)}</div>
 				</div>

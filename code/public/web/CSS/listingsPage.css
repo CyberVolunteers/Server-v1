@@ -161,7 +161,7 @@ button {
 .cut-text { 
 	text-overflow: ellipsis;
 	overflow: hidden; 
-	width: 160px; 
+	width: 80%; 
 	height: 1.2em; 
 	white-space: nowrap;
 }
