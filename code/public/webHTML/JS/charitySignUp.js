@@ -18,7 +18,7 @@ $(function(){
         };
         $.post("/signup", options)
 		.done(function(data, textStatus){
-			window.location.href = `${window.location.protocol}//${window.location.host}/formComplete`;
+			window.location.href = `${window.location.protocol}//${window.location.host}/signUpComplete`;
 		})
 		.fail(function(jqXHR){
             let errorText = jqXHR.statusText;

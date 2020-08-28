@@ -36,14 +36,14 @@ body {
 	font-size: 23px;
 }
 .joinButton {
-	position: absolute;
+	position: relative;
 	width: 300px;
 	height: 45px;
 	background-color: #f85120;
 	border: none;
-	top: 440px;
-
-	margin-left: 100px;
+	margin-top: 50px;
+	margin-right: auto;
+	margin-left: auto;
 	border-radius: 50px;
 	cursor: pointer;
 	display: flex;
@@ -67,5 +67,4 @@ body {
 }
 #JoinButtonRight {
 	width: 280px;
-	margin-left: 110px;
 }
