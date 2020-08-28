@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/joinUs.css">
+    <link rel="stylesheet" href="../CSS/header.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="../JS/joinUs.js"></script>
+
+    <title>Join Us</title>
+</head>
+<body>
+
+    {{> header}}
+    
+    <div class="title">Join Us</div>
+    <div class="joinBoxes">   
+        <div class="joinBox" id="joinVolunteerBox">
+            <div class="joinBoxTitle">Join as a Volunteer</div>
+            <div class="joinBoxMainText">Join us as a Volunteer and have access to all the charities on the platform. Find charities quickly and easily so you can spend more time making a difference.</div>
+            <button type="submit" class="joinButton volunteerJoinButton">
+                <div class="buttontext">Join as a Volunteer now</div>
+                <img src="../IMG/whiteArrow2.svg" class="icon" id="whiteArrowLeft">
+            </button>
+        </div>
+        <div class="joinBox" id="joinCharityBox">
+            <div class="joinBoxTitle">Join as a Charity</div>
+            <div class="joinBoxMainText">Join as a Charity and be able to find volunteers who are willing to help you easily.</div>
+            <button type="submit" class="joinButton charityJoinButton" id="JoinButtonRight">
+                <div class="buttontext">Join as a Charity now</div>
+                <img src="../IMG/whiteArrow2.svg" class="icon" id="whiteArrowRight">
+            </button>
+        </div>
+    </div>    
+</body>
+</html>
