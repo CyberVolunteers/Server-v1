@@ -97,6 +97,10 @@ $(function(){
 			})
 			.fail(function(jqXHR){
 				let errorText = jqXHR.statusText;
+				if(jqXHR.status === 401){
+					window.location.href = `${window.location.protocol}//${window.location.host}/login`;
+					return;
+				}
 				if(jqXHR.status === 429) errorText = jqXHR.responseText
 				$(".errorMessage").text(errorText);
 				$(".errorMessage").show(500);

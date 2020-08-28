@@ -20,7 +20,7 @@ const logger = winston.createLogger({
 			)
 		}),
 		new winston.transports.File({
-			filename: `${__dirname}/../logs/cobined.log`,
+			filename: `${__dirname}/../logs/combined.log`,
 			format: winston.format.combine(
 				timestamp(),
 				timestampedFormat

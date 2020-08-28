@@ -213,8 +213,7 @@ app.get("/charitySignUp", csrfProtection, renderPage("charitySignUp"));
 app.get("/joinUs", renderPage("joinUs"));
 app.get("/contactUs", renderPage("contactUs"));
 app.get("/contactUsLinks", renderPage("contactUsLinks"));
-app.get("/listingsPage", renderPage("fakeListings"));
-//app.get("/listingsPage", renderPage("listingsPage"));
+app.get("/listingsPage", renderPage("listingsPage"));
 app.get("/listing", csrfProtection, renderPage("listing"));
 app.get("/aboutUs", renderPage("aboutUs"));
 app.get("/formComplete", renderPage("formComplete"));
@@ -359,12 +358,12 @@ app.get("/sendConfirmationEmail", csrfProtection, async function(req, res, next)
 
 	try{
 		const reply = await NodemailerManager.sendConfirmationEmail(email, isVolunteer);
+		logger.info(reply);
 		if(reply === true){
 			return next();
 		}else{
 			logger.error(reply);
-			res.statusMessage = reply;
-			return res.status(500).end();
+			return res.send(reply);
 		}
 	}catch(err){
 		return next(err);

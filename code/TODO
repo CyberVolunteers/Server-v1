@@ -13,11 +13,9 @@ check that all pages are working
 
 reset data in db + in production
 -----
-ajax if 401, redirect to login
+refresh page thing on sent confirmation email
 
 clean up the css
-
-responsive design for mobile
 
 add the listings and charity pictures functionality
 
@@ -28,8 +26,6 @@ make a better telephone field with a consistent format
 show languages and skills and interests in the email?
 
 (show the number of participants in the email?)
-
-sort out css naming
 
 go over all the TODOs in the files themselves
 

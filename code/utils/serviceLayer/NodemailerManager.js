@@ -159,6 +159,7 @@ module.exports = class NodemailerManager{
 			//prevent timing attacks
 			if(cachedObj == undefined){
 				secureCompare(uuid, "84f3df83-3bb8-4d90-8ea4-c4c7af2aa0d4");
+				this.logger.info("No token for email verification");
 				return false;
 			}
 
@@ -172,6 +173,8 @@ module.exports = class NodemailerManager{
 				}else{
 					await query("UPDATE charities SET isEmailVerified=1 WHERE email=?", [email]);
 				}
+			}else{
+				this.logger.info("Wrong token for email confirmation");
 			}
 
 			return result;
