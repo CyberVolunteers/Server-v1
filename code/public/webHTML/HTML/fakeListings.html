@@ -4,21 +4,16 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../CSS/Listings.css">
+    <link rel="stylesheet" href="../CSS/listings.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
     <title>ListingsPage</title>
 </head>
 <body>
-    <header id="header">
-        <a href="../index.html" id="mainLink">CONNECT VOLUNTEERS</a>
-        <nav>
-            <ul class="nav_links">
-                <li><a href="#">CONTACT</a></li>
-                <li><a href="#">JOIN</a></li>
-                <li><a href="#">ABOUT</a></li>
-                <li><a href="#">SEARCH</a></li>
-            </ul>
-        </nav>
-    </header>
+
+    {{> header}}
+
     <div class="listingsWrapper">
         <div class="listings" id="listing1" onclick="location. href='https://www.onlinevolunteering.org/en/youth-press-and-development-organisation/online-fundraising-campaign-covid-19-emergency-response-2'">
             <div class="listingHeader"><div class="listingscat">COVID 19 RESPONSE</div></div>
