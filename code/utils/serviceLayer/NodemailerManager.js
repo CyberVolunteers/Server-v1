@@ -43,8 +43,6 @@ module.exports = class NodemailerManager{
 		this.volunteerHelpOfferEmailTextTemplate = Handlebars.compile(fs.readFileSync("./public/emails/volunteerHelpOfferEmail.txt", "utf8"));
 
 		this.volunteerHelpOfferEmailHTMLTemplate = Handlebars.compile(fs.readFileSync("./public/emails/volunteerHelpOfferEmail.hbs", "utf8"));
-
-		this.sendVolunteerHelpOfferEmail([11, 12, 13, 14, 15], "08mnekrasov@brightoncollege.net");
 	}
 
 	processInfoForVolunteerHelpOfferEmail(rowInfo, templateInfo){
