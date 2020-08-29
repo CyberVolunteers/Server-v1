@@ -5,119 +5,12 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
-    <link href = "../CSS/login.css" rel = "stylesheet" type = "text/css">
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="../JS/login.js"></script>
-    <title>LoginPage</title>
-    <style>/* Bordered form */
-        form {
-          border: none;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          padding: 100px 0;
-          font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-          margin-left: auto;
-          margin-right: auto;
-          
-        }
-        
-        /* Full-width inputs */
-        input[type=text], input[type=email], input[type=password] {
-          width: 40%;
-          font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-          padding: 10px 20px;
-          margin-bottom: 5px;
-          display: inline-block;
-          border: 1px solid #ccc;
-          box-sizing: border-box;
-          font-size: 16px;
-          
-         
-        }
-        
-        /* Set a style for all buttons */
-        button {
-          background-color: #f44336;
-          color: white;
-          font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-          padding: 14px 20px;
-          margin-top: 30px;
-          margin-bottom: 20px;
-          margin-left: auto;
-          margin-right: auto;
-          text-align: center;
-          border: none;
-          cursor: pointer;
-          width: 390px;
-        }
-        
-        /* Add a hover effect for buttons */
-        button:hover {
-          opacity: 0.8;
-        }
-        
-        /* Add padding to containers */
-        .container {
-          width: 100vw;
-          padding: 16px;
-          display: flex;
-          justify-content: center;
-          flex-direction: column;
-          
-        }
-
-        .header {
-          padding: 25px;
-          text-align: center;
-          color: #f44336;
-          font-size: 30px; 
-        }
-        #rememberme{
-          margin-right:8px;
-        }
-        .username{
-          margin-right: auto;
-          margin-left: auto;
-        }
-        .password{
-    
-          margin-right: auto;
-          margin-left: auto;
-
-        }
-        .passwordlabel{
-          position: relative;
-          left: -90px;
-          width: 20px;
-          top: 25px;
-          font-weight: 600;
-          
-        }
-        .usernamelabel{
-          position: relative;
-          margin-left: -90px;
-          top: 25px;
-          width: 20px;
-          font-weight: 600;
-        }
-        .rememberme{
-          margin-left: auto;
-          margin-right: auto;
-          
-        }
-    </style>
-=======
     <link href = "../CSS/login.css" rel = "stylesheet" type = "text/css" >
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../JS/login.js"></script>
 
     <title>Login Page</title>
->>>>>>> a289622e29718fc2175c9db78880734e61bb1592
 </head>
 
 <body>
@@ -136,19 +29,6 @@
         </div>
         
         <div class="container">
-<<<<<<< HEAD
-          <label for="email"><b>Email</b></label>
-          <input class="email" type="email" style="margin-left:8px" placeholder="Enter Email" name="email" required>
-
-          <p> </p>
-      
-          <label for="psw"><b>Password</b></label>
-          <input class="password" type="password" style="margin-left:15px" placeholder="Enter Password" name="psw" required>
-      
-          <p> </p>
-
-          <button type="submit">Submit</button>
-=======
           <div class="username">
             <div class="usernamelabel">Email</div>
             <input type="email" id="email" placeholder="Enter Email" name="uname" required>
@@ -162,16 +42,11 @@
           {{> errorSnippet}}
           
           <button type="submit" class="submit">Submit</button>
->>>>>>> a289622e29718fc2175c9db78880734e61bb1592
 
          
           <div class="rememberme">
             
-<<<<<<< HEAD
-              <input type="checkbox" id="rememberme" checked="checked" name="remember">Remember me
-=======
               <input type="checkbox" id="rememberMeCheckbox" checked="checked" name="remember">Remember me
->>>>>>> a289622e29718fc2175c9db78880734e61bb1592
             
           </div>
         </div>
