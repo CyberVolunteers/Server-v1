@@ -50,7 +50,6 @@ $(function(){
 			setPage(pageIndex);
 		}else{
 			let formData = new FormData();
-			console.log($('#listingPicture')[0].files[0])
 			formData.append('listingPicture', $('#listingPicture')[0].files[0]);
 
 			formData.append("duration", createDurationString($("#generalInputNum").val(), $("#time-select").val()))
@@ -98,6 +97,10 @@ $(function(){
 			})
 			.fail(function(jqXHR){
 				let errorText = jqXHR.statusText;
+				if(jqXHR.status === 401){
+					window.location.href = `${window.location.protocol}//${window.location.host}/login`;
+					return;
+				}
 				if(jqXHR.status === 429) errorText = jqXHR.responseText
 				$(".errorMessage").text(errorText);
 				$(".errorMessage").show(500);

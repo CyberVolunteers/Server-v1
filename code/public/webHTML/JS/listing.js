@@ -15,7 +15,7 @@ $(function(){
 			$(".opertunitytitle").text(filterXSS(listing.opportunityTitle));
 			$(".opdescriptiontext").text(filterXSS(listing.opportunityDesc));
 			$(".placeInfo").text(filterXSS(listing.placeForVolunteering));
-			$(".timeInfo").text(filterXSS(listing.opportunityDesc));
+			$(".timeInfo").text(filterXSS(listing.timeForVolunteering));
 			$(".timeReqNumbers").text(filterXSS(listing.minHoursPerWeek + "-" + listing.maxHoursPerWeek));
 			$(".skills").text(filterXSS(listing.skills));
 			$(".requirements").text(filterXSS(listing.requirements));
