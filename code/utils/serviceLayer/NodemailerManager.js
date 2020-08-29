@@ -43,6 +43,8 @@ module.exports = class NodemailerManager{
 		this.volunteerHelpOfferEmailTextTemplate = Handlebars.compile(fs.readFileSync("./public/emails/volunteerHelpOfferEmail.txt", "utf8"));
 
 		this.volunteerHelpOfferEmailHTMLTemplate = Handlebars.compile(fs.readFileSync("./public/emails/volunteerHelpOfferEmail.hbs", "utf8"));
+
+		this.sendVolunteerHelpOfferEmail([11, 12, 13, 14, 15], "08mnekrasov@brightoncollege.net");
 	}
 
 	processInfoForVolunteerHelpOfferEmail(rowInfo, templateInfo){
@@ -76,7 +78,7 @@ module.exports = class NodemailerManager{
 		const query = util.promisify(connection.query).bind(connection);
 
 		try{
-			const rows = await query("SELECT listings.opportunityTitle, listings.createdDate, volunteers.firstName, volunteers.lastName, volunteers.email, volunteers.phoneNumber, volunteers.address, volunteers.nationality, volunteers.occupation, volunteers.linkedIn, volunteers.gender, volunteers.birthDate FROM volunteers_listings INNER JOIN volunteers ON volunteers.id=volunteers_listings.volunteerId INNER JOIN listings ON listings.id=listingId WHERE volunteers_listings.id IN (?)", [volunteers_listingsIds]);
+			const rows = await query("SELECT listings.opportunityTitle, listings.createdDate, volunteers.firstName, volunteers.lastName, volunteers.email, volunteers.phoneNumber, volunteers.address, volunteers.nationality, volunteers.occupation, volunteers.linkedIn, volunteers.gender, volunteers.birthDate, volunteers.languages, volunteers.skillsAndInterests, listings.volunteersSignedUp FROM volunteers_listings INNER JOIN volunteers ON volunteers.id=volunteers_listings.volunteerId INNER JOIN listings ON listings.id=listingId WHERE volunteers_listings.id IN (?)", [volunteers_listingsIds]);
 
 			if(rows.length == 0) throw new Error("Can not find this listing");
 
@@ -206,6 +208,7 @@ module.exports = class NodemailerManager{
 			}
 
 			await query("INSERT INTO volunteers_listings(volunteerId, listingId, isConfirmed, appliedDate) VALUES(?, ?, ?, UNIX_TIMESTAMP())", [params.volunteerId, listingId, 0]);
+			await query("UPDATE listings set volunteersSignedUp=volunteersSignedUp+1 WHERE id=?", [listingId]);
 
 			//check if the charity wants to receive emails in groups
 			results = await query("SELECT sendHelpEmailsPeopleInGroups, email FROM charities WHERE id=?", [charityId]);

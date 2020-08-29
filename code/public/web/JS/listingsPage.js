@@ -23,8 +23,7 @@ $(function(){
 					background-position: center;"></div>
 					<div class="lstitle cut-text">${filterXSS(entry.opportunityTitle)}</div>
 					<div class="lstcharity cut-text">${filterXSS(entry.charityName)}</div>
-				</div>
-				`;
+				</div>`;
 
 				$(".listingsWrapper").append(templateHTML);
 			}
