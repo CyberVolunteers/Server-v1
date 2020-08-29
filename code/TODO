@@ -13,15 +13,15 @@ check that all pages are working
 
 reset data in db + in production
 -----
-skills and interests in application email
+begin and commit
 
 The description is coming up in the when box
 
-refresh page thing on sent confirmation email
+finish pictures thing
 
-clean up the css
+add the charity pictures functionality
 
-add charity pictures functionality
+when changing charity to sending batch emails, reset the volunteer_listings type to sent
 
 automatically remember which option for login was selected
 

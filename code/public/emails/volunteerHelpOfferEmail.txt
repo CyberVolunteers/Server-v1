@@ -12,7 +12,7 @@ Title: {{opportunityTitle}}
 
 Date Posted: {{createdDate}}
 
-Number of people that have shown interest: \{{number who have volunteered for the opportunity}}
+Number of people that have shown interest: {{volunteersSignedUp}}
 
 Volunteer Information:
 
@@ -22,7 +22,7 @@ Email: {{email}}
 
 Phone Number: {{phoneNumber}}
 
-Address: \{{address}}
+Address: {{address}}
 
 Gender: {{gender}}
 
@@ -34,9 +34,9 @@ Nationality: {{nationality}}
 Occupation: {{occupation}}
 {{/if}}
 
-Languages: \{{languages}}
+Languages: {{languages}}
 
-Skills and Interests: \{{skills and interests}}
+Skills and Interests: {{skillsAndInterests}}
 
 {{#if linkedIn}}
 Linked In Account: {{linkedIn}}
