@@ -10,7 +10,7 @@ body {
 .opertunitytitle {
 	text-align: center;
 	font-size: 35px;
-	padding-top: 90px;
+	padding-top: 20px;
 }
 .opertunityorg {
 	text-align: center;
@@ -89,6 +89,6 @@ body {
 	top: 445px;
 }
 
-.overflowControl{
+.overflowControl {
 	overflow-wrap: break-word;
 }
