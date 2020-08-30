@@ -1,12 +1,5 @@
 body {
 }
-.header {
-	padding-top: 60px;
-	margin-bottom: 35px;
-	text-align: center;
-	color: #f44336;
-	font-size: 30px;
-}
 .opertunitytitle {
 	text-align: center;
 	font-size: 35px;
@@ -76,12 +69,17 @@ body {
 	padding-top: 5px;
 }
 #map {
-	width: 190px;
-	height: 200px;
-	position: absolute;
-	margin-left: 190px;
+	width: 160px;
+	height: 160px;
 	border: 1px solid gray;
-	top: -400px;
+
+	margin: auto;
+
+	position: absolute;
+
+	margin-top: -330px;
+
+	margin-left: 190px;
 }
 .basicinfogroupreq {
 	position: absolute;

@@ -15,6 +15,8 @@ reset data in db + in production
 -----
 begin and commit
 
+put restrictions on google api key
+
 The description is coming up in the when box
 
 finish pictures thing

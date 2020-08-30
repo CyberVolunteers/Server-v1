@@ -1,36 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        
-        {{> common}}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/listing.css">
+    <link rel="stylesheet" href="../CSS/header.css">
 
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="../CSS/listing.css">
-        <link rel="stylesheet" href="../CSS/header.css">
-
-        <script src="https://rawgit.com/leizongmin/js-xss/master/dist/xss.js"></script>
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="../JS/listing.js"></script>
-
-        <title>Listing1</title>
-    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://rawgit.com/leizongmin/js-xss/master/dist/xss.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAO_Y95jkPGDVI6lLofm8pESkUhIW-sqts&callback=initMap&libraries=&v=weekly" defer></script>
+    <script src="../JS/listing.js"></script>
+    <title>listing</title>
+</head>
 <body>
 
     {{> header}}
 
     <div class="header">
-        <h1>Listing information</h1>
+        <h1>Listing</h1>
     </div>
 
     {{> errorSnippet}}
-    
-    <div class="opertunitytitle overflowControl">Some sort of Volunteering Gig</div>
-    <div class="opertunityorg overflowControl">TODO: change</div>
+
+    <div class="opertunitytitle">Loading...</div>
+    <div class="opertunityorg">Loading...</div>
     <div class="opinfowrap">
         <div class="opdescription"> 
-            <div class="opdescriptiontext overflowControl">Loading...
+            <div class="opdescriptiontext">Loading...
             </div>
             <button type="submit" class="wantToHelpButton">
                 <div class="buttontext">I Want to Help</div>
@@ -42,33 +38,35 @@
             <div class="basicinfoinfo">
                 <div class="basicinfogroup">
                     <div class="basicinfotitle">When</div>
-                    <div class="basicinfo timeInfo overflowControl">Loading...</div>
+                    <div class="basicinfo timeInfo">Loading...</div>
                 </div>
                 <div class="basicinfogroup">
                     <div class="basicinfotitle">Where</div>
-                    <div class="basicinfo placeInfo overflowControl">Loading...</div>
+                    <div class="basicinfo placeInfo">Loading...</div>
                 </div>
                 <div class="basicinfogroup">
                     <div class="basicinfotitle">Time Requirements</div>
-                    <div class="basicinfo timeReq">
-                        <span class="timeReqNumbers overflowControl">Loading...</span> hours per week
-                    </div>
+                    <div class="basicinfo timeReqNumbers">Loading...</div>
                 </div>
                 <div class="basicinfogroup">
                     <div class="basicinfotitle">Skills</div>
-                    <div class="basicinfo skills overflowControl">Loading...</div>
+                    <div class="basicinfo skills">Loading...</div>
                 </div>
                 <div class="basicinfogroup">
                     <div class="basicinfotitle">Good For</div>
-                    <div class="basicinfo recommendedGroups overflowControl">Loading...</div>
+                    <div class="basicinfo recommendedGroups">Loading...</div>
                 </div>
-                <div id="map"></div>
+                <div class="mapContainer">
+                    <div id="map"></div>
+                </div>
+                <div id="basicinfogroup"></div>
                 <div class="basicinfogroupreq">
                     <div class="basicinfotitle">Requirements</div>
-                    <div class="basicinfo requirements overflowControl">Loading...</div>
+                    <div class="basicinfo requirements">Loading...</div>
                 </div>
             </div>
         </div>   
     </div>
+
 </body>
 </html>
