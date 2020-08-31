@@ -21,7 +21,8 @@
 	height: 50px;
 	background-color: ;
 	box-shadow: rgba(0, 0, 0, 0.411) 0px 0px 4px;
-	margin-left: 45px;
+	margin-left: auto;
+	margin-right: auto;
 	margin-top: 50px;
 }
 .redirectButtonText {
