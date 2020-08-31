@@ -75,8 +75,6 @@ tests
 
 check if listings page date is accurate
 
-nginx for TLS
-
 https://expressjs.com/en/advanced/best-practice-performance.html
 https://expressjs.com/en/advanced/best-practice-security.html
 + look up additionally
@@ -86,10 +84,6 @@ https://expressjs.com/en/advanced/best-practice-security.html
 look at git commands
 
 cache
-
-throttling:The first is number of consecutive failed attempts by the same user name and IP address.
-The second is number of failed attempts from an IP address over some long period of time. For example, block an IP address if it makes 100 failed attempts in one day.
-+ other actions
 
 a store for throttling data
 test it
