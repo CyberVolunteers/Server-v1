@@ -1,5 +1,16 @@
 $(function(){
-	let isVolunteer = true;
+	let isVolunteerCookie = getCookie("isVolunteer")
+	let isVolunteer = (isVolunteerCookie === undefined || isVolunteerCookie==="") ? true : isVolunteerCookie === "true";
+
+	if(isVolunteer){
+		console.log("vol")
+		$("#vol").addClass("selectedOption");
+		$("#char").removeClass("selectedOption");
+	}else{
+		console.log("char")
+		$("#vol").removeClass("selectedOption");
+		$("#char").addClass("selectedOption");
+	}
 
 	$("#char").click(function(){
 		isVolunteer = false;
@@ -29,6 +40,9 @@ $(function(){
 			isVolunteer: isVolunteer
 		})
 		.done(function(data, textStatus){
+			document.cookie = "isVolunteer=" + isVolunteer + ";path=/;";
+
+			//redirect
 			const params = new URLSearchParams(window.location.search)
 			if(params.has("redirect")){
 				window.location.href = `${window.location.protocol}//${window.location.host}/${params.get("redirect")}`
@@ -47,3 +61,9 @@ $(function(){
 		return false;
 	});
 });
+
+function getCookie(name) {
+	const value = `; ${document.cookie}`;
+	const parts = value.split(`; ${name}=`);
+	if (parts.length === 2) return parts.pop().split(';').shift();
+}

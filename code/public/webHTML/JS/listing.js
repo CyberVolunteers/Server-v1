@@ -1,8 +1,14 @@
+let map;
+
 $(function(){
 	const csrfToken = $("meta[name=\"csrf-token\"]").attr("content");
 
+
+
 	const url = new URL(window.location.href);
 	const uuid = url.searchParams.get("uuid");
+
+	if(getCookie("isVolunteer") === "false") $(".wantToHelpButton").hide();
 
 	//get listing data
 	$.get("/getListing",
@@ -16,11 +22,39 @@ $(function(){
 			$(".opdescriptiontext").text(filterXSS(listing.opportunityDesc));
 			$(".placeInfo").text(filterXSS(listing.placeForVolunteering));
 			$(".timeInfo").text(filterXSS(listing.timeForVolunteering));
-			$(".timeReqNumbers").text(filterXSS(listing.minHoursPerWeek + "-" + listing.maxHoursPerWeek));
+			$(".timeReqNumbers").text(filterXSS(listing.minHoursPerWeek + "-" + listing.maxHoursPerWeek) + " hours per week");
 			$(".skills").text(filterXSS(listing.skills));
 			$(".requirements").text(filterXSS(listing.requirements));
 			$(".recommendedGroups").text(filterXSS(listing.targetAudience));
 			$(".opertunityorg").text(filterXSS(listing.charityName));
+
+			//geocode
+			const geocodeString = `https://maps.googleapis.com/maps/api/geocode/json?address=${escape(filterXSS(listing.placeForVolunteering).replace(" ", "+"))}&key=AIzaSyAO_Y95jkPGDVI6lLofm8pESkUhIW-sqts`;
+			$.get(geocodeString)
+			.done(function(data){
+				if(data.status !== "OK"){
+					$(".errorMessage").text("Something went wrong with the map, please try again letter or contact us");
+					$(".errorMessage").show(500);
+					return;
+				}
+
+				const results = data.results;
+				const pos = results[0].geometry.location;
+
+				marker = new google.maps.Marker({
+					position: pos,
+					map: map,
+					title: 'Opportunity here'
+				});
+
+				map.setCenter(pos);
+				map.setZoom(14);
+			})
+			.fail(function(jqXHR){
+				console.log(jqXHR)
+				$(".errorMessage").text("Something went wrong with the map, please try again letter or contact us");
+				$(".errorMessage").show(500);
+			})
 		})
 		.fail(function(jqXHR){
 			let errorText = jqXHR.statusText;
@@ -53,3 +87,16 @@ $(function(){
 			});
 	});
 });
+
+function initMap() {
+	map = new google.maps.Map(document.getElementById("map"), {
+		center: { lat: 0, lng: 0 },
+		zoom: 0
+	});
+}
+
+function getCookie(name) {
+	const value = `; ${document.cookie}`;
+	const parts = value.split(`; ${name}=`);
+	if (parts.length === 2) return parts.pop().split(';').shift();
+}
