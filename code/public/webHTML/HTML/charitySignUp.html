@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href = "../CSS/header.css" rel = "stylesheet" type = "text/css" >
+    <link href = "../CSS/signUp.css" rel = "stylesheet" type = "text/css" >
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="../JS/charitySignUp.js"></script>
+
+    {{> common}}
+
+    <title>Charity Sign Up</title>
+    
+</head>
+
+<body>
+
+    {{> header}}
+
+    <div class="header">
+        <h1>Sign Up as a Charity</h1>
+    </div>
+
+    <div class="container">
+    <form action="/action_page.php">
+
+        <label for="username">Email</label>
+        <input type = "email" id="username" name="username" placeholder="Your email" required maxlength="320">
+
+        <label for="password">Password</label>
+        <input type = "password" id="password" name="password" placeholder="Your password" required>
+
+        <label for="name">Name of Organisation</label>
+        <input type = "text" id="name" name="name" placeholder="Name of organisation" required maxlength="100">
+
+        <label for="type">Type of Organisation</label>
+        <input type = "text" id="type" name="type" placeholder="Type of organisation" required maxlength="30">
+
+        <label for="location">Location of Organisation</label>
+        <input type = "text" id="location" name="location" placeholder="Location where your organisation is based" required maxlength="150">
+
+        <label for="subject">Mission Statement or Description of Organisation</label>
+        <textarea id="description" name="description" placeholder="Your mission statement, or a description of your organisation (include any areas of particular focus)" style="height:100px" required maxlength="1000"></textarea>
+
+        <label for="location">Mobile Number</label>
+        <input type="number" name="num" id="num" placeholder="Your mobile number" required maxlength="16">
+
+        <label for="web">Website URL (OPTIONAL)</label>
+        <input type="text" name="web" id="web" placeholder="Website of organisation" maxlength="50">
+
+        {{!-- <div class="label1">
+          <label for="myfile">Upload your Logo (OPTIONAL): </label>
+          <input type="file" id="myfile" name="myfile">
+        </div> --}}
+
+        {{> errorSnippet}}
+
+        <input type="submit" value="Submit">
+    </form>
+    </div>
+
+    </body>

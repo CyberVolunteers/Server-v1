@@ -1,0 +1,71 @@
+body {
+	margin: none;
+}
+.title {
+	text-align: center;
+	padding-top: 70px;
+	font-size: 50px;
+}
+.joinBox {
+	margin-top: 60px;
+	width: 500px;
+	height: 350px;
+	background-color: ;
+	box-shadow: black 1px 1px 4px;
+}
+.joinBoxes {
+	display: flex;
+	justify-content: center;
+}
+#joinVolunteerBox {
+	margin-right: 5px;
+}
+#joinCharityBox {
+	margin-left: 5px;
+}
+.joinBoxTitle {
+	text-align: center;
+	margin-top: 15px;
+	font-size: 30px;
+}
+.joinBoxMainText {
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-top: 30px;
+	text-align: center;
+	font-size: 23px;
+}
+.joinButton {
+	position: absolute;
+	width: 300px;
+	height: 45px;
+	background-color: #f85120;
+	border: none;
+	top: 440px;
+
+	margin-left: 100px;
+	border-radius: 50px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+}
+.icon {
+	width: 30px;
+	height: 30px;
+}
+#whiteArrowLeft {
+	position: absolute;
+	left: 235px;
+}
+#whiteArrowRight {
+	position: absolute;
+	left: 215px;
+}
+.buttontext {
+	position: absolute;
+	left: 30px;
+}
+#JoinButtonRight {
+	width: 280px;
+	margin-left: 110px;
+}

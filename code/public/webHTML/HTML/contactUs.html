@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href = "../CSS/contactUs.css" rel = "stylesheet" type = "text/css" >
+    <link rel="stylesheet" href="../CSS/header.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <title>Contact Us</title>
+    <style>
+        body {font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;}
+        * {box-sizing: border-box;}
+        
+        input[type=text], select, textarea {
+          width: 55%;
+          padding: 12px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-sizing: border-box;
+          margin-top: 6px;
+          margin-bottom: 16px;
+          resize: vertical;
+          margin-left: 23.5%;
+        }
+        
+        input[type=submit] {
+          background-color: #f44336;
+          color: white;
+          padding: 12px 20px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          margin-left: 47%;
+          margin-top: 5px;
+        }
+        
+        input[type=submit]:hover {
+          background-color: #f44336;
+        }
+        
+        .container {
+          border-radius: 5px;
+          background-color: white;
+          padding: 20px;
+        }
+
+        .header {
+          padding-top: 70px;
+          margin-bottom: 25px;
+          text-align: center;
+          color: #f44336;
+          font-size: 30px; 
+        }
+        
+        .description {
+          margin-top: 30px;
+          margin-bottom: 15px;
+          text-align: center;
+          color: #000000;
+          font-size: 22px; 
+        }
+
+        .label1 {
+          margin-top: 12px;
+          margin-bottom: 10px;
+          margin-right: 10px;
+          text-align: center;
+          color: #f44336;
+          font-size: 20px;
+        }
+
+        .label2 {
+          margin-top: 12px;
+          margin-bottom: 10px;
+          margin-right: 10px;
+          margin-left: 47.5%;
+          color: #f44336;
+          font-size: 20px;
+        }
+        
+    </style>
+</head>
+
+<body>
+ 
+{{> header}}
+
+    <div class="header">
+        <h1>Contact Us</h1>
+    </div>
+
+    <div class = "description">
+        <p>If you would like to contact us please fill out the form below or send us an email at ...</p>
+    </div>
+
+    <div class="container">
+    <form action="/action_page.php">
+
+        <div class = "label1">
+          <label for="name">Name</label>
+        </div>
+
+        <input type = "text" id="name" name="name" placeholder="Your name">
+
+        <p></p>
+        
+        <div class = "label1">
+          <label for="name">Email</label>
+        </div>
+
+        <input type = "text" id="email" name="email" placeholder="Your email">
+
+        <p></p>
+
+        <div class = "label2">
+          <label for="message">Message</label>
+        </div>
+
+        <textarea id="message" name="message" placeholder="Your message" style="height:100px"></textarea>
+
+        <p></p>
+
+        <input type="submit" value="Submit">
+    </form>
+    </div>
+
+    </body>
