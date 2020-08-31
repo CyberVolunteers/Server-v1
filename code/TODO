@@ -13,19 +13,11 @@ check that all pages are working
 
 reset data in db + in production
 -----
-begin and commit
-
 put restrictions on google api key
-
-The description is coming up in the when box
-
-finish pictures thing
 
 add the charity pictures functionality
 
 when changing charity to sending batch emails, reset the volunteer_listings type to sent
-
-automatically remember which option for login was selected
 
 make a better telephone field with a consistent format
 
@@ -53,9 +45,7 @@ email verification tokens in the db instead of cache?
 
 storage for multiple threads
 
-logos and listings pictures
-
-check validation for search page and getListing, signup
+multiple processes?
 
 tests
 

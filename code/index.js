@@ -378,7 +378,7 @@ app.all("*", function(req, res, next){
 		if(req.method === "GET" && !req.xhr) {
 			return res.redirect("sendConfirmationEmail");
 		}else{
-			res.statusMessage = "You don't have permission to create a listing";
+			res.statusMessage = "Please, go to my Account page to verify your email first";
 			return res.status(403).end();
 		}
 	}
@@ -581,7 +581,7 @@ function logout(logoutAnyway){
 
 		// clear cookies
 		for (let cookieName of Object.keys(req.cookies)) {
-			res.clearCookie(cookieName);
+			if(cookieName === "sessionId") res.clearCookie(cookieName);
 		}
 
 		// if not logged out and passport session exists

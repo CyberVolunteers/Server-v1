@@ -168,11 +168,13 @@ module.exports = class NodemailerManager{
 
 			const result =  secureCompare(uuid, uuidRetreived);
 			if(result == true){
+				await query("START TRANSACTION;");
 				if(isVolunteer){
 					await query("UPDATE volunteers SET isEmailVerified=1 WHERE email=?", [email]);
 				}else{
 					await query("UPDATE charities SET isEmailVerified=1 WHERE email=?", [email]);
 				}
+				await query("COMMIT;");
 			}else{
 				this.logger.info("Wrong token for email confirmation");
 			}
@@ -188,6 +190,7 @@ module.exports = class NodemailerManager{
 		const query = util.promisify(connection.query).bind(connection);
 
 		try{
+			await query("START TRANSACTION;");
 			//get listing id
 			let results = await query("SELECT id, charityId FROM listings WHERE uuid=?", [params.listingUUID]);
 
@@ -202,6 +205,7 @@ module.exports = class NodemailerManager{
 			results = await query("SELECT * FROM volunteers_listings WHERE volunteerId=? AND listingId=?", [params.volunteerId, listingId]);
 
 			if(results.length != 0){
+				await query("ROLLBACK;");
 				return "You have already applied to this listing";
 			}
 
@@ -219,6 +223,7 @@ module.exports = class NodemailerManager{
 				const volunteers_listingsId = results[0]["LAST_INSERT_ID()"];
 				this.sendVolunteerHelpOfferEmail([volunteers_listingsId], email);
 			}
+			await query("COMMIT;");
 		}finally{
 			connection.release();
 		}
@@ -233,6 +238,8 @@ module.exports = class NodemailerManager{
 		let emailsToSend = {};
 
 		try{
+			await query("START TRANSACTION;");
+
 			const results = await query("SELECT volunteers_listings.id, volunteers_listings.hasBeenSent, charities.email, charities.sendHelpEmailsPeopleInGroups, volunteers_listings.appliedDate FROM volunteers_listings INNER JOIN listings ON volunteers_listings.listingId=listings.id INNER JOIN charities ON listings.charityId=charities.id");
 			for(let i = 0; i < results.length; i++){
 				const row = results[i];
@@ -259,6 +266,7 @@ module.exports = class NodemailerManager{
 				const ids = emailsToSend[email];
 				this.sendVolunteerHelpOfferEmail(ids, email);
 			}
+			await query("COMMIT;");
 		}finally{
 			connection.release();
 		}
