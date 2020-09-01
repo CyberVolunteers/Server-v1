@@ -1,0 +1,156 @@
+<html>
+<head>
+    
+    <style>
+        	
+	input[type=text]:focus {
+		  border: none;
+    }
+    #ARROW {
+		position: absolute;
+		width: 37.5px;
+		height: 25px;
+		left: 125px;
+		top: 20.894px;
+		overflow: visible;	  
+	}
+	
+		input[type=text].relative {
+		  position: relative;
+		  left: 45vw;
+		  top: 211px;
+		  
+	}
+	input[type=text] {
+    width: 30%;
+    padding: 8px 5px;
+    margin: 37px 0;
+    box-sizing: border-box;
+    border: none;
+    background-color: #EEEEEE;
+    border-radius: 5px;
+    box-shadow: 1px 3px 5px grey;
+    position: relative;
+    font-size:19px;
+    }
+    .Search-catagories{
+        font-size: 30px;
+        font-family: Calibri;
+        
+    }
+    .yourLocation{
+        position: absolute;
+        left: 20vw;
+        top: 245px;
+    }
+    .Challenges{
+        position: absolute;
+        left: 20vw;
+        top: 360px;
+    }
+    .Experience{
+        position: absolute;
+        left: 20vw;
+        top: 475px;
+    }
+    .Time{
+        position: absolute;
+        left: 20vw;
+        top: 585px;
+    }
+    .typeOfWork{
+        position: absolute;
+        left: 20vw;
+        top: 695px;
+    }
+    #searchButton{
+        background-color: rgba(248,81,32,0.878);
+        border: none;
+        padding: 10px 10px;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+    .centre{
+        position: absolute;
+        left: 50%;
+        margin-left: -75px;
+        top: 800px;
+    }
+    .title{
+        
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        position: absolute;
+        font-size: 40px;
+        margin-top: 100px;
+        left: 50%;
+        margin-left: -130px;
+    }
+    .nextButton {
+	position: relative;
+	width: 140px;
+	height: 45px;
+	background-color: #f85120;
+	border: none;
+	
+
+	border-radius: 50px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+}
+#whiteArrow {
+	width: 25px;
+	height: 30px;
+	position: absolute;
+	left: 85px;
+}
+
+.buttontext {
+	position: absolute;
+	left: 30px;
+}
+    </style>
+</head>    
+
+<body>
+    <div class="title">Advanced Search</div>
+    <div class = "wrapper">
+        <form>
+		
+            <input class = "relative" type = "text"><br>
+            <input class = "relative" type = "text"><br>
+            <input class = "relative" type = "text"><br>
+            <input class = "relative" type = "text"><br>
+            <input class = "relative" type = "text"><br>
+        </form>
+        
+        <div class = "header-background"></div>
+        <div class = "Search-catagories">
+            <a class = "yourLocation">Your Location</a>
+            <a class = "Challenges">Challenges you want to Tackle</a>
+            <a class = "Experience">Experience</a>
+            <a class = "Time">Time Commitment</a>
+            <a class = "typeOfWork">Type of Work</a>
+        </div>
+   
+        <div class="centre">
+            <button type="submit" class="nextButton">
+                <div class="buttontext">Search</div>
+                <img src="../IMG/whiteArrow2.svg" class="icon" id="whiteArrow">
+            </button>
+        </div>
+            
+        
+    </div>
+</body>
+
+
+
+
+
+
+
+
+
+
+</html>
