@@ -70,12 +70,12 @@ body {
 }
 #map {
 	width: 170px;
-	height: 230px;
+	height: 210px;
 	border: 1px solid gray;
 
 	position: absolute;
 
-	margin-top: -375px;
+	margin-top: -380px;
 
 	margin-left: 195px;
 }
