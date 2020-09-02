@@ -69,17 +69,17 @@ body {
 	padding-top: 5px;
 }
 #map {
-	width: 160px;
-	height: 160px;
+	width: 170px;
+	height: 230px;
 	border: 1px solid gray;
 
 	margin: auto;
 
 	position: absolute;
 
-	margin-top: -330px;
+	margin-top: -305px;
 
-	margin-left: 190px;
+	margin-left: 195px;
 }
 .basicinfogroupreq {
 	position: absolute;
