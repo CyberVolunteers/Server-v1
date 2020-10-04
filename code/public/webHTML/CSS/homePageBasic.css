@@ -65,7 +65,7 @@ header {
 	background-size: cover;
 	background-position: center;
 	height: 33vh;
-	width: 35vw;
+	width: 35%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -125,7 +125,7 @@ header {
 	background-size: cover;
 	background-position: center;
 	height: 34vh;
-	width: 33vw;
+	width: 35%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -135,7 +135,7 @@ header {
 	background-size: cover;
 	background-position: center;
 	height: 34vh;
-	width: 35%;
+	width: 33vw;
 	display: flex;
 	justify-content: center;
 	align-items: center;
