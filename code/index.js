@@ -221,6 +221,18 @@ app.get("/aboutUs", renderPage("aboutUs"));
 app.get("/formComplete", renderPage("formComplete"));
 app.get("/signUpComplete", renderPage("signUpComplete"));
 
+//downloadables
+
+app.get('/downloadPrivacyPolicy', function(req, res){
+	const file = `${__dirname}/public/downloadables/privacyPolicy.docx`;
+	res.download(file);
+});
+
+app.get('/downloadTermsOfUse', function(req, res){
+	const file = `${__dirname}/public/downloadables/termsOfUse.docx`;
+	res.download(file);
+});
+
 //sign up post
 app.post("/signup", csrfProtection, signUpRateLimit, async function(req, res, next){
 
