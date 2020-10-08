@@ -3,7 +3,7 @@ body {
 .opertunitytitle {
 	text-align: center;
 	font-size: 35px;
-	padding-top: 20px;
+	padding-top: 70px;
 }
 .opertunityorg {
 	text-align: center;
@@ -70,14 +70,12 @@ body {
 }
 #map {
 	width: 170px;
-	height: 230px;
+	height: 195px;
 	border: 1px solid gray;
-
-	margin: auto;
 
 	position: absolute;
 
-	margin-top: -305px;
+	margin-top: -380px;
 
 	margin-left: 195px;
 }
