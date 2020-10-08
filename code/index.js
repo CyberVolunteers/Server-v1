@@ -221,6 +221,18 @@ app.get("/aboutUs", renderPage("aboutUs"));
 app.get("/formComplete", renderPage("formComplete"));
 app.get("/signUpComplete", renderPage("signUpComplete"));
 
+//downloadables
+
+app.get('/downloadPrivacyPolicy', function(req, res){
+	const file = `${__dirname}/public/downloadables/privacyPolicy.docx`;
+	res.download(file);
+});
+
+app.get('/downloadTermsOfUse', function(req, res){
+	const file = `${__dirname}/public/downloadables/termsOfUse.docx`;
+	res.download(file);
+});
+
 //sign up post
 app.post("/signup", csrfProtection, signUpRateLimit, async function(req, res, next){
 
@@ -496,8 +508,18 @@ app.post("/applyForListing", csrfProtection, async function(req, res, next){
 	}
 });
 
-app.get("/getCharitiesWaitingForVerification", blockNonAdmins, function(req, res, next){
+app.get("/nonverifiedCharities", blockNonAdmins, function(req, res, next){
 	pool.query("SELECT * FROM charities WHERE isVerifiedByUs=0", [], function(err, results){
+		if(err) return res.send(err);
+		return res.json(results);
+	});
+});
+
+app.get("/verifyCharity", blockNonAdmins, renderPage("verifyCharity"));
+
+app.post("/verifyCharity", blockNonAdmins, function(req, res, next){
+	console.log(req.query, req.body);
+	pool.query("UPDATE charities set isVerifiedByUs=1 WHERE isVerifiedByUs=0 AND id=?", [req.body.id], function(err, results){
 		if(err) return res.send(err);
 		return res.json(results);
 	});
@@ -606,7 +628,6 @@ function logout(logoutAnyway){
 }
 
 function blockNonAdmins(req, res, next){
-	console.log([req.user.isAdmin]);
 	logger.info("accessing admin pages, isAdmin=" + req.user.isAdmin);
 	if(req.user.isAdmin === 1){
 		return next();

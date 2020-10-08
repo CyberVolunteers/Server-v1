@@ -43,13 +43,108 @@ header {
 }
 
 .frontpage {
-	background-image: url("../IMG/bgimage.jpg");
-	background-size: cover;
-	background-position: center;
-	height: 100vh;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+#one {
+	background-image: url("../IMG/IMG_2500.JPG");
+	background-size: cover;
+	background-position: center;
+	height: 33vh;
+	width: 33vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#two {
+	background-image: url("../IMG/IMG_2501.JPG");
+	background-size: cover;
+	background-position: center;
+	height: 33vh;
+	width: 35vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#three {
+	background-image: url("../IMG/IMG_2502.JPG");
+	background-size: cover;
+	background-position: center;
+	height: 33vh;
+	width: 33vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#four {
+	background-image: url("../IMG/IMG_2504.JPG");
+	background-size: cover;
+	background-position: center;
+	height: 33vh;
+	width: 33vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#five {
+	background-image: url("../IMG/IMG_2503.JPG");
+	background-size: cover;
+	background-position: center;
+	height: 33vh;
+	width: 35%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#six {
+	background-image: url("../IMG/IMG_2506.JPG");
+	background-size: cover;
+	background-position: center;
+	height: 33vh;
+	width: 33vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#seven {
+	background-image: url("../IMG/bgimage.JPG");
+	background-size: cover;
+	background-position: center;
+	height: 34vh;
+	width: 33vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#eight {
+	background-image: url("../IMG/IMG_2508.JPG");
+	background-size: cover;
+	background-position: center;
+	height: 34vh;
+	width: 33vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#nine {
+	background-image: url("../IMG/IMG_2507.jpg");
+	background-size: cover;
+	background-position: center;
+	height: 34vh;
+	width: 35%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.rowOne {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	width: 99vw;
 }
 #loc {
 	padding: 20px 20px;
@@ -65,14 +160,16 @@ header {
 	background-color: #f85220;
 	font-size: 30px;
 	color: black;
+	position: absolute;
 }
 .slogan {
 	color: white;
-	font-size: 55px;
+	font-size: 45px;
 	width: 500px;
 	text-align: center;
 	position: absolute;
-	top: 120px;
+	top: 140px;
+	text-shadow: #f85220 1px 1px 2px;
 }
 .aboutUsText {
 	margin-left: 50px;
