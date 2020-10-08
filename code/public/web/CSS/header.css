@@ -1,3 +1,7 @@
+img {
+	width: 40%;
+	height: 40%;
+}
 * {
 	box-sizing: border-box;
 	margin: 0;
@@ -32,7 +36,6 @@ header {
 	height: 53px;
 	margin-right: 10px;
 	padding: none;
-	cursor: pointer;
 }
 
 .nav_links li {
@@ -47,9 +50,4 @@ header {
 	margin-right: auto;
 	color: #f85220;
 	font-weight: bold;
-}
-
-img{
-	width: 40%;
-	height: 40%;
 }
