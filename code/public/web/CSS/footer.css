@@ -9,11 +9,13 @@ html {
 	padding: 0;
 }
 .footer {
-	width: 100vw;
+	width: 100%;
 	background-color: white;
 	height: 40px;
 	margin-bottom: 0%;
 	text-align: center;
 	padding-top: 10px;
 	color: rgb(149, 149, 149);
+	position: absolute;
+	bottom: 0px;
 }
