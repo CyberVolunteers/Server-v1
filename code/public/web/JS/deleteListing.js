@@ -1,13 +1,11 @@
 $(function(){
     $("#submit").click(function(){
-        console.log($("#verifyEmail").is(':checked'));
-        $.post("/verifyCharity",
+        $.post("/deleteListing",
         {
-            id: $("#verifyCharity").val(),
-            verifyEmail: $("#verifyEmail").is(':checked')
+            uuid: $("#deleteListingUuid").val(),
         })
         .done(function(data, textStatus){
-            console.log(data.message);
+            console.log(data);
             $("#output").text(data.message);
         })
         .fail(function(jqXHR){

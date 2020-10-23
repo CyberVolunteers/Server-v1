@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../CSS/Mobile Header Template.css">
+
+    <script>
+        function myFunction() {
+             var x = document.getElementById("myLinks");
+            if (x.style.display === "block") {
+                x.style.display = "none";
+            } else {
+                x.style.display = "block";
+            }
+        }
+
+    </script>
+</head>
+
+<body>
+    <div class="topnav">
+        <a href="#home" class="active">CYBER VOLUNTEERS</a>
+
+        <div id="myLinks">
+          <a href="#contact">Contact</a>
+          <a href="#about">About</a>
+          <a href="#search">Search</a>
+          <a href="#join">Join</a>
+          <a href="#sign in">Sign In</a>
+        </div>
+
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+            <div style="font-size: 30px;">
+                <i class="fa fa-bars"></i>
+            </div>
+        </a>
+    </div>
+
+</html>
