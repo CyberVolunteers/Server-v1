@@ -516,12 +516,19 @@ app.get("/nonverifiedCharities", blockNonAdmins, function(req, res, next){
 });
 
 app.get("/verifyCharity", blockNonAdmins, renderPage("verifyCharity"));
+app.get("/runSQL", blockNonAdmins, renderPage("runSQL"));
 
 app.post("/verifyCharity", blockNonAdmins, function(req, res, next){
-	console.log(req.query, req.body);
 	pool.query("UPDATE charities set isVerifiedByUs=1 WHERE isVerifiedByUs=0 AND id=?", [req.body.id], function(err, results){
 		if(err) return res.send(err);
 		return res.json(results);
+	});
+});
+
+app.post("/runSQL", blockNonAdmins, function(req, res, next){
+	pool.query(req.body.sql, function(err, results){
+		if(err) return res.send(err);
+		return res.send(results);
 	});
 });
 
