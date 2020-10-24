@@ -1,0 +1,54 @@
+/* For mobile phones: */
+
+.desktopHeader {
+	visibility: hidden;
+}
+body {
+	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+/* Style navigation menu */
+.topnav {
+	overflow: hidden;
+	background-color: rgb(255, 255, 255);
+	position: relative;
+	height: ;
+}
+
+/* Hide links and style drop-down links exclusively*/
+.topnav #myLinks {
+	display: none;
+	font-variant: small-caps;
+}
+
+/* Style navigation menu links */
+.topnav a {
+	color: #f44336;
+	padding: 10px 30px;
+	text-decoration: none;
+	font-size: 22px;
+	display: block;
+}
+
+/* Style icon */
+.topnav a.icon {
+	color: #f44336;
+	background: white;
+	display: block;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.fa {
+	transform: scale(2, 1.75);
+}
+@media only all and (min-width: 1000px) {
+	/* For desktop: */
+	.desktopHeader {
+		visibility: visible;
+	}
+	.topnav {
+		visibility: hidden;
+	}
+}
