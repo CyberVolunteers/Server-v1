@@ -5,7 +5,7 @@
 }
 html {
 	background-color: ;
-	min-width: 1000px;
+
 	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 li,
@@ -25,14 +25,17 @@ header {
 	align-items: center;
 	padding: 0px 10%;
 	margin-top: 0;
-	background-color: rgba(255, 255, 255, 0.781);
+	background-color: rgb(255, 255, 255);
 	z-index: 100;
+}
+.desktopHeader {
+	margin-top: -46px;
 }
 .logo {
 	height: 53px;
 	margin-right: 10px;
 	padding: none;
-	cursor: pointer;
+	margin-top: 3px;
 }
 
 .nav_links li {
@@ -47,9 +50,4 @@ header {
 	margin-right: auto;
 	color: #f85220;
 	font-weight: bold;
-}
-
-img{
-	width: 40%;
-	height: 40%;
 }
