@@ -516,12 +516,43 @@ app.get("/nonverifiedCharities", blockNonAdmins, function(req, res, next){
 });
 
 app.get("/verifyCharity", blockNonAdmins, renderPage("verifyCharity"));
+app.get("/deleteListing", blockNonAdmins, renderPage("deleteListing"));
+app.get("/runSQL", blockNonAdmins, renderPage("runSQL"));
 
 app.post("/verifyCharity", blockNonAdmins, function(req, res, next){
-	console.log(req.query, req.body);
-	pool.query("UPDATE charities set isVerifiedByUs=1 WHERE isVerifiedByUs=0 AND id=?", [req.body.id], function(err, results){
+	const verifyEmail = req.body.verifyEmail === "true";
+	const sql = verifyEmail ? "UPDATE charities set isVerifiedByUs=1, isEmailVerified=1 WHERE isVerifiedByUs=0 AND id=?" : "UPDATE charities set isVerifiedByUs=1 WHERE isVerifiedByUs=0 AND id=?";
+	pool.query(sql, [req.body.id], function(err, results){
 		if(err) return res.send(err);
 		return res.json(results);
+	});
+});
+
+app.post("/deleteListing", blockNonAdmins, async function(req, res, next){
+	//get connection
+	const connection = await utils.getConnection(pool);
+	const query = util.promisify(connection.query).bind(connection);
+
+	try{
+		const results = await query("SELECT `id` FROM `listings` WHERE `uuid`=?;", [req.body.uuid]);
+		console.log(results);
+
+		await query("DELETE FROM `volunteers_listings` WHERE `listingId`=?;", [results[0].id]);
+		await query("DELETE FROM `listings` WHERE `id`=?;", [results[0].id]);
+
+		return res.json(results);
+	}catch(err){
+		res.send(err);
+	}finally{
+		connection.release();
+	}
+});
+
+
+app.post("/runSQL", blockNonAdmins, function(req, res, next){
+	pool.query(req.body.sql, function(err, results){
+		if(err) return res.send(err);
+		return res.send(results);
 	});
 });
 

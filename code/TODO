@@ -13,6 +13,8 @@ check that all pages are working
 
 reset data in db + in production
 -----
+move admin pages to a spearate file?
+
 put restrictions on google api key
 
 add the charity pictures functionality
