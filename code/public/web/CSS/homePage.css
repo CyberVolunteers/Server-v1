@@ -18,7 +18,6 @@ button {
 
 header {
 	
-	max-width: 100%;
 	position: fixed;
 	display: flex;
 	justify-content: flex-end;
