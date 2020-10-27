@@ -161,7 +161,7 @@ header {
 }
 .slogan {
 	color: white;
-	font-size: 40px;
+	font-size: 30px;
 	width: 500px;
 	text-align: center;
 	position: absolute;
@@ -303,7 +303,7 @@ header {
 }
 .joinUsBoxTitle {
 	text-align: center;
-	font-size: 40px;
+	font-size: 30px;
 	margin-top: 20px;
 }
 .joinUsBoxInfo {
