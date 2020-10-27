@@ -281,7 +281,7 @@ header {
 	flex-direction: row;
 }
 .joinUsBox {
-	width: 550px;
+	max-width: 550px;
 	height: 400px;
 
 	background-color: white;
