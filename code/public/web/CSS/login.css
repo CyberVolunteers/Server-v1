@@ -12,7 +12,7 @@ form {
 input[type=text],
 input[type=email],
 input[type=password] {
-	width: 390px;
+	width: 200px;
 	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 	padding: 10px 20px;
 	margin-bottom: 5px;
@@ -35,7 +35,7 @@ input[type=password] {
 	text-align: center;
 	border: none;
 	cursor: pointer;
-	width: 390px;
+	width: 200px;
 }
 
 /* Add a hover effect for buttons */
@@ -55,7 +55,7 @@ input[type=password] {
 	padding: 25px;
 	text-align: center;
 	color: #f44336;
-	font-size: 70px;
+	font-size: 30px;
 	font-weight: bold;
 }
 #rememberme {
@@ -92,8 +92,8 @@ input[type=password] {
 	flex-direction: row;
 }
 .option {
-	width: 350px;
-	height: 90px;
+	width: 170px;
+	height: 40px;
 	background-color: ;
 	margin-left: 20px;
 	margin-right: 20px;
@@ -103,7 +103,7 @@ input[type=password] {
 	text-decoration: none;
 }
 #char {
-	width: 290px;
+	width: 140px;
 }
 #char:hover {
 	background-color: #db7c7570;
@@ -121,4 +121,130 @@ input[type=password] {
 
 .selectedOption:hover {
 	background-color: #d62b1f70 !important;
+}
+@media only all and (min-width: 1000px) {
+	form {
+		border: none;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		padding: 100px 0;
+		font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+		margin-left: auto;
+		margin-right: auto;
+	} /* Full-width inputs */
+	input[type=text],
+	input[type=email],
+	input[type=password] {
+		width: 390px;
+		font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+		padding: 10px 20px;
+		margin-bottom: 5px;
+		display: inline-block;
+		border: 1px solid #ccc;
+		box-sizing: border-box;
+		font-size: 16px;
+	}
+
+	/* Set a style for all buttons */
+	.submit {
+		background-color: #f44336;
+		color: white;
+		font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+		padding: 14px 20px;
+		margin-top: 30px;
+		margin-bottom: 20px;
+		margin-left: auto;
+		margin-right: auto;
+		text-align: center;
+		border: none;
+		cursor: pointer;
+		width: 390px;
+	}
+
+	/* Add a hover effect for buttons */
+	.submit:hover {
+		opacity: 0.8;
+	}
+
+	/* Add padding to containers */
+	.container {
+		width: 100vw;
+		padding: 16px;
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+	}
+	.title {
+		padding: 25px;
+		text-align: center;
+		color: #f44336;
+		font-size: 70px;
+		font-weight: bold;
+	}
+	#rememberme {
+		margin-right: 8px;
+	}
+	.username {
+		margin-right: auto;
+		margin-left: auto;
+	}
+	.password {
+		margin-right: auto;
+		margin-left: auto;
+	}
+	.passwordlabel {
+		position: relative;
+		left: -90px;
+		width: 20px;
+		top: 25px;
+		font-weight: 600;
+	}
+	.usernamelabel {
+		position: relative;
+		margin-left: -90px;
+		top: 25px;
+		width: 20px;
+		font-weight: 600;
+	}
+	.rememberme {
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.options {
+		display: flex;
+		flex-direction: row;
+	}
+	.option {
+		width: 350px;
+		height: 90px;
+		background-color: ;
+		margin-left: 20px;
+		margin-right: 20px;
+		margin-top: 20px;
+		cursor: pointer;
+		border-radius: 20px;
+		text-decoration: none;
+	}
+	#char {
+		width: 290px;
+	}
+	#char:hover {
+		background-color: #db7c7570;
+	}
+	#vol:hover {
+		background-color: #db7c7570;
+	}
+	.or {
+		padding-top: 25px;
+	}
+
+	.selectedOption {
+		background-color: #f4433670;
+	}
+
+	.selectedOption:hover {
+		background-color: #d62b1f70 !important;
+	}
 }
