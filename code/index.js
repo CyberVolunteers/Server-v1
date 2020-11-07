@@ -220,6 +220,8 @@ app.get("/listing", csrfProtection, renderPage("listing"));
 app.get("/aboutUs", renderPage("aboutUs"));
 app.get("/formComplete", renderPage("formComplete"));
 app.get("/signUpComplete", renderPage("signUpComplete"));
+app.get("/searchPage", renderPage("searchPage"));
+app.get("/thankYouForHelping", renderPage("thankYouForHelping"));
 
 //downloadables
 
@@ -232,6 +234,23 @@ app.get('/downloadTermsOfUse', function(req, res){
 	const file = `${__dirname}/public/downloadables/termsOfUse.docx`;
 	res.download(file);
 });
+
+app.get("/searchLisings/:term", async function(req, res, next){
+	const params = {
+		terms: [req.params.term]
+	};
+	if(!Validator.searchListingsValidate(params)){
+		res.statusMessage = "Bad data";
+		return res.status(400).end();
+	}
+
+	try{
+		let results = await ListingsManager.searchListings(params);
+		return res.status(200).send(results);
+	}catch(err){
+		return next(err);
+	}
+})
 
 //sign up post
 app.post("/signup", csrfProtection, signUpRateLimit, async function(req, res, next){
@@ -403,8 +422,6 @@ app.all("*", function(req, res, next){
 	return next();
 });
 
-app.get("/thankYouForHelping", renderPage("thankYouForHelping"));
-
 //private pages
 
 app.get("/createListing", function(req, res, next){
@@ -455,21 +472,6 @@ app.post("/createListing", csrfProtection, createListingRateLimit, async functio
 	try{
 		await ListingsManager.createListing(params);
 		return res.sendStatus(200);
-	}catch(err){
-		return next(err);
-	}
-});
-
-app.get("/searchListings", async function (req, res, next) {
-	const params = req.query;
-	if(!Validator.searchListingsValidate(params)){
-		res.statusMessage = "Bad data";
-		return res.status(400).end();
-	}
-
-	try{
-		let results = await ListingsManager.searchListings(params);
-		return res.status(200).send(results);
 	}catch(err){
 		return next(err);
 	}
