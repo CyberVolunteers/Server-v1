@@ -5,7 +5,6 @@
 }
 html {
 	background-color: ;
-	min-width: 1000px;
 	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 li,
@@ -92,6 +91,7 @@ header {
 }
 #five {
 	background-image: url("../IMG/IMG_2503.JPG");
+<<<<<<< HEAD
 	background-size: cover;
 	background-position: center;
 	height: 33vh;
@@ -135,11 +135,59 @@ header {
 	background-size: cover;
 	background-position: center;
 	height: 34vh;
+=======
+	background-size: cover;
+	background-position: center;
+	height: 33vh;
+>>>>>>> client
 	width: 35%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
+<<<<<<< HEAD
+=======
+#six {
+	background-image: url("../IMG/IMG_2506.JPG");
+	background-size: cover;
+	background-position: center;
+	height: 33vh;
+	width: 33vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#seven {
+	background-image: url("../IMG/bgimage.JPG");
+	background-size: cover;
+	background-position: center;
+	height: 34vh;
+	width: 33vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#eight {
+	background-image: url("../IMG/IMG_2508.JPG");
+	background-size: cover;
+	background-position: center;
+	height: 34vh;
+	width: 33vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#nine {
+	background-image: url("../IMG/IMG_2507.jpg");
+	background-size: cover;
+	background-position: center;
+	height: 34vh;
+	width: 35%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+>>>>>>> client
 .rowOne {
 	display: flex;
 	flex-direction: row;
@@ -176,6 +224,11 @@ header {
 	margin-right: 50px;
 	margin-top: 20px;
 	font-size: 20px;
+<<<<<<< HEAD
+	max-width: 80vw;
+	text-align: centre;
+=======
+>>>>>>> client
 }
 .caticonstitle {
 	text-align: center;
@@ -283,7 +336,7 @@ header {
 	flex-direction: row;
 }
 .joinUsBox {
-	width: 550px;
+	max-width: 550px;
 	height: 400px;
 
 	background-color: white;

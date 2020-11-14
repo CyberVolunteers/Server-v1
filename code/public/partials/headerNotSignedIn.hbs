@@ -1,0 +1,56 @@
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../CSS/Mobile Header Template.css">
+
+    <script>
+        function myFunction() {
+             var x = document.getElementById("myLinks");
+            if (x.style.display === "block") {
+                x.style.display = "none";
+            } else {
+                x.style.display = "block";
+            }
+        }
+
+    </script>
+</head>
+
+<body>
+    <div class="topnav">
+        <a href="#home" class="active homepageLink">CYBER VOLUNTEERS</a>
+
+        <div id="myLinks">
+          <a href="#contact" class="contact">Contact</a>
+          <a href="#about" class="about">About</a>
+          <a href="#search" class="search">Search</a>
+          <a href="#join" class="join">Join</a>
+          <a href="#sign in" class="signIn">Sign In</a>
+        </div>
+
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+            <div style="font-size: 25px;">
+                <i class="fa fa-bars"></i>
+            </div>
+        </a>
+    </div>
+    
+    
+    
+    
+    <header class="desktopHeader">
+        <a href="#" class="homepageLink" id="mainLink"><img class="logo" id="mainLink"  src="../IMG/Logo main 3.svg" alt=""></img></a>
+        <link rel="stylesheet" href="../CSS/header.css">
+        <nav>
+            <ul class="nav_links">
+                <li><a class="contact" href="#">CONTACT</a></li>
+                <li><a class="about" href="#">ABOUT</a></li>
+                <li><a class="search" href="#">SEARCH</a></li>
+                <li><a class="join" href="#">JOIN</a></li>
+                <li><a class="signIn" href="#">SIGN IN</a></li>
+            </ul>
+        </nav>
+    </header>
+</body>
