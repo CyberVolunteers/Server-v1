@@ -1,0 +1,180 @@
+.title {
+	text-align: center;
+	padding-top: 70px;
+	font-size: 50px;
+}
+.mainText {
+	margin-top: 20px;
+	margin-left: 10vw;
+	margin-right: 10vw;
+	font-size: 20px;
+}
+.joinUsBanner {
+	width: 100vw;
+	max-width: 100%;
+	height: 600px;
+	background-color: #f85220;
+	margin-top: 50px;
+	margin-bottom: 30px;
+}
+.joinUsTitle {
+	text-align: center;
+	font-size: 50px;
+	padding-top: 15px;
+}
+.joimUsBoxes {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: row;
+}
+.joinUsBox {
+	width: 550px;
+	height: 400px;
+
+	background-color: white;
+	border: none;
+	margin-top: 50px;
+}
+.joinUsBox,
+#left {
+	margin-right: 15px;
+}
+.joinUsBoxTitle {
+	text-align: center;
+	margin-top: 15px;
+	font-size: 25px;
+}
+.buttontextmobile {
+	visibility: visible;
+	margin-left: 10px;
+}
+.buttontextmobile,
+#left {
+	margin-left: 27px;
+}
+.buttontextmobile,
+#right {
+	margin-left: 27px;
+}
+.joinUsBoxInfo {
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-top: 30px;
+	text-align: center;
+	font-size: 15px;
+}
+.joinButton {
+	position: ;
+	width: 80px;
+	height: 45px;
+	background-color: #f85120;
+	border: none;
+	margin-top: 40px;
+
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 50px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+}
+#whiteArrow {
+	width: 25px;
+	height: 30px;
+	position: absolute;
+	left: 115px;
+	visibility: hidden;
+}
+
+.buttontext {
+	position: absolute;
+	left: 30px;
+	visibility: hidden;
+}
+@media only all and (min-width: 1000px) {
+	.title {
+		text-align: center;
+		padding-top: 70px;
+		font-size: 50px;
+	}
+	.mainText {
+		margin-top: 20px;
+		margin-left: 10vw;
+		margin-right: 10vw;
+		font-size: 20px;
+	}
+	.joinUsBanner {
+		width: 100vw;
+		max-width: 100%;
+		height: 600px;
+		background-color: #f85220;
+		margin-top: 50px;
+		margin-bottom: 30px;
+	}
+	.joinUsTitle {
+		text-align: center;
+		font-size: 50px;
+		padding-top: 15px;
+	}
+	.joimUsBoxes {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: row;
+	}
+	.joinUsBox {
+		width: 550px;
+		height: 400px;
+
+		background-color: white;
+		border: none;
+		margin-top: 50px;
+	}
+	.joinUsBox,
+	#left {
+		margin-right: 15px;
+	}
+	.joinUsBoxTitle {
+		text-align: center;
+		font-size: 40px;
+		margin-top: 20px;
+	}
+	.joinUsBoxInfo {
+		text-align: center;
+		font-size: 30px;
+		margin-left: 20px;
+		margin-right: 20px;
+		margin-top: 30px;
+	}
+	.joinButton {
+		position: relative;
+		width: 170px;
+		height: 45px;
+		background-color: #f85120;
+		border: none;
+		margin-top: 50px;
+		margin-right: auto;
+		margin-left: auto;
+		border-radius: 50px;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+	}
+	#whiteArrow {
+		width: 25px;
+		height: 30px;
+		position: absolute;
+		left: 115px;
+		visibility: visible;
+	}
+
+	.buttontext {
+		position: absolute;
+		left: 30px;
+		visibility: visible;
+	}
+	.buttontextmobile {
+		visibility: hidden;
+	}
+}

@@ -1,0 +1,20 @@
+.searchBar {
+	width: 350px;
+	margin-top: 90px;
+	padding: 5px 10px;
+	font-size: 20px;
+}
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+.advancedSearchButton {
+	margin-top: 20px;
+	font-size: 12px;
+	padding: 5px 10px;
+	border-radius: 20px;
+	cursor: pointer;
+	border: none;
+}

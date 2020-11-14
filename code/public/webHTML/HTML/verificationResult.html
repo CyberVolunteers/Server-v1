@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/header.css">
+    <link rel="stylesheet" href="../CSS/errorPage.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+    <title>Verification 
+        {{#if isSuccessful}}
+            Succesful
+        {{else}}
+            Not Successful
+        {{/if}}
+    </title>
+</head>
+<body>
+
+    {{> header}}
+   
+    <div class="maintext">Verification 
+        {{#if isSuccessful}}
+            Succesful
+        {{else}}
+            Not Successful
+        {{/if}}
+    </div>
+    {{#if isSuccessful}}
+        <div class="subtext">Your Email is now Verified. Now you can access the pages</div>
+    {{else}}
+        <div class="subtext">Something went wrong. It might be because too much time passed since the email was sent. Please try again.</div>
+    {{/if}}
+    {{> footer}}
+</body>
+</html>

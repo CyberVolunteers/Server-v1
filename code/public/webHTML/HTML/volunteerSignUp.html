@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href = "../CSS/signUp.css" rel = "stylesheet" type = "text/css" >
+    <link href = "../CSS/header.css" rel = "stylesheet" type = "text/css" >
+
+    {{> common}}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="../JS/volunteerSignUp.js"></script>
+
+    <title>New User Sign Up</title>
+    <style>
+        
+        
+    </style>
+</head>
+
+<body>
+    
+    {{> header}}
+
+    <div class="header">
+        <h1>Sign Up</h1>
+    </div>
+
+    <div class="container">
+        <form action="/action_page.php">
+
+            <label for="username">Email</label>
+            <input type = "email" id="username" name="username" placeholder="Your email" required maxlength="320">
+
+            <label for="password">Password</label>
+            <input type = "password" id="password" name="password" placeholder="Your password" required>
+
+            <label for="gender">Gender</label>
+            <select name="gender" id="gender" required>
+                <option value="m">Male</option>
+                <option value="f">Female</option>
+                <option value="o">Other</option>
+            </select>
+
+            <label for="Sal">Salutation</label>
+            <select id="Sal" name="Sal" required>
+                <option value="Mr">Mr</option>
+                <option value="Dr">Dr</option>
+                <option value="Mrs">Mrs</option>
+                <option value="Miss">Miss</option>
+            </select>
+
+            <label for="fname">First Name</label>
+            <input type="text" id="fname" name="firstname" placeholder="Your name" required maxlength="30">
+
+            <label for="lname">Last Name</label>
+            <input type="text" id="lname" name="lastname" placeholder="Your last name" required maxlength="30">
+            
+            <div class="label1">
+                <label for="bday">Birthday (OPTIONAL)</label>
+                <input type="date" name="bday" id="bday">
+            </div>
+
+            <p></p>
+
+            <label for="nation">Nationality</label>
+            <input type="text" name="nation" id="nation" placeholder="Your nationality" required maxlength="56">
+
+            <label for="occ">Occupation (OPTIONAL)</label>
+            <input type="text" name="occ" id="occ" placeholder="Your occupation" maxlength="30">
+
+            <label for="pc">Address</label>
+            <input type="text" name="address" id="address" placeholder="Your address" required maxlength="150">
+
+            <label for="pc">Postcode</label>
+            <input type="text" name="pc" id="pc" placeholder="Your postcode" required maxlength="12">
+
+            <label for="city">City</label>
+            <input type="text" name="city" id="city" placeholder="Your city" required maxlength="85">
+
+            <label for="state">State/Region (OPTIONAL)</label>
+            <input type="text" name="state" id="state" placeholder="Your state" maxlength="50">
+
+            <label for="country">Country</label>
+            <input type="text" name="country" id="country" placeholder="Your country" required maxlength="56">
+
+            <label for="num">Mobile Number</label>
+            <input type="number" name="num" id="num" placeholder="Your mobile number" required maxlength="16">
+
+            <label for="num">Languages (Please enter any known languages)</label>
+            <input type="text" name="lang" id="lang" placeholder="Your known languages" required maxlength="200">
+
+            <label for="subject">Skills and Interests (Please enter any that you feel relevant)</label>
+            <textarea id="subject" name="subject" placeholder="Your skills and interests, for e.g. 'Skills: web development. Interests: animals.'" style="height:200px" required maxlength="400"></textarea>
+
+            <label for="linkedIn">LinkedIn link (OPTIONAL)</label>
+            <input type="text" name="linkedIn" id="linkedIn" placeholder="Your linkedIn" maxlength="75">
+
+            {{> errorSnippet}}
+
+            By signing up, you agree to our <a href="downloadPrivacyPolicy" class="link">privacy policy</a> and <a href="downloadTermsOfUse" class="link">terms of use</a>
+
+            <br/>
+            
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+{{> footer}}
+</body>
