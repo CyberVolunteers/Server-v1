@@ -4,15 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../CSS/homePageBasic.css">
-    <link rel="stylesheet" href="../CSS/footer.css">
     <title>Home Page</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="../JS/homepage.js"></script>
 </head>
 <body>
-
-    {{> header}}
-    
+    <div id="pageContainer">
+        <div id="contentWrap">
     <div class="frontpage">
         <div class="slogan">Connecting people with purpose</div>
         <input type="button" id="searchforlistings" value="FIND OPPURTUNITIES NEAR YOU">
@@ -34,9 +32,7 @@
         
     </div>
     
-    <div class="aboutUsTitle">
-        <div>About Us</div>
-    </div>
+    <div class="joinUsTitle">About Us</div>
     <div class="aboutUsText">Cyber Volunteers is an organisation dedicated to helping connect charities with passionate, skilled and motivated volunteers. We work with our charities to provide them with volunteers that meet their needs and help them grow, enabling them to do more of their amazing work. We also strive to bring our volunteers valuable experiences, enabling them to spend more time making a difference and providing them with unique and fulfilling opportunities. Above all else or main work is connecting people with purpose.</div>
       
         
@@ -65,6 +61,13 @@
             </div>
         </div>
     </div>
-   {{> footer}}
+</div>
+    <footer id="footer">
+        <div class="footerText">© 2020 Cyber Volunteers
+        </div>
+        
+    </footer>
+    <link href="../CSS/footer.css" rel="stylesheet">
+</div>
 </body>
 </html>

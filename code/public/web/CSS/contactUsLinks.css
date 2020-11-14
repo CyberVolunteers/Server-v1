@@ -5,6 +5,7 @@
 }
 html {
 	background-color: white;
+	min-width: 1000px;
 }
 li,
 a,
@@ -34,4 +35,8 @@ header {
 
 #mainLink {
 	margin-right: auto;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> client

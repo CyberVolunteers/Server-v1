@@ -1,21 +1,22 @@
-html {
-	padding: none;
-	margin: none;
-	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+#pageContainer {
+	position: relative;
+	min-height: 100vh;
 }
-* {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
+
+#contentWrap {
+	padding-bottom: 2.5rem; /* Footer height */
 }
-.footer {
-	width: 100%;
-	background-color: white;
-	height: 40px;
-	margin-bottom: 0%;
-	text-align: center;
-	padding-top: 10px;
-	color: rgb(149, 149, 149);
+
+#footer {
 	position: absolute;
-	bottom: 0px;
+	bottom: 0;
+	width: 100%;
+	height: 2.5rem; /* Footer height */
+}
+.footerText {
+	background-color: white;
+
+	text-align: center;
+
+	color: rgb(149, 149, 149);
 }

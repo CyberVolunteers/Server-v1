@@ -4,6 +4,8 @@
 	padding: 0;
 }
 html {
+	background-color: ;
+	min-width: 1000px;
 	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 li,
@@ -24,7 +26,7 @@ header {
 	align-items: center;
 	padding: 20px 10%;
 	margin-top: 0;
-	background-color: rgb(255, 255, 255);
+	background-color: rgba(255, 255, 255, 0.781);
 	z-index: 100;
 }
 
@@ -155,13 +157,13 @@ header {
 	border-radius: 60px;
 	border: none;
 	background-color: #f85220;
-	font-size: 22px;
+	font-size: 30px;
 	color: black;
 	position: absolute;
 }
 .slogan {
 	color: white;
-	font-size: 25px;
+	font-size: 45px;
 	width: 500px;
 	text-align: center;
 	position: absolute;
@@ -169,10 +171,8 @@ header {
 	text-shadow: #f85220 1px 1px 2px;
 }
 .aboutUsText {
-	width: 80vw;
-	margin-left: 10vw;
-	max-width: 100%;
-	text-align: center;
+	margin-left: 50px;
+	margin-right: 50px;
 	margin-top: 20px;
 	font-size: 20px;
 }
@@ -262,14 +262,6 @@ header {
 	display: flex;
 	flex-direction: row;
 }
-.aboutUsTitle {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	text-align: center;
-	font-size: 50px;
-	padding-top: 15px;
-}
 .joinUsBanner {
 	width: 100vw;
 	max-width: 100%;
@@ -303,12 +295,12 @@ header {
 }
 .joinUsBoxTitle {
 	text-align: center;
-	font-size: 30px;
+	font-size: 40px;
 	margin-top: 20px;
 }
 .joinUsBoxInfo {
 	text-align: center;
-	font-size: 15px;
+	font-size: 30px;
 	margin-left: 20px;
 	margin-right: 20px;
 	margin-top: 30px;
@@ -452,32 +444,4 @@ header {
 	cursor: pointer;
 	display: flex;
 	align-items: center;
-}
-@media only all and (min-width: 1000px) {
-	#searchforlistings {
-		cursor: pointer;
-		padding: 30px 35px;
-		border-radius: 60px;
-		border: none;
-		background-color: #f85220;
-		font-size: 30px;
-		color: black;
-		position: absolute;
-	}
-	.joinUsBoxInfo {
-		text-align: center;
-		font-size: 30px;
-		margin-left: 20px;
-		margin-right: 20px;
-		margin-top: 30px;
-	}
-	.slogan {
-		color: white;
-		font-size: 45px;
-		width: 500px;
-		text-align: center;
-		position: absolute;
-		top: 140px;
-		text-shadow: #f85220 1px 1px 2px;
-	}
 }
