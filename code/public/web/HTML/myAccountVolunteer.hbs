@@ -12,7 +12,8 @@
     <title>My Account</title>
 </head>
 <body>
-    
+    <div id="pageContainer">
+        <div id="contentWrap">
     
     {{> header}}
     <div class="welcomeTitle">Welcome {{firstName}} {{lastName}}</div>
@@ -37,6 +38,8 @@
     <div class="signOutButton">
         <div class="signOutButtonText">Sign Out</div>
     </div>
-    {{> footer}}
+    </div>
+   {{> footer}}
+   </div>
 </body>
 </html>
