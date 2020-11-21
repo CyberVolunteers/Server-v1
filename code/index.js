@@ -220,7 +220,6 @@ app.get("/listing", csrfProtection, renderPage("listing"));
 app.get("/aboutUs", renderPage("aboutUs"));
 app.get("/formComplete", renderPage("formComplete"));
 app.get("/signUpComplete", renderPage("signUpComplete"));
-app.get("/searchPage", renderPage("searchPage"));
 app.get("/thankYouForHelping", renderPage("thankYouForHelping"));
 
 //downloadables
