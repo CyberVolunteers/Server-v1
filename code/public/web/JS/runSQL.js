@@ -12,6 +12,5 @@ $(function(){
             console.log(jqXHR)
             $("#output").text(jqXHR.statusText);
         })
-
     })
 })
