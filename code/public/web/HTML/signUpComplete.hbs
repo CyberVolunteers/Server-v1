@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,16 +12,21 @@
 
     <title>Thank you for helping</title>
 </head>
+
 <body>
- <div id="pageContainer">
+    <div id="pageContainer">
+        {{> header}}
         <div id="contentWrap">
-    {{> header}}
-    
-    <div class="maintext">The signup is now complete</div>
-    <center>
-        <div class="redirectButton">
-            <div class="redirectButtonText">Click here to go to the login page</div>
+
+            <div class="maintext">The signup is now complete</div>
+            <center>
+                <div class="redirectButton">
+                    <div class="redirectButtonText">Click here to go to the login page</div>
+                </div>
+            </center>
         </div>
-    </center>
+        {{> footer}}
+    </div>
 </body>
+
 </html>

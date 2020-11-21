@@ -8,19 +8,20 @@
     <link rel="stylesheet" href="../CSS/errorPage.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    
+
     <title>Need to be Verified</title>
 </head>
+
 <body>
     <div id="pageContainer">
+        {{> header}}
         <div id="contentWrap">
 
-    {{> header}}
-    
-    <div class="maintext">Your Account Needs to be Verified before you can perform this action</div>
-    <div class="subtext">For more information about the verification process please contact us</div>
+            <div class="maintext">Your Account Needs to be Verified before you can perform this action</div>
+            <div class="subtext">For more information about the verification process please contact us</div>
+        </div>
+        {{> footer}}
     </div>
-   {{> footer}}
-   </div>
 </body>
+
 </html>

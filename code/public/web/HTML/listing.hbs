@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     {{> common}}
-    
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../CSS/listing.css">
@@ -10,64 +11,68 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://rawgit.com/leizongmin/js-xss/master/dist/xss.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAO_Y95jkPGDVI6lLofm8pESkUhIW-sqts&callback=initMap&libraries=&v=weekly" defer></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAO_Y95jkPGDVI6lLofm8pESkUhIW-sqts&callback=initMap&libraries=&v=weekly"
+        defer></script>
     <script src="../JS/listing.js"></script>
     <title>listing</title>
 </head>
+
 <body>
-     <div id="pageContainer">
+    <div id="pageContainer">
+        {{> header}}
         <div id="contentWrap">
 
-   {{> header}}
+            {{> errorSnippet}}
 
-    
-
-    {{> errorSnippet}}
-   
-    <div class="opertunitytitle">Loading...</div>
-    <div class="opertunityorg">Loading...</div>
-    <div class="opinfowrap">
-        <div class="opdescription"> 
-            <div class="opdescriptiontext">Loading...
+            <div class="opertunitytitle">Loading...</div>
+            <div class="opertunityorg">Loading...</div>
+            <div class="opinfowrap">
+                <div class="opdescription">
+                    <div class="opdescriptiontext">Loading...
+                    </div>
+                    <button type="submit" class="wantToHelpButton">
+                        <div class="buttontext">I Want to Help</div>
+                        <img src="../IMG/whiteArrow2.svg" class="icon" id="whiteArrow">
+                    </button>
+                </div>
+                <div class="basicinfobox">
+                    <div class="basicinfoboxheader">Key Information</div>
+                    <div class="basicinfoinfo">
+                        <div class="basicinfogroup">
+                            <div class="basicinfotitle">When</div>
+                            <div class="basicinfo timeInfo">Loading...</div>
+                        </div>
+                        <div class="basicinfogroup">
+                            <div class="basicinfotitle">Where</div>
+                            <div class="basicinfo placeInfo">Loading...</div>
+                        </div>
+                        <div class="basicinfogroup">
+                            <div class="basicinfotitle">Time Requirements</div>
+                            <div class="basicinfo timeReqNumbers">Loading...</div>
+                        </div>
+                        <div class="basicinfogroup">
+                            <div class="basicinfotitle">Skills</div>
+                            <div class="basicinfo skills">Loading...</div>
+                        </div>
+                        <div class="basicinfogroup">
+                            <div class="basicinfotitle">Good For</div>
+                            <div class="basicinfo recommendedGroups">Loading...</div>
+                        </div>
+                        <div class="mapContainer">
+                            <div id="map"></div>
+                        </div>
+                        <div id="basicinfogroup"></div>
+                        <div class="basicinfogroupreq">
+                            <div class="basicinfotitle">Requirements</div>
+                            <div class="basicinfo requirements">Loading...</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <button type="submit" class="wantToHelpButton">
-                <div class="buttontext">I Want to Help</div>
-                <img src="../IMG/whiteArrow2.svg" class="icon" id="whiteArrow">
-            </button>
         </div>
-        <div class="basicinfobox">
-            <div class="basicinfoboxheader">Key Information</div>
-            <div class="basicinfoinfo">
-                <div class="basicinfogroup">
-                    <div class="basicinfotitle">When</div>
-                    <div class="basicinfo timeInfo">Loading...</div>
-                </div>
-                <div class="basicinfogroup">
-                    <div class="basicinfotitle">Where</div>
-                    <div class="basicinfo placeInfo">Loading...</div>
-                </div>
-                <div class="basicinfogroup">
-                    <div class="basicinfotitle">Time Requirements</div>
-                    <div class="basicinfo timeReqNumbers">Loading...</div>
-                </div>
-                <div class="basicinfogroup">
-                    <div class="basicinfotitle">Skills</div>
-                    <div class="basicinfo skills">Loading...</div>
-                </div>
-                <div class="basicinfogroup">
-                    <div class="basicinfotitle">Good For</div>
-                    <div class="basicinfo recommendedGroups">Loading...</div>
-                </div>
-                <div class="mapContainer">
-                    <div id="map"></div>
-                </div>
-                <div id="basicinfogroup"></div>
-                <div class="basicinfogroupreq">
-                    <div class="basicinfotitle">Requirements</div>
-                    <div class="basicinfo requirements">Loading...</div>
-                </div>
-            </div>
-        </div>   
+        {{> footer}}
     </div>
 </body>
+
 </html>
