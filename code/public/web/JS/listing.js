@@ -1,5 +1,13 @@
 let map;
 
+let xssOptions = {
+	whiteList: {
+		a: ["href", "class"],
+		br: [],
+		b: []
+	}
+};
+
 $(function(){
 	const csrfToken = $("meta[name=\"csrf-token\"]").attr("content");
 
@@ -18,18 +26,22 @@ $(function(){
 	)
 		.done(function(data, textStatus){
 			const listing = data[0];
-			$(".opertunitytitle").text(filterXSS(listing.opportunityTitle));
-			$(".opdescriptiontext").text(filterXSS(listing.opportunityDesc));
-			$(".placeInfo").text(filterXSS(listing.placeForVolunteering));
-			$(".timeInfo").text(filterXSS(listing.timeForVolunteering));
-			$(".timeReqNumbers").text(filterXSS(listing.minHoursPerWeek + "-" + listing.maxHoursPerWeek) + " hours per week");
-			$(".skills").text(filterXSS(listing.skills));
-			$(".requirements").text(filterXSS(listing.requirements));
-			$(".recommendedGroups").text(filterXSS(listing.targetAudience));
-			$(".opertunityorg").text(filterXSS(listing.charityName));
+
+			const isScraped = listing.minHoursPerWeek == -1;
+
+			let timeString;
+			if(listing.minHoursPerWeek == -1) timeString = "N/A";
+			else timeString = `${xss(listing.minHoursPerWeek)}-${xss(listing.maxHoursPerWeek)}`;
+
+			const selectors = [".opertunitytitle", ".opdescriptiontext", ".placeInfo", ".timeInfo", ".timeReqNumbers", ".skills", ".requirements", ".recommendedGroups", ".opertunityorg"];
+			const textsToFilter = [listing.opportunityTitle, listing.opportunityDesc, listing.placeForVolunteering, listing.timeForVolunteering, timeString, listing.skills, listing.requirements, listing.targetAudience, listing.charityName];
+
+			for(let i = 0; i < selectors.length; i++){
+				$(selectors[i]).html(xss(textsToFilter[i]));
+			}
 
 			//geocode
-			const geocodeString = `https://maps.googleapis.com/maps/api/geocode/json?address=${escape(filterXSS(listing.placeForVolunteering).replace(" ", "+"))}&key=AIzaSyAO_Y95jkPGDVI6lLofm8pESkUhIW-sqts`;
+			const geocodeString = `https://maps.googleapis.com/maps/api/geocode/json?address=${escape(xss(listing.placeForVolunteering).replace(" ", "+"))}&key=AIzaSyAO_Y95jkPGDVI6lLofm8pESkUhIW-sqts`;
 			$.get(geocodeString)
 			.done(function(data){
 				if(data.status !== "OK"){
@@ -99,4 +111,8 @@ function getCookie(name) {
 	const value = `; ${document.cookie}`;
 	const parts = value.split(`; ${name}=`);
 	if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+function xss(text){
+	return filterXSS(text, xssOptions);
 }

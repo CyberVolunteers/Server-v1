@@ -1,6 +1,10 @@
 data
 pictures
 
+.idea
+venv
+
+
 # Logs
 logs
 *.log

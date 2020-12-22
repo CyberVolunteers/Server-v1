@@ -53,11 +53,9 @@ const listingsIndex = flexSearch.create({
 // add all the existing listings
 pool.query("SELECT listings.id, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, charities.charityName FROM listings INNER JOIN charities ON charities.id=listings.charityId;", function(err, results){
 	if (err) throw err;
-	console.log(results)
 
 	for(let i = 0; i < results.length; i++){
 		const valueString = results[i].opportunityDesc + " " + results[i].opportunityCategory + " " + results[i].opportunityTitle + " " + results[i].charityName;
-		console.log(valueString);
 		listingsIndex.add(results[i].id, valueString);
 	}
 });
@@ -538,7 +536,6 @@ app.post("/deleteListing", blockNonAdmins, async function(req, res, next){
 
 	try{
 		const results = await query("SELECT `id` FROM `listings` WHERE `uuid`=?;", [req.body.uuid]);
-		console.log(results);
 
 		await query("DELETE FROM `volunteers_listings` WHERE `listingId`=?;", [results[0].id]);
 		await query("DELETE FROM `listings` WHERE `id`=?;", [results[0].id]);

@@ -88,3 +88,10 @@ body {
 .overflowControl {
 	overflow-wrap: break-word;
 }
+
+a.moreDetails {
+	text-decoration: underline;
+	color: #0000FF;
+	margin: 10px;
+	padding: 10px;
+}
