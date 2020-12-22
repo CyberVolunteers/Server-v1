@@ -71,7 +71,7 @@ function getAllListings() {
 function constructHTML(entry, entryId){
 	let timeString, charityName;
 
-	const isScraped = listing.minHoursPerWeek == -1;
+	const isScraped = entry.minHoursPerWeek == -1;
 
 	if(isScraped) {
 		timeString = "N/A";
@@ -81,7 +81,6 @@ function constructHTML(entry, entryId){
 		timeString = `${xss(entry.minHoursPerWeek)}-${xss(entry.maxHoursPerWeek)}`;
 		charityName = entry.charityName;
 	}
-
 
 	return `
 	<div class="listings" id="listing${entryId}" >
