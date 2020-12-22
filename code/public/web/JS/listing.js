@@ -27,14 +27,23 @@ $(function(){
 		.done(function(data, textStatus){
 			const listing = data[0];
 
+			console.log(listing);
+
 			const isScraped = listing.minHoursPerWeek == -1;
 
-			let timeString;
-			if(isScraped) timeString = "N/A";
-			else timeString = `${xss(listing.minHoursPerWeek)}-${xss(listing.maxHoursPerWeek)}`;
+			let timeString, charityName;
+
+			if(isScraped) {
+				timeString = "N/A";
+				charityName = listing.scrapedCharityName;
+			}
+			else {
+				timeString = `${xss(listing.minHoursPerWeek)}-${xss(listing.maxHoursPerWeek)}`;
+				charityName = listing.charityName;
+			}
 
 			const selectors = [".opertunitytitle", ".opdescriptiontext", ".placeInfo", ".timeInfo", ".timeReqNumbers", ".skills", ".requirements", ".recommendedGroups", ".opertunityorg"];
-			const textsToFilter = [listing.opportunityTitle, listing.opportunityDesc, listing.placeForVolunteering, listing.timeForVolunteering, timeString, listing.skills, listing.requirements, listing.targetAudience, listing.charityName];
+			const textsToFilter = [listing.opportunityTitle, listing.opportunityDesc, listing.placeForVolunteering, listing.timeForVolunteering, timeString, listing.skills, listing.requirements, listing.targetAudience, charityName];
 
 			for(let i = 0; i < selectors.length; i++){
 				$(selectors[i]).html(xss(textsToFilter[i]));

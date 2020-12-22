@@ -69,12 +69,19 @@ function getAllListings() {
 }
 
 function constructHTML(entry, entryId){
-	let timeString;
+	let timeString, charityName;
 
 	const isScraped = listing.minHoursPerWeek == -1;
 
-	if(isScraped) timeString = "N/A";
-	else timeString = `${xss(entry.minHoursPerWeek)}-${xss(entry.maxHoursPerWeek)}`;
+	if(isScraped) {
+		timeString = "N/A";
+		charityName = entry.scrapedCharityName;
+	}
+	else {
+		timeString = `${xss(entry.minHoursPerWeek)}-${xss(entry.maxHoursPerWeek)}`;
+		charityName = entry.charityName;
+	}
+
 
 	return `
 	<div class="listings" id="listing${entryId}" >
@@ -91,7 +98,7 @@ function constructHTML(entry, entryId){
 		background-size: cover;
 		background-position: center;"></div>
 		<div class="lstitle cut-text">${xss(entry.opportunityTitle)}</div>
-		<div class="lstcharity cut-text">${xss(entry.charityName)}</div>
+		<div class="lstcharity cut-text">${xss(charityName)}</div>
 	</div>`;
 }
 
