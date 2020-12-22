@@ -95,3 +95,7 @@ a.moreDetails {
 	margin: 10px;
 	padding: 10px;
 }
+
+a.moreDetails:hover{
+	color: #0000CC;
+}

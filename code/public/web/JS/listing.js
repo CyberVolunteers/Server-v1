@@ -41,10 +41,12 @@ $(function(){
 			}
 
 			//geocode
-			const geocodeString = `https://maps.googleapis.com/maps/api/geocode/json?address=${escape(xss(listing.placeForVolunteering).replace(" ", "+"))}&key=AIzaSyAO_Y95jkPGDVI6lLofm8pESkUhIW-sqts`;
+			const geocodeString = `https://maps.googleapis.com/maps/api/geocode/json?address=${escape(xss(listing.placeForVolunteering).replace(" ", "+"))}&key=AIzaSyDlX7hnp6ZooujDfUtWX30K_QqDzqZlMV4`;
+			console.log(geocodeString);
 			$.get(geocodeString)
 			.done(function(data){
 				if(data.status !== "OK"){
+					console.log(data);
 					$(".errorMessage").text("Something went wrong with the map, please try again letter or contact us");
 					$(".errorMessage").show(500);
 					return;

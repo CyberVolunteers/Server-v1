@@ -80,7 +80,7 @@ function constructHTML(entry, entryId){
 			<div class="timehrs cut-text">${timeString}</div>
 			<div class="perw">Hours per Week</div>
 		</div>
-		<div class="listingsloc"><div class="listingslocwriting cut-text">${xss(entry.placeForVolunteering)}</div>
+		<div class="listingsloc"><div class="listingslocwriting cut-text">${xss(entry.placeForVolunteering).replace(/(<([^>]+)>)/gi, " ")}</div>
 		</div>
 		<div class="listingxp"><div class="listingsxpwriting cut-text">${xss(entry.requirements)}</div>
 		</div>
