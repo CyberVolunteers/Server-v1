@@ -70,7 +70,10 @@ function getAllListings() {
 
 function constructHTML(entry, entryId){
 	let timeString;
-	if(entry.minHoursPerWeek == -1) timeString = "N/A";
+
+	const isScraped = listing.minHoursPerWeek == -1;
+
+	if(isScraped) timeString = "N/A";
 	else timeString = `${xss(entry.minHoursPerWeek)}-${xss(entry.maxHoursPerWeek)}`;
 
 	return `
