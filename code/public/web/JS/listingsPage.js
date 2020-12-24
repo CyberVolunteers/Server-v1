@@ -69,25 +69,29 @@ function getAllListings() {
 }
 
 function constructHTML(entry, entryId){
-	let timeString, charityName;
+	let timeString, charityName, categoryName;
 
 	const isScraped = entry.minHoursPerWeek == -1;
 
 	if(isScraped) {
-		timeString = "N/A";
+		timeString = timeString = `
+		<div class="whenData">${xss(entry.timeForVolunteering).replace(/(<([^>]+)>)/gi, " ")}</div>`;
 		charityName = entry.scrapedCharityName;
+		categoryName = "";
 	}
 	else {
-		timeString = `${xss(entry.minHoursPerWeek)}-${xss(entry.maxHoursPerWeek)}`;
+		timeString = `
+		<div class="timehrs cut-text">${xss(entry.minHoursPerWeek)}-${xss(entry.maxHoursPerWeek)}</div>
+		<div class="perw">Hours per Week</div>`;
 		charityName = entry.charityName;
+		categoryName = entry.opportunityCategory;
 	}
 
 	return `
 	<div class="listings" id="listing${entryId}" >
-		<div class="listingHeader"><div class="listingscat cut-text">${xss(entry.opportunityCategory)}</div></div>
+		<div class="listingHeader"><div class="listingscat cut-text">${xss(categoryName)}</div></div>
 		<div class="listingsTime">
-			<div class="timehrs cut-text">${timeString}</div>
-			<div class="perw">Hours per Week</div>
+			${timeString}
 		</div>
 		<div class="listingsloc"><div class="listingslocwriting cut-text">${xss(entry.placeForVolunteering).replace(/(<([^>]+)>)/gi, " ")}</div>
 		</div>
