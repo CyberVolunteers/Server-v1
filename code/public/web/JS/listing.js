@@ -1,3 +1,7 @@
+let isScraped;
+
+let listing;
+
 let map;
 
 let xssOptions = {
@@ -25,11 +29,9 @@ $(function(){
 		}
 	)
 		.done(function(data, textStatus){
-			const listing = data[0];
+			listing = data[0];
 
-			console.log(listing);
-
-			const isScraped = listing.minHoursPerWeek == -1;
+			isScraped = listing.minHoursPerWeek == -1;
 
 			let timeString, charityName;
 
@@ -53,7 +55,6 @@ $(function(){
 
 			//geocode
 			const geocodeString = `https://maps.googleapis.com/maps/api/geocode/json?address=${escape(xss(listing.placeForVolunteering).replace(" ", "+"))}&key=AIzaSyDRcgQS1jUZ5ZcUykaM3RumTgbjpYvidX8`;
-			console.log(geocodeString);
 			$.get(geocodeString)
 			.done(function(data){
 				if(data.status === "ZERO_RESULTS"){
@@ -94,7 +95,13 @@ $(function(){
 	const helpOfferButton = $(".wantToHelpButton");
 
 	helpOfferButton.click(function(){
-		$.post("/applyForListing",
+		// if it is a scraped listing, redirect to the website
+		if(isScraped){
+			console.log("Redirect to the site");
+			const url = listing.opportunityDesc.match(/\bhttps?:\/\/[^"\s]+(?!.*\bhttps?:\/\/[^"\s])/gi); //get the last url in the "more details"
+			window.location.href = url;
+		}else{
+			$.post("/applyForListing",
 			{
 				listingUUID: uuid,
 				_csrf: csrfToken
@@ -113,6 +120,7 @@ $(function(){
 					$(".errorMessage").show(500);
 				}
 			});
+		}
 	});
 });
 
