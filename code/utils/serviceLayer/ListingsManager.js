@@ -42,7 +42,7 @@ module.exports = class ListingsManager {
 
 			if(results.length == 0) return {};
 
-			const listingsData = await query("SELECT uuid, timeForVolunteering, placeForVolunteering, targetAudience, skills, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek, createdDate FROM listings WHERE id IN (?)", [results]);
+			const listingsData = await query("SELECT uuid, timeForVolunteering, scrapedCharityName, placeForVolunteering, targetAudience, skills, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek, createdDate FROM listings WHERE id IN (?)", [results]);
 			return listingsData;
 		}finally{
 			connection.release();
