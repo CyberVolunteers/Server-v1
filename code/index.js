@@ -350,7 +350,7 @@ app.get("/verifyEmailToken", async function(req, res, next){
 }, renderPage("verificationResult"));
 
 app.get("/getListings", getListingRateLimit, function(req, res, next){
-	pool.query("SELECT charities.charityName, listings.uuid, listings.timeForVolunteering, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.createdDate, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek, listings.pictureName FROM `listings` INNER JOIN charities ON listings.charityId=charities.id", [], function(err, results){
+	pool.query("SELECT charities.charityName, listings.scrapedCharityName, listings.uuid, listings.timeForVolunteering, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.createdDate, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek, listings.pictureName FROM `listings` INNER JOIN charities ON listings.charityId=charities.id", [], function(err, results){
 		if (err) return next(err);
 
 		return res.status(200).json(results);

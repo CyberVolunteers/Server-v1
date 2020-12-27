@@ -75,7 +75,8 @@ function constructHTML(entry, entryId){
 
 	if(isScraped) {
 		timeString = timeString = `
-		<div class="whenData">${xss(entry.timeForVolunteering).replace(/(<([^>]+)>)/gi, " ")}</div>`;
+		<div class="whenData">${removeLineBreaks(xss(entry.timeForVolunteering))}</div>`;
+		console.log([entry.scrapedCharityName])
 		charityName = entry.scrapedCharityName;
 		categoryName = "";
 	}
@@ -93,18 +94,22 @@ function constructHTML(entry, entryId){
 		<div class="listingsTime">
 			${timeString}
 		</div>
-		<div class="listingsloc"><div class="listingslocwriting cut-text">${xss(entry.placeForVolunteering).replace(/(<([^>]+)>)/gi, " ")}</div>
+		<div class="listingsloc"><div class="listingslocwriting cut-text">${removeLineBreaks(xss(entry.placeForVolunteering))}</div>
 		</div>
-		<div class="listingxp"><div class="listingsxpwriting cut-text">${xss(entry.requirements)}</div>
+		<div class="listingxp"><div class="listingsxpwriting cut-text">${removeLineBreaks(xss(entry.requirements))}</div>
 		</div>
 		<div class="imageholder" id="image${1}" style="background-image: url(listingsPictures/${xss(entry.pictureName)});
 		background-size: cover;
 		background-position: center;"></div>
 		<div class="lstitle cut-text">${xss(entry.opportunityTitle)}</div>
-		<div class="lstcharity cut-text">${xss(charityName)}</div>
+		<div class="lstcharity cut-text">${removeLineBreaks(xss(charityName))}</div>
 	</div>`;
 }
 
 function xss(text){
 	return filterXSS(text, xssOptions);
+}
+
+function removeLineBreaks(text){
+	return text.replace(/(<([^>]+)>)/gi, " ");
 }
