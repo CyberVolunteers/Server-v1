@@ -97,7 +97,6 @@ button {
 .listingslocwriting {
 	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 	justify-content: center;
-	text-align: center;
 	position: absolute;
 	left: 30px;
 	bottom: 15px;
@@ -119,6 +118,7 @@ button {
 	position: absolute;
 	left: 30px;
 	bottom: 15px;
+	font-size: small;
 }
 .imageholder {
 	visibility: hidden;
