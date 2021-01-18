@@ -12,9 +12,9 @@ const flexSearch = require("flexsearch");
 const util = require("util");
 const utils = require("./utils/utils");
 const csurf = require("csurf");
-const favicon = require('serve-favicon');
+const favicon = require("serve-favicon");
 const xss = require("xss");
-const multer = require('multer');
+const multer = require("multer");
 const crypto = require("crypto");
 
 
@@ -26,7 +26,9 @@ const settings = require("./settings");
 
 const app = express();
 
+// eslint-disable-next-line no-undef
 const port = process.env.PORT || 1234;
+// eslint-disable-next-line no-undef
 const isProduction = process.platform !== "win32";
 const hostName = isProduction? "https://cybervolunteers.org.uk/": "http://localhost:1234/";
 
@@ -62,6 +64,7 @@ pool.query("SELECT listings.id, listings.opportunityDesc, listings.opportunityCa
 
 //set the utc timezone
 const timezone = "UTC";
+// eslint-disable-next-line no-undef
 process.env.TZ = timezone;
 
 //winston
@@ -119,7 +122,7 @@ const Storage = multer.diskStorage({
 		callback(null, "./pictures/listingsPictures");
 	},
 	filename: function(req, file, callback) {
-		req.body.newFileName = crypto.randomBytes(24).toString('hex');
+		req.body.newFileName = crypto.randomBytes(24).toString("hex");
 		req.body.fileExt = path.extname(file.originalname);
 		req.body.fullNewFileName = req.body.newFileName + req.body.fileExt;
 		callback(null, req.body.fullNewFileName);
@@ -167,8 +170,10 @@ app.set("trust proxy", 1);
 app.engine("hbs", exphbs( {
 	extname: "hbs",
 	defaultView: "index",
+	// eslint-disable-next-line no-undef
 	partialsDir: __dirname + "/public/partials/"
 }));
+// eslint-disable-next-line no-undef
 app.set("views", path.join(__dirname, "public/web/HTML"));
 app.set("view engine", "hbs");
 
@@ -188,7 +193,8 @@ app.use(expressSession({
 	resave: false,//TODO: should i change this one?
 	saveUninitialized: false,//TODO: should i change this one?
 })); // TODO: research the params, esp. maxAge
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+// eslint-disable-next-line no-undef
+app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -205,10 +211,11 @@ app.use( (req, res, next) => {
 
 //requests
 
+// eslint-disable-next-line no-undef
 app.use(express.static(path.join(__dirname, "pictures"))); // to serve pictures
 
 //pages
-app.get("/", renderPage("homepage"))
+app.get("/", renderPage("homepage"));
 app.get("/login", logout(false), renderPage("login"));
 app.get("/volunteerSignUp", csrfProtection, renderPage("volunteerSignUp"));
 app.get("/charitySignUp", csrfProtection, renderPage("charitySignUp"));
@@ -216,6 +223,7 @@ app.get("/joinUs", renderPage("joinUs"));
 app.get("/contactUs", renderPage("contactUs"));
 app.get("/contactUsLinks", renderPage("contactUsLinks"));
 app.get("/listingsPage", renderPage("listingsPage"));
+app.get("/advancedSearch", renderPage("advancedSearch"));
 app.get("/listing", csrfProtection, renderPage("listing"));
 app.get("/aboutUs", renderPage("aboutUs"));
 app.get("/formComplete", renderPage("formComplete"));
@@ -224,12 +232,14 @@ app.get("/thankYouForHelping", renderPage("thankYouForHelping"));
 
 //downloadables
 
-app.get('/downloadPrivacyPolicy', function(req, res){
+app.get("/downloadPrivacyPolicy", function(req, res){
+	// eslint-disable-next-line no-undef
 	const file = `${__dirname}/public/downloadables/privacyPolicy.docx`;
 	res.download(file);
 });
 
-app.get('/downloadTermsOfUse', function(req, res){
+app.get("/downloadTermsOfUse", function(req, res){
+	// eslint-disable-next-line no-undef
 	const file = `${__dirname}/public/downloadables/termsOfUse.docx`;
 	res.download(file);
 });
@@ -249,7 +259,7 @@ app.get("/searchLisings/:term", async function(req, res, next){
 	}catch(err){
 		return next(err);
 	}
-})
+});
 
 //sign up post
 app.post("/signup", csrfProtection, signUpRateLimit, async function(req, res, next){
@@ -313,7 +323,7 @@ app.post("/login", shortTermLoginRateLimit, longTermLoginRateLimit, function(req
 	})(req, res, next);
 });
 
-app.get("/logout", logout(true), function(req, res, next){
+app.get("/logout", logout(true), function(req, res){
 	res.redirect("/login");
 });
 
@@ -369,6 +379,7 @@ app.get("/getListing", getListingRateLimit, function(req, res, next){
 	});
 });
 
+// eslint-disable-next-line no-undef
 app.use(express.static(path.join(__dirname, "public/web"))); // to serve js, html, css
 
 // redirect to login if not authenticated
@@ -447,7 +458,7 @@ app.post("/createListing", csrfProtection, createListingRateLimit, async functio
 			return next(err);
 		}else{
 			res.statusMessage = "An error occured, please try again later";
-			logger.error("Error:")
+			logger.error("Error:");
 			logger.error(err.stack);
 			return res.status(400).end();
 		}
@@ -509,7 +520,7 @@ app.post("/applyForListing", csrfProtection, async function(req, res, next){
 	}
 });
 
-app.get("/nonverifiedCharities", blockNonAdmins, function(req, res, next){
+app.get("/nonverifiedCharities", blockNonAdmins, function(req, res){
 	pool.query("SELECT * FROM charities WHERE isVerifiedByUs=0", [], function(err, results){
 		if(err) return res.send(err);
 		return res.json(results);
@@ -520,7 +531,7 @@ app.get("/verifyCharity", blockNonAdmins, renderPage("verifyCharity"));
 app.get("/deleteListing", blockNonAdmins, renderPage("deleteListing"));
 app.get("/runSQL", blockNonAdmins, renderPage("runSQL"));
 
-app.post("/verifyCharity", blockNonAdmins, function(req, res, next){
+app.post("/verifyCharity", blockNonAdmins, function(req, res){
 	const verifyEmail = req.body.verifyEmail === "true";
 	const sql = verifyEmail ? "UPDATE charities set isVerifiedByUs=1, isEmailVerified=1 WHERE isVerifiedByUs=0 AND id=?" : "UPDATE charities set isVerifiedByUs=1 WHERE isVerifiedByUs=0 AND id=?";
 	pool.query(sql, [req.body.id], function(err, results){
@@ -529,7 +540,7 @@ app.post("/verifyCharity", blockNonAdmins, function(req, res, next){
 	});
 });
 
-app.post("/deleteListing", blockNonAdmins, async function(req, res, next){
+app.post("/deleteListing", blockNonAdmins, async function(req, res){
 	//get connection
 	const connection = await utils.getConnection(pool);
 	const query = util.promisify(connection.query).bind(connection);
@@ -549,7 +560,7 @@ app.post("/deleteListing", blockNonAdmins, async function(req, res, next){
 });
 
 
-app.post("/runSQL", blockNonAdmins, function(req, res, next){
+app.post("/runSQL", blockNonAdmins, function(req, res){
 	pool.query(req.body.sql, function(err, results){
 		if(err) return res.send(err);
 		return res.send(results);
@@ -557,7 +568,7 @@ app.post("/runSQL", blockNonAdmins, function(req, res, next){
 });
 
 //404 page
-app.all("*", function(req, res, next){
+app.all("*", function(req, res){
 	//if ajax, send message, otherwise, show page
 	if (req.xhr) {
 		res.statusMessage = "Not found";
@@ -576,7 +587,7 @@ app.use(function (err, req, res, next) {
 	res.status(403).end();
 });
 
-app.use(function (err, req, res, next) {
+app.use(function (err, req, res) {
 	logger.error("error:");
 	logger.error(err.stack);
 
@@ -594,7 +605,7 @@ app.listen(port, () => logger.info(`Listening at http://localhost:${port}`));
 //functions run periodically
 setInterval(async function(){
 	logger.info("checking batch application emails");
-	await NodemailerManager.sendBatchApplicationEmails()
+	await NodemailerManager.sendBatchApplicationEmails();
 }, settings.emailBatchCheckTime);
 
 

@@ -1,0 +1,62 @@
+<html>
+
+<head>
+    {{> common}}
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Search</title>
+
+    <link rel="stylesheet" href="../CSS/header.css">
+    <link rel="stylesheet" href="../CSS/advancedSearch.css">
+    <link rel="stylesheet" href="../CSS/footer.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="../JS/createListing.js"></script>
+</head>
+
+<body>
+    <div id="pageContainer">
+        {{> header}}
+        <div id="contentWrap">
+            <div class="title">Advanced Search</div>
+            <div class="wrapper">
+                <form>
+
+                    <input class="relative" type="text"><br>
+                    <input class="relative" type="text"><br>
+                    <input class="relative" type="text"><br>
+                    <input class="relative" type="text"><br>
+                    <input class="relative" type="text"><br>
+                </form>
+
+                <div class="header-background"></div>
+                <div class="Search-catagories">
+                    <a class="yourLocation">Your Location</a>
+                    <a class="Challenges">Challenges you want to Tackle</a>
+                    <a class="Experience">Experience</a>
+                    <a class="Time">Time Commitment</a>
+                    <a class="typeOfWork">Type of Work</a>
+                </div>
+
+                <div class="centre">
+                    <button type="submit" class="nextButton">
+                        <div class="buttontext">Search</div>
+                        <img src="../IMG/whiteArrow2.svg" class="icon" id="whiteArrow">
+                    </button>
+                </div>
+            </div>
+        </div>
+        {{> footer}}
+    </div>
+</body>
+
+
+
+
+
+
+
+
+
+
+</html>
