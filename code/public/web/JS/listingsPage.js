@@ -10,6 +10,12 @@ let xssOptions = {
 };
 
 $(function () {
+
+	//redirect to search page
+	$(".advancedSearchButton").click(function(){
+		window.location.href = "../advancedSearch";
+	});
+
 	getAllListings();
 	$(".listingsWrapper").on("click", ".listings", function () {
 		let indexInData = $(this).attr("id").match(/[0-9]+/)[0];

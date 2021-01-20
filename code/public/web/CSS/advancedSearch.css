@@ -11,13 +11,6 @@ input[type=text]:focus {
     overflow: visible;
 }
 
-input[type=text].relative {
-    position: relative;
-    left: 45vw;
-    top: 211px;
-
-}
-
 input[type=text] {
     width: 30%;
     padding: 8px 5px;
@@ -31,41 +24,39 @@ input[type=text] {
     font-size: 19px;
 }
 
-.Search-catagories {
-    font-size: 30px;
-    font-family: Calibri;
-
+.wrapper{
+    margin-top: 50px;
 }
 
-.yourLocation {
+/* .time {
+    position: absolute;
+    left: 20vw;
+    top: 130px;
+}
+
+.categories {
     position: absolute;
     left: 20vw;
     top: 245px;
 }
 
-.Challenges {
+.keywords {
     position: absolute;
     left: 20vw;
     top: 360px;
 }
 
-.Experience {
+.categories {
     position: absolute;
     left: 20vw;
     top: 475px;
 }
 
-.Time {
+.location {
     position: absolute;
     left: 20vw;
     top: 585px;
-}
-
-.typeOfWork {
-    position: absolute;
-    left: 20vw;
-    top: 695px;
-}
+} */
 
 #searchButton {
     background-color: rgba(248, 81, 32, 0.878);
@@ -80,6 +71,10 @@ input[type=text] {
     left: 50%;
     margin-left: -75px;
     top: 800px;
+}
+
+table.searchForm{
+    margin: auto;
 }
 
 .title {
