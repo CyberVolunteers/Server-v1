@@ -2,7 +2,8 @@ $(function(){
     $("#submit").click(function(){
         $.post("/verifyCharity",
         {
-            id: $("#verifyCharity").val()
+            id: $("#verifyCharity").val(),
+            verifyEmail: $("#verifyEmail").is(':checked')
         })
         .done(function(data, textStatus){
             console.log(data.message);

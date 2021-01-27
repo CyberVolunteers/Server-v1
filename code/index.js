@@ -379,6 +379,14 @@ app.get("/getListing", getListingRateLimit, function(req, res, next){
 	});
 });
 
+app.get("/advancedSearchForListings", getListingRateLimit, async function(req, res, next){
+	logger.info("Params" + JSON.stringify(req.query));
+
+	const listings = await ListingsManager.getAdvancedSearchListings(req.query);
+
+	res.status(200).json(listings);
+})
+
 // eslint-disable-next-line no-undef
 app.use(express.static(path.join(__dirname, "public/web"))); // to serve js, html, css
 
@@ -533,7 +541,7 @@ app.get("/runSQL", blockNonAdmins, renderPage("runSQL"));
 
 app.post("/verifyCharity", blockNonAdmins, function(req, res){
 	const verifyEmail = req.body.verifyEmail === "true";
-	const sql = verifyEmail ? "UPDATE charities set isVerifiedByUs=1, isEmailVerified=1 WHERE isVerifiedByUs=0 AND id=?" : "UPDATE charities set isVerifiedByUs=1 WHERE isVerifiedByUs=0 AND id=?";
+	const sql = verifyEmail ? "UPDATE charities set isVerifiedByUs=1, isEmailVerified=1 WHERE id=?" : "UPDATE charities set isVerifiedByUs=1 WHERE isVerifiedByUs=0 AND id=?";
 	pool.query(sql, [req.body.id], function(err, results){
 		if(err) return res.send(err);
 		return res.json(results);
