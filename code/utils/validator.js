@@ -57,7 +57,7 @@ module.exports = class Validator {
         && this.isSuitableLength(params["timeForVolunteering"], 100)
         && this.isSuitableLength(params["placeForVolunteering"], 150)
         && this.isSuitableLength(params["targetAudience"], 100)
-        && this.isSuitableLength(params["skills"], 400)
+        && this.isSuitableLength(params["skills"], 1000)
         && this.isSuitableLength(params["requirements"], 500)
         && this.isSuitableLength(params["opportunityDesc"], 1250)
         && this.isSuitableLength(params["opportunityCategory"], 50)
