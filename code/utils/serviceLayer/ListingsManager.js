@@ -4,6 +4,8 @@ const got = require('got');
 const { lastIndexOf } = require("../../data/cookieSecret");
 const { log } = require("console");
 
+const maxWeightForKeywordSearch = 2;
+
 module.exports = class ListingsManager {
 	constructor(pool, logger, listingsIndex) {
 		this.logger = logger;
@@ -17,7 +19,7 @@ module.exports = class ListingsManager {
 
 		try {
 			//get lat and long
-			let {lat = 0, lng = 0} = await this.getLatAndLong(params.placeForVolunteering.replace(/<br\/>/g, " "));
+			let { lat = 0, lng = 0 } = await this.getLatAndLong(params.placeForVolunteering.replace(/<br\/>/g, " "));
 
 			await query("START TRANSACTION;");
 			await query("INSERT INTO `listings`(uuid, timeForVolunteering, placeForVolunteering, targetAudience, skills, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek, duration, charityId, createdDate, pictureName, latitude, longitude) VALUES (uuid(), ?,?,?,?,?,?,?,?,?,?,?,?,?,UNIX_TIMESTAMP(), ?, ?, ?);", [params.timeForVolunteering, params.placeForVolunteering, this.createTargetAudienceString(params.targetAudience), params.skills, params.requirements, params.opportunityDesc, params.opportunityCategory, params.opportunityTitle, params.numOfvolunteers, params.minHoursPerWeek, params.maxHoursPerWeek, params.duration, params.charityId, params.fullNewFileName, lat, lng]);
@@ -51,7 +53,7 @@ module.exports = class ListingsManager {
 		}
 	}
 
-	async getLatAndLong(placeDesc){
+	async getLatAndLong(placeDesc) {
 		const geocodeString = `https://maps.googleapis.com/maps/api/geocode/json?address=${escape(placeDesc.replace(" ", "+"))}&key=AIzaSyDRcgQS1jUZ5ZcUykaM3RumTgbjpYvidX8`;
 		const response = await got(geocodeString, { json: true });
 		console.log(response.body.results, response.body.results[0]);
@@ -111,50 +113,54 @@ module.exports = class ListingsManager {
 		try {
 			let ids = {};
 
-			function updateIds(newIds, isSql){
-				for(const newId of newIds){
+			function updateIds(newIds, isSql, weightStep = 0) {
+
+				let weight = weightStep === 0 ? 1 : maxWeightForKeywordSearch;
+
+				for (const newId of newIds) {
 					let key;
-					if(isSql) key = newId.id;
+					if (isSql) key = newId.id;
 					else key = newId;
 
-					if (ids[key] === undefined) ids[key] = 1;
-					else ids[key] += 1;
+					if (ids[key] === undefined) ids[key] = weight;
+					else ids[key] += weight;
+					weight -= weightStep;
 				}
 			}
 
 			if (searchObj["keywords"]) {
 				const listingsIdsToSearch = await this.getSearchListingsIds(searchObj["keywords"]);
-				console.log(listingsIdsToSearch);
-				updateIds(listingsIdsToSearch, false);
-				console.log("keyw");
+
+				// weight based on search order
+				const weightStep = maxWeightForKeywordSearch / listingsIdsToSearch.length;
+
+				console.log("keyw", listingsIdsToSearch.length);
+				updateIds(listingsIdsToSearch, false, weightStep);
 			}
 			if (searchObj["hoursPerWeek"]) {
-				console.log("hpw", searchObj["hoursPerWeek"]);
 				const newIds = await query("SELECT id FROM listings WHERE maxHoursPerWeek <= ? AND maxHoursPerWeek <> -1", [searchObj["hoursPerWeek"]]);
-				console.log(newIds);
-				updateIds(newIds,true);
+				console.log("hpw", newIds.length);
+				updateIds(newIds, true);
 			}
 			if (searchObj["category"]) {
 				const newIds = await query("SELECT id FROM listings WHERE opportunityCategory = ?", [searchObj["category"]]);
-				console.log(newIds);
+				console.log("cat", newIds.length);
 				updateIds(newIds, true);
-				console.log("cat");
-			}
-			if (searchObj["location"]) {
-				// const ids = await query("SELECT id FROM listings WHERE opportunityCategory = ?", [searchObj["category"]]);
-				// console.log(ids);
 			}
 
-			console.log(ids)
+			const listings = await query("SELECT id, uuid, timeForVolunteering, scrapedCharityName, placeForVolunteering, targetAudience, skills, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek, createdDate, latitude, longitude FROM listings WHERE id IN (?)", [Object.keys(ids)]);
 
-			const listings = await query("SELECT id, uuid, timeForVolunteering, scrapedCharityName, placeForVolunteering, targetAudience, skills, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek, createdDate FROM listings WHERE id IN (?)", [Object.keys(ids)]);
-
-			for(let listing of listings){
+			for (let listing of listings) {
 				listing.weight = ids[listing.id];
 				delete listing.id;
 			}
 
-			return listings;
+			let returnData = {listings}
+
+			if (searchObj["location"]) returnData.location = await this.getLatAndLong(searchObj["location"]);
+			console.log(returnData);
+
+			return returnData;
 		} finally {
 			connection.release();
 		}

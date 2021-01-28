@@ -12,7 +12,7 @@ let xssOptions = {
 	}
 };
 
-$(function(){
+$(function () {
 	const csrfToken = $("meta[name=\"csrf-token\"]").attr("content");
 
 
@@ -20,7 +20,7 @@ $(function(){
 	const url = new URL(window.location.href);
 	const uuid = url.searchParams.get("uuid");
 
-	if(getCookie("isVolunteer") === "false") $(".wantToHelpButton").hide();
+	if (getCookie("isVolunteer") === "false") $(".wantToHelpButton").hide();
 
 	//get listing data
 	$.get("/getListing",
@@ -28,14 +28,15 @@ $(function(){
 			uuid: uuid
 		}
 	)
-		.done(function(data, textStatus){
+		.done(function (data, textStatus) {
 			listing = data[0];
+			console.log(listing);
 
 			isScraped = listing.minHoursPerWeek == -1;
 
 			let timeString, charityName;
 
-			if(isScraped) {
+			if (isScraped) {
 				timeString = "N/A";
 				//hide the time requirements
 				$(".timeReqNumbers ").parent().hide();
@@ -49,77 +50,66 @@ $(function(){
 			const selectors = [".opertunitytitle", ".opdescriptiontext", ".placeInfo", ".timeInfo", ".timeReqNumbers", ".skills", ".requirements", ".recommendedGroups", ".opertunityorg"];
 			const textsToFilter = [listing.opportunityTitle, listing.opportunityDesc, listing.placeForVolunteering, listing.timeForVolunteering, timeString, listing.skills, listing.requirements, listing.targetAudience, charityName];
 
-			for(let i = 0; i < selectors.length; i++){
+			for (let i = 0; i < selectors.length; i++) {
 				$(selectors[i]).html(xss(textsToFilter[i]));
 			}
 
 			//geocode
-			const geocodeString = `https://maps.googleapis.com/maps/api/geocode/json?address=${escape(xss(listing.placeForVolunteering).replace(" ", "+"))}&key=AIzaSyDRcgQS1jUZ5ZcUykaM3RumTgbjpYvidX8`;
-			$.get(geocodeString)
-			.done(function(data){
-				if(data.status === "ZERO_RESULTS"){
-					$("#map").hide()
+			if (listing.latitude === 0 && listing.longitude === 0) {
+				$("#map").hide()
+			}
+			else {
+				const pos = {
+					lat: listing.latitude,
+					lng: listing.longitude
 				}
-				else if(data.status !== "OK"){
-					console.log(data);
-					$(".errorMessage").text("Something went wrong with the map, please try again letter or contact us");
-					$(".errorMessage").show(500);
-					return;
-				}else{
-					const results = data.results;
-					const pos = results[0].geometry.location;
 
-					marker = new google.maps.Marker({
-						position: pos,
-						map: map,
-						title: 'Opportunity here'
-					});
 
-					map.setCenter(pos);
-					map.setZoom(14);
-				}
-			})
-			.fail(function(jqXHR){
-				console.log(jqXHR)
-				$(".errorMessage").text("Something went wrong with the map, please try again letter or contact us");
-				$(".errorMessage").show(500);
-			})
+				marker = new google.maps.Marker({
+					position: pos,
+					map: map,
+					title: 'Opportunity here'
+				});
+
+				map.setCenter(pos);
+				map.setZoom(14);
+			}
 		})
-		.fail(function(jqXHR){
+		.fail(function (jqXHR) {
 			let errorText = jqXHR.statusText;
-			if(jqXHR.status === 429) errorText = jqXHR.responseText
+			if (jqXHR.status === 429) errorText = jqXHR.responseText
 			$(".errorMessage").text(errorText);
 			$(".errorMessage").show(500);
 		});
 
 	const helpOfferButton = $(".wantToHelpButton");
 
-	helpOfferButton.click(function(){
+	helpOfferButton.click(function () {
 		// if it is a scraped listing, redirect to the website
-		if(isScraped){
+		if (isScraped) {
 			console.log("Redirect to the site");
 			const url = listing.opportunityDesc.match(/\bhttps?:\/\/[^"\s]+(?!.*\bhttps?:\/\/[^"\s])/gi); //get the last url in the "more details"
 			window.location.href = url;
-		}else{
+		} else {
 			$.post("/applyForListing",
-			{
-				listingUUID: uuid,
-				_csrf: csrfToken
-			})
-			.done(function(data, textStatus){
-				window.location.href = `${window.location.protocol}//${window.location.host}/thankYouForHelping`;
-			})
+				{
+					listingUUID: uuid,
+					_csrf: csrfToken
+				})
+				.done(function (data, textStatus) {
+					window.location.href = `${window.location.protocol}//${window.location.host}/thankYouForHelping`;
+				})
 
-			.fail(function(jqXHR){
-				let errorText = jqXHR.statusText;
-				if(jqXHR.status === 401){
-					window.location.href = `${window.location.protocol}//${window.location.host}/login?redirect=${escape("listing" + window.location.search)}`;
-				}else{
-					if(jqXHR.status === 429) errorText = jqXHR.responseText
-					$(".errorMessage").text(errorText);
-					$(".errorMessage").show(500);
-				}
-			});
+				.fail(function (jqXHR) {
+					let errorText = jqXHR.statusText;
+					if (jqXHR.status === 401) {
+						window.location.href = `${window.location.protocol}//${window.location.host}/login?redirect=${escape("listing" + window.location.search)}`;
+					} else {
+						if (jqXHR.status === 429) errorText = jqXHR.responseText
+						$(".errorMessage").text(errorText);
+						$(".errorMessage").show(500);
+					}
+				});
 		}
 	});
 });
@@ -137,6 +127,6 @@ function getCookie(name) {
 	if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-function xss(text){
+function xss(text) {
 	return filterXSS(text, xssOptions);
 }
