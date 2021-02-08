@@ -1,0 +1,90 @@
+body {
+}
+.opertunitytitle {
+	text-align: center;
+	font-size: 35px;
+	padding-top: 70px;
+}
+.opertunityorg {
+	text-align: center;
+	font-size: 25px;
+	padding-top: 20px;
+	cursor: pointer;
+}
+.opinfowrap {
+	display: flex;
+	flex-direction: row;
+	margin-top: 40px;
+	justify-content: center;
+}
+.basicinfobox {
+	min-width: 400px;
+	min-height: 530px;
+	border: black 1px solid;
+	margin-left: 100px;
+}
+.opdescription {
+	width: 600px;
+	background-color: ;
+}
+.wantToHelpButton {
+	position: relative;
+	width: 240px;
+	height: 45px;
+	background-color: #f85120;
+	border: none;
+	margin-top: 50px;
+	margin-left: 200px;
+	border-radius: 50px;
+	cursor: pointer;
+}
+#whiteArrow {
+	width: 35px;
+	height: 30px;
+	position: absolute;
+	left: 170px;
+}
+.wantToHelpButton {
+	display: flex;
+	align-items: center;
+}
+.buttontext {
+	position: absolute;
+	left: 30px;
+}
+.basicinfoboxheader {
+	text-align: center;
+	padding-top: 10px;
+	font-size: 22px;
+}
+.basicinfotitle {
+	padding-left: 20px;
+	padding-top: 20px;
+	font-size: 19px;
+}
+
+.basicinfo {
+	width: 165px;
+	padding-left: 20px;
+	padding-top: 5px;
+}
+#map {
+	width: 170px;
+	height: 195px;
+	border: 1px solid gray;
+
+	position: absolute;
+
+	margin-top: -380px;
+
+	margin-left: 195px;
+}
+.basicinfogroupreq {
+	position: absolute;
+	margin-left: 190px;
+	top: 445px;
+}
+
+.overflowControl {
+	overflow-wrap: break-word;
+}
