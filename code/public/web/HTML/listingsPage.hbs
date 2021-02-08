@@ -7,9 +7,9 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../CSS/listingsPage.css">
     <link rel="stylesheet" href="../CSS/searchMainPage.css">
-    <link rel="stylesheet" href="../CSS/searchPage.css">
+    <link rel="stylesheet" href="../CSS/header.css">
+    <link rel="stylesheet" href="../CSS/listingsPage.css">
 
     <script src="https://rawgit.com/leizongmin/js-xss/master/dist/xss.js"></script>
 
@@ -18,7 +18,8 @@
 
     <title>Find Volunteering Opportunities | Cyber Volunteers</title>
     <meta name="description" content="FInd Volunteering Opportunities through the Cyber Volunteers Website">
-    <meta name="keywords" content="volunteer, cyber volunteers, find volunteers, volunteering, get volunteers, need volunteers, want to volunteer">
+    <meta name="keywords"
+        content="volunteer, cyber volunteers, find volunteers, volunteering, get volunteers, need volunteers, want to volunteer">
 </head>
 
 <body>
@@ -28,14 +29,79 @@
             {{> errorSnippet}}
 
             <div class="wrapper">
+
                 <input type="text" name="" id="" class="searchBar" placeholder="Search for Volunteer Oppurtunities">
                 <button class="advancedSearchButton" type="submit" link="">ADVANCED SEARCH</button>
+
+            </div>
+            <div class="advancedSearchWrapper">
+                <div class="advancedSearch">
+                    <div class="searchGeneralCat">
+                        <div class="advancedSearchCatagory">Key Words</div>
+                        <input type="text" name="keywords" id="" class="advancedSearchBox" placeholder="">
+                    </div>
+                    <div class="searchGeneralCat">
+                        <div class="advancedSearchCatagory">Location</div>
+                        <input type="text" name="location" id="" class="advancedSearchBox" placeholder="">
+                    </div>
+                    <div class="searchGeneralCat">
+                        <div class="advancedSearchCatagory">Max Hours Per Week</div>
+                        <input type="number" name="hoursPerWeek" id="hrsperweek" class="advancedSearchBox" placeholder="">
+                    </div>
+                    <div class="catPopUp">
+                        <div class="title">Choose your Catagories</div>
+
+                        <div class="SelectableCats">
+                            <div class="iconGroup" id="Advocacy & Human Rights">
+                                <img src="../IMG/Hands with Heart 2.svg" class="icon">
+                                <div class="catName">Advocacy & Human Rights</div>
+                            </div>
+                            <div class="iconGroup" id="Arts & Culture">
+                                <img src="../IMG/arts and culture 2.svg" class="icon" alt="">
+                                <div class="catName">Arts & Culture</div>
+                            </div>
+
+
+
+                            <div class="iconGroup" id="Community">
+                                <img src="../IMG/community logo 2.svg" class="icon" alt="">
+                                <div class="catName">Community</div>
+                            </div>
+                            <div class="iconGroup" id="Computers & Technology">
+                                <img src="../IMG/mouse logo 2.svg" alt="" class="icon">
+                                <div class="catName">Computers & Technology</div>
+                            </div>
+
+
+                            <div class="iconGroup" id="Education">
+                                <img src="../IMG/education logo 2.svg" alt="" class="icon">
+                                <div class="catName">Education</div>
+                            </div>
+                            <div class="iconGroup" id="Healthcare & Medicine">
+                                <img src="../IMG/health and education 2.svg" alt="" class="icon">
+                                <div class="catName">Healthcare & Medicine</div>
+                            </div>
+
+                            <div class="iconGroup" id="Justice & Legal">
+                                <img src="../IMG/justice and legal 2.svg" class="icon" class="icon">
+                                <div class="catName">Justice & Legal</div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="cataButton"><button class="CatagoriesButton" type="submit" link="">Catagory</button></div>
+
             </div>
 
+
             <div class="listingsWrapper">
-                
-                
-               
+
             </div>
         </div>
         {{!-- {{> footer}} --}}

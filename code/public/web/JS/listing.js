@@ -54,26 +54,6 @@ $(function () {
 				$(selectors[i]).html(xss(textsToFilter[i]));
 			}
 
-			//geocode
-			if (listing.latitude === 0 && listing.longitude === 0) {
-				$("#map").hide()
-			}
-			else {
-				const pos = {
-					lat: listing.latitude,
-					lng: listing.longitude
-				}
-
-
-				marker = new google.maps.Marker({
-					position: pos,
-					map: map,
-					title: 'Opportunity here'
-				});
-
-				map.setCenter(pos);
-				map.setZoom(14);
-			}
 		})
 		.fail(function (jqXHR) {
 			let errorText = jqXHR.statusText;

@@ -1,3 +1,5 @@
+const maxDistance = 5; // km
+const R = 6371; // km
 const minLengthForSearch = 3;
 let listingsData;
 
@@ -11,9 +13,19 @@ let xssOptions = {
 
 $(function () {
 
+	$(".advancedSearchWrapper").toggle();
+	
+	// toggleable groups
+	let category = undefined;
+	$(".iconGroup").click(function(){
+        category = $(this).attr("id");
+
+		$(".advancedSearchWrapper").toggle();
+    })
+
 	//redirect to search page
 	$(".advancedSearchButton").click(function(){
-		window.location.href = "../advancedSearch";
+		$(".advancedSearchWrapper").toggle();
 	});
 
 	getAllListings();

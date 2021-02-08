@@ -2,6 +2,7 @@ const minLengthForSearch = 3;
 let listingsData;
 
 $(function(){
+
     // for normal changes
     $(".searchBar").on("input", function(){ 
     // for enter presses
