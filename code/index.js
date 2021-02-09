@@ -223,7 +223,6 @@ app.get("/joinUs", renderPage("joinUs"));
 app.get("/contactUs", renderPage("contactUs"));
 app.get("/contactUsLinks", renderPage("contactUsLinks"));
 app.get("/listingsPage", renderPage("listingsPage"));
-app.get("/advancedSearch", renderPage("advancedSearch"));
 app.get("/listing", csrfProtection, renderPage("listing"));
 app.get("/aboutUs", renderPage("aboutUs"));
 app.get("/formComplete", renderPage("formComplete"));

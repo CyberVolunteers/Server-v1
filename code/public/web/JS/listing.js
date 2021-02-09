@@ -52,6 +52,7 @@ $(function () {
 
 			for (let i = 0; i < selectors.length; i++) {
 				$(selectors[i]).html(xss(textsToFilter[i]));
+				console.log($(selectors[i]));
 			}
 
 		})

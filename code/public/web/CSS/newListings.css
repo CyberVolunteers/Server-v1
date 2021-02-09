@@ -96,3 +96,7 @@ body {
     justify-content: space-evenly;
     align-items: flex-start;
 }
+
+a.moreDetails{
+	text-decoration: underline;
+}

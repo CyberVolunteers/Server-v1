@@ -148,7 +148,9 @@ module.exports = class ListingsManager {
 				updateIds(newIds, true);
 			}
 
-			const listings = await query("SELECT id, uuid, timeForVolunteering, scrapedCharityName, placeForVolunteering, targetAudience, skills, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek, createdDate, latitude, longitude FROM listings WHERE id IN (?)", [Object.keys(ids)]);
+			ids = Object.keys(ids);
+
+			const listings = ids.length === 0? []: await query("SELECT id, uuid, timeForVolunteering, scrapedCharityName, placeForVolunteering, targetAudience, skills, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek, createdDate, latitude, longitude FROM listings WHERE id IN (?)", [ids]);
 
 			for (let listing of listings) {
 				listing.weight = ids[listing.id];
