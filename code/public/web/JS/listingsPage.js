@@ -13,20 +13,22 @@ let xssOptions = {
 
 $(function () {
 
-	$(".advancedSearchWrapper").toggle();
-	
+	$(".advancedSearchWrapper").hide();
+	$(".catPopUp").hide();
+
+	$(".advancedSearchButton").click(() => $(".advancedSearchWrapper").show());
+	$(".CatagoriesButton").click(() => $(".catPopUp").show());
+
 	// toggleable groups
 	let category = undefined;
-	$(".iconGroup").click(function(){
-        category = $(this).attr("id");
+	$(".iconGroup").click(function () {
+		category = $(this).attr("id");
 
-		$(".advancedSearchWrapper").toggle();
-    })
+		console.log(category);
+		advancedSearch(category);
 
-	//redirect to search page
-	$(".advancedSearchButton").click(function(){
-		$(".advancedSearchWrapper").toggle();
-	});
+		$(".catPopUp").hide();
+	})
 
 	getAllListings();
 	$(".listingsWrapper").on("click", ".listings", function () {
@@ -67,6 +69,57 @@ $(function () {
 	})
 });
 
+function advancedSearch(category) {
+	let requestObj = {};
+	$(".search-param").each(function () {
+		const key = $(this).attr("name");
+		const value = $(this).val();
+
+		if (value !== "") requestObj[key] = value;
+	})
+
+	requestObj["category"] = category;
+
+	// send a request
+	$.get("/advancedSearchForListings", requestObj)
+		.done(function (data, textStatus) {
+			// filter out the ones that are too far away
+			let { lat, lng } = data.location || {lat: 0, lang: 0};
+
+			let listings = data.listings;
+
+			console.log(listings);
+
+			if (lat !== 0 || lng !== 0) listings.filter((obj) => {
+				if (obj.latitude === 0 && obj.longitude === 0) return true;
+
+				const x = (lng - obj.longitude) * Math.cos((lat + obj.latitude) / 2);
+				const y = (lat - obj.latitude);
+				const d = Math.sqrt(x * x + y * y) * R;
+
+				if (d > maxDistance) return false;
+				obj.weight += 1;
+				return true;
+			})
+
+			listings.sort((a, b) => (b.weight - a.weight));
+
+			$(".listingsWrapper").html("");
+			for (entryId in listings) {
+				let entry = listings[entryId];
+
+				$(".listingsWrapper").append(constructHTML(entry, entryId));
+			}
+		})
+		.fail(function (jqXHR) {
+			let errorText = jqXHR.statusText;
+
+			if (jqXHR.status === 429) errorText = jqXHR.responseText
+			$(".errorMessage").text(errorText);
+			$(".errorMessage").show(500);
+		});
+}
+
 function getAllListings() {
 	$.get("/getListings")
 		.done(function (data, textStatus) {
@@ -86,12 +139,12 @@ function getAllListings() {
 		});
 }
 
-function constructHTML(entry, entryId){
+function constructHTML(entry, entryId) {
 	let timeString, charityName, categoryName;
 
 	const isScraped = entry.minHoursPerWeek == -1;
 
-	if(isScraped) {
+	if (isScraped) {
 		timeString = timeString = `
 		<div class="whenData">${removeLineBreaks(xss(entry.timeForVolunteering))}</div>`;
 		console.log([entry.scrapedCharityName])
@@ -124,10 +177,10 @@ function constructHTML(entry, entryId){
 	</div>`;
 }
 
-function xss(text){
+function xss(text) {
 	return filterXSS(text, xssOptions);
 }
 
-function removeLineBreaks(text){
+function removeLineBreaks(text) {
 	return text.replace(/(<([^>]+)>)/gi, " ");
 }
