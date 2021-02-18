@@ -4,6 +4,8 @@ const settings = require("../../settings");
 
 const {v4: uuidv4} = require("uuid");
 const crypto = require("crypto");
+const bcrypt = require("bcrypt");
+
 
 const NodeCache = require("node-cache");
 const emailsVerificationTokensCache = new NodeCache({stdTTL: settings.emailVerificationTime, checkperiod: settings.emailVerificationTime/2});
@@ -25,8 +27,6 @@ module.exports = class NodemailerManager{
 
 		this.random = util.promisify(crypto.randomBytes);
 
-		this.generateRandomPasswordResetCode("me@me.com").then(() => console.log(this.checkPasswordResetCode(Object.keys(this.randomCodes), "me@me.com")))
-
 		// clean up the codes once in a while
 		setInterval(() => {
 			const maxDate = new Date().getTime() - settings.passwordResetCodeTimeout;
@@ -42,13 +42,6 @@ module.exports = class NodemailerManager{
 			SES: new aws.SES({
 				apiVersion: '2010-12-01'
 			})
-			// host: "smtp.ethereal.email",
-			// port: 587,
-			// secure: false,
-			// auth: {
-			// 	user: "zua5w3gpzvpz52mx@ethereal.email",
-			// 	pass: "xHwKvsu3chdWD6kk9x"
-			// }
 		});
 
 		this.confirmEmailTextTemplate = Handlebars.compile(fs.readFileSync("./public/emails/confirmEmail.txt", "utf8"));
@@ -307,6 +300,21 @@ module.exports = class NodemailerManager{
 		const isEmailCorrect = secureCompare(dataObj.email, email);
 
 		return foundCode && isTimeCorrect && isEmailCorrect;
+	}
+
+	async resetPassword(code, email, password){
+		const connection = await utils.getConnection(this.pool);
+		const query = util.promisify(connection.query).bind(connection);
+
+		try{
+			if(!this.checkPasswordResetCode(code, email)) return false;
+			console.log("password changed")
+			const hash = await bcrypt.hash(password);
+			console.log(hash);
+			return true; 
+		}finally{
+			connection.release();
+		}
 	}
 
 	getCurrentTime() { return new Date().getTime() / 1000; }
