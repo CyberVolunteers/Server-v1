@@ -3,6 +3,7 @@ const utils = require("../utils");
 const settings = require("../../settings");
 
 const {v4: uuidv4} = require("uuid");
+const crypto = require("crypto");
 
 const NodeCache = require("node-cache");
 const emailsVerificationTokensCache = new NodeCache({stdTTL: settings.emailVerificationTime, checkperiod: settings.emailVerificationTime/2});
@@ -20,6 +21,20 @@ module.exports = class NodemailerManager{
 		this.logger = logger;
 		this.pool = pool;
 		this.hostName = hostName;
+		this.randomCodes = {}
+
+		this.random = util.promisify(crypto.randomBytes);
+
+		this.generateRandomPasswordResetCode("me@me.com").then(() => console.log(this.checkPasswordResetCode(Object.keys(this.randomCodes), "me@me.com")))
+
+		// clean up the codes once in a while
+		setInterval(() => {
+			const maxDate = new Date().getTime() - settings.passwordResetCodeTimeout;
+			console.log("max date", maxDate);
+			for(let key of Object.keys(this.randomCodes)){
+				if(this.randomCodes[key].time < maxDate) delete this.randomCodes[key];
+			}
+		}, settings.passwordResetCodeTimeout * 1000);
 
 		aws.config.loadFromPath('./data/awsConfig.json');
 
@@ -271,4 +286,28 @@ module.exports = class NodemailerManager{
 			connection.release();
 		}
 	}
+
+	async generateRandomPasswordResetCode(email){
+		const codeBytes = await this.random(settings.passwordResetCodeLength); 
+		const code = codeBytes.toString("hex");
+		
+		this.randomCodes[code] = {
+			time: this.getCurrentTime(),
+			email
+		}
+
+		console.log(this.randomCodes);
+	}
+
+	checkPasswordResetCode(code, email){
+		const foundCode = this.randomCodes[code] !== undefined; // to prevent timing attacks
+		const dataObj = foundCode ? this.randomCodes[code] : {time: 0, email: ""};
+
+		const isTimeCorrect = dataObj.time + settings.passwordResetCodeTimeout > this.getCurrentTime();
+		const isEmailCorrect = secureCompare(dataObj.email, email);
+
+		return foundCode && isTimeCorrect && isEmailCorrect;
+	}
+
+	getCurrentTime() { return new Date().getTime() / 1000; }
 };
