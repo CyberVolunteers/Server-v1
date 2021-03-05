@@ -4,7 +4,7 @@ const mysql = require("mysql");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const expressSession = require("express-session");
-const exphbs  = require("express-handlebars");
+const exphbs = require("express-handlebars");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const cookieParser = require("cookie-parser");
@@ -30,11 +30,11 @@ const app = express();
 const port = process.env.PORT || 1234;
 // eslint-disable-next-line no-undef
 const isProduction = process.platform !== "win32";
-const hostName = isProduction? "https://cybervolunteers.org.uk/": "http://localhost:1234/";
+const hostName = isProduction ? "https://cybervolunteers.org.uk/" : "http://localhost:1234/";
 
 // connect to the mysql db
 const pool = mysql.createPool({
-	connectionLimit : 10,
+	connectionLimit: 10,
 	host: "localhost",
 	user: "serverQueryManager",
 	password: require("./data/serverQueryManagerPass"),
@@ -53,10 +53,10 @@ const listingsIndex = flexSearch.create({
 });
 
 // add all the existing listings
-pool.query("SELECT listings.id, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, charities.charityName FROM listings INNER JOIN charities ON charities.id=listings.charityId;", function(err, results){
+pool.query("SELECT listings.id, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, charities.charityName FROM listings INNER JOIN charities ON charities.id=listings.charityId;", function (err, results) {
 	if (err) throw err;
 
-	for(let i = 0; i < results.length; i++){
+	for (let i = 0; i < results.length; i++) {
 		const valueString = results[i].opportunityDesc + " " + results[i].opportunityCategory + " " + results[i].opportunityTitle + " " + results[i].charityName;
 		listingsIndex.add(results[i].id, valueString);
 	}
@@ -78,7 +78,7 @@ const Validator = new (require("./utils/validator"))();
 
 
 //passport
-passport.use(new LocalStrategy({usernameField: "email", passReqToCallback: true,}, UserManager.localPassportVerify.bind(UserManager)));
+passport.use(new LocalStrategy({ usernameField: "email", passReqToCallback: true, }, UserManager.localPassportVerify.bind(UserManager)));
 
 // throttling
 // TODO: set actual times
@@ -118,10 +118,10 @@ const getListingRateLimit = rateLimit({
 
 //multer
 const Storage = multer.diskStorage({
-	destination: function(req, file, callback) {
+	destination: function (req, file, callback) {
 		callback(null, "./pictures/listingsPictures");
 	},
-	filename: function(req, file, callback) {
+	filename: function (req, file, callback) {
 		req.body.newFileName = crypto.randomBytes(24).toString("hex");
 		req.body.fileExt = path.extname(file.originalname);
 		req.body.fullNewFileName = req.body.newFileName + req.body.fileExt;
@@ -138,26 +138,26 @@ const listingImageUpload = multer({
 });
 
 // used to serialize the user for the session
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
 	done(null, {
 		id: user.id,
 		isVolunteer: user.isVolunteer
-	}); 
+	});
 });
 
 // used to deserialize the user
-passport.deserializeUser(async function(id, done) {
+passport.deserializeUser(async function (id, done) {
 	const query = util.promisify(pool.query).bind(pool);
-	try{
+	try {
 		let results;
-		if(id.isVolunteer){
+		if (id.isVolunteer) {
 			results = await query("SELECT * FROM `volunteers` WHERE `id`=?;", [id.id]);
-		}else{
+		} else {
 			results = await query("SELECT * FROM `charities` WHERE `id`=?;", [id.id]);
 		}
 		//TODO: cache?
 		done(undefined, results[0]);
-	}catch (err) {
+	} catch (err) {
 		return done(err);
 	}
 });
@@ -167,7 +167,7 @@ const csrfProtection = csurf();
 
 // connections
 app.set("trust proxy", 1);
-app.engine("hbs", exphbs( {
+app.engine("hbs", exphbs({
 	extname: "hbs",
 	defaultView: "index",
 	// eslint-disable-next-line no-undef
@@ -187,7 +187,7 @@ app.use(require("cookie-parser")());
 app.use(expressSession({
 	secret: require("./data/cookieSecret"),
 	name: "sessionId",
-	secure : true,
+	secure: true,
 	httpOnly: true,
 	sameSite: true,// TODO: expiration + domain and path?
 	resave: false,//TODO: should i change this one?
@@ -202,7 +202,7 @@ app.use(passport.session());
 
 
 //express routing
-app.use( (req, res, next) => {
+app.use((req, res, next) => {
 	logger.info("requested " + req.originalUrl + " using " + req.method + ". is ajax? " + req.xhr);
 	next();
 });
@@ -231,87 +231,87 @@ app.get("/thankYouForHelping", renderPage("thankYouForHelping"));
 
 //downloadables
 
-app.get("/downloadPrivacyPolicy", function(req, res){
+app.get("/downloadPrivacyPolicy", function (req, res) {
 	// eslint-disable-next-line no-undef
 	const file = `${__dirname}/public/downloadables/privacyPolicy.docx`;
 	res.download(file);
 });
 
-app.get("/downloadTermsOfUse", function(req, res){
+app.get("/downloadTermsOfUse", function (req, res) {
 	// eslint-disable-next-line no-undef
 	const file = `${__dirname}/public/downloadables/termsOfUse.docx`;
 	res.download(file);
 });
 
-app.get("/searchLisings/:term", async function(req, res, next){
+app.get("/searchLisings/:term", async function (req, res, next) {
 	const params = {
 		terms: [req.params.term]
 	};
-	if(!Validator.searchListingsValidate(params)){
+	if (!Validator.searchListingsValidate(params)) {
 		res.statusMessage = "Bad data";
 		return res.status(400).end();
 	}
 
-	try{
+	try {
 		let results = await ListingsManager.searchListings(params);
 		return res.status(200).send(results);
-	}catch(err){
+	} catch (err) {
 		return next(err);
 	}
 });
 
 //sign up post
-app.post("/signup", csrfProtection, signUpRateLimit, async function(req, res, next){
+app.post("/signup", csrfProtection, signUpRateLimit, async function (req, res, next) {
 
 	const params = req.body;
 	const isVolunteer = params.isVolunteer === "true";
 
 	let validationSuccess;
-	if(isVolunteer){
+	if (isVolunteer) {
 		validationSuccess = Validator.signUpValidateVolunteer(params);
-	}else{
+	} else {
 		validationSuccess = Validator.signUpValidateCharity(params);
 	}
 
-	if(!validationSuccess){
+	if (!validationSuccess) {
 		res.statusMessage = "Bad data";
 		return res.status(400).end();
 	}
 
-	try{
+	try {
 		let result;
-		if(isVolunteer){
+		if (isVolunteer) {
 			result = await UserManager.signUpVolunteer(params);
-		}else{
+		} else {
 			result = await UserManager.signUpCharity(params);
 		}
-		if(result.code === 200){
+		if (result.code === 200) {
 			return res.sendStatus(200);
-		}else{
+		} else {
 			res.statusMessage = result.message;
 			return res.status(result.code).end();
 		}
-	}catch(err){
+	} catch (err) {
 		return next(err);
 	}
 });
 
-app.post("/login", shortTermLoginRateLimit, longTermLoginRateLimit, function(req, res, next){
+app.post("/login", shortTermLoginRateLimit, longTermLoginRateLimit, function (req, res, next) {
 
 	//if credentials are missing
-	if(!req.body.email || !req.body.password){
+	if (!req.body.email || !req.body.password) {
 		res.statusMessage = "Please, enter your email and password";
 		return res.status(400).end();
 	}
 
 	passport.authenticate("local", (err, user, info) => {
-		if(err) return next(err);
-		if(info){
+		if (err) return next(err);
+		if (info) {
 			res.statusMessage = info.message;
 			return res.status(400).end();
 		}
-		if(!user){
-			res.statusMessage = "Please, check your email and passowrd";
+		if (!user) {
+			res.statusMessage = "Please, check your email and password";
 			return res.status(400).end();
 		}
 		req.login(user, (err) => {
@@ -322,19 +322,63 @@ app.post("/login", shortTermLoginRateLimit, longTermLoginRateLimit, function(req
 	})(req, res, next);
 });
 
-app.get("/logout", logout(true), function(req, res){
+app.get("/logout", logout(true), function (req, res) {
 	res.redirect("/login");
 });
 
-app.get("/exampleForm", csrfProtection, renderPage("exampleForm"));
+app.get("/resetPasswordRequest", async function (req, res, next) {
+	let email, isVolunteer;
 
-app.get("/verifyEmailToken", async function(req, res, next){
+	if (req.user) {
+		email = req.user.email;
+		isVolunteer = req.session.passport.user.isVolunteer;
+	} else {
+		isVolunteer = req.query.isVolunteer === "true";
+		email = req.query.email;
+	}
+
+	const code = await NodemailerManager.generateRandomPasswordResetCode(email);
+
+	if (!await NodemailerManager.sendPasswordResetCode(code, email, isVolunteer)) {
+		// no email
+		logger.info(`Email ${email} not found during password reset`);
+		res.isSuccessful = false;
+	} else res.isSuccessful = true;
+
+	return next();
+}, renderPage("resetPasswordSent"));
+
+app.get("/resetPassword", csrfProtection, async function (req, res, next) {
+	let query = req.query;
+
+	res.isSuccessful = Validator.passwordResetVerifyPage(query) && NodemailerManager.checkPasswordResetCode(query.uuid, query.email);
+
+	return next();
+}, renderPage("resetPassword"));
+
+app.post("/resetPassword", csrfProtection, async function (req, res, next) {
+	let query = req.body;
+
+
+	// check it is still active
+	if (Validator.passwordResetVerify(query) && NodemailerManager.checkPasswordResetCode(query.uuid, query.email)) {
+		query.isVolunteer = query.isVolunteer === "true";
+		await UserManager.resetPassword(query.email, query.password, query.isVolunteer);
+	} else {
+		res.statusMessage = "Something is wrong with the details you sent us";
+		return res.status(400).end();
+	}
+
+	return res.status(200).end();
+})
+
+app.get("/verifyEmailToken", async function (req, res, next) {
 	const query = req.query;
 
 	const uuid = query.uuid;
 	const email = query.email;
 
-	if(!Validator.verifyEmailTokenValidate(query)){
+	if (!Validator.verifyEmailTokenValidate(query)) {
 		res.statusMessage = "Bad data";
 		return res.status(400).end();
 	}
@@ -342,43 +386,43 @@ app.get("/verifyEmailToken", async function(req, res, next){
 
 
 	//if successful, show one page, otherwise, show another
-	try{
+	try {
 		const isSuccess = await NodemailerManager.verifyEmailToken(email, uuid);
-		if(isSuccess){
+		if (isSuccess) {
 			logger.info("verified");
-		}else{
+		} else {
 			logger.info("not verified");
 		}
 
 		res.isSuccessful = isSuccess;
 
 		return next();
-	}catch(err){
+	} catch (err) {
 		return next(err);
 	}
 }, renderPage("verificationResult"));
 
-app.get("/getListings", getListingRateLimit, function(req, res, next){
-	pool.query("SELECT charities.charityName, listings.scrapedCharityName, listings.uuid, listings.timeForVolunteering, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.createdDate, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek, listings.pictureName FROM `listings` INNER JOIN charities ON listings.charityId=charities.id", [], function(err, results){
+app.get("/getListings", getListingRateLimit, function (req, res, next) {
+	pool.query("SELECT charities.charityName, listings.scrapedCharityName, listings.uuid, listings.timeForVolunteering, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.createdDate, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek, listings.pictureName FROM `listings` INNER JOIN charities ON listings.charityId=charities.id", [], function (err, results) {
 		if (err) return next(err);
 
 		return res.status(200).json(results);
 	});
 });
 
-app.get("/getListing", getListingRateLimit, function(req, res, next){
-	if(!Validator.getListingValidate(req.query.uuid)){
+app.get("/getListing", getListingRateLimit, function (req, res, next) {
+	if (!Validator.getListingValidate(req.query.uuid)) {
 		res.statusMessage = "Bad data";
 		return res.status(400).end();
 	}
-	pool.query("SELECT charities.charityName, listings.timeForVolunteering, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.createdDate, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek, listings.pictureName, listings.scrapedCharityName, listings.latitude, listings.longitude FROM `listings` INNER JOIN charities ON listings.charityId=charities.id  WHERE `uuid`=?", [req.query.uuid], function(err, results){
+	pool.query("SELECT charities.charityName, listings.timeForVolunteering, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.createdDate, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek, listings.pictureName, listings.scrapedCharityName, listings.latitude, listings.longitude FROM `listings` INNER JOIN charities ON listings.charityId=charities.id  WHERE `uuid`=?", [req.query.uuid], function (err, results) {
 		if (err) return next(err);
 
 		return res.status(200).json(results);
 	});
 });
 
-app.get("/advancedSearchForListings", getListingRateLimit, async function(req, res, next){
+app.get("/advancedSearchForListings", getListingRateLimit, async function (req, res, next) {
 	logger.info("Params" + JSON.stringify(req.query));
 
 	const listings = await ListingsManager.getAdvancedSearchListings(req.query);
@@ -390,7 +434,7 @@ app.get("/advancedSearchForListings", getListingRateLimit, async function(req, r
 app.use(express.static(path.join(__dirname, "public/web"))); // to serve js, html, css
 
 // redirect to login if not authenticated
-app.use(function(req, res, next){ 
+app.use(function (req, res, next) {
 	// let through if authenticated
 	if (req.isAuthenticated()) return next();
 	// if ajax, set send error code
@@ -402,36 +446,36 @@ app.use(function(req, res, next){
 });
 
 // private pages and requests
-app.get("/sendConfirmationEmail", csrfProtection, async function(req, res, next){
+app.get("/sendConfirmationEmail", csrfProtection, async function (req, res, next) {
 	const email = req.user.email;
 	const isVolunteer = req.session.passport.user.isVolunteer;
 
-	try{
+	try {
 		const reply = await NodemailerManager.sendConfirmationEmail(email, isVolunteer);
 		logger.info(reply);
-		if(reply === true){
+		if (reply === true) {
 			return next();
-		}else{
+		} else {
 			logger.error(reply);
 			return res.send(reply);
 		}
-	}catch(err){
+	} catch (err) {
 		return next(err);
 	}
 }, renderPage("verificationEmailSent"));
 
 // don't allow charities that are not verified to access these pages
-app.all("*", function(req, res, next){
-	if(req.user.isEmailVerified === 0){
-		if(req.method === "GET" && !req.xhr) {
+app.all("*", function (req, res, next) {
+	if (req.user.isEmailVerified === 0) {
+		if (req.method === "GET" && !req.xhr) {
 			return res.redirect("sendConfirmationEmail");
-		}else{
+		} else {
 			res.statusMessage = "Please, go to my Account page to verify your email first";
 			return res.status(403).end();
 		}
 	}
-	if(req.session.passport.user.isVolunteer !== true){
-		if (req.user.isVerifiedByUs === 0){
+	if (req.session.passport.user.isVolunteer !== true) {
+		if (req.user.isVerifiedByUs === 0) {
 			return renderPage("needToBeVerified")(req, res);
 		}
 	}
@@ -441,29 +485,29 @@ app.all("*", function(req, res, next){
 
 //private pages
 
-app.get("/createListing", function(req, res, next){
-	if(req.session.passport.user.isVolunteer === false) return next();
+app.get("/createListing", function (req, res, next) {
+	if (req.session.passport.user.isVolunteer === false) return next();
 	return renderPage("needToBeACharity")(req, res);
 }, csrfProtection, renderPage("createListing"));
 //app.get("/advancedSearch", csrfProtection, renderPage("advancedSearch"));
-app.get("/myAccount", function(req, res, next){
+app.get("/myAccount", function (req, res, next) {
 	const isVolunteer = req.session.passport.user.isVolunteer;
 
-	if(isVolunteer){
+	if (isVolunteer) {
 		return renderPage("myAccountVolunteer")(req, res, next);
-	}else{
+	} else {
 		return renderPage("myAccountCharity")(req, res, next);
 	}
 });
 
-app.post("/createListing", csrfProtection, createListingRateLimit, async function(req, res, next){
+app.post("/createListing", csrfProtection, createListingRateLimit, async function (req, res, next) {
 
-	try{
+	try {
 		await util.promisify(listingImageUpload.single("listingPicture"))(req, res);
-	}catch(err){
+	} catch (err) {
 		if (err instanceof multer.MulterError) {
 			return next(err);
-		}else{
+		} else {
 			res.statusMessage = "An error occured, please try again later";
 			logger.error("Error:");
 			logger.error(err.stack);
@@ -476,27 +520,27 @@ app.post("/createListing", csrfProtection, createListingRateLimit, async functio
 
 	params.charityId = req.user.id;
 
-	if(isVolunteer){
+	if (isVolunteer) {
 		res.statusMessage = "You don't have permission to create a listing";
 		return res.status(403).end();
 	}
 
-	if(!Validator.createListingValidate(params)){
+	if (!Validator.createListingValidate(params)) {
 		res.statusMessage = "Bad data";
 		return res.status(400).end();
 	}
 
-	try{
+	try {
 		await ListingsManager.createListing(params);
 		return res.sendStatus(200);
-	}catch(err){
+	} catch (err) {
 		return next(err);
 	}
 });
 
-app.post("/applyForListing", csrfProtection, async function(req, res, next){
+app.post("/applyForListing", csrfProtection, async function (req, res, next) {
 
-	if(req.session.passport.user.isVolunteer !== true){
+	if (req.session.passport.user.isVolunteer !== true) {
 		res.statusMessage = "You need to be a volunteer to apply for a listing";
 		return res.status(403).end();
 	}
@@ -506,30 +550,30 @@ app.post("/applyForListing", csrfProtection, async function(req, res, next){
 		"listingUUID": req.body.listingUUID
 	};
 
-	if(!Validator.applyForListingValidate(params)){
+	if (!Validator.applyForListingValidate(params)) {
 		res.statusMessage = "Bad data";
 		return res.status(400).end();
 	}
 
 	logger.info(params);
 
-	try{
+	try {
 		const message = await NodemailerManager.applyForListing(params);
-		if(message === undefined){
-			
+		if (message === undefined) {
+
 			return res.sendStatus(200);
-		}else{
+		} else {
 			res.statusMessage = message;
 			return res.status(400).end();
 		}
-	}catch(err){
+	} catch (err) {
 		return next(err);
 	}
 });
 
-app.get("/nonverifiedCharities", blockNonAdmins, function(req, res){
-	pool.query("SELECT * FROM charities WHERE isVerifiedByUs=0", [], function(err, results){
-		if(err) return res.send(err);
+app.get("/nonverifiedCharities", blockNonAdmins, function (req, res) {
+	pool.query("SELECT * FROM charities WHERE isVerifiedByUs=0", [], function (err, results) {
+		if (err) return res.send(err);
 		return res.json(results);
 	});
 });
@@ -538,49 +582,49 @@ app.get("/verifyCharity", blockNonAdmins, renderPage("verifyCharity"));
 app.get("/deleteListing", blockNonAdmins, renderPage("deleteListing"));
 app.get("/runSQL", blockNonAdmins, renderPage("runSQL"));
 
-app.post("/verifyCharity", blockNonAdmins, function(req, res){
+app.post("/verifyCharity", blockNonAdmins, function (req, res) {
 	const verifyEmail = req.body.verifyEmail === "true";
 	const sql = verifyEmail ? "UPDATE charities set isVerifiedByUs=1, isEmailVerified=1 WHERE id=?" : "UPDATE charities set isVerifiedByUs=1 WHERE isVerifiedByUs=0 AND id=?";
-	pool.query(sql, [req.body.id], function(err, results){
-		if(err) return res.send(err);
+	pool.query(sql, [req.body.id], function (err, results) {
+		if (err) return res.send(err);
 		return res.json(results);
 	});
 });
 
-app.post("/deleteListing", blockNonAdmins, async function(req, res){
+app.post("/deleteListing", blockNonAdmins, async function (req, res) {
 	//get connection
 	const connection = await utils.getConnection(pool);
 	const query = util.promisify(connection.query).bind(connection);
 
-	try{
+	try {
 		const results = await query("SELECT `id` FROM `listings` WHERE `uuid`=?;", [req.body.uuid]);
 
 		await query("DELETE FROM `volunteers_listings` WHERE `listingId`=?;", [results[0].id]);
 		await query("DELETE FROM `listings` WHERE `id`=?;", [results[0].id]);
 
 		return res.json(results);
-	}catch(err){
+	} catch (err) {
 		res.send(err);
-	}finally{
+	} finally {
 		connection.release();
 	}
 });
 
 
-app.post("/runSQL", blockNonAdmins, function(req, res){
-	pool.query(req.body.sql, function(err, results){
-		if(err) return res.send(err);
+app.post("/runSQL", blockNonAdmins, function (req, res) {
+	pool.query(req.body.sql, function (err, results) {
+		if (err) return res.send(err);
 		return res.send(results);
 	});
 });
 
 //404 page
-app.all("*", function(req, res){
+app.all("*", function (req, res) {
 	//if ajax, send message, otherwise, show page
 	if (req.xhr) {
 		res.statusMessage = "Not found";
 		res.status(400).send("Not found");
-	}else{
+	} else {
 		return renderPage("error404")(req, res);
 	}
 });
@@ -588,7 +632,7 @@ app.all("*", function(req, res){
 //csrf errors
 app.use(function (err, req, res, next) {
 	if (err.code !== "EBADCSRFTOKEN") return next(err);
-   
+
 	// handle CSRF token errors here
 	logger.warn("csrf failed");
 	res.status(403).end();
@@ -602,7 +646,7 @@ app.use(function (err, req, res) {
 	if (req.xhr) {
 		res.statusMessage = "Something broke!";
 		res.status(500).send("Something broke!");
-	}else{
+	} else {
 		return renderPage("error500")(req, res);
 	}
 });
@@ -610,7 +654,7 @@ app.use(function (err, req, res) {
 app.listen(port, () => logger.info(`Listening at http://localhost:${port}`));
 
 //functions run periodically
-setInterval(async function(){
+setInterval(async function () {
 	logger.info("checking batch application emails");
 	await NodemailerManager.sendBatchApplicationEmails();
 }, settings.emailBatchCheckTime);
@@ -619,16 +663,16 @@ setInterval(async function(){
 
 
 
-function renderPage(filePath){
-	return function (req, res){
+function renderPage(filePath) {
+	return function (req, res) {
 		let params = {
 			layout: false,
 			isLoggedIn: req.user !== undefined,
-			isSuccessful: res.isSuccessful
+			isSuccessful: res.isSuccessful,
 		};
 
-		if(req.csrfToken !== undefined) params.csrfToken = req.csrfToken();
-		if(params.isLoggedIn){
+		if (req.csrfToken !== undefined) params.csrfToken = req.csrfToken();
+		if (params.isLoggedIn) {
 			params.charityName = xss(req.user.charityName);
 			params.firstName = xss(req.user.firstName);
 			params.lastName = xss(req.user.lastName);
@@ -640,7 +684,7 @@ function renderPage(filePath){
 	};
 }
 
-function logout(logoutAnyway){
+function logout(logoutAnyway) {
 	return function (req, res, next) {
 
 		// do not logout remember me but if not logout completely
@@ -652,7 +696,7 @@ function logout(logoutAnyway){
 
 		// clear cookies
 		for (let cookieName of Object.keys(req.cookies)) {
-			if(cookieName === "sessionId") res.clearCookie(cookieName);
+			if (cookieName === "sessionId") res.clearCookie(cookieName);
 		}
 
 		// if not logged out and passport session exists
@@ -676,11 +720,11 @@ function logout(logoutAnyway){
 	};
 }
 
-function blockNonAdmins(req, res, next){
+function blockNonAdmins(req, res, next) {
 	logger.info("accessing admin pages, isAdmin=" + req.user.isAdmin);
-	if(req.user.isAdmin === 1){
+	if (req.user.isAdmin === 1) {
 		return next();
-	}else{
+	} else {
 		return renderPage("error404")(req, res);
 	}
 }

@@ -1,7 +1,7 @@
-$(function () {
-	let isVolunteerCookie = getCookie("isVolunteer")
-	let isVolunteer = (isVolunteerCookie === undefined || isVolunteerCookie === "") ? true : isVolunteerCookie === "true";
+let isVolunteerCookie = getCookie("isVolunteer")
+let isVolunteer = (isVolunteerCookie === undefined || isVolunteerCookie === "") ? true : isVolunteerCookie === "true";
 
+$(function () {
 	if (isVolunteer) {
 		console.log("vol")
 		$("#vol").addClass("selectedOption");
@@ -60,6 +60,18 @@ $(function () {
 
 		return false;
 	});
+
+	$("a.resetPassword").click(function () {
+		let email = $("#email").val();
+
+		if (email === "") {
+			$(".errorMessage").text("Please, include an email");
+			$(".errorMessage").show(500);
+		} else {
+			window.location.href = `${window.location.protocol}//${window.location.host}/resetPasswordRequest?email=${email}&isVolunteer=${isVolunteer}`;
+		}
+
+	})
 });
 
 function getCookie(name) {

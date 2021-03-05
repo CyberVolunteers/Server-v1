@@ -13,6 +13,18 @@ module.exports = class Validator {
 		return this.checkIfUndefinedAndConvertToStrings(params, ["uuid", "email"]);
 	}
 
+	passwordReset(params){
+		return this.checkIfUndefinedAndConvertToStrings(params, ["email"]) && validator.isEmail(params["email"]);
+	}
+
+	passwordResetVerify(params){
+		return this.checkIfUndefinedAndConvertToStrings(params, ["email", "uuid", "password", "isVolunteer"]);
+	}
+
+	passwordResetVerifyPage(params){
+		return this.checkIfUndefinedAndConvertToStrings(params, ["email", "uuid", "isVolunteer"]);
+	}
+
 	signUpValidateVolunteer(params){
 		return this.checkIfUndefinedAndConvertToStrings(params, ["firstName", "lastName", "email", "password", "gender", "salutation", "nationality", "address", "postcode", "city", "country", "phoneNumber", "languages", "skillsAndInterests"])
         && this.isSuitableLength(params["firstName"], 30)

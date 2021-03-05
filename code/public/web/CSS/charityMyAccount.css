@@ -60,3 +60,22 @@ body {
 	cursor: pointer;
 	transition: 0.5s;
 }
+
+.changePasswordButton {
+	width: 250px;
+	height: 50px;
+	background-color: ;
+	box-shadow: rgba(0, 0, 0, 0.411) 0px 0px 4px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 50px;
+}
+.changePasswordText {
+	text-align: center;
+	padding-top: 15px;
+}
+.changePasswordButton:hover {
+	background-color: rgba(128, 128, 128, 0.445);
+	cursor: pointer;
+	transition: 0.5s;
+}

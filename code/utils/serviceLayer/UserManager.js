@@ -98,4 +98,22 @@ module.exports = class UserManager {
 			connection.release();
 		}
 	}
+
+	async resetPassword(email, password, isVolunteer){
+		const connection = await utils.getConnection(this.pool);
+		const query = util.promisify(connection.query).bind(connection);
+
+		try {
+			const hash = await bcrypt.hash(password, settings.bcryptRounds);
+			this.logger.info(hash);
+
+			const sql = `UPDATE ${isVolunteer ? 'volunteers' : 'charities'} SET passwordHash=? WHERE email=?`;
+
+			await query(sql, [hash, email]);
+
+			return true;
+		} finally {
+			connection.release();
+		}
+	}
 };
