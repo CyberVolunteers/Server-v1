@@ -16,7 +16,7 @@ $(function () {
 	$(".advancedSearchWrapper").hide();
 	$(".catPopUp").hide();
 
-	$(".advancedSearchButton").click(() => $(".advancedSearchWrapper").show());
+	$(".advancedSearchButton").click(() => $(".advancedSearchWrapper").toggle());
 	$(".CatagoriesButton").click((evt) => {
 		$(".catPopUp").show();
 		evt.stopPropagation();
@@ -43,6 +43,7 @@ $(function () {
 
 	getAllListings();
 	$(".listingsWrapper").on("click", ".listings", function () {
+
 		let indexInData = $(this).attr("id").match(/[0-9]+/)[0];
 
 		let listingUuid = listingsData[indexInData].uuid;
@@ -57,7 +58,6 @@ $(function () {
 		const searchBar = $(".searchBar");
 		const term = $.trim(searchBar.val());
 		if (term.length >= minLengthForSearch) {
-			console.log("'" + term + "'");
 			$.get("/searchLisings/" + term)
 				.done(function (data) {
 					listingsData = data;
@@ -97,11 +97,11 @@ function advancedSearch(category) {
 			// filter out the ones that are too far away
 			let { lat, lng } = data.location || {lat: 0, lang: 0};
 
-			let listings = data.listings;
+			listingsData = data.listings;
 
-			console.log(listings);
+			console.log(listingsData);
 
-			if (lat !== 0 || lng !== 0) listings.filter((obj) => {
+			if (lat !== 0 || lng !== 0) listingsData.filter((obj) => {
 				if (obj.latitude === 0 && obj.longitude === 0) return true;
 
 				const x = (lng - obj.longitude) * Math.cos((lat + obj.latitude) / 2);
@@ -113,11 +113,11 @@ function advancedSearch(category) {
 				return true;
 			})
 
-			listings.sort((a, b) => (b.weight - a.weight));
+			listingsData.sort((a, b) => (b.weight - a.weight));
 
 			$(".listingsWrapper").html("");
-			for (entryId in listings) {
-				let entry = listings[entryId];
+			for (entryId in listingsData) {
+				let entry = listingsData[entryId];
 
 				$(".listingsWrapper").append(constructHTML(entry, entryId));
 			}
@@ -135,6 +135,7 @@ function getAllListings() {
 	$.get("/getListings")
 		.done(function (data, textStatus) {
 			listingsData = data;
+			console.log(listingsData);
 
 			for (let i = 0; i < data.length; i++) {
 				const entry = data[i];
@@ -158,7 +159,6 @@ function constructHTML(entry, entryId) {
 	if (isScraped) {
 		timeString = timeString = `
 		<div class="whenData">More Details</div>`;
-		console.log([entry.scrapedCharityName])
 		charityName = entry.scrapedCharityName;
 		categoryName = "";
 	}

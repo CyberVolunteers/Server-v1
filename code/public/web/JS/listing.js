@@ -15,8 +15,6 @@ let xssOptions = {
 $(function () {
 	const csrfToken = $("meta[name=\"csrf-token\"]").attr("content");
 
-
-
 	const url = new URL(window.location.href);
 	const uuid = url.searchParams.get("uuid");
 
@@ -30,7 +28,6 @@ $(function () {
 	)
 		.done(function (data, textStatus) {
 			listing = data[0];
-			console.log(listing);
 
 			isScraped = listing.minHoursPerWeek == -1;
 
@@ -52,7 +49,6 @@ $(function () {
 
 			for (let i = 0; i < selectors.length; i++) {
 				$(selectors[i]).html(xss(textsToFilter[i]));
-				console.log($(selectors[i]));
 			}
 
 		})
@@ -68,7 +64,6 @@ $(function () {
 	helpOfferButton.click(function () {
 		// if it is a scraped listing, redirect to the website
 		if (isScraped) {
-			console.log("Redirect to the site");
 			const url = listing.opportunityDesc.match(/\bhttps?:\/\/[^"\s]+(?!.*\bhttps?:\/\/[^"\s])/gi); //get the last url in the "more details"
 			window.location.href = url;
 		} else {
@@ -109,5 +104,6 @@ function getCookie(name) {
 }
 
 function xss(text) {
-	return filterXSS(text, xssOptions);
+	text += "";
+	return filterXSS(text.replace(/\n/g, "<br/>"), xssOptions);
 }
