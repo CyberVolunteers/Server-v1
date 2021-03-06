@@ -32,25 +32,25 @@ module.exports = class ListingsManager {
 		}
 	}
 
-	// async searchListings(params) {
-	// 	const connection = await utils.getConnection(this.pool);
-	// 	const query = util.promisify(connection.query).bind(connection);
+	async searchListings(params) {
+		const connection = await utils.getConnection(this.pool);
+		const query = util.promisify(connection.query).bind(connection);
 
-	// 	try {
-	// 		let searchQuery = "";
-	// 		for (let term of params.terms) {
-	// 			searchQuery += term.toLowerCase() + " ";
-	// 		}
-	// 		const results = await this.getSearchListingsIds(searchQuery);
+		try {
+			let searchQuery = "";
+			for (let term of params.terms) {
+				searchQuery += term.toLowerCase() + " ";
+			}
+			const results = await this.getSearchListingsIds(searchQuery);
 
-	// 		if (results.length == 0) return {};
+			if (results.length == 0) return {};
 
-	// 		const listingsData = await query("SELECT listings.uuid, charities.charityName, listings.timeForVolunteering, listings.scrapedCharityName, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek, listings.createdDate FROM listings INNER JOIN charities ON listings.charityId=charities.id WHERE listings.id IN (?)", [results]);
-	// 		return listingsData;
-	// 	} finally {
-	// 		connection.release();
-	// 	}
-	// }
+			const listingsData = await query("SELECT listings.uuid, charities.charityName, listings.timeForVolunteering, listings.scrapedCharityName, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek, listings.createdDate FROM listings INNER JOIN charities ON listings.charityId=charities.id WHERE listings.id IN (?)", [results]);
+			return listingsData;
+		} finally {
+			connection.release();
+		}
+	}
 
 	async getLatAndLong(placeDesc) {
 		const geocodeString = `https://maps.googleapis.com/maps/api/geocode/json?address=${escape(placeDesc.replace(" ", "+"))}&key=AIzaSyDRcgQS1jUZ5ZcUykaM3RumTgbjpYvidX8`;
@@ -88,7 +88,7 @@ module.exports = class ListingsManager {
 	}
 
 	async getAdvancedSearchListings(searchObj) {
-		const allCriteria = ["hoursPerWeek", "category", "keywords", "location"];
+		const allCriteria = ["hoursPerWeek", "categories", "keywords", "location"];
 		// get search criteria
 
 		let keyNum = 0;
@@ -135,8 +135,8 @@ module.exports = class ListingsManager {
 				const newIds = await query("SELECT id FROM listings WHERE maxHoursPerWeek <= ? AND maxHoursPerWeek <> -1", [searchObj["hoursPerWeek"]]);
 				updateIds(newIds, true);
 			}
-			if (searchObj["category"]) {
-				const newIds = await query("SELECT id FROM listings WHERE opportunityCategory = ?", [searchObj["category"]]);
+			if (searchObj["categories"]) {
+				const newIds = await query("SELECT id FROM listings WHERE opportunityCategory in (?)", [searchObj["categories"]]);
 				updateIds(newIds, true);
 			}
 

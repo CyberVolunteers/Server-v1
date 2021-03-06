@@ -22,23 +22,21 @@ $(function () {
 		evt.stopPropagation();
 	});
 
-	$(".catPopUp").click(function(evt){
+	$(".catPopUp").click(function (evt) {
 		evt.stopPropagation();
 	})
 
-	$("html").click(function(){
+	$("html, .confirmCategories").click(function () {
 		$(".catPopUp").hide();
 	})
 
 	// toggleable groups
-	let category = undefined;
 	$(".iconGroup").click(function () {
-		category = $(this).attr("id");
+		$(this).toggleClass("selected");
+	})
 
-		console.log(category);
-		advancedSearch(category);
-
-		$(".catPopUp").hide();
+	$(".search").click(function () {
+		advancedSearch();
 	})
 
 	getAllListings();
@@ -53,34 +51,36 @@ $(function () {
 
 	// for normal changes
 	$(".searchBar").on("input", function () {
-		// for enter presses
-		// $(".searchBar").change(function(){
-		const searchBar = $(".searchBar");
-		const term = $.trim(searchBar.val());
-		if (term.length >= minLengthForSearch) {
-			$.get("/searchLisings/" + term)
-				.done(function (data) {
-					listingsData = data;
-					//empty the listings
-					$(".listingsWrapper").html("");
-					for (entryId in data) {
-						let entry = data[entryId];
-
-						$(".listingsWrapper").append(constructHTML(entry, entryId));
-					}
-				}).fail(function (jqXHR) {
-					let errorText = jqXHR.statusText;
-					if (jqXHR.status === 429) errorText = jqXHR.responseText;
-					$(".errorMessage").text(errorText);
-					$(".errorMessage").show(500);
-				})
-		} else if (term.length == 0) {
-			getAllListings();
-		}
+		search();
 	})
 });
 
-function advancedSearch(category) {
+function search() {
+	const searchBar = $(".searchBar");
+	const term = $.trim(searchBar.val());
+	if (term.length >= minLengthForSearch) {
+		$.get("/searchLisings/" + term)
+			.done(function (data) {
+				listingsData = data;
+				//empty the listings
+				$(".listingsWrapper").html("");
+				for (entryId in data) {
+					let entry = data[entryId];
+
+					$(".listingsWrapper").append(constructHTML(entry, entryId));
+				}
+			}).fail(function (jqXHR) {
+				let errorText = jqXHR.statusText;
+				if (jqXHR.status === 429) errorText = jqXHR.responseText;
+				$(".errorMessage").text(errorText);
+				$(".errorMessage").show(500);
+			})
+	} else if (term.length == 0) {
+		getAllListings();
+	}
+}
+
+function advancedSearch() {
 	let requestObj = {};
 	$(".search-param").each(function () {
 		const key = $(this).attr("name");
@@ -89,13 +89,23 @@ function advancedSearch(category) {
 		if (value !== "") requestObj[key] = value;
 	})
 
-	requestObj["category"] = category;
+	let categories = [];
+
+	$(".iconGroup.selected").each(function(){
+		categories.push($(this).attr("id"));
+	})
+
+	console.log(categories);
+
+	if(categories === [] && requestObj === {}) return getAllListings();
+
+	requestObj["categories"] = categories;
 
 	// send a request
 	$.get("/advancedSearchForListings", requestObj)
 		.done(function (data, textStatus) {
 			// filter out the ones that are too far away
-			let { lat, lng } = data.location || {lat: 0, lang: 0};
+			let { lat, lng } = data.location || { lat: 0, lang: 0 };
 
 			listingsData = data.listings;
 

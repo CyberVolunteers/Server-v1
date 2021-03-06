@@ -34,9 +34,7 @@ $(function () {
 			let timeString, charityName;
 
 			if (isScraped) {
-				timeString = "N/A";
-				//hide the time requirements
-				$(".timeReqNumbers ").parent().hide();
+				timeString = listing.duration;
 				charityName = listing.scrapedCharityName;
 			}
 			else {
