@@ -1,28 +1,25 @@
 .searchBar {
 	width: 350px;
-	margin-top: 90px;
 	padding: 5px 10px;
+	margin-right: 2px;
 	font-size: 20px;
 }
-.wrapper {
+.searchButton{
+	background-color: #f44336;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+	margin-left: 2px;
+          
+          
+}
+.mainSearchArea{
+	
+	margin-top: 90px;
 	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-}
-.advancedSearchButton {
-	margin-top: 20px;
-	font-size: 12px;
-	padding: 5px 10px;
-	border-radius: 20px;
-	cursor: pointer;
-	border: none;
-}
-.searchBar {
-	width: 350px;
-	margin-top: 90px;
-	padding: 5px 10px;
-	font-size: 20px;
+	flex-direction: row;
 }
 .wrapper {
 	display: flex;
@@ -47,21 +44,25 @@
 	justify-content: center;
 }
 .catPopUp{
-	position: fixed;
+	position: absolute;
 	background-color: rgb(255, 255, 255);
-	width: 70vw;
-	height: 25vh;
+	width: auto;
+	max-width: 70vw;
+	height: auto;
 	z-index: 100;
 	border-radius: 10px;
 	box-shadow: rgba(0, 0, 0, 0.486) 1px 1px 5px;
 	visibility: ;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 .advancedSearchWrapper{
 	margin-top: 20px
 }
-/* .searchGeneralCat{
+.searchGeneralCat{
 	display: ;
-} */
+}
 .advancedSearchCatagory{
  margin-right: 1.5px;
 margin-bottom: 10px;
@@ -104,7 +105,7 @@ display: inline-block;
 	background-color: ;
 	align-content: center;
 	flex-direction: row;
-	margin: 0px 10%;
+	margin: 0px 10px;
 	padding-top: ;
 	flex-wrap: wrap;
 }
@@ -113,6 +114,7 @@ display: inline-block;
 	margin-bottom: 8px;
 	margin-left: 4px;
 	margin-right: 4px;
+	font-size: 12px;
 }
 .individualCat {
 	background-color: ;
@@ -126,18 +128,20 @@ display: inline-block;
 .SelectableCats {
 	display: flex;
 	justify-content: center;
+	flex-wrap: wrap;
 	background-color: ;
 	padding: 0 0;
-	width: 1000px;
-
+	padding-left: 12px;
+	padding-right: 12px;
+	visibility: ;
 	margin-left: auto;
 	margin-right: auto;
 	flex-wrap: wrap;
 }
 
 .icon {
-	width: 60px;
-	height: 60px;
+	width: 45px;
+	height: 45px;
 	margin-top: 6px;
 }
 .iconGroup {
@@ -145,11 +149,12 @@ display: inline-block;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	margin-bottom: 12px;
 	margin-left: 10px;
 	margin-right: 10px;
 	margin-top: 20px;
-	width: 110px;
-	height: 110px;
+	width: 90px;
+	height: 90px;
 	background-color: ;
 	border-radius: 12px;
 	cursor: pointer;
@@ -161,6 +166,11 @@ display: inline-block;
 
 .selectedIcon:hover {
 	background-color: #f34510c0 !important;
+}
+
+.iconGroup:hover {
+	background-color: #f0683fc0;
+	/* f85220c0 */
 }
 
 .iconGroup:hover {
@@ -182,4 +192,298 @@ display: inline-block;
 	padding-top: 15px;
 	font-weight: 550;
 	padding-bottom: 0px;
+}
+
+.confirmButton{
+	background-color: #f44336;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 15px;
+          
+          
+}
+
+
+@media (min-width: 1000px) {
+	.cataButton{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	
+	}
+	.cats {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		background-color: ;
+		align-content: center;
+		flex-direction: row;
+		margin: 0px 10px;
+		padding-top: ;
+		flex-wrap: wrap;
+	}
+	.catName{
+		text-align: center;
+		margin-bottom: 8px;
+		margin-left: 4px;
+		margin-right: 4px;
+		font-size: medium;
+	}
+	.individualCat {
+		background-color: ;
+		position: relative;
+		margin-top: 30px;
+		margin-left: 30px;
+		width: 300px;
+		height: 200px;
+		border: solid 1px grey;
+	}
+	.SelectableCats {
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+		background-color: ;
+		padding: 0 0;
+		padding-left: 12px;
+		padding-right: 12px;
+		visibility: ;
+		margin-left: auto;
+		margin-right: auto;
+		flex-wrap: wrap;
+	}
+	
+	.icon {
+		width: 60px;
+		height: 60px;
+		margin-top: 6px;
+	}
+	.iconGroup {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		margin-bottom: 12px;
+		margin-left: 10px;
+		margin-right: 10px;
+		margin-top: 20px;
+		width: 110px;
+		height: 110px;
+		background-color: ;
+		border-radius: 12px;
+		cursor: pointer;
+	}
+	
+	.selectedIcon {
+		background-color: #f85220c0 !important;
+	}
+	
+	.selectedIcon:hover {
+		background-color: #f34510c0 !important;
+	}
+	
+	.iconGroup:hover {
+		background-color: #f0683fc0;
+		/* f85220c0 */
+	}
+	.searchBar {
+		width: 350px;
+		padding: 5px 10px;
+		margin-right: 2px;
+		font-size: 20px;
+	}
+	.searchButton{
+		background-color: #f44336;
+		color: white;
+		padding: 8px 15px;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+		margin-left: 2px;
+			  
+			  
+	}
+	.mainSearchArea{
+		
+		margin-top: 90px;
+		display: flex;
+		flex-direction: row;
+	}
+	.wrapper {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+	.advancedSearchButton {
+		margin-top: 20px;
+		font-size: 18px;
+		padding: 7.5px 12.5px;
+		border-radius: 20px;
+		cursor: pointer;
+		border: none;
+		visibility: ;
+	}
+	
+	.advancedSearch{
+		display: flex;
+		
+		
+		justify-content: center;
+	}
+	.catPopUp{
+		position: fixed;
+		background-color: rgb(255, 255, 255);
+		width: auto;
+		height: auto;
+		z-index: 100;
+		border-radius: 10px;
+		box-shadow: rgba(0, 0, 0, 0.486) 1px 1px 5px;
+		visibility: ;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		max-width: 80vw;
+
+	}
+	.advancedSearchWrapper{
+		margin-top: 20px
+	}
+	.searchGeneralCat{
+		display: ;
+	}
+	.advancedSearchCatagory{
+	 margin-right: 1.5px;
+	margin-bottom: 10px;
+	font-size: 18px;
+	display: inline-block;
+	}
+	#hrsperweek{
+		width: 50px;
+	}
+	.advancedSearchBox{
+		margin-left: 0.5px;
+		padding-left: 5px;
+		padding-top: 2.5px;
+		padding-bottom: 2.5px;
+		margin-right: 10px;
+	
+	}
+	.CatagoriesButton {
+		
+		text-align: center;
+		margin-top: 10px;
+		margin-top: ;
+		font-size: 18px;
+		padding: 5px 10px;
+		border-radius: 20px;
+		cursor: pointer;
+		border: none;
+		visibility: ;
+	}
+	.cataButton{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	
+	}
+	.cats {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		background-color: ;
+		align-content: center;
+		flex-direction: row;
+		margin: 0px 10px;
+		padding-top: ;
+		flex-wrap: wrap;
+	}
+	.catName{
+		text-align: center;
+		margin-bottom: 8px;
+		margin-left: 4px;
+		margin-right: 4px;
+	}
+	.individualCat {
+		background-color: ;
+		position: relative;
+		margin-top: 30px;
+		margin-left: 30px;
+		width: 300px;
+		height: 200px;
+		border: solid 1px grey;
+	}
+	.SelectableCats {
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+		background-color: ;
+		padding: 0 0;
+		padding-left: 12px;
+		padding-right: 12px;
+		visibility: ;
+		margin-left: auto;
+		margin-right: auto;
+		flex-wrap: wrap;
+	}
+	
+	.icon {
+		width: 60px;
+		height: 60px;
+		margin-top: 6px;
+	}
+	.iconGroup {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		margin-bottom: 12px;
+		margin-left: 10px;
+		margin-right: 10px;
+		margin-top: 20px;
+		width: 110px;
+		height: 110px;
+		background-color: ;
+		border-radius: 12px;
+		cursor: pointer;
+	}
+	
+	.selectedIcon {
+		background-color: #f85220c0 !important;
+	}
+	
+	.selectedIcon:hover {
+		background-color: #f34510c0 !important;
+	}
+	
+	.iconGroup:hover {
+		background-color: #f0683fc0;
+		/* f85220c0 */
+	}
+	.title {
+		font-size: 20px;
+		text-align: center;
+		padding-top: 15px;
+		font-weight: 550;
+		padding-bottom: 0px;
+	}
+	
+	.confirmButton{
+		background-color: #f44336;
+		color: white;
+		padding: 8px 15px;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 15px;
+			  
+			  
+	}
+	
 }

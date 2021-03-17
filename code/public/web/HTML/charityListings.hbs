@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    {{> common}}
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/searchMainPage.css">
+    <link rel="stylesheet" href="../CSS/header.css">
+    <link rel="stylesheet" href="../CSS/NewlistingsPage.css">
+
+    <script src="https://rawgit.com/leizongmin/js-xss/master/dist/xss.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="../JS/charityListings.js"></script>
+
+    <title>Manage listings</title>
+    <meta name="description" content="Find Volunteering Opportunities through the Cyber Volunteers Website">
+    <meta name="keywords"
+        content="volunteer, cyber volunteers, find volunteers, volunteering, get volunteers, need volunteers, want to volunteer">
+</head>
+
+<body>
+    <div id="pageContainer">
+        {{> header}}
+        <div id="contentWrap">
+            {{> errorSnippet}}
+
+            <div class="wrapper">
+                <div class="listingsWrapper">
+
+                </div>
+            </div>
+            {{!-- {{> footer}} --}}
+        </div>
+</body>
+
+</html>
