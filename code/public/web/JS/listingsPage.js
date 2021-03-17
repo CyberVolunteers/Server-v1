@@ -146,6 +146,7 @@ function advancedSearch() {
 function getAllListings() {
   $.get("/getListings")
     .done(function (data, textStatus) {
+      data.reverse(); //make sure that the custom listings are at the bottom
       listingsData = data;
       console.log(listingsData);
 

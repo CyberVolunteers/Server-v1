@@ -20,28 +20,32 @@ $(function () {
   const url = new URL(window.location.href);
   const uuid = url.searchParams.get("uuid");
 
-  if (getCookie("isVolunteer") === "false") $(".wantToHelpButton").hide();
+  if (getCookie("isVolunteer") === "false") {
+    $(".wantToHelpButton").hide();
+
+    $.get("/isListingOwned", { uuid })
+      .done(function (data, textStatus) {
+        console.log([data]);
+        isOwned = data;
+        if (isOwned) $(".manageListing").show();
+      })
+      .fail(function (jqXHR) {
+        console.log(jqXHR);
+        let errorText = jqXHR.statusText;
+        if (jqXHR.status === 429) errorText = jqXHR.responseText;
+        $(".errorMessage").text(errorText);
+        $(".errorMessage").show(500);
+      });
+
+    $(".del-btn").click(function () {
+      modifyListing(uuid, "charityListings");
+    });
+    $(".edit-btn").click(function () {
+      modifyListing(uuid, "createListing");
+    });
+  }
 
   $(".manageListing").hide();
-  $.get("/isListingOwned", { uuid })
-    .done(function (data, textStatus) {
-      console.log([data]);
-      isOwned = data;
-      if (isOwned) $(".manageListing").show();
-    })
-    .fail(function (jqXHR) {
-      let errorText = jqXHR.statusText;
-      if (jqXHR.status === 429) errorText = jqXHR.responseText;
-      $(".errorMessage").text(errorText);
-      $(".errorMessage").show(500);
-    });
-
-  $(".del-btn").click(function () {
-    modifyListing(uuid, "charityListings");
-  });
-  $(".edit-btn").click(function () {
-    modifyListing(uuid, "createListing");
-  });
 
   //get listing data
   $.get("/getListing", {
@@ -60,7 +64,7 @@ $(function () {
       } else {
         timeString = `${xss(listing.minHoursPerWeek)}-${xss(
           listing.maxHoursPerWeek
-        )}`;
+        )} hours per week`;
         charityName = listing.charityName;
       }
 
@@ -83,7 +87,7 @@ $(function () {
         timeString,
         listing.skills,
         listing.requirements,
-        listing.targetAudience,
+        capitalizeIfNotHTML(listing.targetAudience),
         charityName,
       ];
 
@@ -92,6 +96,7 @@ $(function () {
       }
     })
     .fail(function (jqXHR) {
+      console.log(jqXHR);
       let errorText = jqXHR.statusText;
       if (jqXHR.status === 429) errorText = jqXHR.responseText;
       $(".errorMessage").text(errorText);
@@ -117,6 +122,7 @@ $(function () {
         })
 
         .fail(function (jqXHR) {
+          console.log(jqXHR);
           let errorText = jqXHR.statusText;
           if (jqXHR.status === 401) {
             window.location.href = `${window.location.protocol}//${
@@ -157,9 +163,15 @@ function modifyListing(uuid, redirectUrl) {
       window.location.href = `${window.location.protocol}//${window.location.host}/${redirectUrl}`;
     })
     .fail(function (jqXHR) {
+      console.log(jqXHR);
       let errorText = jqXHR.statusText;
       if (jqXHR.status === 429) errorText = jqXHR.responseText;
       $(".errorMessage").text(errorText);
       $(".errorMessage").show(500);
     });
+}
+
+function capitalizeIfNotHTML(text) {
+  if (text[0] !== "<") text = text.charAt(0).toUpperCase() + text.slice(1);
+  return text;
 }
