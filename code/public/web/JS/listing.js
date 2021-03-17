@@ -103,9 +103,16 @@ $(function () {
       $(".errorMessage").show(500);
     });
 
-  const helpOfferButton = $(".wantToHelpButton");
+  $(".confirmPopUp").hide();
+  $(".wantToHelpButton").click(() => $(".confirmPopUp").show());
+  $(".wantToHelpButton").click((evt) => evt.stopPropagation());
+  $(".confirmPopUp").click((evt) => evt.stopPropagation());
 
-  helpOfferButton.click(function () {
+  $("html, .confirmButton").click(function () {
+    $(".confirmPopUp").hide();
+  });
+
+  $(".confirmButton").click(function () {
     // if it is a scraped listing, redirect to the website
     if (isScraped) {
       const url = listing.opportunityDesc.match(
