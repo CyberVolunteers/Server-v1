@@ -1,6 +1,5 @@
 const maxDistance = 5; // km
 const R = 6371; // km
-const minLengthForSearch = 3;
 let listingsData;
 
 let xssOptions = {
@@ -34,10 +33,6 @@ $(function () {
     $(this).toggleClass("selected");
   });
 
-  $(".searchButton").click(function () {
-    advancedSearch();
-  });
-
   getAllListings();
   $(".listingsWrapper").on("click", ".listings", function () {
     let indexInData = $(this)
@@ -50,35 +45,45 @@ $(function () {
   });
 
   // for normal changes
-  $(".searchBar").on("input", function () {
+  $(".searchButton").click(function () {
     search();
+    // advancedSearch();
+  });
+
+  $("input").keydown(function (e) {
+    if (e.keyCode == 13) {
+      search();
+    }
   });
 });
 
 function search() {
+  // check if it is open
+  // TODO
+  const isAdvancedSearch = $(".advancedSearchWrapper").is(":visible");
+  if (isAdvancedSearch) return advancedSearch();
+
   const searchBar = $(".searchBar");
   const term = $.trim(searchBar.val());
-  if (term.length >= minLengthForSearch) {
-    $.get("/searchLisings/" + term)
-      .done(function (data) {
-        listingsData = data;
-        //empty the listings
-        $(".listingsWrapper").html("");
-        for (entryId in data) {
-          let entry = data[entryId];
+  if (term.length === 0) getAllListings();
 
-          $(".listingsWrapper").append(constructHTML(entry, entryId));
-        }
-      })
-      .fail(function (jqXHR) {
-        let errorText = jqXHR.statusText;
-        if (jqXHR.status === 429) errorText = jqXHR.responseText;
-        $(".errorMessage").text(errorText);
-        $(".errorMessage").show(500);
-      });
-  } else if (term.length == 0) {
-    getAllListings();
-  }
+  $.get("/searchLisings/" + term)
+    .done(function (data) {
+      listingsData = data;
+      //empty the listings
+      $(".listingsWrapper").html("");
+      for (entryId in data) {
+        let entry = data[entryId];
+
+        $(".listingsWrapper").append(constructHTML(entry, entryId));
+      }
+    })
+    .fail(function (jqXHR) {
+      let errorText = jqXHR.statusText;
+      if (jqXHR.status === 429) errorText = jqXHR.responseText;
+      $(".errorMessage").text(errorText);
+      $(".errorMessage").show(500);
+    });
 }
 
 function advancedSearch() {
@@ -96,11 +101,12 @@ function advancedSearch() {
     categories.push($(this).attr("id"));
   });
 
-  console.log(categories);
-
   if (categories === [] && requestObj === {}) return getAllListings();
 
-  requestObj["categories"] = categories;
+  requestObj.categories = categories;
+  requestObj.keywords = $.trim($(".searchBar").val());
+
+  console.log(requestObj);
 
   // send a request
   $.get("/advancedSearchForListings", requestObj)

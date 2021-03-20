@@ -11,8 +11,10 @@
   <script src="../JS/login.js"></script>
 
   <title>Sign In | Cyber Volunteers</title>
-  <meta name="description" content="Sign in to your Cyber Volunteers account and get access to a wide variety or volunteering services.">
-  <meta name="keywords" content="cyber volunteers, volunteer, find volunteers, login cyber volunteers, login, get volunteers, need volunteers">
+  <meta name="description"
+    content="Sign in to your Cyber Volunteers account and get access to a wide variety or volunteering services.">
+  <meta name="keywords"
+    content="cyber volunteers, volunteer, find volunteers, login cyber volunteers, login, get volunteers, need volunteers">
 </head>
 
 <body>
@@ -44,13 +46,17 @@
 
           {{> errorSnippet}}
 
-          <button type="submit" class="submit">Submit</button>
+          <div class="buttonsContainer">
+            <a class="resetPassword">Reset the password for this login</a>
 
-          <div class="rememberme">
+            <button type="submit" class="submit">Submit</button>
 
-            <input type="checkbox" id="rememberMeCheckbox" checked="checked" name="remember">Remember me
+            <div class="rememberme">
+              <input type="checkbox" id="rememberMeCheckbox" checked="checked" name="remember">Remember me
+            </div>
+
           </div>
-          <a class="resetPassword">Reset the password for this login</a>
+
         </div>
       </form>
     </div>
