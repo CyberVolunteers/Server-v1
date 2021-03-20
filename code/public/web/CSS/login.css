@@ -126,6 +126,7 @@ input[type="password"] {
 .resetPassword {
   display: block;
   padding: 0px 30px;
+  margin: auto;
   text-align: center;
   color: #2222ee;
   cursor: pointer;
@@ -139,7 +140,7 @@ input[type="password"] {
 }
 
 .buttonsContainer {
-  width: 400px;
+  width: 300px;
   margin-bottom: 20px;
   margin-left: auto;
   margin-right: auto;
@@ -276,5 +277,14 @@ input[type="password"] {
 
   .resetPassword {
     text-align: left;
+    margin-left: 0px;
+    padding-left: 5px;
+  }
+
+  .buttonsContainer {
+    width: 400px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
