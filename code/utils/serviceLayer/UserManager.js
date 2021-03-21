@@ -1,119 +1,195 @@
-
 const util = require("util");
 const bcrypt = require("bcrypt");
 const settings = require("../../settings");
 const utils = require("../utils");
 
 module.exports = class UserManager {
-	constructor(pool, logger){
-		this.logger = logger;
-		this.pool = pool;
-	}
+  constructor(pool, logger) {
+    this.logger = logger;
+    this.pool = pool;
+  }
 
-	async localPassportVerify (req, email, password, done) {
-		const badCredentialsMessage = "We could not find a user with this username and password.";
+  async localPassportVerify(req, email, password, done) {
+    const badCredentialsMessage =
+      "We could not find a user with this username and password.";
 
-		const isVolunteer = req.body.isVolunteer === "true";
+    const isVolunteer = req.body.isVolunteer === "true";
 
-		try{
-			const query = util.promisify(this.pool.query).bind(this.pool);
-			// find the password hash by the email
-			let results;
-			if(isVolunteer){
-				results = await query("SELECT * FROM `volunteers` WHERE `email`=?;", [email]);
-			}else{
-				results = await query("SELECT * FROM `charities` WHERE `email`=?;", [email]);
-			}
-			if(results.length == 0){
-				//compare a dummy password to prevent timing attacks
-				await bcrypt.compare("a dummy password", "$2b$12$6VcZHuw9wxuspyuTio3Yd.E1Il2rwwGzzRDiaffcucukfvNW7r4rC");
-				return done(null, false, {message: badCredentialsMessage});
-				//actual check
-			}else if (results.length == 1){
-				const bcryptResult = await bcrypt.compare(password, results[0].passwordHash);
-                
-				if(bcryptResult === true){
-					//log in
-					results[0].isVolunteer = isVolunteer;
-					return done(null, results[0]);
-				}else{
-					//has not been authenticated
-					return done(null, false, {message: badCredentialsMessage});
-				}
-			}
-		}catch(err){
-			return done(err);
-		}
-	}
+    try {
+      const query = util.promisify(this.pool.query).bind(this.pool);
+      // find the password hash by the email
+      let results;
+      if (isVolunteer) {
+        results = await query("SELECT * FROM `volunteers` WHERE `email`=?;", [
+          email,
+        ]);
+      } else {
+        results = await query("SELECT * FROM `charities` WHERE `email`=?;", [
+          email,
+        ]);
+      }
+      if (results.length == 0) {
+        //compare a dummy password to prevent timing attacks
+        await bcrypt.compare(
+          "a dummy password",
+          "$2b$12$6VcZHuw9wxuspyuTio3Yd.E1Il2rwwGzzRDiaffcucukfvNW7r4rC"
+        );
+        return done(null, false, { message: badCredentialsMessage });
+        //actual check
+      } else if (results.length == 1) {
+        const bcryptResult = await bcrypt.compare(
+          password,
+          results[0].passwordHash
+        );
 
-	async signUpVolunteer (params){
-		//get connection
-		const connection = await utils.getConnection(this.pool);
-		const query = util.promisify(connection.query).bind(connection);
+        if (bcryptResult === true) {
+          //log in
+          results[0].isVolunteer = isVolunteer;
+          return done(null, results[0]);
+        } else {
+          //has not been authenticated
+          return done(null, false, { message: badCredentialsMessage });
+        }
+      }
+    } catch (err) {
+      return done(err);
+    }
+  }
 
-		try{
-			// check if the email is already used
-			const results = await query("SELECT `email` FROM `volunteers` WHERE `email`=?;", [params.email]);
+  async signUpVolunteer(params) {
+    //get connection
+    const connection = await utils.getConnection(this.pool);
+    const query = util.promisify(connection.query).bind(connection);
 
-			// if email is already used
-			if(results.length != 0){
-				this.logger.debug("Email already used");
-				return {code: 400, message: "This email is already used"};
-			}
+    try {
+      // check if the email is already used
+      const results = await query(
+        "SELECT `email` FROM `volunteers` WHERE `email`=?;",
+        [params.email]
+      );
 
-			const hash = await bcrypt.hash(params.password, settings.bcryptRounds);
+      // if email is already used
+      if (results.length != 0) {
+        this.logger.debug("Email already used");
+        return { code: 400, message: "This email is already used" };
+      }
 
-			// Store hash in your password DB.
-			if(params.birthDate === ""){
-				await query("INSERT INTO volunteers(firstName, lastName, email, passwordHash, gender, salutation, nationality, address, postcode, city, country, phoneNumber, birthDate, occupation, state, linkedIn, languages, skillsAndInterests) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, null, ?, ?, ?, ?, ?);", [params.firstName, params.lastName, params.email, hash, params.gender, params.salutation, params.nationality, params.address, params.postcode, params.city, params.country, params.phoneNumber, params.occupation, params.state, params.linkedIn, params.languages, params.skillsAndInterests]);
-			}else{
-				await query("INSERT INTO volunteers(firstName, lastName, email, passwordHash, gender, salutation, nationality, address, postcode, city, country, phoneNumber, birthDate, occupation, state, linkedIn, languages, skillsAndInterests) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", [params.firstName, params.lastName, params.email, hash, params.gender, params.salutation, params.nationality, params.address, params.postcode, params.city, params.country, params.phoneNumber, params.birthDate, params.occupation, params.state, params.linkedIn, params.languages, params.skillsAndInterests]);
-			}
-			return {code: 200};
-		}finally{
-			connection.release();
-		}
-	}
+      const hash = await bcrypt.hash(params.password, settings.bcryptRounds);
 
-	async signUpCharity (params){
-		//get connection
-		const connection = await utils.getConnection(this.pool);
-		const query = util.promisify(connection.query).bind(connection);
+      // Store hash in your password DB.
+      if (params.birthDate === "") {
+        await query(
+          "INSERT INTO volunteers(firstName, lastName, email, passwordHash, gender, salutation, nationality, address, postcode, city, country, phoneNumber, birthDate, occupation, state, linkedIn, languages, skillsAndInterests) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, null, ?, ?, ?, ?, ?);",
+          [
+            params.firstName,
+            params.lastName,
+            params.email,
+            hash,
+            params.gender,
+            params.salutation,
+            params.nationality,
+            params.address,
+            params.postcode,
+            params.city,
+            params.country,
+            params.phoneNumber,
+            params.occupation,
+            params.state,
+            params.linkedIn,
+            params.languages,
+            params.skillsAndInterests,
+          ]
+        );
+      } else {
+        await query(
+          "INSERT INTO volunteers(firstName, lastName, email, passwordHash, gender, salutation, nationality, address, postcode, city, country, phoneNumber, birthDate, occupation, state, linkedIn, languages, skillsAndInterests) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
+          [
+            params.firstName,
+            params.lastName,
+            params.email,
+            hash,
+            params.gender,
+            params.salutation,
+            params.nationality,
+            params.address,
+            params.postcode,
+            params.city,
+            params.country,
+            params.phoneNumber,
+            params.birthDate,
+            params.occupation,
+            params.state,
+            params.linkedIn,
+            params.languages,
+            params.skillsAndInterests,
+          ]
+        );
+      }
+      return { code: 200 };
+    } finally {
+      connection.release();
+    }
+  }
 
-		try{
-			// check if the email is already used
-			const results = await query("SELECT `email` FROM `charities` WHERE `email`=?;", [params.email]);
+  async signUpCharity(params) {
+    //get connection
+    const connection = await utils.getConnection(this.pool);
+    const query = util.promisify(connection.query).bind(connection);
 
-			// if email is already used
-			if(results.length != 0){
-				this.logger.debug("Email already used");
-				return {code: 400, message: "This email is already used"};
-			}
+    try {
+      // check if the email is already used
+      const results = await query(
+        "SELECT `email` FROM `charities` WHERE `email`=?;",
+        [params.email]
+      );
 
-			const hash = await bcrypt.hash(params.password, settings.bcryptRounds);
-			// Store hash in your password DB.
-			await query("INSERT INTO `charities`(email, passwordHash, charityType, charityName, charityDesc, phoneNumber, charityLocation, websiteURL, sendHelpEmailsPeopleInGroups, isEmailVerified, isVerifiedByUs) VALUES (?,?,?,?,?,?,?,?,?,?,?);", [params.email, hash, params.charityType, params.charityName, params.charityDesc, params.phoneNumber, params.charityLocation, params.websiteURL, params.sendHelpEmailsPeopleInGroups === "true", 0, 0]);
-			return {code: 200};
-		}finally{
-			connection.release();
-		}
-	}
+      // if email is already used
+      if (results.length != 0) {
+        this.logger.debug("Email already used");
+        return { code: 400, message: "This email is already used" };
+      }
 
-	async resetPassword(email, password, isVolunteer){
-		const connection = await utils.getConnection(this.pool);
-		const query = util.promisify(connection.query).bind(connection);
+      const hash = await bcrypt.hash(params.password, settings.bcryptRounds);
+      // Store hash in your password DB.
+      await query(
+        "INSERT INTO `charities`(email, passwordHash, charityType, charityName, charityDesc, phoneNumber, charityLocation, websiteURL, sendHelpEmailsPeopleInGroups, isEmailVerified, isVerifiedByUs) VALUES (?,?,?,?,?,?,?,?,?,?,?);",
+        [
+          params.email,
+          hash,
+          params.charityType,
+          params.charityName,
+          params.charityDesc,
+          params.phoneNumber,
+          params.charityLocation,
+          params.websiteURL,
+          false,
+          0,
+          0,
+        ]
+      );
+      return { code: 200 };
+    } finally {
+      connection.release();
+    }
+  }
 
-		try {
-			const hash = await bcrypt.hash(password, settings.bcryptRounds);
-			this.logger.info(hash);
+  async resetPassword(email, password, isVolunteer) {
+    const connection = await utils.getConnection(this.pool);
+    const query = util.promisify(connection.query).bind(connection);
 
-			const sql = `UPDATE ${isVolunteer ? 'volunteers' : 'charities'} SET passwordHash=? WHERE email=?`;
+    try {
+      const hash = await bcrypt.hash(password, settings.bcryptRounds);
+      this.logger.info(hash);
 
-			await query(sql, [hash, email]);
+      const sql = `UPDATE ${
+        isVolunteer ? "volunteers" : "charities"
+      } SET passwordHash=? WHERE email=?`;
 
-			return true;
-		} finally {
-			connection.release();
-		}
-	}
+      await query(sql, [hash, email]);
+
+      return true;
+    } finally {
+      connection.release();
+    }
+  }
 };
