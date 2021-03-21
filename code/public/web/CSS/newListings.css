@@ -137,9 +137,9 @@ a.moreDetails {
 .confirmPopUp {
   margin: auto;
   position: absolute;
-  top: 40%;
+  top: 35%;
   left: 30%;
-  bottom: 40%;
+  bottom: 35%;
   right: 30%;
   z-index: 5;
 

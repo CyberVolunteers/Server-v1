@@ -605,19 +605,16 @@ app.get("/isListingOwned", function (req, res, next) {
   );
 });
 
-app.get("/deleteListing", function (req, res, next) {
+app.get("/deleteListing", async function (req, res, next) {
   if (req.session.passport.user.isVolunteer === true)
     return res.status(400).send("You need to be a charity to do that");
   if (!req.query.uuid) return res.status(400).send("No id specified");
-  const id = req.session.passport.user.id;
-  pool.query(
-    "DELETE FROM `listings` WHERE `uuid`=? AND charityId=?",
-    [req.query.uuid, id],
-    function (err, results) {
-      if (err) return next(err);
-      return res.status(200).send(results.length !== 0);
-    }
-  );
+  const charityId = req.session.passport.user.id;
+
+  const params = { charityId, uuid: req.query.uuid };
+
+  const results = await ListingsManager.deleteListing(params);
+  return res.status(200).send(results !== 0);
 });
 
 //private pages
