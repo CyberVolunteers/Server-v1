@@ -10,6 +10,16 @@ let xssOptions = {
   },
 };
 
+const opportunityCategoryStyleClasses = {
+  "Justice & Legal": "cat-law",
+  "Healthcare & Medicine": "cat-med",
+  Education: "cat-ed",
+  "Computers & Technology": "cat-comp",
+  Community: "cat-com",
+  "Arts & Culture": "cat-cult",
+  "Advocacy & Human Rights": "cat-rights",
+};
+
 $(function () {
   $(".advancedSearchWrapper").hide();
   $(".catPopUp").hide();
@@ -65,7 +75,7 @@ function search() {
 
   const searchBar = $(".searchBar");
   const term = $.trim(searchBar.val());
-  if (term.length === 0) getAllListings();
+  if (term.length === 0) return getAllListings();
 
   $.get("/searchLisings/" + term)
     .done(function (data) {
@@ -116,8 +126,6 @@ function advancedSearch() {
 
       listingsData = data.listings;
 
-      console.log(listingsData);
-
       if (lat !== 0 || lng !== 0)
         listingsData.filter((obj) => {
           if (obj.latitude === 0 && obj.longitude === 0) return true;
@@ -154,7 +162,6 @@ function getAllListings() {
     .done(function (data, textStatus) {
       data.reverse(); //make sure that the custom listings are at the bottom
       listingsData = data;
-      console.log(listingsData);
 
       for (let i = 0; i < data.length; i++) {
         const entry = data[i];
@@ -190,8 +197,11 @@ function constructHTML(entry, entryId) {
     categoryName = entry.opportunityCategory;
   }
 
+  const cssClass =
+    opportunityCategoryStyleClasses[entry.opportunityCategory] ?? "cat-na";
+
   return `<div class="listings" id="listing${entryId}">
-				<div class="listingHeader">
+				<div class="listingHeader ${cssClass}">
 					<div class="listingscat cut-text">${xss(categoryName)}</div>
 				</div>
 				<div class="lstitle"> ${xss(entry.opportunityTitle)} </div>
