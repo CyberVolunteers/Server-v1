@@ -32,6 +32,7 @@ $(function () {
       .fail(function (jqXHR) {
         console.log(jqXHR);
         let errorText = jqXHR.statusText;
+        if (jqXHR.status === 401) return $(".wantToHelpButton").show();
         if (jqXHR.status === 429) errorText = jqXHR.responseText;
         $(".errorMessage").text(errorText);
         $(".errorMessage").show(500);
@@ -49,9 +50,10 @@ $(function () {
 
   //get listing data
   $.get("/getListing", {
-    uuid: uuid,
+    uuid,
   })
     .done(function (data, textStatus) {
+      console.log(data, uuid);
       listing = data[0];
 
       isScraped = listing.minHoursPerWeek == -1;

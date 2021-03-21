@@ -804,7 +804,7 @@ app.use(function (err, req, res, next) {
   res.status(403).end();
 });
 
-app.use(function (err, req, res) {
+app.use(function (err, req, res, next) {
   logger.error("error:");
   logger.error(err.stack);
 
