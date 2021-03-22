@@ -151,13 +151,16 @@ header {
 }
 #searchforlistings {
 	cursor: pointer;
-	padding: 30px 35px;
+	padding: 25px 30px;
 	border-radius: 60px;
 	border: none;
 	background-color: #f85220;
 	font-size: 22px;
 	color: black;
 	position: absolute;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
 }
 .slogan {
 	color: white;
@@ -464,7 +467,11 @@ header {
 		font-size: 30px;
 		color: black;
 		position: absolute;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
 	}
+	
 	.joinUsBoxInfo {
 		text-align: center;
 		font-size: 30px;
