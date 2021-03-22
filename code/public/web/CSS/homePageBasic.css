@@ -151,11 +151,11 @@ header {
 }
 #searchforlistings {
 	cursor: pointer;
-	padding: 25px 30px;
+	padding: 20px 25px;
 	border-radius: 60px;
 	border: none;
 	background-color: #f85220;
-	font-size: 22px;
+	font-size: 20px;
 	color: black;
 	position: absolute;
 	-webkit-appearance: none;
