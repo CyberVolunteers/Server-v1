@@ -301,6 +301,7 @@ header {
 	background-color: white;
 	border: none;
 	margin-top: 50px;
+	border-radius: 2px;
 }
 
 #left {
@@ -764,6 +765,7 @@ header {
 		background-color: white;
 		border: none;
 		margin-top: 50px;
+		border-radius: 2px;
 	}
 	.joinUsBox,
 	#left {
