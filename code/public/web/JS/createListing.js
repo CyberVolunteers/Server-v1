@@ -50,32 +50,31 @@ $(function () {
       pageIndex++;
       setPage(pageIndex);
     } else {
-      let formData = new FormData();
-      // formData.append('listingPicture', $('#listingPicture')[0].files[0]);
+      // let formData = new FormData();
+      // // formData.append('listingPicture', $('#listingPicture')[0].files[0]);
 
-      formData.append(
-        "duration",
-        createDurationString(
-          $("#generalInputNum").val(),
-          $("#time-select").val()
-        )
-      );
-      formData.append("timeForVolunteering", $("#timeForVolunteering").val());
-      formData.append("placeForVolunteering", $("#placeForVolunteering").val());
-      formData.append("targetAudience", getBestForData().toString());
-      formData.append("skills", $("#skills").val());
-      formData.append("requirements", $("#requirements").val());
-      formData.append("opportunityDesc", $("#description").val());
-      formData.append(
-        "opportunityCategory",
-        $(".selectedIcon").find(".catName").text()
-      );
-      formData.append("opportunityTitle", $("#opportunityTitle").val());
-      formData.append("numOfvolunteers", $("#numOfvolunteers").val());
-      formData.append("minHoursPerWeek", $("#minHoursPerWeek").val());
-      formData.append("maxHoursPerWeek", $("#maxHoursPerWeek").val());
+      // formData.append(
+      //   "duration",
+      //   createDurationString(
+      //     $("#generalInputNum").val(),
+      //     $("#time-select").val()
+      //   )
+      // );
+      // formData.append("timeForVolunteering", $("#timeForVolunteering").val());
+      // formData.append("placeForVolunteering", $("#placeForVolunteering").val());
+      // formData.append("targetAudience", getBestForData().toString());
+      // formData.append("skills", $("#skills").val());
+      // formData.append("requirements", $("#requirements").val());
+      // formData.append("opportunityDesc", $("#description").val());
+      // formData.append(
+      //   "opportunityCategory",
+      //   $(".selectedIcon").find(".catName").text()
+      // );
+      // formData.append("opportunityTitle", $("#opportunityTitle").val());
+      // formData.append("numOfvolunteers", $("#numOfvolunteers").val());
+      // formData.append("minHoursPerWeek", $("#minHoursPerWeek").val());
+      // formData.append("maxHoursPerWeek", $("#maxHoursPerWeek").val());
 
-      console.log(formData);
       //submit
       // $.post("/createListing", {
       // 	duration: createDurationString($("#generalInputNum").val(), $("#time-select").val()),
@@ -92,15 +91,23 @@ $(function () {
       // 	maxHoursPerWeek: $("#maxHoursPerWeek").val(),
       // 	_csrf: csrfToken
       // })
-      $.ajax({
-        type: "POST",
-        headers: {
-          "csrf-token": csrfToken,
-        },
-        url: "/createListing",
-        data: formData,
-        processData: false,
-        contentType: false,
+      $.post("/createListing", {
+        _csrf: csrfToken,
+        duration: createDurationString(
+          $("#generalInputNum").val(),
+          $("#time-select").val()
+        ),
+        timeForVolunteering: $("#timeForVolunteering").val(),
+        placeForVolunteering: $("#placeForVolunteering").val(),
+        targetAudience: getBestForData().toString(),
+        skills: $("#skills").val(),
+        requirements: $("#requirements").val(),
+        opportunityDesc: $("#description").val(),
+        opportunityCategory: $(".selectedIcon").find(".catName").text(),
+        opportunityTitle: $("#opportunityTitle").val(),
+        numOfvolunteers: $("#numOfvolunteers").val(),
+        minHoursPerWeek: $("#minHoursPerWeek").val(),
+        maxHoursPerWeek: $("#maxHoursPerWeek").val(),
       })
         .done(function (data, textStatus) {
           window.location.href = `${window.location.protocol}//${window.location.host}/formComplete`;

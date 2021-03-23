@@ -633,6 +633,7 @@ app.post(
   createListingRateLimit,
   async function (req, res, next) {
     const params = req.body;
+    console.log(params);
     const isVolunteer = req.session.passport.user.isVolunteer;
 
     params.charityId = req.user.id;
