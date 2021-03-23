@@ -122,7 +122,7 @@ module.exports = class ListingsManager {
     )}&key=AIzaSyDRcgQS1jUZ5ZcUykaM3RumTgbjpYvidX8`;
     const response = await axios.get(geocodeString);
     if (response.data.results.length === 0) return {};
-    return response.body.results[0].geometry.location; //lat, lng
+    return response.data.results[0].geometry.location; //lat, lng
   }
 
   async getSearchListingsIds(searchQuery) {
