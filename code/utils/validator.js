@@ -175,6 +175,54 @@ module.exports = class Validator {
     );
   }
 
+  editListingValidate(params) {
+    return (
+      this.checkIfUndefinedAndConvertToStrings(params, [
+        "uuid",
+        "timeForVolunteering",
+        "placeForVolunteering",
+        "targetAudience",
+        "skills",
+        "requirements",
+        "opportunityDesc",
+        "opportunityCategory",
+        "opportunityTitle",
+        "numOfvolunteers",
+        "minHoursPerWeek",
+        "maxHoursPerWeek",
+        "duration",
+      ]) &&
+      this.isSuitableLength(params["timeForVolunteering"], 200) &&
+      this.isSuitableLength(params["placeForVolunteering"], 200) &&
+      this.isSuitableLength(params["targetAudience"], 100) &&
+      this.isSuitableLength(params["skills"], 1000) &&
+      this.isSuitableLength(params["requirements"], 500) &&
+      this.isSuitableLength(params["opportunityDesc"], 1250) &&
+      this.isSuitableLength(params["opportunityCategory"], 50) &&
+      this.isSuitableLength(params["opportunityTitle"], 50) &&
+      this.isSuitableLength(params["duration"], 15) &&
+      validator.isInt(params["numOfvolunteers"], { min: 0 }) &&
+      validator.isFloat(params["minHoursPerWeek"], { min: 0 }) &&
+      validator.isFloat(params["maxHoursPerWeek"], { min: 0 }) &&
+      parseFloat(params["minHoursPerWeek"]) <=
+        parseFloat(params["maxHoursPerWeek"]) &&
+      this.filterXSS(params, [
+        "timeForVolunteering",
+        "placeForVolunteering",
+        "targetAudience",
+        "skills",
+        "requirements",
+        "opportunityDesc",
+        "opportunityCategory",
+        "opportunityTitle",
+        "numOfvolunteers",
+        "minHoursPerWeek",
+        "maxHoursPerWeek",
+        "duration",
+      ])
+    );
+  }
+
   searchListingsValidate(params) {
     return (
       this.checkIfUndefinedAndConvertToStrings(params, ["terms"]) &&

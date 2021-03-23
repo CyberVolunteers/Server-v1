@@ -595,6 +595,24 @@ app.get("/deleteListing", async function (req, res, next) {
   return res.status(200).send(results !== 0);
 });
 
+app.post("/editListing", async function (req, res, next) {
+  const params = req.body;
+  params.charityId = req?.user?.id;
+
+  console.log(params);
+
+  if (req.session.passport.user.isVolunteer === true)
+    return res.status(400).send("You need to be a charity to do that");
+
+  if (!Validator.editListingValidate(params) || !params.charityId) {
+    res.statusMessage = "Bad data";
+    return res.status(400).end();
+  }
+
+  const results = await ListingsManager.editListing(params);
+  return res.status(200).send(results !== 0);
+});
+
 //private pages
 
 app.get(
@@ -643,7 +661,6 @@ app.post(
       return res.status(403).end();
     }
 
-    logger.info("Checking if the listing data is accurate");
     if (!Validator.createListingValidate(params)) {
       res.statusMessage = "Bad data";
       return res.status(400).end();
@@ -702,7 +719,7 @@ app.get("/nonverifiedCharities", blockNonAdmins, function (req, res) {
 });
 
 app.get("/verifyCharity", blockNonAdmins, renderPage("verifyCharity"));
-app.get("/deleteListing", blockNonAdmins, renderPage("deleteListing"));
+app.get("/deleteOtherListing", blockNonAdmins, renderPage("deleteListing"));
 app.get("/runSQL", blockNonAdmins, renderPage("runSQL"));
 
 app.post("/verifyCharity", blockNonAdmins, function (req, res) {
@@ -716,7 +733,7 @@ app.post("/verifyCharity", blockNonAdmins, function (req, res) {
   });
 });
 
-app.post("/deleteListing", blockNonAdmins, async function (req, res) {
+app.post("/deleteOtherListing", blockNonAdmins, async function (req, res) {
   //get connection
   const connection = await utils.getConnection(pool);
   const query = util.promisify(connection.query).bind(connection);

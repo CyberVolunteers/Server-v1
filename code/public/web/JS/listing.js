@@ -39,10 +39,21 @@ $(function () {
       });
 
     $(".del-btn").click(function () {
-      modifyListing(uuid, "charityListings");
+      $.get("/deleteListing", { uuid })
+        .done(function (data, textStatus) {
+          // go back
+          window.location.href = `${window.location.protocol}//${window.location.host}/charityListings`;
+        })
+        .fail(function (jqXHR) {
+          console.log(jqXHR);
+          let errorText = jqXHR.statusText;
+          if (jqXHR.status === 429) errorText = jqXHR.responseText;
+          $(".errorMessage").text(errorText);
+          $(".errorMessage").show(500);
+        });
     });
     $(".edit-btn").click(function () {
-      modifyListing(uuid, "createListing");
+      window.location.href = `${window.location.protocol}//${window.location.host}/createListing?uuid=${uuid}`;
     });
   }
 
@@ -163,21 +174,6 @@ function getCookie(name) {
 function xss(text) {
   text += "";
   return filterXSS(text.replace(/\n/g, "<br/>"), xssOptions);
-}
-
-function modifyListing(uuid, redirectUrl) {
-  $.get("/deleteListing", { uuid })
-    .done(function (data, textStatus) {
-      // go back
-      window.location.href = `${window.location.protocol}//${window.location.host}/${redirectUrl}`;
-    })
-    .fail(function (jqXHR) {
-      console.log(jqXHR);
-      let errorText = jqXHR.statusText;
-      if (jqXHR.status === 429) errorText = jqXHR.responseText;
-      $(".errorMessage").text(errorText);
-      $(".errorMessage").show(500);
-    });
 }
 
 function capitalizeIfNotHTML(text) {

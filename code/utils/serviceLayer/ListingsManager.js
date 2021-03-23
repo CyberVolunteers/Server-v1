@@ -92,6 +92,69 @@ module.exports = class ListingsManager {
     }
   }
 
+  async editListing(params) {
+    const connection = await utils.getConnection(this.pool);
+    const query = util.promisify(connection.query).bind(connection);
+
+    try {
+      //get lat and long
+      let { lat = 0, lng = 0 } = await this.getLatAndLong(
+        params.placeForVolunteering.replace(/<br\/>/g, " ")
+      );
+
+      // await query("START TRANSACTION;");
+      const updateResponse = await query(
+        "UPDATE `listings` SET timeForVolunteering=?, placeForVolunteering=?, targetAudience=?, skills=?, requirements=?, opportunityDesc=?, opportunityCategory=?, opportunityTitle=?, numOfvolunteers=?, minHoursPerWeek=?, maxHoursPerWeek=?, duration=?, createdDate=UNIX_TIMESTAMP(), pictureName=?, latitude=?, longitude=? WHERE uuid=? AND charityId=?",
+        [
+          params.timeForVolunteering,
+          params.placeForVolunteering,
+          this.createTargetAudienceString(params.targetAudience),
+          params.skills,
+          params.requirements,
+          params.opportunityDesc,
+          params.opportunityCategory,
+          params.opportunityTitle,
+          params.numOfvolunteers,
+          params.minHoursPerWeek,
+          params.maxHoursPerWeek,
+          params.duration,
+          params.fullNewFileName,
+          lat,
+          lng,
+          params.uuid,
+          params.charityId,
+        ]
+      );
+
+      if (updateResponse.affectedRows !== 1) {
+        return await query("ROLLBACK;");
+      }
+
+      const charityName = (
+        await query("SELECT charityName FROM charities WHERE id=?", [
+          params.charityId,
+        ])
+      )[0].charityName;
+      const queryResults = await query("SELECT id FROM listings WHERE uuid=?", [
+        params.uuid,
+      ]);
+      await query("COMMIT;");
+      const valueString =
+        params.opportunityDesc +
+        " " +
+        params.opportunityCategory +
+        " " +
+        params.opportunityTitle +
+        " " +
+        charityName;
+      console.log(valueString);
+      this.listingsIndex.update(queryResults[0].id, valueString);
+      return console.log(queryResults?.[0]?.id);
+    } finally {
+      connection.release();
+    }
+  }
+
   async searchListings(params) {
     const connection = await utils.getConnection(this.pool);
     const query = util.promisify(connection.query).bind(connection);

@@ -1,3 +1,7 @@
+const params = new URLSearchParams(window.location.search);
+const isEdit = params.get("uuid") != null;
+console.log(isEdit, params.get("uuid"));
+
 const orderOfPages = ["otherFields", "desc", "reqAndSkills", "cat"];
 
 const arrowHTML = {
@@ -15,6 +19,9 @@ let hasSelectedCat = false;
 
 $(function () {
   const csrfToken = $('meta[name="csrf-token"]').attr("content");
+
+  // if editing, change the title
+  $(document).attr("title", "Edit a listing");
 
   setPage(pageIndex);
 
@@ -50,6 +57,7 @@ $(function () {
       pageIndex++;
       setPage(pageIndex);
     } else {
+      const requestUrl = isEdit ? "/editListing" : "/createListing";
       // let formData = new FormData();
       // // formData.append('listingPicture', $('#listingPicture')[0].files[0]);
 
@@ -76,7 +84,7 @@ $(function () {
       // formData.append("maxHoursPerWeek", $("#maxHoursPerWeek").val());
 
       //submit
-      // $.post("/createListing", {
+      // $.post(requestUrl, {
       // 	duration: createDurationString($("#generalInputNum").val(), $("#time-select").val()),
       // 	timeForVolunteering: $("#timeForVolunteering").val(),
       // 	placeForVolunteering: $("#placeForVolunteering").val(),
@@ -91,7 +99,7 @@ $(function () {
       // 	maxHoursPerWeek: $("#maxHoursPerWeek").val(),
       // 	_csrf: csrfToken
       // })
-      $.post("/createListing", {
+      $.post(requestUrl, {
         _csrf: csrfToken,
         duration: createDurationString(
           $("#generalInputNum").val(),
@@ -108,6 +116,7 @@ $(function () {
         numOfvolunteers: $("#numOfvolunteers").val(),
         minHoursPerWeek: $("#minHoursPerWeek").val(),
         maxHoursPerWeek: $("#maxHoursPerWeek").val(),
+        uuid: params.get("uuid"),
       })
         .done(function (data, textStatus) {
           window.location.href = `${window.location.protocol}//${window.location.host}/formComplete`;

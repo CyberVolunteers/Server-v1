@@ -79,6 +79,7 @@ function search() {
 
   $.get("/searchLisings/" + term)
     .done(function (data) {
+      data.reverse();
       listingsData = data;
       //empty the listings
       $(".listingsWrapper").html("");
@@ -125,6 +126,7 @@ function advancedSearch() {
       let { lat, lng } = data.location || { lat: 0, lang: 0 };
 
       listingsData = data.listings;
+      listingsData.reverse();
 
       if (lat !== 0 || lng !== 0)
         listingsData.filter((obj) => {
