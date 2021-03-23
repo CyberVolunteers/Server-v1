@@ -14,7 +14,6 @@ const utils = require("./utils/utils");
 const csurf = require("csurf");
 const favicon = require("serve-favicon");
 const xss = require("xss");
-const multer = require("multer");
 const crypto = require("crypto");
 
 const LocalStrategy = require("passport-local").Strategy;
@@ -145,27 +144,6 @@ const getListingRateLimit = rateLimit({
   max: 1000, // limit each IP to 100 requests per windowMs
   message:
     "You are doing this too much. Please try doing this a day later or contact us if you think this was a mistake",
-});
-
-//multer
-const Storage = multer.diskStorage({
-  destination: function (req, file, callback) {
-    callback(null, "./pictures/listingsPictures");
-  },
-  filename: function (req, file, callback) {
-    req.body.newFileName = crypto.randomBytes(24).toString("hex");
-    req.body.fileExt = path.extname(file.originalname);
-    req.body.fullNewFileName = req.body.newFileName + req.body.fileExt;
-    callback(null, req.body.fullNewFileName);
-  },
-});
-
-const listingImageUpload = multer({
-  storage: Storage,
-  limits: {
-    fileSize: 7 * 1024 * 1024, //7 MB
-  },
-  fileFilter: utils.imageValidator,
 });
 
 // used to serialize the user for the session
@@ -654,22 +632,6 @@ app.post(
   csrfProtection,
   createListingRateLimit,
   async function (req, res, next) {
-    try {
-      await util.promisify(listingImageUpload.single("listingPicture"))(
-        req,
-        res
-      );
-    } catch (err) {
-      if (err instanceof multer.MulterError) {
-        return next(err);
-      } else {
-        res.statusMessage = "An error occured, please try again later";
-        logger.error("Error:");
-        logger.error(err.stack);
-        return res.status(400).end();
-      }
-    }
-
     const params = req.body;
     const isVolunteer = req.session.passport.user.isVolunteer;
 
@@ -680,11 +642,13 @@ app.post(
       return res.status(403).end();
     }
 
+    logger.info("Checking if the listing data is accurate");
     if (!Validator.createListingValidate(params)) {
       res.statusMessage = "Bad data";
       return res.status(400).end();
     }
 
+    logger.info("Creating a listing");
     try {
       await ListingsManager.createListing(params);
       return res.sendStatus(200);
