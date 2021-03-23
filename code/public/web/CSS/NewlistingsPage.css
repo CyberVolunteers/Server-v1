@@ -16,7 +16,7 @@ header {
   align-items: center;
   padding: 20px 10%;
   margin-top: 0;
-  background-color: rgba(255, 255, 255, 0.781);
+  background-color: ;
   z-index: 100;
 }
 .searchBar{
@@ -45,7 +45,7 @@ button {
   font-size: 20px;
   text-decoration: none;
   color: black;
-  background-color: rgb(214, 214, 214);
+  background-color: ;
 }
 
 .nav_links li {
@@ -282,7 +282,7 @@ button {
     align-items: center;
     padding: 20px 10%;
     margin-top: 0;
-    background-color: rgba(255, 255, 255, 0.781);
+    background-color: ;
     z-index: 100;
   }
  
