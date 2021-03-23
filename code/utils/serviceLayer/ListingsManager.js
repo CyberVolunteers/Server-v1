@@ -1,6 +1,6 @@
 const util = require("util");
 const utils = require("../utils");
-const got = require("got");
+const axios = require("axios");
 const { lastIndexOf } = require("../../data/cookieSecret");
 
 const maxWeightForKeywordSearch = 2;
@@ -116,11 +116,12 @@ module.exports = class ListingsManager {
   }
 
   async getLatAndLong(placeDesc) {
+    this.logger.info("Pinging google services");
     const geocodeString = `https://maps.googleapis.com/maps/api/geocode/json?address=${escape(
       placeDesc.replace(" ", "+")
     )}&key=AIzaSyDRcgQS1jUZ5ZcUykaM3RumTgbjpYvidX8`;
-    const response = await got(geocodeString, { json: true });
-    if (response.body.results.length === 0) return {};
+    const response = await axios(geocodeString);
+    if (response.data.results.length === 0) return {};
     return response.body.results[0].geometry.location; //lat, lng
   }
 
