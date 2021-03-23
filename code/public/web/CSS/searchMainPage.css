@@ -207,7 +207,25 @@ display: inline-block;
           
           
 }
-
+.searchBar{
+	width: 230px;
+  
+  }
+  .CatagoriesButton{
+	
+  }
+  .searchGeneralCat{
+	margin-bottom: 10px;
+  }
+  .advancedSearchBox{
+	margin-right: auto;
+	margin-left: auto;
+  }
+  .advancedSearch{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+  }
 
 @media (min-width: 1000px) {
 	.cataButton{
