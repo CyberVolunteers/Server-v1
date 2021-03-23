@@ -5,6 +5,9 @@ body {
   font-size: 35px;
   padding-top: 90px;
 }
+#general{
+  margin-top: 20px;
+}
 .opertunityorg {
   text-align: center;
   font-size: 25px;
@@ -13,19 +16,20 @@ body {
 }
 .opinfowrap {
   display: flex;
-  flex-direction: row;
+  flex-direction: column-reverse;
   margin-top: 40px;
   justify-content: center;
 }
 .basicinfobox {
-  width: 400px;
+  width: 330px;
   height: 100%;
   border: black 1px solid;
-  margin-left: 100px;
+  margin-left: auto;
+  margin-right: auto;
   padding-bottom: 30px;
 }
 .opdescription {
-  width: 600px;
+  width: 100%;
   background-color: ;
 }
 .wantToHelpButton {
@@ -138,11 +142,11 @@ a.moreDetails {
   margin: auto;
   position: absolute;
   top: 35%;
-  left: 30%;
+  left: 20%;
   bottom: 35%;
-  right: 30%;
+  right: 20%;
   z-index: 5;
-
+  height: fit-content;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -150,4 +154,178 @@ a.moreDetails {
 
 .confirmText {
   padding: 30px;
+}
+@media only all and (min-width: 1000px) {
+
+  
+  body {
+  }
+  .opertunitytitle {
+    text-align: center;
+    font-size: 35px;
+    padding-top: 90px;
+  }
+  .opertunityorg {
+    text-align: center;
+    font-size: 25px;
+    padding-top: 20px;
+    cursor: pointer;
+  }
+  .opinfowrap {
+    display: flex;
+    flex-direction: row;
+    margin-top: 40px;
+    justify-content: center;
+  }
+  .basicinfobox {
+    width: 400px;
+    height: 100%;
+    border: black 1px solid;
+    margin-left: 100px;
+    padding-bottom: 30px;
+    margin-right: 0px;
+  }
+  .opdescription {
+    width: 600px;
+    background-color: ;
+  }
+  .wantToHelpButton {
+    position: relative;
+    width: ;
+    height: 45px;
+    background-color: #f85120;
+    border: none;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .buttontext {
+    text-align: center;
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+  .basicinfoboxheader {
+    text-align: center;
+    padding-top: 10px;
+    font-size: 22px;
+    
+  }
+  .basicinfotitle {
+    text-align: center;
+    padding-top: 20px;
+    font-size: 19px;
+  }
+  
+  .basicinfo {
+    text-align: center;
+  
+    padding-top: 5px;
+  }
+  #map {
+    width: 190px;
+    height: 200px;
+    position: absolute;
+    margin-left: 190px;
+    border: 1px solid gray;
+    top: -400px;
+    color: aqua;
+  }
+  .basicinfogroupreq {
+    position: absolute;
+    margin-left: 190px;
+    top: 445px;
+  }
+  .title {
+    text-align: center;
+    font-size: 20px;
+    margin-top: 20px;
+    margin-bottom: 5px;
+  }
+  .basicinfogroup {
+    background-color: ;
+  
+    width: 165px;
+  }
+  .basicInfoChuck {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: flex-start;
+  }
+  
+  a.moreDetails {
+    text-decoration: underline;
+  }
+  
+  .confirmPopUp {
+    position: fixed;
+    background-color: rgb(255, 255, 255);
+    width: auto;
+    height: auto;
+    z-index: 100;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.486) 1px 1px 5px;
+    visibility: ;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 80vw;
+  
+    bottom: 0;
+  }
+  
+  .confirmButton {
+    display: block;
+  
+    width: 80%;
+    margin: auto;
+    background-color: #f44336;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 15px;
+  }
+  
+  .confirmPopUp {
+    margin: auto;
+    position: absolute;
+    top: 35%;
+    left: 30%;
+    bottom: 35%;
+    right: 30%;
+    z-index: 5;
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+  }
+  .confirmPopUp {
+    margin: auto;
+    position: absolute;
+    margin-top: -100px;
+    width: 400px;
+    z-index: 5;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .confirmText {
+    padding: 30px;
+  }
+  #general{
+    margin-top: 0px;
+  }
 }
