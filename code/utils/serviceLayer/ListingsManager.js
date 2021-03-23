@@ -120,7 +120,7 @@ module.exports = class ListingsManager {
     const geocodeString = `https://maps.googleapis.com/maps/api/geocode/json?address=${escape(
       placeDesc.replace(" ", "+")
     )}&key=AIzaSyDRcgQS1jUZ5ZcUykaM3RumTgbjpYvidX8`;
-    const response = await axios(geocodeString);
+    const response = await axios.get(geocodeString);
     if (response.data.results.length === 0) return {};
     return response.body.results[0].geometry.location; //lat, lng
   }
