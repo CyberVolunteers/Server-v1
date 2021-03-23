@@ -8,6 +8,10 @@ body {
 #general{
   margin-top: 20px;
 }
+.opdescriptiontext{
+  margin-left: 10px;
+  margin-right: 10px;
+}
 .opertunityorg {
   text-align: center;
   font-size: 25px;
@@ -329,6 +333,10 @@ a.moreDetails {
     justify-content: center;
     align-items: center;
     
+  }
+  .opdescriptiontext{
+    margin-left: 7px;
+    margin-right: 7px;
   }
   .confirmPopUp {
     margin: auto;
