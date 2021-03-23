@@ -327,6 +327,7 @@ display: inline-block;
 		cursor: pointer;
 		border: none;
 		visibility: ;
+		background-color: rgb(214, 214, 214);
 	}
 	
 	.advancedSearch{
@@ -384,6 +385,7 @@ display: inline-block;
 		cursor: pointer;
 		border: none;
 		visibility: ;
+		background-color: rgb(214, 214, 214);
 	}
 	.cataButton{
 		display: flex;
