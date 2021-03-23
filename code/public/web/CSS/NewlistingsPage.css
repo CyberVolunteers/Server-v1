@@ -16,9 +16,10 @@ header {
   align-items: center;
   padding: 20px 10%;
   margin-top: 0;
-  background-color: rgba(255, 255, 255, 0.781);
+  background-color: ;
   z-index: 100;
 }
+
 li,
 a,
 button {
@@ -26,6 +27,7 @@ button {
   font-size: 20px;
   text-decoration: none;
   color: black;
+  background-color: ;
 }
 
 .nav_links li {
@@ -194,6 +196,9 @@ button {
   overflow-x: hidden;
   padding: 0;
 }
+.CatagoriesButton{
+  margin-top: 0px;
+}
 
 @media (min-width: 480px) {
   .listings {
@@ -225,7 +230,10 @@ button {
     width: 22.75%;
     margin-right: 3%;
   }
-
+  .searchBar{
+    width: 350px;
+  
+  }
   .listings:nth-child(3n) {
     margin-right: 3%;
   }
@@ -238,6 +246,7 @@ button {
     padding-right: 0%;
     padding-left: 0%;
   }
+  
 }
 
 .cat-law {

@@ -35,6 +35,7 @@
 	cursor: pointer;
 	border: none;
 	visibility: ;
+	background-color: rgb(214, 214, 214);
 }
 
 .advancedSearch{
@@ -91,6 +92,7 @@ display: inline-block;
 	cursor: pointer;
 	border: none;
 	visibility: ;
+	background-color: rgb(214, 214, 214);
 }
 .cataButton{
 	display: flex;
@@ -207,7 +209,25 @@ display: inline-block;
           
           
 }
-
+.searchBar{
+	width: 230px;
+  
+  }
+  .CatagoriesButton{
+	
+  }
+  .searchGeneralCat{
+	margin-bottom: 10px;
+  }
+  .advancedSearchBox{
+	margin-right: auto;
+	margin-left: auto;
+  }
+  .advancedSearch{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+  }
 
 @media (min-width: 1000px) {
 	.cataButton{
@@ -327,6 +347,7 @@ display: inline-block;
 		cursor: pointer;
 		border: none;
 		visibility: ;
+		background-color: rgb(214, 214, 214);
 	}
 	
 	.advancedSearch{
@@ -384,6 +405,7 @@ display: inline-block;
 		cursor: pointer;
 		border: none;
 		visibility: ;
+		background-color: rgb(214, 214, 214);
 	}
 	.cataButton{
 		display: flex;
@@ -482,8 +504,221 @@ display: inline-block;
 		margin-left: auto;
 		margin-right: auto;
 		margin-bottom: 15px;
-			  
-			  
 	}
+			  
+			  
+		* {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+		  }
+		  html {
+			background-color: ;
+			min-width: ;
+			font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+		  }
+		  header {
+			width: 100vw;
+			position: fixed;
+			display: flex;
+			justify-content: flex-end;
+			align-items: center;
+			padding: 20px 10%;
+			margin-top: 0;
+			background-color: ;
+			z-index: 100;
+		  }
+		 
+		  li,
+		  a,
+		  button {
+			font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+			font-size: 20px;
+			text-decoration: none;
+			color: black;
+			
+		  }
+		  
+		  .nav_links li {
+			display: inline-block;
+			padding: 0px 20px;
+		  }
+		  .nav_links li a {
+			transition: all 0.3s ease 0s;
+		  }
+		  
+		  #mainLink {
+			margin-right: auto;
+		  }
+		  .listingsWrapper {
+			background-color: ;
+			display: flex;
+			flex-direction: row;
+			justify-content: flex-start;
+			margin-left: auto;
+			margin-right: auto;
+			padding-top: 50px;
+			flex-wrap: wrap;
+			width: 90vw;
+		  }
+		  .lstingsWrap {
+			box-sizing: border-box;
+			font-size: 0;
+		  }
+		  
+		  .listingsContainer {
+			background-color: ;
+		  
+			padding: 0 20px;
+			width: 100%;
+			max-width: 1340px;
+			margin-right: auto;
+			margin-left: auto;
+		  }
+		  .listingHeader {
+			width: 100%;
+			height: 13%;
+		  }
+		  .listingsTime {
+			position: absolute;
+			display: flex;
+			align-items: center;
+			align-content: center;
+			justify-content: center;
+			text-align: center;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+			height: 55px;
+			background-color: ;
+			border-top: solid 1px grey;
+		  
+			text-align: center;
+			font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+		  }
+		  .timehrs {
+			font-size: 19px;
+		  }
+		  
+		  .perw {
+			font-size: 13px;
+		  }
+		  .listingsloc {
+			width: 189px;
+			height: 50px;
+			background-color: ;
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			border-top: solid 1px grey;
+			border-left: solid 1px grey;
+		  }
+		  .listingslocwriting {
+			font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+			justify-content: center;
+			position: absolute;
+			left: 30px;
+			bottom: 15px;
+		  }
+		  .listingxp {
+			width: 189px;
+			height: 50px;
+			background-color: ;
+			position: absolute;
+			right: 0;
+			bottom: 50px;
+			border-top: solid 1px grey;
+			border-left: solid 1px grey;
+		  }
+		  .listingsxpwriting {
+			font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+			justify-content: center;
+			position: absolute;
+			left: 30px;
+			bottom: 15px;
+		  }
+		  .imageholder {
+			visibility: hidden;
+			width: 0px;
+			height: 0px;
+			background-color: ;
+			position: absolute;
+			right: 2px;
+			top: 42px;
+			border: none;
+		  }
+		  .imageholder#image1 {
+			background-image: url(../IMG/bgimage.jpg);
+			background-size: cover;
+			background-position: center;
+		  }
+		  .imageholder#image2 {
+			background-image: url(../IMG/bgimage.png);
+			background-size: cover;
+			background-position: center;
+		  }
+		  .lstitle {
+			position: absolute;
+			top: 60px;
+			left: 20px;
+			font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+			font-weight: 600;
+			font-size: 18px;
+		  }
+		  .lstcharity {
+			position: absolute;
+			top: 150px;
+			left: 20px;
+			font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+			font-size: 16px;
+		  }
+		  .listingscat {
+			font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+			position: absolute;
+			font-size: 16px;
+			top: 10px;
+			left: 10px;
+		  }
+		  
+		  .cut-text {
+			text-overflow: ellipsis;
+			overflow: hidden;
+			width: 80%;
+			height: 1.2em;
+			white-space: nowrap;
+		  }
+		  .listings {
+			box-sizing: border-box;
+			position: relative;
+			margin-top: 30px;
+			display: inline-block;
+			box-shadow: 1px 1px 7px 0 rgba(0, 0, 0, 0.38);
+		  
+			vertical-align: top;
+			margin-bottom: 15px;
+			position: relative;
+			width: 100%;
+		  
+			height: 300px;
+		  
+			cursor: pointer;
+			overflow-y: hidden;
+			overflow-x: hidden;
+			padding: 0;
+		  }
+		  .CatagoriesButton{
+			margin-top: 0px;
+			background-color: rgb(214, 214, 214);
+		  }
+		  .advancedSearch{
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+		  }
+		  .advancedSearchBox{
+			margin-right: 10px;
+			margin-left: 1px;
+		  }
+
 	
 }
