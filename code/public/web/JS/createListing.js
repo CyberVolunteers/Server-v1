@@ -25,6 +25,31 @@ $(function () {
 
   setPage(pageIndex);
 
+  // pre-fill the values if editing
+  if (isEdit) {
+    $.get("/getListing", {
+      uuid: params.get("uuid"),
+    })
+      .done(function (data, textStatus) {
+        const entry = data[0];
+        // do whatever you can
+        for (let key of Object.keys(entry)) {
+          $("#" + key).val(entry[key]);
+        }
+
+        // do the category
+        let opportunityCategory = entry.opportunityCategory;
+        $(`div.catName:contains('${opportunityCategory}')`).click(); // very dodgy, but it works
+      })
+      .fail(function (jqXHR) {
+        console.log(jqXHR);
+        let errorText = jqXHR.statusText;
+        if (jqXHR.status === 429) errorText = jqXHR.responseText;
+        $(".errorMessage").text(errorText);
+        $(".errorMessage").show(500);
+      });
+  }
+
   // if the time is indefinite, don't allow the number
   $("#time-select").change(function () {
     if ($("#time-select").val() === "indefinitely")
@@ -58,47 +83,7 @@ $(function () {
       setPage(pageIndex);
     } else {
       const requestUrl = isEdit ? "/editListing" : "/createListing";
-      // let formData = new FormData();
-      // // formData.append('listingPicture', $('#listingPicture')[0].files[0]);
 
-      // formData.append(
-      //   "duration",
-      //   createDurationString(
-      //     $("#generalInputNum").val(),
-      //     $("#time-select").val()
-      //   )
-      // );
-      // formData.append("timeForVolunteering", $("#timeForVolunteering").val());
-      // formData.append("placeForVolunteering", $("#placeForVolunteering").val());
-      // formData.append("targetAudience", getBestForData().toString());
-      // formData.append("skills", $("#skills").val());
-      // formData.append("requirements", $("#requirements").val());
-      // formData.append("opportunityDesc", $("#description").val());
-      // formData.append(
-      //   "opportunityCategory",
-      //   $(".selectedIcon").find(".catName").text()
-      // );
-      // formData.append("opportunityTitle", $("#opportunityTitle").val());
-      // formData.append("numOfvolunteers", $("#numOfvolunteers").val());
-      // formData.append("minHoursPerWeek", $("#minHoursPerWeek").val());
-      // formData.append("maxHoursPerWeek", $("#maxHoursPerWeek").val());
-
-      //submit
-      // $.post(requestUrl, {
-      // 	duration: createDurationString($("#generalInputNum").val(), $("#time-select").val()),
-      // 	timeForVolunteering: $("#timeForVolunteering").val(),
-      // 	placeForVolunteering: $("#placeForVolunteering").val(),
-      // 	targetAudience: getBestForData().toString(),
-      // 	skills: $("#skills").val(),
-      // 	requirements: $("#requirements").val(),
-      // 	opportunityDesc: $("#description").val(),
-      // 	opportunityCategory: $(".selectedIcon").find(".catName").text(),
-      // 	opportunityTitle: $("#opportunityTitle").val(),
-      // 	numOfvolunteers: $("#numOfvolunteers").val(),
-      // 	minHoursPerWeek: $("#minHoursPerWeek").val(),
-      // 	maxHoursPerWeek: $("#maxHoursPerWeek").val(),
-      // 	_csrf: csrfToken
-      // })
       $.post(requestUrl, {
         _csrf: csrfToken,
         duration: createDurationString(
@@ -110,7 +95,7 @@ $(function () {
         targetAudience: getBestForData().toString(),
         skills: $("#skills").val(),
         requirements: $("#requirements").val(),
-        opportunityDesc: $("#description").val(),
+        opportunityDesc: $("#opportunityDesc").val(),
         opportunityCategory: $(".selectedIcon").find(".catName").text(),
         opportunityTitle: $("#opportunityTitle").val(),
         numOfvolunteers: $("#numOfvolunteers").val(),

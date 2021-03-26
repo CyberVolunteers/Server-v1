@@ -119,8 +119,6 @@ function advancedSearch() {
 
   requestObj.isFlexible = $("#isFlexibleCheckbox").is(":checked");
 
-  console.log(requestObj);
-
   // send a request
   $.get("/advancedSearchForListings", requestObj)
     .done(function (data, textStatus) {
@@ -167,8 +165,18 @@ function getAllListings() {
       data.reverse(); //make sure that the custom listings are at the bottom
       listingsData = data;
 
-      for (let i = 0; i < data.length; i++) {
-        const entry = data[i];
+      // randomize the order of the real listings
+      let real = [],
+        scraped = [];
+      listingsData.forEach((e) =>
+        (e.scrapedCharityName === null ? real : scraped).push(e)
+      );
+
+      listingsData = shuffle(real);
+      listingsData = listingsData.concat(scraped);
+
+      for (let i = 0; i < listingsData.length; i++) {
+        const entry = listingsData[i];
 
         $(".listingsWrapper").append(constructHTML(entry, i));
       }
@@ -222,4 +230,12 @@ function xss(text) {
 
 function removeLineBreaks(text) {
   return text.replace(/(<([^>]+)>)/gi, " ");
+}
+
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }

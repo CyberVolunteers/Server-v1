@@ -35,8 +35,7 @@ $(function () {
 function getAllListings() {
   $.get("/getMyListings")
     .done(function (data, textStatus) {
-      listingsData = data;
-      console.log(listingsData);
+      listingsData = data.reverse();
 
       for (let i = 0; i < data.length; i++) {
         const entry = data[i];
