@@ -103,7 +103,9 @@ module.exports = class ListingsManager {
         params.placeForVolunteering.replace(/<br\/>/g, " ")
       );
 
+      this.logger.info("Start transaction");
       await query("START TRANSACTION;");
+      this.logger.info("Start first query");
       const updateResponse = await query(
         "UPDATE `listings` SET timeForVolunteering=?, placeForVolunteering=?, targetAudience=?, skills=?, requirements=?, opportunityDesc=?, opportunityCategory=?, opportunityTitle=?, numOfvolunteers=?, minHoursPerWeek=?, maxHoursPerWeek=?, duration=?, createdDate=UNIX_TIMESTAMP(), pictureName=?, latitude=?, longitude=?, isFlexible=? WHERE uuid=? AND charityId=?",
         [
@@ -132,6 +134,8 @@ module.exports = class ListingsManager {
         this.logger.error("rolling back edit listings");
         return await query("ROLLBACK;");
       }
+
+      this.logger.info("Start second query");
 
       const charityName = (
         await query("SELECT charityName FROM charities WHERE id=?", [
