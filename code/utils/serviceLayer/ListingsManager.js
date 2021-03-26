@@ -124,9 +124,9 @@ module.exports = class ListingsManager {
           params.fullNewFileName,
           lat,
           lng,
+          params.isFlexible === "true",
           params.uuid,
           params.charityId,
-          params.isFlexible === "true",
         ]
       );
 
