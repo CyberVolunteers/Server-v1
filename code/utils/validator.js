@@ -143,6 +143,7 @@ module.exports = class Validator {
         "minHoursPerWeek",
         "maxHoursPerWeek",
         "duration",
+        "isFlexible",
       ]) &&
       this.isSuitableLength(params["timeForVolunteering"], 200) &&
       this.isSuitableLength(params["placeForVolunteering"], 200) &&
@@ -191,6 +192,7 @@ module.exports = class Validator {
         "minHoursPerWeek",
         "maxHoursPerWeek",
         "duration",
+        "isFlexible",
       ]) &&
       this.isSuitableLength(params["timeForVolunteering"], 200) &&
       this.isSuitableLength(params["placeForVolunteering"], 200) &&

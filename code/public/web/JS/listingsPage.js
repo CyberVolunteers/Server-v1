@@ -117,6 +117,8 @@ function advancedSearch() {
   requestObj.categories = categories;
   requestObj.keywords = $.trim($(".searchBar").val());
 
+  requestObj.isFlexible = $("#isFlexibleCheckbox").is(":checked");
+
   console.log(requestObj);
 
   // send a request

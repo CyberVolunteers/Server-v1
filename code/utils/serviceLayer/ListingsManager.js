@@ -24,7 +24,7 @@ module.exports = class ListingsManager {
 
       await query("START TRANSACTION;");
       await query(
-        "INSERT INTO `listings`(uuid, timeForVolunteering, placeForVolunteering, targetAudience, skills, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek, duration, charityId, createdDate, pictureName, latitude, longitude) VALUES (uuid(), ?,?,?,?,?,?,?,?,?,?,?,?,?,UNIX_TIMESTAMP(), ?, ?, ?);",
+        "INSERT INTO `listings`(uuid, timeForVolunteering, placeForVolunteering, targetAudience, skills, requirements, opportunityDesc, opportunityCategory, opportunityTitle, numOfvolunteers, minHoursPerWeek, maxHoursPerWeek, duration, charityId, createdDate, pictureName, latitude, longitude, isFlexible) VALUES (uuid(), ?,?,?,?,?,?,?,?,?,?,?,?,?,UNIX_TIMESTAMP(), ?, ?, ?, ?);",
         [
           params.timeForVolunteering,
           params.placeForVolunteering,
@@ -42,6 +42,7 @@ module.exports = class ListingsManager {
           params.fullNewFileName,
           lat,
           lng,
+          params.isFlexible === "true",
         ]
       );
       const charityName = (
@@ -104,7 +105,7 @@ module.exports = class ListingsManager {
 
       // await query("START TRANSACTION;");
       const updateResponse = await query(
-        "UPDATE `listings` SET timeForVolunteering=?, placeForVolunteering=?, targetAudience=?, skills=?, requirements=?, opportunityDesc=?, opportunityCategory=?, opportunityTitle=?, numOfvolunteers=?, minHoursPerWeek=?, maxHoursPerWeek=?, duration=?, createdDate=UNIX_TIMESTAMP(), pictureName=?, latitude=?, longitude=? WHERE uuid=? AND charityId=?",
+        "UPDATE `listings` SET timeForVolunteering=?, placeForVolunteering=?, targetAudience=?, skills=?, requirements=?, opportunityDesc=?, opportunityCategory=?, opportunityTitle=?, numOfvolunteers=?, minHoursPerWeek=?, maxHoursPerWeek=?, duration=?, createdDate=UNIX_TIMESTAMP(), pictureName=?, latitude=?, longitude=?, isFlexible=? WHERE uuid=? AND charityId=?",
         [
           params.timeForVolunteering,
           params.placeForVolunteering,
@@ -123,6 +124,7 @@ module.exports = class ListingsManager {
           lng,
           params.uuid,
           params.charityId,
+          params.isFlexible === "true",
         ]
       );
 
@@ -198,7 +200,12 @@ module.exports = class ListingsManager {
 
   createTargetAudienceString(selectedOptions) {
     selectedOptions = JSON.parse(selectedOptions);
-    const audiences = ["teens", "people aged 18-55", "people over 55"];
+    const audiences = [
+      "people under 16",
+      "people aged 16-18",
+      "people aged 18-55",
+      "people over 55",
+    ];
 
     let selectedAudiences = [];
     for (let selectedOption of selectedOptions) {
@@ -209,7 +216,7 @@ module.exports = class ListingsManager {
 
     const output = selectedAudiences.join(", ");
 
-    if (output === "") {
+    if (output === "" || audiences.length === selectedAudiences.length) {
       return "everyone";
     } else {
       return output;
@@ -217,8 +224,16 @@ module.exports = class ListingsManager {
   }
 
   async getAdvancedSearchListings(searchObj) {
-    const allCriteria = ["hoursPerWeek", "categories", "keywords", "location"];
+    const allCriteria = [
+      "hoursPerWeek",
+      "categories",
+      "keywords",
+      "location",
+      "isFlexible",
+    ];
     // get search criteria
+
+    console.log(searchObj);
 
     let keyNum = 0;
 
@@ -274,6 +289,13 @@ module.exports = class ListingsManager {
           [searchObj["categories"]]
         );
         updateIds(newIds, true);
+      }
+      if (searchObj["isFlexible"] === "true") {
+        const newIds = await query(
+          "SELECT id FROM listings WHERE isFlexible=1"
+        );
+        updateIds(newIds, true);
+        console.log(newIds);
       }
 
       let idsToCheck = Object.keys(ids);

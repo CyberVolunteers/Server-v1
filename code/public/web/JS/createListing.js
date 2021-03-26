@@ -116,6 +116,7 @@ $(function () {
         numOfvolunteers: $("#numOfvolunteers").val(),
         minHoursPerWeek: $("#minHoursPerWeek").val(),
         maxHoursPerWeek: $("#maxHoursPerWeek").val(),
+        isFlexible: $("#isFlexibleCheckbox").is(":checked"),
         uuid: params.get("uuid"),
       })
         .done(function (data, textStatus) {
@@ -160,6 +161,7 @@ function getBestForData() {
 
   checkedBoxes = "[" + checkedBoxes.toString() + "]";
 
+  console.log(checkedBoxes);
   return checkedBoxes;
 }
 
