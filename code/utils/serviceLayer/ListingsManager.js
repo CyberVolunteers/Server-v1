@@ -129,6 +129,7 @@ module.exports = class ListingsManager {
       );
 
       if (updateResponse.affectedRows !== 1) {
+        this.logger.error("rolling back edit listings");
         return await query("ROLLBACK;");
       }
 
@@ -141,6 +142,7 @@ module.exports = class ListingsManager {
         params.uuid,
       ]);
       await query("COMMIT;");
+      this.logger.info("Finished the queries");
       const valueString =
         params.opportunityDesc +
         " " +
