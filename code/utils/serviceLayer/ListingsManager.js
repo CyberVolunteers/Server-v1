@@ -138,6 +138,7 @@ module.exports = class ListingsManager {
           params.charityId,
         ])
       )[0].charityName;
+      this.logger.info(charityName);
       const queryResults = await query("SELECT id FROM listings WHERE uuid=?", [
         params.uuid,
       ]);
