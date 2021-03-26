@@ -84,6 +84,7 @@ $(function () {
     } else {
       const requestUrl = isEdit ? "/editListing" : "/createListing";
 
+      console.log(requestUrl);
       $.post(requestUrl, {
         _csrf: csrfToken,
         duration: createDurationString(
@@ -105,9 +106,11 @@ $(function () {
         uuid: params.get("uuid"),
       })
         .done(function (data, textStatus) {
+          console.log("Finished request");
           window.location.href = `${window.location.protocol}//${window.location.host}/formComplete`;
         })
         .fail(function (jqXHR) {
+          console.log(jqXHR);
           let errorText = jqXHR.statusText;
           if (jqXHR.status === 401) {
             window.location.href = `${window.location.protocol}//${window.location.host}/login`;
@@ -146,7 +149,6 @@ function getBestForData() {
 
   checkedBoxes = "[" + checkedBoxes.toString() + "]";
 
-  console.log(checkedBoxes);
   return checkedBoxes;
 }
 
