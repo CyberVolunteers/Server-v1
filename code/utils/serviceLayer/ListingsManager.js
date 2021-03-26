@@ -103,7 +103,7 @@ module.exports = class ListingsManager {
         params.placeForVolunteering.replace(/<br\/>/g, " ")
       );
 
-      // await query("START TRANSACTION;");
+      await query("START TRANSACTION;");
       const updateResponse = await query(
         "UPDATE `listings` SET timeForVolunteering=?, placeForVolunteering=?, targetAudience=?, skills=?, requirements=?, opportunityDesc=?, opportunityCategory=?, opportunityTitle=?, numOfvolunteers=?, minHoursPerWeek=?, maxHoursPerWeek=?, duration=?, createdDate=UNIX_TIMESTAMP(), pictureName=?, latitude=?, longitude=?, isFlexible=? WHERE uuid=? AND charityId=?",
         [
