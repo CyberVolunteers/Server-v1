@@ -200,7 +200,7 @@ function constructHTML(entry, entryId) {
     charityName = entry.scrapedCharityName;
     categoryName = "";
   } else {
-    if (entry.isFlexible) timeString = "Flexible times";
+    if (entry.isFlexible) timeString = "Hours per week are flexible";
     // if all defined, then do not say anything
     else if (!entry.minHoursPerWeek && !entry.maxHoursPerWeek) timeString = "";
     else if (!entry.minHoursPerWeek)

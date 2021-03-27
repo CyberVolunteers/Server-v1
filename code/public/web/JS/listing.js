@@ -75,7 +75,7 @@ $(function () {
         timeString = listing.duration;
         charityName = listing.scrapedCharityName;
       } else {
-        if (listing.isFlexible) timeString = "Flexible times";
+        if (listing.isFlexible) timeString = "Hours per week are flexible";
         // if all defined, then do not say anything
         else if (!listing.minHoursPerWeek && !listing.maxHoursPerWeek)
           timeString = "";
