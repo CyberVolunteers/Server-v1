@@ -1,22 +1,29 @@
+.footerText {
+  background-color: white;
+
+  text-align: center;
+
+  color: rgb(149, 149, 149);
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
 #pageContainer {
-	position: relative;
-	min-height: 100vh;
+  min-height: 100%;
+  position: relative;
 }
 
 #contentWrap {
-	padding-bottom: 2.5rem; /* Footer height */
+  padding: 10px;
+  padding-bottom: 60px; /* Height of the footer */
 }
-
 #footer {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	height: 2.5rem; /* Footer height */
-}
-.footerText {
-	background-color: white;
-
-	text-align: center;
-
-	color: rgb(149, 149, 149);
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px; /* Height of the footer */
 }
