@@ -4,46 +4,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../CSS/charityMyAccount.css">
+    <link rel="stylesheet" href="../CSS/joinUs.css">
     <link rel="stylesheet" href="../CSS/header.css">
+    <link rel="stylesheet" href="../CSS/footer.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="../JS/myAccount.js"></script>
+    <script src="../JS/joinUs.js"></script>
 
-    <title>My Account</title>
+    <title>Join Cyber Volunteers | Cyber Volunteers</title>
+    <meta name="description" content="Join Cyber Volunteers to get access to a wide range of volunteering benifits">
+    <meta name="keywords" content="volunteer, cyber volunteer, find volunteers, volunteering, get volunteers, need volunteers">
 </head>
 
 <body>
     <div id="pageContainer">
         {{> header}}
         <div id="contentWrap">
-            <div class="welcomeTitle">Welcome {{charityName}}</div>
-            <div class="createAListingBox">
-                <div class="createAListingBoxTitle">Want to Create a Listing</div>
-                <div class="createAListingBoxMain">Create a listing and get access to all our volunteers for free. The
-                    process is quick and easy and enables
-                    your organization to get reliable profesional volunteers.
-                </div>
-                <div class="createAListingButton">
-                    <div class="createAListingButtonText">Create a Listing</div>
-                </div>
+
                 
                 
-                <div class="seeListingsButton">
-                    <div class="seeListingsButtonText">See your listings</div>
+            <div class="joinUsBannerF">
+                <div class="joinUsTitle">Join Us</div>
+                <div class="joimUsBoxes">
+                    <div class="joinUsBox" id="left">
+                        <div class="joinUsBoxTitle">Want to Join as a Volunteer?</div>
+                        <div class="joinUsBoxInfo">Join us as a Volunteer and have access to all the charities on the
+                            platform. Find charities quickly and easily so you to spend more time making a difference.
+                        </div>
+                        <button type="submit" class="joinButton volunteerJoinButton">
+                            <div class="buttontext">Join now</div>
+                            
+                        </button>
+                    </div>
+                    <div class="joinUsBox">
+                        <div class="joinUsBoxTitle">Want to Join as a Charity?</div>
+                        <div class="joinUsBoxInfo">Join us as a Charity and gain access to a large number of active
+                            volunteers, providing help tailored to your volunteering needs. </div>
+                        <button type="submit" class="joinButton charityJoinButton">
+                            <div class="buttontext">Join now</div>
+                  
+                        </button>
+                    </div>
                 </div>
-                <div class="changePasswordButton">
-                    <a href="/resetPasswordRequest">
-                        <div class="changePasswordText">Change Password</div>
-                    </a>
-                </div>
-                <div class="signOutButton">
-                    <div class="signOutButtonText">Sign Out</div>
-                </div>
-                <div class="thisIsDumb"></div>
             </div>
         </div>
-       
+        {{> footer}}
     </div>
 </body>
 
