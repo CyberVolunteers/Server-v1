@@ -2,96 +2,48 @@
 <html lang="en">
 
 <head>
-    {{> common}}
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../CSS/newListings.css">
+    <link rel="stylesheet" href="../CSS/charityMyAccount.css">
     <link rel="stylesheet" href="../CSS/header.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://rawgit.com/leizongmin/js-xss/master/dist/xss.js"></script>
-    <script src="../JS/listing.js"></script>
-    <title>listing</title>
+    <script src="../JS/myAccount.js"></script>
+
+    <title>My Account</title>
 </head>
 
 <body>
     <div id="pageContainer">
         {{> header}}
         <div id="contentWrap">
-
-            {{> errorSnippet}}
-
-            <div class="opertunitytitle">Loading</div>
-            <div class="opertunityorg">Loading</div>
-            <div class="opinfowrap">
-                <div class="opdescription">
-                    <div class="opdescriptiontext" id="general">Loading
-                    </div>
-                    <div class="title">Skills</div>
-                    <div class="opdescriptiontext skills">Loading
-                    </div>
-                    <div class="title">Requirements</div>
-                    <div class="opdescriptiontext requirements">Loading
-                    </div>
-                    <button type="submit" class="wantToHelpButton">
-                        <div class="buttontext">I Want to Help</div>
-                    </button>
+            <div class="welcomeTitle">Welcome {{charityName}}</div>
+            <div class="createAListingBox">
+                <div class="createAListingBoxTitle">Want to Create a Listing</div>
+                <div class="createAListingBoxMain">Create a listing and get access to all our volunteers for free. The
+                    process is quick and easy and enables
+                    your organization to get reliable profesional volunteers.
                 </div>
-                <div class="basicinfobox">
-                    <div class="basicinfoboxheader">Key Information</div>
-                    <div class="basicinfoinfo">
-                        <div class="basicInfoChuck">
-                            <div class="basicinfogroup">
-                                <div class="basicinfotitle">When</div>
-                                <div class="basicinfo timeInfo">Loading
-
-                                </div>
-                            </div>
-                            <div class="basicinfogroup">
-                                <div class="basicinfotitle" id='timeRequirenents'>Time Requirements</div>
-                                <div class="basicinfo timeReqNumbers">Loading</div>
-                            </div>
-                        </div>
-                        <div class="basicInfoChuck">
-                            <div class="basicinfogroup">
-                                <div class="basicinfotitle">Where</div>
-                                <div class="basicinfo placeInfo">Loading</div>
-                            </div>
-
-                            <div class="basicinfogroup">
-                                <div class="basicinfotitle">Good For</div>
-                                <div class="basicinfo recommendedGroups">Loading</div>
-                            </div>
-                        </div>
-                        <div class="basicInfoChuck manageListing">
-                            <div class="basicinfogroup">
-                                <button class="basicinfotitle edit-btn">Edit Listing</button>
-                            </div>
-
-                            <div class="basicinfogroup">
-                                <button class="basicinfotitle del-btn">Delete Listing</button>
-                            </div>
-                        </div>
-                    </div>
+                <div class="createAListingButton">
+                    <div class="createAListingButtonText">Create a Listing</div>
                 </div>
+                
+                
+                <div class="seeListingsButton">
+                    <div class="seeListingsButtonText">See your listings</div>
+                </div>
+                <div class="changePasswordButton">
+                    <a href="/resetPasswordRequest">
+                        <div class="changePasswordText">Change Password</div>
+                    </a>
+                </div>
+                <div class="signOutButton">
+                    <div class="signOutButtonText">Sign Out</div>
+                </div>
+                <div class="thisIsDumb"></div>
             </div>
         </div>
-        <div class="confirmPopUp">
-            <div class="title"><strong> Want to Help?</strong></div>
-
-            <div class="confirmBody">
-
-                <div class="confirmText">Are you sure you want to send a request offering your help for this volunteering role? The information you put down when you signed up will be sent to the charity who will then contact you directly. 
-                </div>
-
-                <button class="confirmButton">Yes</button>
-
-            </div>
-
-
-        </div>
-        {{> footer}}
+       
     </div>
 </body>
 
