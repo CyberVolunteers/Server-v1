@@ -2,60 +2,147 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../CSS/aboutUs.css">
-    <link rel="stylesheet" href="../CSS/header.css">
-    <link rel="stylesheet" href="../CSS/footer.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="../JS/aboutUs.js"></script>
+  <meta charset="UTF-8">
+  <meta name="keywords" content="contact,email,message,queries,questions,enquiries,enquiry,inquiries,inquiry">
+  <meta name="description" content="Please contact us here if you have any queries or would like to speak with the team at Cyber Volunteers.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../CSS/contactUs.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="../CSS/header.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <title>About Us | Cyber Volunteers</title>
-    <meta name="description" content="What Cyber Volunteers does and how it can help your organisation">
-    <meta name="keywords" content="volunteer, cyber volunteers, find volunteers, volunteering, get volunteers, need volunteers, about Cyber Volunteers, what is cyber volunteers">
+  <title>Contact Us | Cyber Volunteers</title>
+  <style>
+    body {
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    input[type=text],
+    select,
+    textarea {
+      width: 55%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-top: 6px;
+      margin-bottom: 16px;
+      resize: vertical;
+     
+    }
+
+    input[type=submit] {
+      background-color: #f44336;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-self: center;
+      margin-top: 5px;
+    }
+
+  
+
+    .container {
+      border-radius: 5px;
+      background-color: white;
+      padding: 20px;
+    }
+
+    .header {
+      padding-top: 70px;
+      margin-bottom: 25px;
+      text-align: center;
+      color: #f44336;
+      font-size: 30px;
+    }
+
+    .description {
+      margin-top: 30px;
+      margin-bottom: 15px;
+      text-align: center;
+      color: #000000;
+      font-size: 22px;
+    }
+
+    .label1 {
+      margin-top: 12px;
+      margin-bottom: 10px;
+      
+      text-align: center;
+      color: #f44336;
+      font-size: 20px;
+    }
+
+    .label2 {
+      margin-top: 12px;
+      margin-bottom: 10px;
+      text-align: center;
+    
+      color: #f44336;
+      font-size: 20px;
+    }
+    .submitwrap{
+        display: flex;
+        
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+  </style>
 </head>
 
 <body>
-    <div id="pageContainer">
-        {{> header}}
-        <div id="contentWrap">
+  <div id="pageContainer">
+    {{> header}}
+    <div id="contentWrap">
 
-                <div class="aboutUsTitle">
-                    <div>About Cyber Volunteers</div>
-                </div>
-                <div class="aboutUsText">Cyber Volunteers is an organisation based in Brighton, UK, dedicated to helping
-                    connect charities with
-                    passionate, skilled and motivated volunteers. We work with our charities to provide them with volunteers
-                    that meet their needs and help them grow, enabling them to do more of their amazing work. We also strive
-                    to bring our volunteers valuable experiences, enabling them to spend more time making a difference and
-                    providing them with unique and fulfilling opportunities. Above all else our main work is connecting
-                    people with purpose.</div>
-            <div class="joinUsBanner">
-                <div class="joinUsTitle">Join Us</div>
-                <div class="joimUsBoxes">
-                    <div class="joinUsBox" id="left">
-                        <div class="joinUsBoxTitle">Want to Join as a Volunteer?</div>
-                        <div class="joinUsBoxInfo">Join us as a Volunteer and have access to all the charities on the
-                            platform. Find charities quickly and easily so you to spend more time making a difference.
-                        </div>
-                        <button type="submit" class="joinButton volunteerJoinButton">
-                            <div class="buttontext">Join now</div>
-                            
-                        </button>
-                    </div>
-                    <div class="joinUsBox">
-                        <div class="joinUsBoxTitle">Want to Join as a Charity?</div>
-                        <div class="joinUsBoxInfo">Join us as a Charity and gain access to a large number of active
-                            volunteers, providing help tailored to your volunteering needs. </div>
-                        <button type="submit" class="joinButton charityJoinButton">
-                            <div class="buttontext">Join now</div>
-                  
-                        </button>
-                    </div>
-                </div>
-            </div>
+
+      <div class="header">
+        <h1>Contact Us</h1>
+      </div>
+
+      <div class="description">
+        <p>If you would like to contact us please fill out the form below or send us an email at hello@cybervolunteers.org.uk</p>
+      </div>
+
+      <div class="container">
+        <form action="/action_page.php">
+        <div class="submitwrap">
+          <div class="label1">
+            <label for="name">Name</label>
+          </div>
+
+          <input type="text" id="name" name="name" placeholder="Your name">
+
+          <p></p>
+
+          <div class="label1">
+            <label for="name">Email</label>
+          </div>
+
+          <input type="text" id="email" name="email" placeholder="Your email">
+
+          <p></p>
+
+          <div class="label2">
+            <label for="message">Message</label>
+          </div>
+
+          <textarea id="message" name="message" placeholder="Your message" style="height:100px"></textarea>
+
+          <p></p>
+          
+          <input type="submit" value="Submit">
         </div>
-        {{> footer}}
+        </form>
+      </div>
+    </div>
+    {{> footer}}
+  </div>
 </body>
-
-</html>
