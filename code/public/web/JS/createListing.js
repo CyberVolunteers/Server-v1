@@ -25,6 +25,12 @@ $(function () {
 
   setPage(pageIndex);
 
+  // make sure that can not have both flexible hours and hours written down
+  $("#isFlexibleCheckbox").click(function () {
+    const toHide = $(".preciseTimeInput");
+    $("#isFlexibleCheckbox").is(":checked") ? toHide.hide() : toHide.show();
+  });
+
   // pre-fill the values if editing
   if (isEdit) {
     $.get("/getListing", {
@@ -84,6 +90,8 @@ $(function () {
     } else {
       const requestUrl = isEdit ? "/editListing" : "/createListing";
 
+      const isFlexible = $("#isFlexibleCheckbox").is(":checked");
+
       console.log(requestUrl);
       $.post(requestUrl, {
         _csrf: csrfToken,
@@ -100,9 +108,9 @@ $(function () {
         opportunityCategory: $(".selectedIcon").find(".catName").text(),
         opportunityTitle: $("#opportunityTitle").val(),
         numOfvolunteers: $("#numOfvolunteers").val(),
-        minHoursPerWeek: $("#minHoursPerWeek").val(),
-        maxHoursPerWeek: $("#maxHoursPerWeek").val(),
-        isFlexible: $("#isFlexibleCheckbox").is(":checked"),
+        minHoursPerWeek: isFlexible ? 0 : $("#minHoursPerWeek").val(),
+        maxHoursPerWeek: isFlexible ? 0 : $("#maxHoursPerWeek").val(),
+        isFlexible: isFlexible,
         uuid: params.get("uuid"),
       })
         .done(function (data, textStatus) {

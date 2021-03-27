@@ -178,7 +178,7 @@ module.exports = class ListingsManager {
       if (results.length == 0) return {};
 
       const listingsData = await query(
-        "SELECT listings.uuid, charities.charityName, listings.timeForVolunteering, listings.scrapedCharityName, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek, listings.createdDate FROM listings INNER JOIN charities ON listings.charityId=charities.id WHERE listings.id IN (?)",
+        "SELECT listings.uuid, charities.charityName, listings.timeForVolunteering, listings.scrapedCharityName, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek, listings.createdDate, listings.isFlexible FROM listings INNER JOIN charities ON listings.charityId=charities.id WHERE listings.id IN (?)",
         [results]
       );
       return listingsData;
@@ -311,7 +311,7 @@ module.exports = class ListingsManager {
         idsToCheck.length === 0
           ? []
           : await query(
-              "SELECT listings.id, listings.uuid, charities.charityName, listings.timeForVolunteering, listings.scrapedCharityName, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek, listings.createdDate FROM listings INNER JOIN charities ON listings.charityId=charities.id WHERE listings.id IN (?)",
+              "SELECT listings.id, listings.isFlexible, listings.uuid, charities.charityName, listings.timeForVolunteering, listings.scrapedCharityName, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek, listings.createdDate FROM listings INNER JOIN charities ON listings.charityId=charities.id WHERE listings.id IN (?)",
               [idsToCheck]
             );
 

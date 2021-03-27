@@ -454,7 +454,7 @@ app.get(
 
 app.get("/getListings", getListingRateLimit, function (req, res, next) {
   pool.query(
-    "SELECT charities.charityName, listings.scrapedCharityName, listings.uuid, listings.timeForVolunteering, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.createdDate, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek, listings.pictureName FROM `listings` INNER JOIN charities ON listings.charityId=charities.id",
+    "SELECT charities.charityName, listings.scrapedCharityName, listings.uuid, listings.timeForVolunteering, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.createdDate, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek, listings.pictureName, listings.isFlexible FROM `listings` INNER JOIN charities ON listings.charityId=charities.id",
     [],
     function (err, results) {
       if (err) return next(err);
@@ -470,7 +470,7 @@ app.get("/getListing", getListingRateLimit, function (req, res, next) {
     return res.status(400).end();
   }
   pool.query(
-    "SELECT charities.charityName, listings.timeForVolunteering, listings.duration, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.createdDate, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek, listings.pictureName, listings.scrapedCharityName, listings.latitude, listings.longitude FROM `listings` INNER JOIN charities ON listings.charityId=charities.id  WHERE `uuid`=?",
+    "SELECT charities.charityName, listings.timeForVolunteering, listings.duration, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.createdDate, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek, listings.pictureName, listings.scrapedCharityName, listings.latitude, listings.longitude, listings.isFlexible FROM `listings` INNER JOIN charities ON listings.charityId=charities.id  WHERE `uuid`=?",
     [req.query.uuid],
     function (err, results) {
       if (err) return next(err);
@@ -538,7 +538,7 @@ app.get("/getMyListings", function (req, res, next) {
   if (req.session.passport.user.isVolunteer !== false)
     return res.status(400).send("You need to be a charity to do this");
   pool.query(
-    "SELECT charities.charityName, listings.scrapedCharityName, listings.uuid, listings.timeForVolunteering, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.createdDate, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek, listings.pictureName FROM `listings` INNER JOIN charities ON listings.charityId=charities.id WHERE listings.charityId=?",
+    "SELECT charities.charityName, listings.scrapedCharityName, listings.isFlexible, listings.uuid, listings.timeForVolunteering, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.createdDate, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek, listings.pictureName FROM `listings` INNER JOIN charities ON listings.charityId=charities.id WHERE listings.charityId=?",
     [req.session.passport.user.id],
     function (err, results) {
       if (err) return next(err);
