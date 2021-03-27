@@ -200,11 +200,19 @@ function constructHTML(entry, entryId) {
     charityName = entry.scrapedCharityName;
     categoryName = "";
   } else {
+    // if all defined, then do not say anything
+    if (!entry.minHoursPerWeek && !entry.maxHoursPerWeek) timeString = "";
+    else if (!entry.minHoursPerWeek)
+      timeString = `Up to ${xss(entry.maxHoursPerWeek)} hours per Week`;
+    else if (entry.minHoursPerWeek === entry.maxHoursPerWeek)
+      timeString = `${xss(entry.minHoursPerWeek)} hours per Week`;
+    else
+      timeString = `${xss(entry.minHoursPerWeek)}-${xss(
+        entry.maxHoursPerWeek
+      )} hours per Week`;
     timeString = `
-		<span class="timehrs cut-text">${xss(entry.minHoursPerWeek)}-${xss(
-      entry.maxHoursPerWeek
-    )}</span>
-		<span class="perw">Hours per Week</span>`;
+		<span class="timehrs cut-text">${timeString}</span>`;
+
     charityName = entry.charityName;
     categoryName = entry.opportunityCategory;
   }

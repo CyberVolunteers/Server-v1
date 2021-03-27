@@ -75,9 +75,17 @@ $(function () {
         timeString = listing.duration;
         charityName = listing.scrapedCharityName;
       } else {
-        timeString = `${xss(listing.minHoursPerWeek)}-${xss(
-          listing.maxHoursPerWeek
-        )} hours per week`;
+        // if all defined, then do not say anything
+        if (!listing.minHoursPerWeek && !listing.maxHoursPerWeek)
+          timeString = "";
+        else if (!listing.minHoursPerWeek)
+          timeString = `Up to ${xss(listing.maxHoursPerWeek)} hours per Week`;
+        else if (listing.minHoursPerWeek === listing.maxHoursPerWeek)
+          timeString = `${xss(listing.minHoursPerWeek)} hours per Week`;
+        else
+          timeString = `${xss(listing.minHoursPerWeek)}-${xss(
+            listing.maxHoursPerWeek
+          )} hours per Week`;
         charityName = listing.charityName;
       }
 
