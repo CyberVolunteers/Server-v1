@@ -46,16 +46,17 @@ input[type="password"] {
 /* Add padding to containers */
 .container {
   width: 100vw;
-  padding: 16px;
+  padding: 0px;
   display: flex;
   justify-content: center;
   flex-direction: column;
 }
 .title {
-  padding: 25px;
+  padding-bottom: 20px;
+  padding-top: 20px;
   text-align: center;
   color: #f44336;
-  font-size: 30px;
+  font-size: 25px;
   font-weight: bold;
 }
 #rememberme {
@@ -75,6 +76,7 @@ input[type="password"] {
   width: 20px;
   top: 25px;
   font-weight: 600;
+  visibility: hidden;
 }
 .usernamelabel {
   position: relative;
@@ -82,6 +84,7 @@ input[type="password"] {
   top: 25px;
   width: 20px;
   font-weight: 600;
+  visibility: hidden;
 }
 .rememberme {
   margin-left: auto;
@@ -90,20 +93,22 @@ input[type="password"] {
 .options {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 .option {
-  width: 170px;
-  height: 40px;
+  width: 160px;
+  height: 30px;
   background-color: ;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
   margin-top: 20px;
   cursor: pointer;
   border-radius: 20px;
   text-decoration: none;
 }
 #char {
-  width: 140px;
+  width: 120px;
 }
 #char:hover {
   background-color: #db7c7570;
@@ -112,7 +117,7 @@ input[type="password"] {
   background-color: #db7c7570;
 }
 .or {
-  padding-top: 25px;
+  padding-top: 20px;
 }
 
 .selectedOption {
@@ -198,7 +203,7 @@ input[type="password"] {
   /* Add padding to containers */
   .container {
     width: 100vw;
-    padding: 16px;
+    padding: 0px;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -227,6 +232,7 @@ input[type="password"] {
     width: 20px;
     top: 25px;
     font-weight: 600;
+    visibility: visible;
   }
   .usernamelabel {
     position: relative;
@@ -234,6 +240,7 @@ input[type="password"] {
     top: 25px;
     width: 20px;
     font-weight: 600;
+    visibility: visible;
   }
   .rememberme {
     margin-left: auto;
@@ -244,7 +251,7 @@ input[type="password"] {
     flex-direction: row;
   }
   .option {
-    width: 350px;
+    width: 375px;
     height: 90px;
     background-color: ;
     margin-left: 20px;

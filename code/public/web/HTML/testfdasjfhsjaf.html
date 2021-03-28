@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../CSS/login.css" rel="stylesheet" type="text/css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="../JS/login.js"></script>
+
+  <title>Sign In | Cyber Volunteers</title>
+  <meta name="description"
+    content="Sign in to your Cyber Volunteers account and get access to a wide variety or volunteering services.">
+  <meta name="keywords"
+    content="cyber volunteers, volunteer, find volunteers, login cyber volunteers, login, get volunteers, need volunteers">
+</head>
+
+<body>
+  <div id="pageContainer">
+    {{> header}}
+    <div id="contentWrap">
+
+      <form action="" method="">
+
+        <div class="title">
+          <div>Sign in as a</div>
+          <div class="options">
+            <div class="option selectedOption" id="vol">Volunteer</div>
+            <div class="or">or</div>
+            <div class="option" id="char">Charity</div>
+          </div>
+        </div>
+
+        <div class="container">
+          <div class="username">
+            <div class="usernamelabel">Email</div>
+            <input type="email" id="email" placeholder="Enter Email" name="uname" required>
+          </div>
+
+          <div class="password">
+            <div class="passwordlabel">Password</div>
+            <input type="password" id="password" placeholder="Enter Password" name="psw" required>
+          </div>
+
+          {{> errorSnippet}}
+
+          <div class="buttonsContainer">
+            <a class="resetPassword">Reset the password for this login</a>
+
+            <button type="submit" class="submit">Submit</button>
+
+            <div class="rememberme">
+              <input type="checkbox" id="rememberMeCheckbox" checked="checked" name="remember">Remember me
+            </div>
+
+          </div>
+
+        </div>
+      </form>
+    </div>
+    {{> footer}}
+  </div>
+</body>
