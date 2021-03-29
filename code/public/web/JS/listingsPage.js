@@ -11,7 +11,7 @@ let xssOptions = {
 };
 
 const opportunityCategoryStyleClasses = {
-  "Justice & Legal": "cat-law",
+  Elderly: "cat-elderly",
   "Healthcare & Medicine": "cat-med",
   Education: "cat-ed",
   "Computers & Technology": "cat-comp",
