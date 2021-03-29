@@ -144,7 +144,7 @@ a.moreDetails {
 
 .confirmPopUp {
   margin: auto;
-  position: absolute;
+  position: fixed;
   top: 35%;
   left: 20%;
   bottom: 35%;
@@ -158,6 +158,7 @@ a.moreDetails {
 
 .confirmText {
   padding: 30px;
+  text-align: center;
 }
 .del-btn,
 .edit-btn {

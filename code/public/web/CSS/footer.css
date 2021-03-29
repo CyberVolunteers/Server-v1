@@ -3,6 +3,18 @@
   min-height: 100vh;
 }
 
+
+
+
+
+.footerText {
+  background-color: white;
+
+  text-align: center;
+
+  color: rgb(149, 149, 149);
+}
+
 #contentWrap {
   padding-bottom: 2.5rem; /* Footer height */
 }
@@ -14,12 +26,4 @@
   height: 2.5rem; /* Footer height */
 
   z-index: -1000;
-}
-
-.footerText {
-  background-color: white;
-
-  text-align: center;
-
-  color: rgb(149, 149, 149);
 }

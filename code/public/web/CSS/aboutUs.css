@@ -1,18 +1,23 @@
-.title {
+.aboutUsTitle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	text-align: center;
-	padding-top: 70px;
 	font-size: 50px;
+	padding-top: 15px;
 }
-.mainText {
-	margin-top: 20px;
+.aboutUsText {
+	width: 80vw;
 	margin-left: 10vw;
-	margin-right: 10vw;
+	max-width: 100%;
+	text-align: center;
+	margin-top: 20px;
 	font-size: 20px;
 }
 .joinUsBanner {
 	width: 100vw;
 	max-width: 100%;
-	height: 600px;
+	height: 730px;
 	background-color: #f85220;
 	margin-top: 50px;
 	margin-bottom: 30px;
@@ -26,71 +31,57 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	flex-direction: row;
+	flex-direction: column;
+	border-radius: 3px;
 }
 .joinUsBox {
-	width: 550px;
-	height: 400px;
+	width: 90vw;
 
+	height: 100%;
 	background-color: white;
 	border: none;
 	margin-top: 50px;
+	border-radius: 2px;
 }
-.joinUsBox,
 #left {
-	margin-right: 15px;
-}
-.joinUsBoxTitle {
+ 
+	height: 100%;
+   }
+
+   .joinUsBoxTitle {
 	text-align: center;
-	margin-top: 15px;
-	font-size: 25px;
+	font-size: 30px;
+	margin-top: 20px;
 }
-.buttontextmobile {
-	visibility: visible;
-	margin-left: 10px;
-}
-.buttontextmobile,
-#left {
-	margin-left: 27px;
-}
-.buttontextmobile,
-#right {
-	margin-left: 27px;
-}
+
 .joinUsBoxInfo {
+	text-align: center;
+	font-size: 15px;
 	margin-left: 20px;
 	margin-right: 20px;
 	margin-top: 30px;
-	text-align: center;
-	font-size: 15px;
 }
 .joinButton {
-	position: ;
-	width: 80px;
-	height: 45px;
+	position: relative;
+	width: 135px;
+	height: 40px;
 	background-color: #f85120;
 	border: none;
-	margin-top: 40px;
-
-	margin-left: auto;
+	margin-top: 25px;
 	margin-right: auto;
+	margin-left: auto;
 	border-radius: 50px;
 	cursor: pointer;
 	display: flex;
 	align-items: center;
-}
-#whiteArrow {
-	width: 25px;
-	height: 30px;
-	position: absolute;
-	left: 115px;
-	visibility: hidden;
+	margin-bottom: 25px;
 }
 
+
 .buttontext {
-	position: absolute;
-	left: 30px;
-	visibility: hidden;
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 18px;
 }
 @media only all and (min-width: 1000px) {
 	.title {
@@ -122,22 +113,29 @@
 		justify-content: center;
 		align-items: center;
 		flex-direction: row;
+		border-radius: 3px;
 	}
 	.joinUsBox {
 		width: 550px;
-		height: 400px;
-
+		height: 360px;
+	
 		background-color: white;
 		border: none;
 		margin-top: 50px;
+		border-radius: 2px;
 	}
 	.joinUsBox,
 	#left {
-		margin-right: 15px;
+		margin-right: 10px;
+		margin-left: 10px;
 	}
-	.joinUsBoxTitle {
+	#left {
+		height: 360px;
+		margin-right: 0;
+	   }
+	   .joinUsBoxTitle {
 		text-align: center;
-		font-size: 40px;
+		font-size: 35px;
 		margin-top: 20px;
 	}
 	.joinUsBoxInfo {
@@ -170,11 +168,27 @@
 	}
 
 	.buttontext {
-		position: absolute;
-		left: 30px;
-		visibility: visible;
+		margin-left: auto;
+	margin-right: auto;
+	font-size: 22px;
 	}
-	.buttontextmobile {
-		visibility: hidden;
+	
+
+	.aboutUsText {
+		width: 80vw;
+		margin-left: 10vw;
+		max-width: 100%;
+		text-align: center;
+		margin-top: 20px;
+		font-size: 20px;
+	}
+
+	.aboutUsTitle {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		font-size: 50px;
+		padding-top: 15px;
 	}
 }
