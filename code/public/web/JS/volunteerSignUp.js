@@ -6,7 +6,7 @@ $(function () {
       email: $("#username").val(),
       password: $("#password").val(),
       gender: $("#gender").val(),
-      salutation: $("#Sal").val(),
+      salutation: "n/a", // $("#Sal").val(),
       firstName: $("#fname").val(),
       lastName: $("#lname").val(),
       phoneNumber: $("#num").val(),
