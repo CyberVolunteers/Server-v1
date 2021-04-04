@@ -1,3 +1,5 @@
+let canSendRequests = true;
+
 let isVolunteerCookie = getCookie("isVolunteer");
 let isVolunteer =
   isVolunteerCookie === undefined || isVolunteerCookie === ""
@@ -28,6 +30,8 @@ $(function () {
   });
 
   $("form").submit(function () {
+    if (!canSendRequests) return;
+    canSendRequests = false;
     let email = $("#email").val();
     let password = $("#password").val();
 
@@ -48,6 +52,7 @@ $(function () {
       isVolunteer: isVolunteer,
     })
       .done(function (data, textStatus) {
+        canSendRequests = true;
         document.cookie = "isVolunteer=" + isVolunteer + ";path=/;";
 
         //redirect
@@ -61,6 +66,7 @@ $(function () {
         }
       })
       .fail(function (jqXHR) {
+        canSendRequests = true;
         let errorText = jqXHR.statusText;
 
         if (jqXHR.status === 429) errorText = jqXHR.responseText;

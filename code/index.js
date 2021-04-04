@@ -111,7 +111,7 @@ passport.use(
 //TODO: tell the client that the limit has been reached and time left
 const shortTermLoginRateLimit = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
-  max: 7, // limit each IP to 7 requests per windowMs,
+  max: 20, // limit each IP to 20 requests per windowMs,
   skipSuccessfulRequests: true,
   message:
     "You are doing this too much. Please try doing this a day later or contact us if you think this was a mistake",
@@ -119,7 +119,7 @@ const shortTermLoginRateLimit = rateLimit({
 
 const longTermLoginRateLimit = rateLimit({
   windowMs: 24 * 60 * 60 * 1000, // 1 day
-  max: 21, // limit each IP to 21 requests per windowMs
+  max: 100, // limit each IP to 100 requests per windowMs
   skipSuccessfulRequests: true,
   message:
     "You are doing this too much. Please try doing this later or contact us if you think this was a mistake",
