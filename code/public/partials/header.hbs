@@ -1,8 +1,17 @@
-<link href = "../CSS/header.css" rel = "stylesheet" type = "text/css" >
+<link href="../CSS/header.css" rel="stylesheet" type="text/css">
 <script src="../JS/header.js"></script>
 
 {{#if isLoggedIn}}
-    {{> headerSignedIn}}
+{{> headerSignedIn}}
 {{else}}
-    {{> headerNotSignedIn}}
+{{> headerNotSignedIn}}
 {{/if}}
+
+<!-- Google Analytics -->
+<script>
+    window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) }; ga.l = +new Date;
+    ga('create', 'UA-176788665-1', 'auto');
+    ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
