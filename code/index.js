@@ -111,10 +111,11 @@ passport.use(
 //TODO: tell the client that the limit has been reached and time left
 const shortTermLoginRateLimit = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
-  max: 20, // limit each IP to 20 requests per windowMs,
+  max: 10, // limit each IP to 10 requests per windowMs,
   skipSuccessfulRequests: true,
   message:
-    "You are doing this too much. Please try doing this a day later or contact us if you think this was a mistake",
+    "You are doing this too much. Please try doing this later or contact us if you think this was a mistake",
+  keyGenerator: byLoginKeyGenerator,
 });
 
 const longTermLoginRateLimit = rateLimit({
@@ -123,6 +124,7 @@ const longTermLoginRateLimit = rateLimit({
   skipSuccessfulRequests: true,
   message:
     "You are doing this too much. Please try doing this later or contact us if you think this was a mistake",
+  keyGenerator: byLoginKeyGenerator,
 });
 
 // used to serialize the user for the session
@@ -831,4 +833,9 @@ function blockNonAdmins(req, res, next) {
   } else {
     return renderPage("error404")(req, res);
   }
+}
+
+function byLoginKeyGenerator(req) {
+  console.log(req?.body?.email ?? "none");
+  return req?.body?.email ?? "none";
 }

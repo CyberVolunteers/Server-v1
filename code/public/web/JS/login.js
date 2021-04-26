@@ -29,7 +29,8 @@ $(function () {
     $("#char").removeClass("selectedOption");
   });
 
-  $("form").submit(function () {
+  $("form").submit(function (evt) {
+    evt.preventDefault();
     if (!canSendRequests) return;
     canSendRequests = false;
     let email = $("#email").val();
