@@ -125,27 +125,6 @@ const longTermLoginRateLimit = rateLimit({
     "You are doing this too much. Please try doing this later or contact us if you think this was a mistake",
 });
 
-const signUpRateLimit = rateLimit({
-  windowMs: 24 * 24 * 60 * 60 * 1000, // 24 days
-  max: 3, // limit each IP to 21 requests per windowMs
-  message:
-    "You are doing this too much. Please try doing this later or contact us if you think this was a mistake",
-});
-
-const createListingRateLimit = rateLimit({
-  windowMs: 7 * 24 * 60 * 60 * 1000, // 1 week
-  max: 100, // limit each IP to 100 requests per windowMs
-  message:
-    "You are doing this too much. Please try doing this a week later or contact us if you think this was a mistake",
-});
-
-const getListingRateLimit = rateLimit({
-  windowMs: 1 * 24 * 60 * 60 * 1000, // 1 day
-  max: 1000, // limit each IP to 100 requests per windowMs
-  message:
-    "You are doing this too much. Please try doing this a day later or contact us if you think this was a mistake",
-});
-
 // used to serialize the user for the session
 passport.serializeUser(function (user, done) {
   done(null, {
@@ -283,44 +262,39 @@ app.get("/searchLisings/:term", async function (req, res, next) {
 });
 
 //sign up post
-app.post(
-  "/signup",
-  csrfProtection,
-  signUpRateLimit,
-  async function (req, res, next) {
-    const params = req.body;
-    const isVolunteer = params.isVolunteer === "true";
+app.post("/signup", csrfProtection, async function (req, res, next) {
+  const params = req.body;
+  const isVolunteer = params.isVolunteer === "true";
 
-    let validationSuccess;
-    if (isVolunteer) {
-      validationSuccess = Validator.signUpValidateVolunteer(params);
-    } else {
-      validationSuccess = Validator.signUpValidateCharity(params);
-    }
-
-    if (!validationSuccess) {
-      res.statusMessage = "Bad data";
-      return res.status(400).end();
-    }
-
-    try {
-      let result;
-      if (isVolunteer) {
-        result = await UserManager.signUpVolunteer(params);
-      } else {
-        result = await UserManager.signUpCharity(params);
-      }
-      if (result.code === 200) {
-        return res.sendStatus(200);
-      } else {
-        res.statusMessage = result.message;
-        return res.status(result.code).end();
-      }
-    } catch (err) {
-      return next(err);
-    }
+  let validationSuccess;
+  if (isVolunteer) {
+    validationSuccess = Validator.signUpValidateVolunteer(params);
+  } else {
+    validationSuccess = Validator.signUpValidateCharity(params);
   }
-);
+
+  if (!validationSuccess) {
+    res.statusMessage = "Bad data";
+    return res.status(400).end();
+  }
+
+  try {
+    let result;
+    if (isVolunteer) {
+      result = await UserManager.signUpVolunteer(params);
+    } else {
+      result = await UserManager.signUpCharity(params);
+    }
+    if (result.code === 200) {
+      return res.sendStatus(200);
+    } else {
+      res.statusMessage = result.message;
+      return res.status(result.code).end();
+    }
+  } catch (err) {
+    return next(err);
+  }
+});
 
 app.post(
   "/login",
@@ -452,7 +426,7 @@ app.get(
   renderPage("verificationResult")
 );
 
-app.get("/getListings", getListingRateLimit, function (req, res, next) {
+app.get("/getListings", function (req, res, next) {
   pool.query(
     "SELECT charities.charityName, listings.scrapedCharityName, listings.uuid, listings.timeForVolunteering, listings.placeForVolunteering, listings.targetAudience, listings.skills, listings.createdDate, listings.requirements, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, listings.numOfvolunteers, listings.minHoursPerWeek, listings.maxHoursPerWeek, listings.pictureName, listings.isFlexible FROM `listings` INNER JOIN charities ON listings.charityId=charities.id",
     [],
@@ -464,7 +438,7 @@ app.get("/getListings", getListingRateLimit, function (req, res, next) {
   );
 });
 
-app.get("/getListing", getListingRateLimit, function (req, res, next) {
+app.get("/getListing", function (req, res, next) {
   if (!Validator.getListingValidate(req.query.uuid)) {
     res.statusMessage = "Bad data";
     return res.status(400).end();
@@ -480,17 +454,13 @@ app.get("/getListing", getListingRateLimit, function (req, res, next) {
   );
 });
 
-app.get(
-  "/advancedSearchForListings",
-  getListingRateLimit,
-  async function (req, res, next) {
-    logger.info("Params" + JSON.stringify(req.query));
+app.get("/advancedSearchForListings", async function (req, res, next) {
+  logger.info("Params" + JSON.stringify(req.query));
 
-    const listings = await ListingsManager.getAdvancedSearchListings(req.query);
+  const listings = await ListingsManager.getAdvancedSearchListings(req.query);
 
-    res.status(200).json(listings);
-  }
-);
+  res.status(200).json(listings);
+});
 
 // eslint-disable-next-line no-undef
 app.use(express.static(path.join(__dirname, "public/web"))); // to serve js, html, css
@@ -645,36 +615,31 @@ app.get("/myAccount", function (req, res, next) {
   }
 });
 
-app.post(
-  "/createListing",
-  csrfProtection,
-  createListingRateLimit,
-  async function (req, res, next) {
-    const params = req.body;
-    console.log(params);
-    const isVolunteer = req.session.passport.user.isVolunteer;
+app.post("/createListing", csrfProtection, async function (req, res, next) {
+  const params = req.body;
+  console.log(params);
+  const isVolunteer = req.session.passport.user.isVolunteer;
 
-    params.charityId = req.user.id;
+  params.charityId = req.user.id;
 
-    if (isVolunteer) {
-      res.statusMessage = "You don't have permission to create a listing";
-      return res.status(403).end();
-    }
-
-    if (!Validator.createListingValidate(params)) {
-      res.statusMessage = "Bad data";
-      return res.status(400).end();
-    }
-
-    logger.info("Creating a listing");
-    try {
-      await ListingsManager.createListing(params);
-      return res.sendStatus(200);
-    } catch (err) {
-      return next(err);
-    }
+  if (isVolunteer) {
+    res.statusMessage = "You don't have permission to create a listing";
+    return res.status(403).end();
   }
-);
+
+  if (!Validator.createListingValidate(params)) {
+    res.statusMessage = "Bad data";
+    return res.status(400).end();
+  }
+
+  logger.info("Creating a listing");
+  try {
+    await ListingsManager.createListing(params);
+    return res.sendStatus(200);
+  } catch (err) {
+    return next(err);
+  }
+});
 
 app.post("/applyForListing", csrfProtection, async function (req, res, next) {
   if (req.session.passport.user.isVolunteer === false) {
