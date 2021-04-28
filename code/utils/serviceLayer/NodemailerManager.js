@@ -199,9 +199,7 @@ module.exports = class NodemailerManager {
 
     try {
       const cachedObj = emailsVerificationTokensCache.get(email);
-      this.logger.info(
-        `Checking cache, email: ${email}, uuid: ${uuid}, isVolunteer: ${isVolunteer}`
-      );
+      this.logger.info(`Checking cache, email: ${email}, uuid: ${uuid}`);
 
       //prevent timing attacks
       if (cachedObj == undefined) {
