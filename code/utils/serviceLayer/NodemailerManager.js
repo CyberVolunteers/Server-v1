@@ -159,7 +159,7 @@ module.exports = class NodemailerManager {
 
       //set it
       const success = emailsVerificationTokensCache.set(email, {
-        uuid: uuid,
+        uuid,
         isVolunteer: isVolunteer,
       });
 
@@ -176,6 +176,8 @@ module.exports = class NodemailerManager {
         firstName: rows[0].firstName,
         lastName: rows[0].lastName,
       };
+
+      this.logger.info(`last email had link ${templateInfo.link}`);
 
       const info = await this.transporter.sendMail({
         from: settings.botEmailAddress,
