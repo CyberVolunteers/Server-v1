@@ -199,7 +199,7 @@ module.exports = class NodemailerManager {
 
     try {
       const cachedObj = emailsVerificationTokensCache.get(email);
-      this.logger.info(`Checking cache, email: ${email}, uuid: ${uuid}`);
+      this.logger.info(`Checking cache, email: '${email}', uuid: '${uuid}'`);
 
       //prevent timing attacks
       if (cachedObj == undefined) {
@@ -210,7 +210,8 @@ module.exports = class NodemailerManager {
 
       const uuidRetreived = cachedObj.uuid;
       const isVolunteer = cachedObj.isVolunteer;
-
+      this.logger.info(`UUIDs: ${[uuid, uuidRetreived].toString()}`);
+      this.logger.info(cachedObj.toString());
       const result = secureCompare(uuid, uuidRetreived);
       if (result == true) {
         await query("START TRANSACTION;");
