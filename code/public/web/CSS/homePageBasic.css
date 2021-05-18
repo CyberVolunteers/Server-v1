@@ -969,3 +969,8 @@ header {
     text-shadow: #f85220 1px 1px 2px;
   }
 }
+
+.embedded-video {
+  width: 80%;
+  height: 80vh;
+}
