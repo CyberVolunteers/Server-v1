@@ -198,7 +198,7 @@ function getAllListings() {
         for (charityName of charityNames) {
           // if invalid, skip
           if (listingsByCharity[charityName].length == 0) continue;
-          const currentListing = listingsByCharity[charityName].shift();
+          const currentListing = listingsByCharity[charityName].pop();
           console.log(real);
           real.push(currentListing);
           hasAddedCharity = true;
