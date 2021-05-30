@@ -172,8 +172,43 @@ function getAllListings() {
         (e.scrapedCharityName === null ? real : scraped).push(e)
       );
 
-      listingsData = shuffle(real);
-      listingsData = listingsData.concat(scraped);
+      real = shuffle(real);
+
+      // get all the charity names
+      const listingsByCharity = {};
+      real.forEach((e) => {
+        if (!!listingsByCharity[e.charityName]) {
+          listingsByCharity[e.charityName].push(e);
+        } else {
+          listingsByCharity[e.charityName] = [e];
+        }
+      });
+
+      const charityNames = shuffle(Object.keys(listingsByCharity));
+
+      //
+      // this is written to be readable, not efficient
+      //
+      // picks charities in a random order, looping this order and skipping charities once they have no listings left
+      //
+
+      real = [];
+      while (true) {
+        let hasAddedCharity = false;
+        for (charityName of charityNames) {
+          // if invalid, skip
+          if (listingsByCharity[charityName].length == 0) continue;
+          const currentListing = listingsByCharity[charityName].shift();
+          console.log(real);
+          real.push(currentListing);
+          hasAddedCharity = true;
+        }
+        if (!hasAddedCharity) break; // finished
+      }
+
+      console.log(real);
+
+      listingsData = real.concat(scraped);
 
       for (let i = 0; i < listingsData.length; i++) {
         const entry = listingsData[i];
