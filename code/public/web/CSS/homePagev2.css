@@ -1,0 +1,37 @@
+.green-text {
+  color: yellowgreen;
+}
+
+.blue-text {
+  color: #0099ff;
+}
+
+.grey-text {
+  color: grey;
+}
+.dark-grey-text {
+  color: #333333;
+}
+
+.thick-text {
+  font-weight: 450;
+}
+
+.thin-text {
+  font-weight: 150;
+}
+
+.main-header-text {
+  font-size: 60px;
+}
+
+.main-subheading-text {
+  font-size: 25px;
+  font-weight: 300;
+}
+
+.header {
+  font-size: 40px;
+  font-weight: 500;
+  color: grey;
+}

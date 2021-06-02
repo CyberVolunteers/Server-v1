@@ -970,8 +970,8 @@ header {
   }
 }
 
-.embedded-video {
-  width: 80%;
-  height: 80vh;
-  padding: 10px;
+.embedded-youtube-video-container {
+  position: relative;
+  overflow: hidden;
+  padding-top: 56.25%;
 }

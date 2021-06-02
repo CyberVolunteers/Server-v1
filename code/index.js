@@ -85,16 +85,18 @@ const UserManager = new (require("./utils/serviceLayer/UserManager.js"))(
   pool,
   logger
 );
-const ListingsManager = new (require("./utils/serviceLayer/ListingsManager.js"))(
-  pool,
-  logger,
-  listingsIndex
-);
-const NodemailerManager = new (require("./utils/serviceLayer/NodemailerManager.js"))(
-  pool,
-  logger,
-  hostName
-);
+const ListingsManager =
+  new (require("./utils/serviceLayer/ListingsManager.js"))(
+    pool,
+    logger,
+    listingsIndex
+  );
+const NodemailerManager =
+  new (require("./utils/serviceLayer/NodemailerManager.js"))(
+    pool,
+    logger,
+    hostName
+  );
 const Validator = new (require("./utils/validator"))();
 
 //passport
@@ -219,6 +221,7 @@ app.use(express.static(path.join(__dirname, "pictures"))); // to serve pictures
 
 //pages
 app.get("/", renderPage("homepage"));
+app.get("/homepagev2", renderPage("homepagev2"));
 app.get("/login", logout(false), renderPage("login"));
 app.get("/volunteerSignUp", csrfProtection, renderPage("volunteerSignUp"));
 app.get("/charitySignUp", csrfProtection, renderPage("charitySignUp"));
