@@ -36,7 +36,6 @@
   font-weight: 500;
   color: grey;
 }
-
 /* Because they are white and we need them to be grey/black */
 .carousel-control-next,
 .carousel-control-prev /*, .carousel-indicators */ {
