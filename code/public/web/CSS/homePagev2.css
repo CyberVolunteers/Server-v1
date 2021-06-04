@@ -36,10 +36,15 @@
   font-weight: 500;
   color: grey;
 }
+
 /* Because they are white and we need them to be grey/black */
 .carousel-control-next,
 .carousel-control-prev /*, .carousel-indicators */ {
   filter: invert(90%);
+}
+.carousel-control-next.disabled-button,
+.carousel-control-prev.disabled-button {
+  filter: invert(10%);
 }
 
 .multiple-item-carousel > .carousel-inner {
@@ -82,8 +87,17 @@
 }
 
 .listing-box {
-  width: 80%;
+  position: relative;
+  width: 95%;
   height: 100%;
+}
+
+.listing-title {
+  height: 15%;
+}
+
+.listing-desc {
+  height: 27%;
 }
 
 .large-margin-top {

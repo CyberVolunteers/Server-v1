@@ -59,12 +59,59 @@ class CustomNavbar extends React.Component {
 class MultipleItemCarousel extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      activeIndex: 0,
+      isRightButtonActive: true,
+      isLeftButtonActive: false,
+    };
+  }
+
+  updateButtons() {
+    if (!this.carouselRef) return;
+    for (let element of this.carouselRef.element.children) {
+      const className = element.className;
+      if (className.includes("prev") || className.includes("next"))
+        element.classList.remove("disabled-button");
+      if (className.includes("prev") && !this.state.isLeftButtonActive)
+        element.classList.add("disabled-button");
+      if (className.includes("next") && !this.state.isRightButtonActive)
+        element.classList.add("disabled-button");
+    }
   }
 
   render() {
     return (
       <Carousel
-        wrap={false}
+        wrap={true} // to enable the buttons
+        ref={(ref) => {
+          this.carouselRef = ref;
+          this.updateButtons();
+        }}
+        activeIndex={this.state.activeIndex}
+        onSelect={(index, evt) => {
+          // limit index
+          let activeIndex = this.state.activeIndex;
+          console.log(evt.target.attributes.class.nodeValue);
+          const isLeft = evt.target.attributes.class.nodeValue.includes("prev");
+          if (isLeft) index = Math.min(activeIndex, index);
+          if (!isLeft) index = Math.max(activeIndex, index);
+
+          let isRightButtonActive = true;
+          let isLeftButtonActive = true;
+          if (index == 0) isLeftButtonActive = false;
+          if (index == this.props.maxItemsPages - 1)
+            isRightButtonActive = false;
+
+          this.setState({
+            activeIndex: index,
+            isLeftButtonActive,
+            isRightButtonActive,
+          });
+
+          console.log(isRightButtonActive);
+
+          this.updateButtons();
+        }}
         nextLabel={null}
         prevLabel={null}
         indicators={false}
@@ -336,8 +383,13 @@ class Homepage extends React.Component {
                 <div className="col-lg-4 listing-container">
                   <Card className="mx-auto listing-box">
                     <Card.Body>
-                      <Image src="../IMG/oxfamShop.jpg" thumbnail />
-                      <Card.Title className="pt-3">
+                      <Image
+                        src="../IMG/oxfamShop.jpg"
+                        style={{ width: "90%" }}
+                        className="mx-auto d-block"
+                        rounded
+                      />
+                      <Card.Title className="pt-3 listing-title">
                         <span>
                           {truncate(
                             item.opportunityTitle,
@@ -345,7 +397,7 @@ class Homepage extends React.Component {
                           )}
                         </span>
                       </Card.Title>
-                      <Card.Text className="pt-3">
+                      <Card.Text className="pt-3 listing-desc">
                         {truncate(item.description, maxCharactersListingDesc)}
                       </Card.Text>
                       <Button
