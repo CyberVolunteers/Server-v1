@@ -6,10 +6,54 @@ const maxListingPages = 2;
 const categoriesPerSlide = 4;
 const maxCategoriesPages = 2;
 
+const maxCharactersListingDesc = 100;
+
 // TODO: add a Jumbotron
-const { Alert, Image, Modal, Button, Carousel, Card } = ReactBootstrap;
+const {
+  Alert,
+  Image,
+  Modal,
+  Button,
+  Carousel,
+  Card,
+  Navbar,
+  Nav,
+  NavDropdown,
+} = ReactBootstrap;
 
 class SeeMoreFiller {}
+
+class CustomNavbar extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <Navbar bg="light" expand="lg">
+        <Navbar.Brand href="/">Home</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link href="/contactUsLinks">Contact</Nav.Link>
+            <Nav.Link href="/aboutUs">About</Nav.Link>
+            <Nav.Link href="/listingsPage">Search listings</Nav.Link>
+          </Nav>
+          <Nav>
+            {window.isLoggedIn ? (
+              <Nav.Link href="/myAccount">My Account</Nav.Link>
+            ) : (
+              <React.Fragment>
+                <Nav.Link href="/joinUs">Join</Nav.Link>
+                <Nav.Link href="/login">Log in</Nav.Link>
+              </React.Fragment>
+            )}
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    );
+  }
+}
 
 class MultipleItemCarousel extends React.Component {
   constructor(props) {
@@ -19,6 +63,7 @@ class MultipleItemCarousel extends React.Component {
   render() {
     return (
       <Carousel
+        wrap={false}
         nextLabel={null}
         prevLabel={null}
         indicators={false}
@@ -83,7 +128,8 @@ class Homepage extends React.Component {
           opportunityTitle: "new title",
           charityName: "another charity",
           timeString: "never",
-          description: "desc",
+          description:
+            "Something incredibly long, you know, just for testing purposes... It is interesting to see how long this can go for.. is it still going?",
         },
         {
           uuid: "fee7553a-b17f-11eb-afb8-dadd5bd8c1d2",
@@ -147,16 +193,23 @@ class Homepage extends React.Component {
 
   render() {
     return (
-      <div className="container">
-        <div className="row mt-3 mb-5">
+      <div className="react-page-container container-fluid">
+        <CustomNavbar />
+        <div className="row large-margin-top mb-5">
           <div className="col-lg-2"></div>
-          <div className="col-lg-4 mx-auto">
-            <Image
-              className="mx-auto d-block"
-              alt="Cybervolunteers promotion"
-              src="../IMG/oxfamShop.jpg"
-              rounded
-            />
+          <div className="col-lg-4 mx-auto align-self-center">
+            <div className="youtube-video large-margin">
+              <p className="embedded-youtube-video-container ratio ratio-16x9">
+                <iframe
+                  className="rounded embedded-video d-block mx-auto"
+                  src="https://www.youtube-nocookie.com/embed/inQvLaV-rCM"
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </p>
+            </div>
           </div>
           <div className="col container first-lines-container">
             <div className="mx-auto">
@@ -176,9 +229,9 @@ class Homepage extends React.Component {
               </span>
               <span className="row text-right">
                 <span className="col"></span>
-                <span className="col-lg-6">
+                <span className="col-lg-8">
                   {/* The sub-header */}
-                  <span className="dark-grey-text main-subheading-text">
+                  <span className="dark-grey-text main-subheading-text mt-4">
                     underneath just write some filler stuff doesnt rly matter we
                     change it later
                   </span>
@@ -204,9 +257,9 @@ class Homepage extends React.Component {
         </Alert> */}
 
         {/* Examples of listings */}
-        <div className="container listings-examples large-margin">
-          <h2 className="mx-auto text-center header">Listings?</h2>
-          <p className="mx-auto text-center">
+        <div className="container listings-examples large-margin large-margin-top">
+          <h2 className="mx-auto text-center header mb-3">Listings?</h2>
+          <p className="mx-auto text-center mb-5">
             What about some listings? No? Well, too bad because we have plenty
             just below!
           </p>
@@ -218,20 +271,26 @@ class Homepage extends React.Component {
             items={this.state.categories}
             seeMoreComponent={() => (
               <div className="col-lg-3">
-                <Button
-                  variant="outline-info"
-                  className="category-box mx-auto d-block"
+                <div
+                  className="d-flex align-items-center justify-content-center"
+                  style={{ height: "100px" }}
                 >
-                  And More!
-                </Button>
+                  <Button
+                    href={`./listingsPage`}
+                    variant="outline-primary"
+                    className="category-box"
+                  >
+                    See More!
+                  </Button>
+                </div>
               </div>
             )}
             normalItemComponent={(props) => {
               return (
                 <div className="col-lg-3">
                   <Button
-                    variant="outline-dark"
-                    className="category-box mx-auto d-block"
+                    variant="link"
+                    className="category-box existing-category mx-auto d-block"
                   >
                     {props.item}
                   </Button>
@@ -247,14 +306,11 @@ class Homepage extends React.Component {
             seeMoreComponent={() => {
               return (
                 <div className="col-lg-3">
-                  <Card
-                    className="mx-auto"
-                    // style={{ width: "18rem" }}
-                  >
+                  <Card className="mx-auto listing-box">
                     <Card.Body>
                       <Card.Title>And many more!</Card.Title>
                       <Button href={`./listingsPage`} variant="primary">
-                        See more listings
+                        See more
                       </Button>
                     </Card.Body>
                   </Card>
@@ -265,13 +321,14 @@ class Homepage extends React.Component {
               const { item } = props;
               return (
                 <div className="col-lg-3">
-                  <Card
-                    className="mx-auto"
-                    // style={{ width: "18rem" }}
-                  >
+                  <Card className="mx-auto listing-box">
                     <Card.Body>
-                      <Card.Title>{item.opportunityTitle}</Card.Title>
-                      <Card.Text>{item.description}</Card.Text>
+                      <Card.Title>
+                        <span>{item.opportunityTitle}</span>
+                      </Card.Title>
+                      <Card.Text>
+                        {truncate(item.description, maxCharactersListingDesc)}
+                      </Card.Text>
                       <Button
                         href={`./listing?uuid=${item.uuid}`}
                         variant="primary"
@@ -285,27 +342,15 @@ class Homepage extends React.Component {
             }}
           ></MultipleItemCarousel>
         </div>
-
-        <div className="youtube-video large-margin">
-          <h2 className="mx-auto text-center header">Hey! You! Yes, you!</h2>
-          <p className="mx-auto text-center">
-            Come 'ere and take a look at what we do! There is a promotional
-            video here 'n stuff...
-          </p>
-          <p className="embedded-youtube-video-container ratio ratio-16x9">
-            <iframe
-              className="rounded embedded-video d-block mx-auto"
-              src="https://www.youtube-nocookie.com/embed/inQvLaV-rCM"
-              title="YouTube video player"
-              frameBorder="0"
-              allow="picture-in-picture"
-              allowFullScreen
-            ></iframe>
-          </p>
-        </div>
       </div>
     );
   }
+}
+
+function truncate(input, maxLength) {
+  return input.length > maxLength
+    ? `${input.substring(0, maxLength)}...`
+    : input;
 }
 
 function splitIntoGroups(array, numberPerPage, maxPages) {

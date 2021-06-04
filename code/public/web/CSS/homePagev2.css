@@ -58,5 +58,35 @@
 
 .category-box {
   width: 80%;
+}
+
+.category-box.existing-category {
+  height: 90px;
+  color: green !important;
+  text-decoration: none !important;
+}
+
+.category-box.existing-category:hover {
+  cursor: pointer;
+  color: rgb(9, 110, 9) !important;
+  text-decoration: underline !important;
+}
+
+.category-carousel > .carousel-control-next > .carousel-control-next-icon {
+  display: block;
+  margin-right: auto;
+}
+
+.category-carousel > .carousel-control-prev > .carousel-control-prev-icon {
+  display: block;
+  margin-left: auto;
+}
+
+.listing-box {
+  width: 80%;
   height: 100%;
+}
+
+.large-margin-top {
+  margin-top: 20vh !important;
 }

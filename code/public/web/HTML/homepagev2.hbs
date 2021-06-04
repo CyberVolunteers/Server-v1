@@ -31,6 +31,12 @@
     crossorigin></script>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    {{#if isLoggedIn}}
+    <script>window.isLoggedIn = true;</script>
+    {{else}}
+    <script>window.isLoggedIn = false;</script>
+    {{/if}}
 </head>
 
 <body>
