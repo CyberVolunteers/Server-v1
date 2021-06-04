@@ -90,3 +90,15 @@
 .large-margin-top {
   margin-top: 20vh !important;
 }
+
+.category-container {
+  height: 120px;
+}
+
+.listing-container {
+  height: 460px;
+}
+
+.see-more-listing-box-body {
+  padding-top: 150px;
+}

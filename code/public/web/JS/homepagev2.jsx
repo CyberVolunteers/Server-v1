@@ -1,12 +1,13 @@
 "use strict";
 
 const e = React.createElement;
-const listingsPerSlide = 4;
-const maxListingPages = 2;
 const categoriesPerSlide = 4;
 const maxCategoriesPages = 2;
+const listingsPerSlide = 3;
+const maxListingPages = 2;
 
 const maxCharactersListingDesc = 100;
+const maxCharactersListingTitle = 50;
 
 // TODO: add a Jumbotron
 const {
@@ -116,8 +117,9 @@ class Homepage extends React.Component {
       listings: [
         {
           uuid: "ed6ea111-8c20-11eb-afb8-dadd5bd8c1d2",
-          categoryName: "Education",
-          opportunityTitle: "title",
+          categoryName: "test",
+          opportunityTitle:
+            "Who is this guy? Why is he on every single listing? Here is some filler text just in case",
           charityName: "charity",
           timeString: "every. single. day.",
           description: "description",
@@ -125,7 +127,8 @@ class Homepage extends React.Component {
         {
           uuid: "fee7553a-b17f-11eb-afb8-dadd5bd8c1d2",
           categoryName: "Law",
-          opportunityTitle: "new title",
+          opportunityTitle:
+            "Who is this guy? Why is he on every single listing? Here is some filler text just in case",
           charityName: "another charity",
           timeString: "never",
           description:
@@ -270,7 +273,7 @@ class Homepage extends React.Component {
             maxItemsPages={maxCategoriesPages}
             items={this.state.categories}
             seeMoreComponent={() => (
-              <div className="col-lg-3">
+              <div className="col-lg-3 category-container">
                 <div
                   className="d-flex align-items-center justify-content-center"
                   style={{ height: "100px" }}
@@ -287,7 +290,7 @@ class Homepage extends React.Component {
             )}
             normalItemComponent={(props) => {
               return (
-                <div className="col-lg-3">
+                <div className="col-lg-3 category-container">
                   <Button
                     variant="link"
                     className="category-box existing-category mx-auto d-block"
@@ -305,13 +308,23 @@ class Homepage extends React.Component {
             items={this.state.listings}
             seeMoreComponent={() => {
               return (
-                <div className="col-lg-3">
+                <div className="col-lg-4 listing-container">
                   <Card className="mx-auto listing-box">
-                    <Card.Body>
-                      <Card.Title>And many more!</Card.Title>
-                      <Button href={`./listingsPage`} variant="primary">
-                        See more
-                      </Button>
+                    <Card.Body className="container">
+                      <div className="row see-more-listing-box-body">
+                        <Card.Title className="col-12 align-self-center text-center">
+                          And many more!
+                        </Card.Title>
+                      </div>
+                      <div className="row">
+                        <Button
+                          href={`./listingsPage`}
+                          variant="primary"
+                          className="col-12"
+                        >
+                          See more
+                        </Button>
+                      </div>
                     </Card.Body>
                   </Card>
                 </div>
@@ -320,17 +333,24 @@ class Homepage extends React.Component {
             normalItemComponent={(props) => {
               const { item } = props;
               return (
-                <div className="col-lg-3">
+                <div className="col-lg-4 listing-container">
                   <Card className="mx-auto listing-box">
                     <Card.Body>
-                      <Card.Title>
-                        <span>{item.opportunityTitle}</span>
+                      <Image src="../IMG/oxfamShop.jpg" thumbnail />
+                      <Card.Title className="pt-3">
+                        <span>
+                          {truncate(
+                            item.opportunityTitle,
+                            maxCharactersListingTitle
+                          )}
+                        </span>
                       </Card.Title>
-                      <Card.Text>
+                      <Card.Text className="pt-3">
                         {truncate(item.description, maxCharactersListingDesc)}
                       </Card.Text>
                       <Button
                         href={`./listing?uuid=${item.uuid}`}
+                        className="mx-auto d-block"
                         variant="primary"
                       >
                         I want to help
