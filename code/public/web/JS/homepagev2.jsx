@@ -315,7 +315,7 @@ class Homepage extends React.Component {
           </p>
 
           <MultipleItemCarousel
-            className="category-carousel"
+            className="category-carousel mx-auto"
             itemsPerSlide={categoriesPerSlide}
             maxItemsPages={maxCategoriesPages}
             items={this.state.categories}
