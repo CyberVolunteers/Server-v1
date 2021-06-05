@@ -44,7 +44,9 @@
 }
 .carousel-control-next.disabled-button,
 .carousel-control-prev.disabled-button {
-  filter: invert(10%);
+  filter: invert(30%);
+  opacity: 0.9;
+  cursor: default;
 }
 
 .multiple-item-carousel > .carousel-inner {
@@ -77,12 +79,12 @@
   text-decoration: underline !important;
 }
 
-.category-carousel > .carousel-control-next > .carousel-control-next-icon {
+.carousel-control-next > .carousel-control-next-icon {
   display: block;
   margin-right: auto;
 }
 
-.category-carousel > .carousel-control-prev > .carousel-control-prev-icon {
+.carousel-control-prev > .carousel-control-prev-icon {
   display: block;
   margin-left: auto;
 }
@@ -94,11 +96,13 @@
 }
 
 .listing-title {
-  height: 15%;
+  height: 35%;
+  margin: 0;
 }
 
 .listing-desc {
-  height: 27%;
+  padding-top: 0;
+  height: 40%;
 }
 
 .large-margin-top {

@@ -382,14 +382,13 @@ class Homepage extends React.Component {
               return (
                 <div className="col-lg-4 listing-container">
                   <Card className="mx-auto listing-box">
+                    <Card.Img
+                      variant="top"
+                      src="../IMG/oxfamShop.jpg"
+                      className="mx-auto d-block"
+                    />
                     <Card.Body>
-                      <Image
-                        src="../IMG/oxfamShop.jpg"
-                        style={{ width: "90%" }}
-                        className="mx-auto d-block"
-                        rounded
-                      />
-                      <Card.Title className="pt-3 listing-title">
+                      <Card.Title className="pt-1 listing-title">
                         <span>
                           {truncate(
                             item.opportunityTitle,
@@ -397,7 +396,7 @@ class Homepage extends React.Component {
                           )}
                         </span>
                       </Card.Title>
-                      <Card.Text className="pt-3 listing-desc">
+                      <Card.Text className="pt-1 listing-desc">
                         {truncate(item.description, maxCharactersListingDesc)}
                       </Card.Text>
                       <Button
