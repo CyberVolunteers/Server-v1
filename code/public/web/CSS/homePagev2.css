@@ -40,12 +40,24 @@
 /* Because they are white and we need them to be grey/black */
 .carousel-control-next,
 .carousel-control-prev /*, .carousel-indicators */ {
-  filter: invert(90%);
+  filter: invert(85%);
 }
+
+.carousel-control-next:hover,
+.carousel-control-prev:hover /*, .carousel-indicators */ {
+  filter: invert(85%);
+}
+
 .carousel-control-next.disabled-button,
 .carousel-control-prev.disabled-button {
   filter: invert(30%);
-  opacity: 0.9;
+  opacity: 0.2;
+  cursor: default;
+}
+.carousel-control-next.disabled-button:hover,
+.carousel-control-prev.disabled-button:hover {
+  filter: invert(30%);
+  opacity: 0.2 !important;
   cursor: default;
 }
 
@@ -68,7 +80,7 @@
 }
 
 .category-box.existing-category {
-  height: 90px;
+  height: 110px;
   color: green !important;
   text-decoration: none !important;
 }
@@ -90,7 +102,6 @@
 }
 
 .listing-box {
-  position: relative;
   width: 95%;
   height: 100%;
 }
@@ -114,9 +125,9 @@
 }
 
 .listing-container {
-  height: 460px;
+  height: 480px;
 }
 
-.see-more-listing-box-body {
-  padding-top: 150px;
+.btn-link:focus {
+  box-shadow: none !important;
 }

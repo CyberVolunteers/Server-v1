@@ -3,8 +3,8 @@
 const e = React.createElement;
 const categoriesPerSlide = 4;
 const maxCategoriesPages = 2;
-const listingsPerSlide = 3;
-const maxListingPages = 2;
+const listingsPerSlide = screen.width > 992 ? 3 : 1; // bootstrap breakpoint
+const maxListingPages = screen.width > 992 ? 2 : 4;
 
 const maxCharactersListingDesc = 100;
 const maxCharactersListingTitle = 50;
@@ -320,7 +320,10 @@ class Homepage extends React.Component {
             maxItemsPages={maxCategoriesPages}
             items={this.state.categories}
             seeMoreComponent={() => (
-              <div className="col-lg-3 category-container">
+              <div
+                className="col-lg-3 category-container"
+                style={{ height: "100%" }}
+              >
                 <div
                   className="d-flex align-items-center justify-content-center"
                   style={{ height: "100px" }}
@@ -337,7 +340,10 @@ class Homepage extends React.Component {
             )}
             normalItemComponent={(props) => {
               return (
-                <div className="col-lg-3 category-container">
+                <div
+                  className="col-lg-3 category-container"
+                  style={{ height: "100%" }}
+                >
                   <Button
                     variant="link"
                     className="category-box existing-category mx-auto d-block"
@@ -357,21 +363,26 @@ class Homepage extends React.Component {
               return (
                 <div className="col-lg-4 listing-container">
                   <Card className="mx-auto listing-box">
-                    <Card.Body className="container">
-                      <div className="row see-more-listing-box-body">
-                        <Card.Title className="col-12 align-self-center text-center">
-                          And many more!
-                        </Card.Title>
-                      </div>
-                      <div className="row">
-                        <Button
-                          href={`./listingsPage`}
-                          variant="primary"
-                          className="col-12"
-                        >
-                          See more
-                        </Button>
-                      </div>
+                    <Card.Body>
+                      <table style={{ height: "100%", width: "100%" }}>
+                        <tbody>
+                          <tr>
+                            <td class="align-middle">
+                              <div className="mx-auto">
+                                <div>
+                                  <Button
+                                    href={`./listingsPage`}
+                                    variant="link"
+                                    className="col-12"
+                                  >
+                                    View all listings
+                                  </Button>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </Card.Body>
                   </Card>
                 </div>
@@ -381,7 +392,10 @@ class Homepage extends React.Component {
               const { item } = props;
               return (
                 <div className="col-lg-4 listing-container">
-                  <Card className="mx-auto listing-box">
+                  <Card
+                    style={{ width: "18rem" }}
+                    className="mx-auto listing-box"
+                  >
                     <Card.Img
                       variant="top"
                       src="../IMG/oxfamShop.jpg"
