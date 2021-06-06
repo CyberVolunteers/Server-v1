@@ -41,6 +41,7 @@
 .carousel-control-next,
 .carousel-control-prev /*, .carousel-indicators */ {
   filter: invert(90%);
+  /* to hide the scrolling */
 }
 
 .carousel-control-next.disabled-button,
@@ -144,8 +145,6 @@
 }
 
 /* for box-shadow */
-.carousel-inner,
-.carousel-item,
-.listing-container {
-  overflow: visible !important;
+.carousel-item {
+  padding-top: 10px;
 }
