@@ -167,7 +167,7 @@ class MultipleItemCarousel extends React.Component {
           this.props.maxItemsPages
         ).map((slideItems, slideIdex) => (
           <Carousel.Item key={slideIdex} className="container">
-            <div className="row g-2 justify-content-around">
+            <div className="row g-3 justify-content-around">
               {slideItems.map((item, index) => {
                 const InnerComponent =
                   item instanceof SeeMoreFiller
@@ -363,30 +363,40 @@ class Homepage extends React.Component {
             maxItemsPages={maxCategoriesPages}
             items={this.state.categories}
             seeMoreComponent={() => (
-              <div
-                className="col-lg-3 category-container"
-                style={{ height: "100%" }}
-              >
-                <Button
-                  href={`./listingsPage`}
-                  variant="outline-primary"
-                  className="category-box mx-auto d-block"
-                >
-                  See More!
-                </Button>
+              <div className="col-lg-3 category-container">
+                <table style={{ height: "100%", width: "100%" }}>
+                  <tbody>
+                    <tr>
+                      <td className="align-middle">
+                        <Button
+                          style={{ height: "100%" }}
+                          href={`./listingsPage`}
+                          variant="outline-primary"
+                          className="category-box mx-auto d-block"
+                        >
+                          See More!
+                        </Button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             )}
             normalItemComponent={(props) => {
               return (
-                <div
-                  className="col-lg-3 category-container"
-                  style={{ height: "100%" }}
-                >
+                <div className="col-lg-3 category-container align-middle">
                   <Button
+                    style={{ height: "100%" }}
                     variant="link"
                     className="category-box existing-category mx-auto d-block"
                   >
-                    {props.item}
+                    <table style={{ height: "100%", width: "100%" }}>
+                      <tbody>
+                        <tr>
+                          <td className="align-middle">{props.item}</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </Button>
                 </div>
               );
@@ -397,6 +407,7 @@ class Homepage extends React.Component {
             itemsPerSlide={listingsPerSlide}
             maxItemsPages={maxListingPages}
             items={this.state.listings}
+            className="listings-carousel"
             seeMoreComponent={() => {
               return (
                 <div className="col-lg-4 listing-container">
@@ -405,25 +416,21 @@ class Homepage extends React.Component {
                     style={{ width: "18rem" }}
                   >
                     <Card.Body>
-                      <table style={{ height: "100%", width: "100%" }}>
-                        <tbody>
-                          <tr>
-                            <td className="align-middle">
-                              <div className="mx-auto">
-                                <div>
-                                  <Button
-                                    href={`./listingsPage`}
-                                    variant="link"
-                                    className="col-12"
-                                  >
-                                    View all listings
-                                  </Button>
-                                </div>
-                              </div>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                      <Button
+                        href={`./listingsPage`}
+                        variant="link"
+                        style={{ height: "100%", width: "100%" }}
+                      >
+                        <table style={{ height: "100%", width: "100%" }}>
+                          <tbody>
+                            <tr>
+                              <td className="align-middle">
+                                View all listings
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </Button>
                     </Card.Body>
                   </Card>
                 </div>
