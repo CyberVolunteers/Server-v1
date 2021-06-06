@@ -40,22 +40,16 @@
 /* Because they are white and we need them to be grey/black */
 .carousel-control-next,
 .carousel-control-prev /*, .carousel-indicators */ {
-  filter: invert(85%);
-}
-
-.carousel-control-next:hover,
-.carousel-control-prev:hover /*, .carousel-indicators */ {
-  filter: invert(85%);
+  filter: invert(90%);
 }
 
 .carousel-control-next.disabled-button,
 .carousel-control-prev.disabled-button {
-  filter: invert(30%);
-  opacity: 0.2;
+  opacity: 0.1;
   cursor: default;
 }
-.carousel-control-next.disabled-button:hover,
-.carousel-control-prev.disabled-button:hover {
+.disabled-button:hover,
+.disabled-button:focus {
   filter: invert(30%);
   opacity: 0.2 !important;
   cursor: default;
@@ -80,7 +74,6 @@
 }
 
 .category-box.existing-category {
-  height: 110px;
   color: green !important;
   text-decoration: none !important;
 }
@@ -104,10 +97,12 @@
 .listing-box {
   width: 95%;
   height: 100%;
+  border: none !important;
+  box-shadow: 0px 0px 3px 2px rgba(192, 192, 192, 0.2);
 }
 
 .listing-title {
-  height: 35%;
+  height: 30%;
   margin: 0;
 }
 
@@ -130,4 +125,21 @@
 
 .btn-link:focus {
   box-shadow: none !important;
+}
+
+.row .listing-container {
+  margin-bottom: 10px;
+}
+
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.listing-img {
+  user-drag: none;
 }

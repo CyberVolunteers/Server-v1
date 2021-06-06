@@ -9,6 +9,9 @@ const maxListingPages = screen.width > 992 ? 2 : 4;
 const maxCharactersListingDesc = 100;
 const maxCharactersListingTitle = 50;
 
+const swipeThreshold = 10;
+const swipeCooldown = 250;
+
 // TODO: add a Jumbotron
 const {
   Alert,
@@ -63,6 +66,8 @@ class MultipleItemCarousel extends React.Component {
       activeIndex: 0,
       isRightButtonActive: true,
       isLeftButtonActive: false,
+      touchX: null,
+      touchEnabled: true,
     };
   }
 
@@ -79,10 +84,67 @@ class MultipleItemCarousel extends React.Component {
     }
   }
 
+  updateTouch(evt, isInitial) {
+    let newTouchX;
+    if (evt.targetTouches !== undefined)
+      newTouchX = evt.targetTouches[0].clientX;
+    else newTouchX = evt.clientX;
+
+    if (this.state.touchX === null)
+      return isInitial ? this.setState({ touchX: newTouchX }) : null;
+
+    if (!this.state.touchEnabled) return;
+
+    const displacement = newTouchX - this.state.touchX;
+
+    console.log(displacement);
+
+    if (Math.abs(displacement) > swipeThreshold) {
+      this.setState({ touchEnabled: false });
+      setTimeout(() => this.setState({ touchEnabled: true }), swipeCooldown);
+      this.move(displacement > 0);
+    }
+
+    this.setState({ touchX: newTouchX });
+  }
+
+  endTouch() {
+    this.setState({ touchX: null });
+  }
+
+  move(isLeft) {
+    let activeIndex = this.state.activeIndex;
+    let index;
+    if (isLeft) index = Math.max(0, activeIndex - 1);
+    if (!isLeft)
+      index = Math.min(this.props.maxItemsPages - 1, activeIndex + 1);
+
+    let isRightButtonActive = true;
+    let isLeftButtonActive = true;
+    if (index == 0) isLeftButtonActive = false;
+    if (index == this.props.maxItemsPages - 1) isRightButtonActive = false;
+
+    this.setState({
+      activeIndex: index,
+      isLeftButtonActive,
+      isRightButtonActive,
+    });
+
+    this.updateButtons();
+  }
+
   render() {
     return (
       <Carousel
+        onTouchStart={(evt) => this.updateTouch(evt, true)}
+        onTouchMove={(evt) => this.updateTouch(evt)}
+        onTouchEnd={() => this.endTouch()}
+        onMouseDown={(evt) => this.updateTouch(evt, true)}
+        onMouseMove={(evt) => this.updateTouch(evt)}
+        onMouseUp={() => this.endTouch()}
+        onMouseLeave={() => this.endTouch()}
         wrap={true} // to enable the buttons
+        touch={false}
         ref={(ref) => {
           this.carouselRef = ref;
           this.updateButtons();
@@ -90,33 +152,14 @@ class MultipleItemCarousel extends React.Component {
         activeIndex={this.state.activeIndex}
         onSelect={(index, evt) => {
           // limit index
-          let activeIndex = this.state.activeIndex;
-          console.log(evt.target.attributes.class.nodeValue);
           const isLeft = evt.target.attributes.class.nodeValue.includes("prev");
-          if (isLeft) index = Math.min(activeIndex, index);
-          if (!isLeft) index = Math.max(activeIndex, index);
-
-          let isRightButtonActive = true;
-          let isLeftButtonActive = true;
-          if (index == 0) isLeftButtonActive = false;
-          if (index == this.props.maxItemsPages - 1)
-            isRightButtonActive = false;
-
-          this.setState({
-            activeIndex: index,
-            isLeftButtonActive,
-            isRightButtonActive,
-          });
-
-          console.log(isRightButtonActive);
-
-          this.updateButtons();
+          this.move(isLeft);
         }}
         nextLabel={null}
         prevLabel={null}
         indicators={false}
         interval={null}
-        className={`multiple-item-carousel ${this.props.className}`}
+        className={`multiple-item-carousel unselectable ${this.props.className}`}
       >
         {splitIntoGroups(
           this.props.items,
@@ -324,18 +367,13 @@ class Homepage extends React.Component {
                 className="col-lg-3 category-container"
                 style={{ height: "100%" }}
               >
-                <div
-                  className="d-flex align-items-center justify-content-center"
-                  style={{ height: "100px" }}
+                <Button
+                  href={`./listingsPage`}
+                  variant="outline-primary"
+                  className="category-box mx-auto d-block"
                 >
-                  <Button
-                    href={`./listingsPage`}
-                    variant="outline-primary"
-                    className="category-box"
-                  >
-                    See More!
-                  </Button>
-                </div>
+                  See More!
+                </Button>
               </div>
             )}
             normalItemComponent={(props) => {
@@ -362,12 +400,15 @@ class Homepage extends React.Component {
             seeMoreComponent={() => {
               return (
                 <div className="col-lg-4 listing-container">
-                  <Card className="mx-auto listing-box">
+                  <Card
+                    className="mx-auto listing-box"
+                    style={{ width: "18rem" }}
+                  >
                     <Card.Body>
                       <table style={{ height: "100%", width: "100%" }}>
                         <tbody>
                           <tr>
-                            <td class="align-middle">
+                            <td className="align-middle">
                               <div className="mx-auto">
                                 <div>
                                   <Button
@@ -399,7 +440,8 @@ class Homepage extends React.Component {
                     <Card.Img
                       variant="top"
                       src="../IMG/oxfamShop.jpg"
-                      className="mx-auto d-block"
+                      className="mx-auto d-block listing-img"
+                      onDragStart={(evt) => evt.preventDefault()}
                     />
                     <Card.Body>
                       <Card.Title className="pt-1 listing-title">
