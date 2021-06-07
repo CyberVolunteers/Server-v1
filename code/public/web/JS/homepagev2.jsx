@@ -369,7 +369,7 @@ class Homepage extends React.Component {
                     <tr>
                       <td className="align-middle">
                         <Button
-                          style={{ height: "100%" }}
+                          style={{ height: "30%" }}
                           href={`./listingsPage`}
                           variant="outline-primary"
                           className="category-box mx-auto d-block"
@@ -384,7 +384,7 @@ class Homepage extends React.Component {
             )}
             normalItemComponent={(props) => {
               return (
-                <div className="col-lg-3 category-container align-middle">
+                <div className="col-lg-3 category-container">
                   <Button
                     style={{ height: "100%" }}
                     variant="link"

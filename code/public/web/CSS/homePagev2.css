@@ -39,8 +39,9 @@
 
 /* Because they are white and we need them to be grey/black */
 .carousel-control-next,
-.carousel-control-prev /*, .carousel-indicators */ {
+.carousel-control-prev {
   filter: invert(90%);
+  padding-top: 10px !important;
   /* to hide the scrolling */
 }
 
@@ -147,4 +148,8 @@
 /* for box-shadow */
 .carousel-item {
   padding-top: 10px;
+}
+
+td.align-middle {
+  padding: 0px;
 }
