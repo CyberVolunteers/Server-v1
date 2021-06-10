@@ -112,10 +112,6 @@
   height: 40%;
 }
 
-.large-margin-top {
-  margin-top: 20vh !important;
-}
-
 .category-container {
   height: 120px;
 }
@@ -152,4 +148,8 @@
 
 td.align-middle {
   padding: 0px;
+}
+
+.react-page-container {
+  margin-bottom: 150px;
 }

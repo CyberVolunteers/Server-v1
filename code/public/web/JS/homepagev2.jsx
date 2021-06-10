@@ -1,9 +1,9 @@
 "use strict";
 
 const e = React.createElement;
-const categoriesPerSlide = 4;
-const maxCategoriesPages = 2;
-const listingsPerSlide = screen.width > 992 ? 3 : 1; // bootstrap breakpoint
+const categoriesPerSlide = screen.width > 992 ? 4 : 1; // bootstrap breakpoint
+const maxCategoriesPages = screen.width > 992 ? 2 : 6;
+const listingsPerSlide = screen.width > 992 ? 3 : 1;
 const maxListingPages = screen.width > 992 ? 2 : 4;
 
 const maxCharactersListingDesc = 100;
@@ -288,49 +288,51 @@ class Homepage extends React.Component {
     return (
       <div className="react-page-container container-fluid">
         <CustomNavbar />
-        <div className="row large-margin-top mb-5">
-          <div className="col-lg-2"></div>
-          <div className="col-lg-4 mx-auto align-self-center">
-            <div className="youtube-video large-margin">
-              <p className="embedded-youtube-video-container ratio ratio-16x9">
-                <iframe
-                  className="rounded embedded-video d-block mx-auto"
-                  src="https://www.youtube-nocookie.com/embed/inQvLaV-rCM"
-                  title="YouTube video player"
-                  frameBorder="0"
-                  allow="picture-in-picture"
-                  allowFullScreen
-                ></iframe>
-              </p>
-            </div>
-          </div>
-          <div className="col container first-lines-container">
-            <div className="mx-auto">
-              <span className="row">
-                <span className="col main-header-text">
-                  <span className="grey-text thin-text">Connecting</span>
-                  <span className="green-text thick-text p-3">People</span>
-                </span>
-                <span className="col-2"></span>
-              </span>
-              <span className="row text-right">
-                <span className="col main-header-text">
-                  <span className="grey-text thin-text">with</span>
-                  <span className="blue-text thick-text p-3">Purpose</span>
-                </span>
-                <span className="col-2"></span>
-              </span>
-              <span className="row text-right">
-                <span className="col"></span>
-                <span className="col-lg-8">
-                  {/* The sub-header */}
-                  <span className="dark-grey-text main-subheading-text mt-4">
-                    underneath just write some filler stuff doesnt rly matter we
-                    change it later
+        <div className="row">
+          <div className="container mx-auto" style={{ width: "90%" }}>
+            <div className="row mt-lg-5 mt-3">
+              <div className="col-lg-5 mx-auto align-self-center">
+                <div className="youtube-video large-margin">
+                  <p className="embedded-youtube-video-container ratio ratio-16x9">
+                    <video controls>
+                      <source
+                        src="/IMG/introduction_video.mp4"
+                        type="video/mp4"
+                      />
+                      Video tag is not supported in this browser.
+                    </video>
+                  </p>
+                </div>
+              </div>
+              <div className="col container first-lines-container">
+                <div className="mx-auto">
+                  <span className="row">
+                    <span className="col main-header-text">
+                      <span className="grey-text thin-text">Connecting</span>
+                      <span className="green-text thick-text p-3">People</span>
+                    </span>
+                    <span className="col-2"></span>
                   </span>
-                </span>
-                <span className="col-lg-2"></span>
-              </span>
+                  <span className="row text-right">
+                    <span className="col main-header-text">
+                      <span className="grey-text thin-text">with</span>
+                      <span className="blue-text thick-text p-3">Purpose</span>
+                    </span>
+                    <span className="col-2"></span>
+                  </span>
+                  <span className="row text-right">
+                    <span className="col"></span>
+                    <span className="col-lg-8">
+                      {/* The sub-header */}
+                      <span className="dark-grey-text main-subheading-text mt-4">
+                        underneath just write some filler stuff doesnt rly
+                        matter we change it later
+                      </span>
+                    </span>
+                    <span className="col-lg-2"></span>
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -350,9 +352,9 @@ class Homepage extends React.Component {
         </Alert> */}
 
         {/* Examples of listings */}
-        <div className="container listings-examples large-margin large-margin-top">
+        <div className="container listings-examples mt-lg-5 mt-4">
           <h2 className="mx-auto text-center header mb-3">Listings?</h2>
-          <p className="mx-auto text-center mb-5">
+          <p className="mx-auto text-center mb-lg-5">
             What about some listings? No? Well, too bad because we have plenty
             just below!
           </p>
