@@ -1,13 +1,6 @@
 "use strict";
 
 const e = React.createElement;
-const categoriesPerSlide = screen.width > 992 ? 4 : 1; // bootstrap breakpoint
-const maxCategoriesPages = screen.width > 992 ? 2 : 6;
-const listingsPerSlide = screen.width > 992 ? 3 : 1;
-const maxListingPages = screen.width > 992 ? 2 : 4;
-
-const maxCharactersListingDesc = 100;
-const maxCharactersListingTitle = 50;
 
 const swipeThreshold = 10;
 const swipeCooldown = 250;
@@ -30,28 +23,42 @@ class SeeMoreFiller {}
 class CustomNavbar extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      leftLinks: [
+        { text: "Contact", href: "/contactUsLinks" },
+        { text: "About", href: "/aboutUs" },
+        { text: "Search listings", href: "/listingsPage" },
+      ],
+    };
+    this.state.rightLinks = window.isLoggedIn
+      ? [{ text: "My Account", href: "/myAccount" }]
+      : [
+          { text: "Join", href: "/joinUs" },
+          { text: "Log in", href: "/login" },
+        ];
   }
 
   render() {
     return (
       <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="/">Home</Navbar.Brand>
+        <Navbar.Brand className="ps-2 ps-lg-0" href="/">
+          Home
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="/contactUsLinks">Contact</Nav.Link>
-            <Nav.Link href="/aboutUs">About</Nav.Link>
-            <Nav.Link href="/listingsPage">Search listings</Nav.Link>
+            {this.state.leftLinks.map((props, index) => (
+              <Nav.Link href={props.href} key={index}>
+                <div className="ps-2 ps-lg-0">{props.text}</div>
+              </Nav.Link>
+            ))}
           </Nav>
           <Nav>
-            {window.isLoggedIn ? (
-              <Nav.Link href="/myAccount">My Account</Nav.Link>
-            ) : (
-              <React.Fragment>
-                <Nav.Link href="/joinUs">Join</Nav.Link>
-                <Nav.Link href="/login">Log in</Nav.Link>
-              </React.Fragment>
-            )}
+            {this.state.rightLinks.map((props, index) => (
+              <Nav.Link href={props.href} key={index}>
+                <div className="ps-2 ps-lg-0">{props.text}</div>
+              </Nav.Link>
+            ))}
           </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -96,8 +103,6 @@ class MultipleItemCarousel extends React.Component {
     if (!this.state.touchEnabled) return;
 
     const displacement = newTouchX - this.state.touchX;
-
-    console.log(displacement);
 
     if (Math.abs(displacement) > swipeThreshold) {
       this.setState({ touchEnabled: false });
@@ -281,7 +286,27 @@ class Homepage extends React.Component {
           description: "Oh no no",
         },
       ],
+      maxCharactersListingDesc: 100,
+      maxCharactersListingTitle: 50,
     };
+
+    function getNewSettings() {
+      return {
+        categoriesPerSlide: screen.width > 992 ? 4 : 1, // bootstrap breakpoint
+        maxCategoriesPages: screen.width > 992 ? 2 : 6,
+        listingsPerSlide: screen.width > 992 ? 3 : 1,
+        maxListingPages: screen.width > 992 ? 2 : 4,
+      };
+    }
+
+    window.addEventListener(
+      "resize",
+      function () {
+        this.setState(getNewSettings());
+      }.bind(this)
+    );
+
+    this.state = Object.assign(this.state, getNewSettings());
   }
 
   render() {
@@ -294,40 +319,35 @@ class Homepage extends React.Component {
               <div className="col-lg-5 mx-auto align-self-center">
                 <div className="youtube-video large-margin">
                   <p className="embedded-youtube-video-container ratio ratio-16x9">
-                    <video controls>
+                    <video controls poster="/IMG/cybervolunteers_thumbnail.png">
                       <source
                         src="/IMG/introduction_video.mp4"
+                        preload="none"
                         type="video/mp4"
                       />
-                      Video tag is not supported in this browser.
                     </video>
                   </p>
                 </div>
               </div>
-              <div className="col container first-lines-container">
+              <div className="col container first-lines-container mt-3">
                 <div className="mx-auto">
                   <span className="row">
-                    <span className="col main-header-text">
+                    <span className="col-lg main-header-text">
                       <span className="grey-text thin-text">Connecting</span>
                       <span className="green-text thick-text p-3">People</span>
                     </span>
-                    <span className="col-2"></span>
                   </span>
                   <span className="row text-right">
-                    <span className="col main-header-text">
+                    <span className="col-lg main-header-text">
                       <span className="grey-text thin-text">with</span>
                       <span className="blue-text thick-text p-3">Purpose</span>
                     </span>
-                    <span className="col-2"></span>
                   </span>
                   <span className="row text-right">
                     <span className="col"></span>
-                    <span className="col-lg-8">
-                      {/* The sub-header */}
-                      <span className="dark-grey-text main-subheading-text mt-4">
-                        underneath just write some filler stuff doesnt rly
-                        matter we change it later
-                      </span>
+                    <span className="col-lg-8 dark-grey-text main-subheading-text text-center mt-4">
+                      underneath just write some filler stuff doesnt rly matter
+                      we change it later
                     </span>
                     <span className="col-lg-2"></span>
                   </span>
@@ -352,17 +372,17 @@ class Homepage extends React.Component {
         </Alert> */}
 
         {/* Examples of listings */}
-        <div className="container listings-examples mt-lg-5 mt-4">
+        <div className="container listings-examples large-mt">
           <h2 className="mx-auto text-center header mb-3">Listings?</h2>
-          <p className="mx-auto text-center mb-lg-5">
+          <p className="mx-auto text-center listings-subtext mb-lg-5">
             What about some listings? No? Well, too bad because we have plenty
             just below!
           </p>
 
           <MultipleItemCarousel
             className="category-carousel mx-auto"
-            itemsPerSlide={categoriesPerSlide}
-            maxItemsPages={maxCategoriesPages}
+            itemsPerSlide={this.state.categoriesPerSlide}
+            maxItemsPages={this.state.maxCategoriesPages}
             items={this.state.categories}
             seeMoreComponent={() => (
               <div className="col-lg-3 category-container">
@@ -406,17 +426,14 @@ class Homepage extends React.Component {
           ></MultipleItemCarousel>
 
           <MultipleItemCarousel
-            itemsPerSlide={listingsPerSlide}
-            maxItemsPages={maxListingPages}
+            itemsPerSlide={this.state.listingsPerSlide}
+            maxItemsPages={this.state.maxListingPages}
             items={this.state.listings}
             className="listings-carousel"
             seeMoreComponent={() => {
               return (
                 <div className="col-lg-4 listing-container">
-                  <Card
-                    className="mx-auto listing-box"
-                    style={{ width: "18rem" }}
-                  >
+                  <Card className="mx-auto listing-box">
                     <Card.Body>
                       <Button
                         href={`./listingsPage`}
@@ -442,10 +459,7 @@ class Homepage extends React.Component {
               const { item } = props;
               return (
                 <div className="col-lg-4 listing-container">
-                  <Card
-                    style={{ width: "18rem" }}
-                    className="mx-auto listing-box"
-                  >
+                  <Card className="mx-auto listing-box">
                     <Card.Img
                       variant="top"
                       src="../IMG/oxfamShop.jpg"
@@ -457,12 +471,15 @@ class Homepage extends React.Component {
                         <span>
                           {truncate(
                             item.opportunityTitle,
-                            maxCharactersListingTitle
+                            this.state.maxCharactersListingTitle
                           )}
                         </span>
                       </Card.Title>
                       <Card.Text className="pt-1 listing-desc">
-                        {truncate(item.description, maxCharactersListingDesc)}
+                        {truncate(
+                          item.description,
+                          this.state.maxCharactersListingDesc
+                        )}
                       </Card.Text>
                       <Button
                         href={`./listing?uuid=${item.uuid}`}

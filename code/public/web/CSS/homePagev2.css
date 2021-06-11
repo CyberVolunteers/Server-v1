@@ -10,7 +10,7 @@
   color: grey;
 }
 .dark-grey-text {
-  color: #333333;
+  color: #555555;
 }
 
 .thick-text {
@@ -23,7 +23,7 @@
 
 .main-header-text {
   text-align: right;
-  font-size: 60px;
+  font-size: 55px;
 }
 
 .main-subheading-text {
@@ -35,6 +35,52 @@
   font-size: 40px;
   font-weight: 500;
   color: grey;
+}
+
+.listings-subtext {
+  color: #333333;
+}
+
+.large-mt {
+  margin-top: 5rem !important;
+}
+
+@media only screen and (max-width: 992px) {
+  .thick-text {
+    font-weight: 400;
+  }
+
+  .thin-text {
+    font-weight: 100;
+  }
+
+  .main-header-text {
+    text-align: center;
+    font-size: 60px;
+  }
+
+  .main-subheading-text {
+    font-size: 25px;
+    font-weight: 350;
+  }
+
+  .header {
+    font-size: 30px;
+    font-weight: 450;
+    color: grey;
+  }
+
+  .listings-subtext {
+    font-size: 25px;
+    font-weight: 300;
+    color: #555555;
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  .main-header-text {
+    font-size: 30px;
+  }
 }
 
 /* Because they are white and we need them to be grey/black */
@@ -96,7 +142,6 @@
 }
 
 .listing-box {
-  width: 95%;
   height: 100%;
   border: none !important;
   box-shadow: 0px 0px 3px 2px rgba(119, 119, 119, 0.185);
@@ -152,4 +197,31 @@ td.align-middle {
 
 .react-page-container {
   margin-bottom: 150px;
+}
+
+.listing-box {
+  width: 100%;
+}
+
+@media only screen and (max-width: 992px) {
+  .listing-box {
+    width: 18rem;
+  }
+}
+
+@media only screen and (max-width: 485px) {
+  .listing-box {
+    width: 12rem;
+  }
+}
+
+@media only screen and (max-width: 390px) {
+  .listing-box {
+    width: 10rem;
+  }
+
+  .listing-desc {
+    padding-top: 0;
+    height: 50%;
+  }
 }
