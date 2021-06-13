@@ -22,13 +22,13 @@
 }
 
 .main-header-text {
-  text-align: right;
+  text-align: left;
   font-size: 55px;
 }
 
 .main-subheading-text {
-  font-size: 25px;
-  font-weight: 300;
+  font-size: 1.5rem;
+  font-weight: 2rem;
 }
 
 .header {
@@ -42,7 +42,15 @@
 }
 
 .large-mt {
-  margin-top: 5rem !important;
+  margin-top: 7rem !important;
+}
+
+.larger-mt {
+  margin-top: 10rem !important;
+}
+
+.largest-mt {
+  margin-top: 12rem !important;
 }
 
 @media only screen and (max-width: 992px) {
@@ -60,8 +68,8 @@
   }
 
   .main-subheading-text {
-    font-size: 25px;
-    font-weight: 350;
+    font-size: 1.2rem;
+    font-weight: 1.2rem;
   }
 
   .header {
@@ -71,8 +79,8 @@
   }
 
   .listings-subtext {
-    font-size: 25px;
-    font-weight: 300;
+    font-size: 1rem;
+    font-weight: 1.2rem;
     color: #555555;
   }
 }
@@ -131,6 +139,15 @@
   text-decoration: underline !important;
 }
 
+.listing-title {
+  color: rgba(0, 87, 226, 0.7) !important;
+}
+
+.listing-title:hover {
+  cursor: pointer;
+  color: rgba(0, 87, 226, 0.9) !important;
+}
+
 .carousel-control-next > .carousel-control-next-icon {
   display: block;
   margin-right: auto;
@@ -158,7 +175,7 @@
 }
 
 .category-container {
-  height: 120px;
+  height: 80px;
 }
 
 .listing-container {

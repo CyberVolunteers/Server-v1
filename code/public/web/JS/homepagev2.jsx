@@ -40,7 +40,7 @@ class CustomNavbar extends React.Component {
 
   render() {
     return (
-      <Navbar bg="light" expand="lg">
+      <Navbar bg="light" expand="lg mx-auto" style={{ "max-width": "1000px" }}>
         <Navbar.Brand className="ps-2 ps-lg-0" href="/">
           Home
         </Navbar.Brand>
@@ -141,6 +141,7 @@ class MultipleItemCarousel extends React.Component {
   render() {
     return (
       <Carousel
+        style={this.props.style}
         onTouchStart={(evt) => this.updateTouch(evt, true)}
         onTouchMove={(evt) => this.updateTouch(evt)}
         onTouchEnd={() => this.endTouch()}
@@ -313,12 +314,13 @@ class Homepage extends React.Component {
     return (
       <div className="react-page-container container-fluid">
         <CustomNavbar />
-        <div className="row">
+        <div className="container large-mt">
           <div className="container mx-auto" style={{ width: "90%" }}>
             <div className="row mt-lg-5 mt-3">
+              <div className="col-xl-1"></div>
               <div className="col-lg-5 mx-auto align-self-center">
-                <div className="youtube-video large-margin">
-                  <p className="embedded-youtube-video-container ratio ratio-16x9">
+                <div className="large-margin">
+                  <p className="ratio ratio-16x9">
                     <video controls poster="/IMG/cybervolunteers_thumbnail.png">
                       <source
                         src="/IMG/introduction_video.mp4"
@@ -344,12 +346,11 @@ class Homepage extends React.Component {
                     </span>
                   </span>
                   <span className="row text-right">
-                    <span className="col"></span>
-                    <span className="col-lg-8 dark-grey-text main-subheading-text text-center mt-4">
+                    <span className="col-lg-8 dark-grey-text main-subheading-text text-left mt-4">
                       underneath just write some filler stuff doesnt rly matter
                       we change it later
                     </span>
-                    <span className="col-lg-2"></span>
+                    <span className="col"></span>
                   </span>
                 </div>
               </div>
@@ -372,9 +373,9 @@ class Homepage extends React.Component {
         </Alert> */}
 
         {/* Examples of listings */}
-        <div className="container listings-examples large-mt">
+        <div className="container listings-examples larger-mt">
           <h2 className="mx-auto text-center header mb-3">Listings?</h2>
-          <p className="mx-auto text-center listings-subtext mb-lg-5">
+          <p className="mx-auto text-center listings-subtext">
             What about some listings? No? Well, too bad because we have plenty
             just below!
           </p>
@@ -391,10 +392,9 @@ class Homepage extends React.Component {
                     <tr>
                       <td className="align-middle">
                         <Button
-                          style={{ height: "30%" }}
                           href={`./listingsPage`}
                           variant="outline-primary"
-                          className="category-box mx-auto d-block"
+                          className="category-box see-more-category-box mx-auto d-block"
                         >
                           See More!
                         </Button>
@@ -469,10 +469,16 @@ class Homepage extends React.Component {
                     <Card.Body>
                       <Card.Title className="pt-1 listing-title">
                         <span>
-                          {truncate(
-                            item.opportunityTitle,
-                            this.state.maxCharactersListingTitle
-                          )}
+                          <Button
+                            variant="link"
+                            href={`./listing?uuid=${item.uuid}`}
+                            className="mx-auto d-block listing-title"
+                          >
+                            {truncate(
+                              item.opportunityTitle,
+                              this.state.maxCharactersListingTitle
+                            )}
+                          </Button>
                         </span>
                       </Card.Title>
                       <Card.Text className="pt-1 listing-desc">
