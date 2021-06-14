@@ -149,6 +149,8 @@
 .listing-title {
   color: black !important;
   text-decoration: none !important;
+  font-weight: 450 !important;
+  font-size: 1.1rem !important;
 }
 
 .listing-title:hover {
