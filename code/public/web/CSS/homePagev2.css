@@ -14,7 +14,7 @@
 }
 
 .thick-text {
-  font-weight: 450;
+  font-weight: 400;
 }
 
 .thin-text {
@@ -23,7 +23,7 @@
 
 .main-header-text {
   text-align: left;
-  font-size: 55px;
+  font-size: 50px;
 }
 
 .main-subheading-text {
@@ -41,8 +41,9 @@
   color: #333333;
 }
 
-.large-mt {
-  margin-top: 7rem !important;
+.large-mt,
+.large-mt-lg {
+  margin-top: 8rem !important;
 }
 
 .larger-mt {
@@ -53,7 +54,13 @@
   margin-top: 12rem !important;
 }
 
-@media only screen and (max-width: 992px) {
+@media only screen and (max-width: 991px) {
+  .large-mt-lg {
+    margin-top: 5rem !important;
+  }
+}
+
+@media only screen and (max-width: 991px) {
   .thick-text {
     font-weight: 400;
   }
@@ -140,12 +147,12 @@
 }
 
 .listing-title {
-  color: rgba(0, 87, 226, 0.7) !important;
+  color: grey !important;
 }
 
 .listing-title:hover {
   cursor: pointer;
-  color: rgba(0, 87, 226, 0.9) !important;
+  color: rgba(87, 87, 87, 0.9) !important;
 }
 
 .carousel-control-next > .carousel-control-next-icon {
@@ -165,7 +172,7 @@
 }
 
 .listing-title {
-  height: 30%;
+  height: 70px;
   margin: 0;
 }
 
@@ -180,6 +187,56 @@
 
 .listing-container {
   height: 480px;
+}
+
+@media only screen and (max-width: 1200px) {
+  .listing-container {
+    height: 500px;
+  }
+}
+
+@media only screen and (max-width: 485px) {
+  .listing-container {
+    height: 380px;
+  }
+
+  .listing-title {
+    height: 70px;
+    font-size: 0.8rem;
+    margin: 0;
+  }
+
+  .listing-desc {
+    padding-top: 0;
+    font-size: 0.8rem;
+    height: 30%;
+  }
+}
+
+@media only screen and (max-width: 390px) {
+  .listing-box {
+    width: 10rem;
+  }
+
+  .card-body {
+    padding: 0.5rem 0.5rem !important;
+  }
+
+  .listing-container {
+    height: 340px;
+  }
+
+  .listing-title {
+    height: 50px;
+    font-size: 0.8rem;
+    margin: 0;
+  }
+
+  .listing-desc {
+    padding-top: 0;
+    font-size: 0.8rem;
+    height: 20%;
+  }
 }
 
 .btn-link:focus {
@@ -229,16 +286,5 @@ td.align-middle {
 @media only screen and (max-width: 485px) {
   .listing-box {
     width: 12rem;
-  }
-}
-
-@media only screen and (max-width: 390px) {
-  .listing-box {
-    width: 10rem;
-  }
-
-  .listing-desc {
-    padding-top: 0;
-    height: 50%;
   }
 }

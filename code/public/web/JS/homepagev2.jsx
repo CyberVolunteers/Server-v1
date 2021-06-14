@@ -173,7 +173,7 @@ class MultipleItemCarousel extends React.Component {
           this.props.maxItemsPages
         ).map((slideItems, slideIdex) => (
           <Carousel.Item key={slideIdex} className="container">
-            <div className="row g-3 justify-content-around">
+            <div className="row g-4 justify-content-around">
               {slideItems.map((item, index) => {
                 const InnerComponent =
                   item instanceof SeeMoreFiller
@@ -287,17 +287,26 @@ class Homepage extends React.Component {
           description: "Oh no no",
         },
       ],
-      maxCharactersListingDesc: 100,
-      maxCharactersListingTitle: 50,
     };
 
     function getNewSettings() {
-      return {
+      const out = {
         categoriesPerSlide: screen.width > 992 ? 4 : 1, // bootstrap breakpoint
         maxCategoriesPages: screen.width > 992 ? 2 : 6,
-        listingsPerSlide: screen.width > 992 ? 3 : 1,
         maxListingPages: screen.width > 992 ? 2 : 4,
+        maxCharactersListingDesc: screen.width > 485 ? 100 : 50,
+        maxCharactersListingTitle: screen.width > 485 ? 50 : 30,
       };
+
+      if (screen.width >= 1200) {
+        out.listingsPerSlide = 3;
+      } else if (screen.width >= 992) {
+        out.listingsPerSlide = 2;
+      } else {
+        out.listingsPerSlide = 1;
+      }
+
+      return out;
     }
 
     window.addEventListener(
@@ -315,8 +324,8 @@ class Homepage extends React.Component {
       <div className="react-page-container container-fluid">
         <CustomNavbar />
         <div className="container large-mt">
-          <div className="container mx-auto" style={{ width: "90%" }}>
-            <div className="row mt-lg-5 mt-3">
+          <div className="container mx-auto">
+            <div className="row mt-lg mt-3">
               <div className="col-xl-1"></div>
               <div className="col-lg-5 mx-auto align-self-center">
                 <div className="large-margin">
@@ -331,7 +340,7 @@ class Homepage extends React.Component {
                   </p>
                 </div>
               </div>
-              <div className="col container first-lines-container mt-3">
+              <div className="col-lg-5 container first-lines-container mt-3">
                 <div className="mx-auto">
                   <span className="row">
                     <span className="col-lg main-header-text">
@@ -346,11 +355,10 @@ class Homepage extends React.Component {
                     </span>
                   </span>
                   <span className="row text-right">
-                    <span className="col-lg-8 dark-grey-text main-subheading-text text-left mt-4">
+                    <span className="col-lg-12 dark-grey-text main-subheading-text text-left mt-4">
                       underneath just write some filler stuff doesnt rly matter
                       we change it later
                     </span>
-                    <span className="col"></span>
                   </span>
                 </div>
               </div>
@@ -373,7 +381,7 @@ class Homepage extends React.Component {
         </Alert> */}
 
         {/* Examples of listings */}
-        <div className="container listings-examples larger-mt">
+        <div className="container listings-examples large-mt-lg">
           <h2 className="mx-auto text-center header mb-3">Listings?</h2>
           <p className="mx-auto text-center listings-subtext">
             What about some listings? No? Well, too bad because we have plenty
@@ -432,7 +440,11 @@ class Homepage extends React.Component {
             className="listings-carousel"
             seeMoreComponent={() => {
               return (
-                <div className="col-lg-4 listing-container">
+                <div
+                  className={`${
+                    this.state.listingsPerSlide == 3 ? "col-lg-4" : "col-lg-6"
+                  } listing-container`}
+                >
                   <Card className="mx-auto listing-box">
                     <Card.Body>
                       <Button
@@ -458,7 +470,11 @@ class Homepage extends React.Component {
             normalItemComponent={(props) => {
               const { item } = props;
               return (
-                <div className="col-lg-4 listing-container">
+                <div
+                  className={`${
+                    this.state.listingsPerSlide == 3 ? "col-lg-4" : "col-lg-6"
+                  } listing-container`}
+                >
                   <Card className="mx-auto listing-box">
                     <Card.Img
                       variant="top"
