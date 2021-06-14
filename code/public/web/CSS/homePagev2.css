@@ -58,6 +58,10 @@
   .large-mt-lg {
     margin-top: 5rem !important;
   }
+
+  .main-subheading-text {
+    text-align: center;
+  }
 }
 
 @media only screen and (max-width: 991px) {
@@ -146,11 +150,11 @@
   text-decoration: underline !important;
 }
 
-.listing-title {
+a.listing-title {
   color: black !important;
   text-decoration: none !important;
-  font-weight: 450 !important;
-  font-size: 1.1rem !important;
+  font-weight: 450;
+  font-size: 1.1rem;
 }
 
 .listing-title:hover {
@@ -216,6 +220,12 @@
   }
 }
 
+@media only screen and (max-width: 1400px) {
+  .listing-title {
+    height: 80px;
+    margin: 0;
+  }
+}
 @media only screen and (max-width: 390px) {
   .listing-box {
     width: 10rem;
@@ -283,6 +293,10 @@ td.align-middle {
 @media only screen and (max-width: 992px) {
   .listing-box {
     width: 18rem;
+  }
+
+  .find-opportunity-button {
+    margin: auto;
   }
 }
 
