@@ -40,28 +40,30 @@ class CustomNavbar extends React.Component {
 
   render() {
     return (
-      <Navbar bg="light" expand="lg mx-auto" style={{ "max-width": "1000px" }}>
-        <Navbar.Brand className="ps-2 ps-lg-0" href="/">
-          Home
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            {this.state.leftLinks.map((props, index) => (
-              <Nav.Link href={props.href} key={index}>
-                <div className="ps-2 ps-lg-0">{props.text}</div>
-              </Nav.Link>
-            ))}
-          </Nav>
-          <Nav>
-            {this.state.rightLinks.map((props, index) => (
-              <Nav.Link href={props.href} key={index}>
-                <div className="ps-2 ps-lg-0">{props.text}</div>
-              </Nav.Link>
-            ))}
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
+      <div className="bg-light" style={{ width: "100%" }}>
+        <Navbar expand="lg mx-auto" style={{ "max-width": "1000px" }}>
+          <Navbar.Brand className="ps-2 ps-lg-0" href="/">
+            Home
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="me-auto">
+              {this.state.leftLinks.map((props, index) => (
+                <Nav.Link href={props.href} key={index}>
+                  <div className="ps-2 ps-lg-0">{props.text}</div>
+                </Nav.Link>
+              ))}
+            </Nav>
+            <Nav>
+              {this.state.rightLinks.map((props, index) => (
+                <Nav.Link href={props.href} key={index}>
+                  <div className="ps-2 ps-lg-0">{props.text}</div>
+                </Nav.Link>
+              ))}
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+      </div>
     );
   }
 }
@@ -215,7 +217,7 @@ class Homepage extends React.Component {
           uuid: "ed6ea111-8c20-11eb-afb8-dadd5bd8c1d2",
           categoryName: "test",
           opportunityTitle:
-            "Who is this guy? Why is he on every single listing? Here is some filler text just in case",
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
           charityName: "charity",
           timeString: "every. single. day.",
           description: "description",
@@ -224,7 +226,7 @@ class Homepage extends React.Component {
           uuid: "fee7553a-b17f-11eb-afb8-dadd5bd8c1d2",
           categoryName: "Law",
           opportunityTitle:
-            "Who is this guy? Why is he on every single listing? Here is some filler text just in case",
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
           charityName: "another charity",
           timeString: "never",
           description:
@@ -280,11 +282,11 @@ class Homepage extends React.Component {
         },
         {
           uuid: "fee7553a-b17f-11eb-afb8-dadd5bd8c1d2",
-          categoryName: "I'm way too lazy",
-          opportunityTitle: "to fill",
-          charityName: "all this out",
-          timeString: "Oh wait",
-          description: "Oh no no",
+          categoryName: "A7",
+          opportunityTitle: "B7",
+          charityName: "C7",
+          timeString: "D7",
+          description: "E7",
         },
       ],
     };
@@ -356,8 +358,18 @@ class Homepage extends React.Component {
                   </span>
                   <span className="row text-right">
                     <span className="col-lg-12 dark-grey-text main-subheading-text text-left mt-4">
-                      underneath just write some filler stuff doesnt rly matter
-                      we change it later
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt ut labore
+                    </span>
+                  </span>
+                  <span className="row">
+                    <span className="col-lg-12 find-opportunity-button-container">
+                      <Button
+                        variant="primary d-block mr-auto p-2 find-opportunity-button text-center"
+                        href={`./listingsPage`}
+                      >
+                        Find an opportunity
+                      </Button>
                     </span>
                   </span>
                 </div>
@@ -365,7 +377,6 @@ class Homepage extends React.Component {
             </div>
           </div>
         </div>
-
         {/* <Alert variant={"warning"} className="mt-3">
           <Alert.Heading> Attention, charities:</Alert.Heading>
           <p>
@@ -379,13 +390,12 @@ class Homepage extends React.Component {
             hello@cybervolunteers.org.uk.
           </p>
         </Alert> */}
-
         {/* Examples of listings */}
         <div className="container listings-examples large-mt-lg">
           <h2 className="mx-auto text-center header mb-3">Listings?</h2>
           <p className="mx-auto text-center listings-subtext">
-            What about some listings? No? Well, too bad because we have plenty
-            just below!
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
 
           <MultipleItemCarousel

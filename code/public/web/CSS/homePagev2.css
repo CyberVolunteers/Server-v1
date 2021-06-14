@@ -14,11 +14,11 @@
 }
 
 .thick-text {
-  font-weight: 400;
+  font-weight: 500 !important;
 }
 
 .thin-text {
-  font-weight: 150;
+  font-weight: 400 !important;
 }
 
 .main-header-text {
@@ -147,12 +147,13 @@
 }
 
 .listing-title {
-  color: grey !important;
+  color: black !important;
+  text-decoration: none !important;
 }
 
 .listing-title:hover {
   cursor: pointer;
-  color: rgba(87, 87, 87, 0.9) !important;
+  /* color: rgba(87, 87, 87, 0.9) !important; */
 }
 
 .carousel-control-next > .carousel-control-next-icon {
@@ -287,4 +288,13 @@ td.align-middle {
   .listing-box {
     width: 12rem;
   }
+}
+
+.find-opportunity-button {
+  width: 300px;
+  font-size: 1.7rem !important;
+}
+
+.find-opportunity-button-container {
+  margin-top: 2.2rem !important;
 }
