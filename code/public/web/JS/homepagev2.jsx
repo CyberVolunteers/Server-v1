@@ -182,11 +182,7 @@ class MultipleItemCarousel extends React.Component {
                     ? this.props.seeMoreComponent
                     : this.props.normalItemComponent;
                 return (
-                  <InnerComponent
-                    key={index}
-                    item={item}
-                    className=""
-                  ></InnerComponent>
+                  <InnerComponent key={index} item={item}></InnerComponent>
                 );
               })}
             </div>
@@ -210,83 +206,49 @@ class Homepage extends React.Component {
         "Healthcare & Medicine",
         "Elderly",
         "Law",
-        "Test",
       ],
       listings: [
         {
-          uuid: "ed6ea111-8c20-11eb-afb8-dadd5bd8c1d2",
+          uuid: "7af5a892-8bfc-11eb-afb8-dadd5bd8c1d2",
           categoryName: "test",
-          opportunityTitle:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
-          charityName: "charity",
-          timeString: "every. single. day.",
-          description: "description",
+          opportunityTitle: "Black and Minority Ethnic Youth Champions",
+          charityName: "Black and Minority Ethnic Young People's Project",
+          imgName: "BMEYPP_youth_champs.jpeg",
         },
         {
-          uuid: "fee7553a-b17f-11eb-afb8-dadd5bd8c1d2",
-          categoryName: "Law",
-          opportunityTitle:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
-          charityName: "another charity",
-          timeString: "never",
-          description:
-            "Something incredibly long, you know, just for testing purposes... It is interesting to see how long this can go for.. is it still going?",
+          uuid: "9bd6f5d6-8c17-11eb-afb8-dadd5bd8c1d2",
+          categoryName: "test",
+          opportunityTitle: "Home from Hospital Volunteers",
+          charityName: "Guild Care",
+          imgName: "Guild_care_home_and_hosptial_volunteers.jpeg",
         },
         {
-          uuid: "fee7553a-b17f-11eb-afb8-dadd5bd8c1d2",
-          categoryName: "A",
-          opportunityTitle: "B",
-          charityName: "C",
-          timeString: "D",
-          description: "E",
+          uuid: "470037bb-9553-11eb-afb8-dadd5bd8c1d2",
+          categoryName: "test",
+          opportunityTitle: "Mentoring Young People",
+          charityName: "OSCAR Foundation",
+          imgName: "oscar_mentioring_young_people.jpeg",
         },
         {
-          uuid: "fee7553a-b17f-11eb-afb8-dadd5bd8c1d2",
-          categoryName: "A2",
-          opportunityTitle: "B2",
-          charityName: "C2",
-          timeString: "D2",
-          description: "E2",
+          uuid: "f7b249b7-9552-11eb-afb8-dadd5bd8c1d2",
+          categoryName: "test",
+          opportunityTitle: "Report Writing",
+          charityName: "OSCAR Foundation",
+          imgName: "oscar_report_writing.jpeg",
         },
         {
-          uuid: "fee7553a-b17f-11eb-afb8-dadd5bd8c1d2",
-          categoryName: "A3",
-          opportunityTitle: "B3",
-          charityName: "C3",
-          timeString: "D3",
-          description: "E3",
+          uuid: "21b505cb-9553-11eb-afb8-dadd5bd8c1d2",
+          categoryName: "test",
+          opportunityTitle: "Social Media Manager",
+          charityName: "OSCAR Foundation",
+          imgName: "oscar_social_media_manger.jpeg",
         },
         {
-          uuid: "fee7553a-b17f-11eb-afb8-dadd5bd8c1d2",
-          categoryName: "A4",
-          opportunityTitle: "B4",
-          charityName: "C4",
-          timeString: "D4",
-          description: "E4",
-        },
-        {
-          uuid: "fee7553a-b17f-11eb-afb8-dadd5bd8c1d2",
-          categoryName: "A5",
-          opportunityTitle: "B5",
-          charityName: "C5",
-          timeString: "D5",
-          description: "E5",
-        },
-        {
-          uuid: "fee7553a-b17f-11eb-afb8-dadd5bd8c1d2",
-          categoryName: "A6",
-          opportunityTitle: "B6",
-          charityName: "C6",
-          timeString: "D6",
-          description: "E6",
-        },
-        {
-          uuid: "fee7553a-b17f-11eb-afb8-dadd5bd8c1d2",
-          categoryName: "A7",
-          opportunityTitle: "B7",
-          charityName: "C7",
-          timeString: "D7",
-          description: "E7",
+          uuid: "0c8c3b1c-8c20-11eb-afb8-dadd5bd8c1d2",
+          categoryName: "test",
+          opportunityTitle: "Befriending an older person in the community.",
+          charityName: "Time to Talk Befriending",
+          imgName: "ttb_befriending_older_people.jpeg",
         },
       ],
     };
@@ -296,7 +258,7 @@ class Homepage extends React.Component {
         categoriesPerSlide: screen.width > 992 ? 4 : 1, // bootstrap breakpoint
         maxCategoriesPages: screen.width > 992 ? 2 : 6,
         maxListingPages: screen.width > 992 ? 2 : 4,
-        maxCharactersListingDesc: screen.width > 485 ? 100 : 50,
+        maxCharactersListingCharityName: screen.width > 485 ? 100 : 50,
         maxCharactersListingTitle: screen.width > 485 ? 50 : 30,
       };
 
@@ -392,11 +354,9 @@ class Homepage extends React.Component {
         </Alert> */}
         {/* Examples of listings */}
         <div className="container listings-examples large-mt-lg">
-          <h2 className="mx-auto text-center header mb-3">Listings?</h2>
-          <p className="mx-auto text-center listings-subtext">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          </p>
+          <h2 className="mx-auto text-center header mb-3">
+            Support causes you care about.
+          </h2>
 
           <MultipleItemCarousel
             className="category-carousel mx-auto"
@@ -426,7 +386,7 @@ class Homepage extends React.Component {
               return (
                 <div className="col-lg-3 category-container">
                   <Button
-                    style={{ height: "100%" }}
+                    style={{ height: "100%", width: "100%" }}
                     variant="link"
                     className="category-box existing-category mx-auto d-block"
                   >
@@ -488,11 +448,11 @@ class Homepage extends React.Component {
                   <Card className="mx-auto listing-box">
                     <Card.Img
                       variant="top"
-                      src="../IMG/oxfamShop.jpg"
-                      className="mx-auto d-block listing-img"
+                      src={"../IMG/" + item.imgName}
+                      className="mx-auto d-block listing-img img-fluid"
                       onDragStart={(evt) => evt.preventDefault()}
                     />
-                    <Card.Body>
+                    <Card.Body className="listing-card-body">
                       <Card.Title className="pt-1 listing-title">
                         <span>
                           <Button
@@ -507,10 +467,10 @@ class Homepage extends React.Component {
                           </Button>
                         </span>
                       </Card.Title>
-                      <Card.Text className="pt-1 listing-desc">
+                      <Card.Text className="pt-1 listing-charity-name">
                         {truncate(
-                          item.description,
-                          this.state.maxCharactersListingDesc
+                          item.charityName,
+                          this.state.maxCharactersListingCharityName
                         )}
                       </Card.Text>
                       <Button
