@@ -142,6 +142,8 @@
 .category-box.existing-category {
   color: green !important;
   text-decoration: none !important;
+  font-size: 1rem;
+  font-weight: 510;
 }
 
 .category-box.existing-category:hover {
@@ -271,20 +273,28 @@ td.align-middle {
   padding: 0px;
 }
 
-.react-page-container {
+div.react-page-container {
   margin-bottom: 150px;
+  padding: 0;
 }
 
 .listing-box {
   width: 100%;
 }
 
-@media only screen and (max-width: 992px) {
+.find-opportunity-button {
+  width: 300px;
+  font-size: 1.7rem !important;
+}
+
+@media only screen and (max-width: 991px) {
   .listing-box {
     width: 18rem;
   }
 
   .find-opportunity-button {
+    width: 80%;
+    font-size: 1.5rem !important;
     margin: auto;
   }
 }
@@ -295,11 +305,10 @@ td.align-middle {
   }
 }
 
-.find-opportunity-button {
-  width: 300px;
-  font-size: 1.7rem !important;
-}
-
 .find-opportunity-button-container {
   margin-top: 2.2rem !important;
+}
+
+.welcome-part-container {
+  padding: 0 !important;
 }

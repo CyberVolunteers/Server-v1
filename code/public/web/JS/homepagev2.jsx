@@ -41,9 +41,15 @@ class CustomNavbar extends React.Component {
   render() {
     return (
       <div className="bg-light" style={{ width: "100%" }}>
-        <Navbar expand="lg mx-auto" style={{ "max-width": "1000px" }}>
+        <Navbar expand="lg mx-auto" style={{ maxWidth: "1000px" }}>
           <Navbar.Brand className="ps-2 ps-lg-0" href="/">
-            Home
+            <img
+              src="/IMG/Logo main 2.svg"
+              width="40"
+              height="40"
+              className="d-inline-block align-top"
+              alt="Home"
+            />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -255,19 +261,21 @@ class Homepage extends React.Component {
 
     function getNewSettings() {
       const out = {
-        categoriesPerSlide: screen.width > 992 ? 4 : 1, // bootstrap breakpoint
+        categoriesPerSlide: screen.width > 992 ? 3 : 1, // bootstrap breakpoint
         maxCategoriesPages: screen.width > 992 ? 2 : 6,
-        maxListingPages: screen.width > 992 ? 2 : 4,
         maxCharactersListingCharityName: screen.width > 485 ? 100 : 50,
         maxCharactersListingTitle: screen.width > 485 ? 50 : 30,
       };
 
       if (screen.width >= 1200) {
         out.listingsPerSlide = 3;
+        out.maxListingPages = 2;
       } else if (screen.width >= 992) {
         out.listingsPerSlide = 2;
+        out.maxListingPages = 3;
       } else {
         out.listingsPerSlide = 1;
+        out.maxListingPages = 6;
       }
 
       return out;
@@ -276,6 +284,7 @@ class Homepage extends React.Component {
     window.addEventListener(
       "resize",
       function () {
+        console.log(getNewSettings());
         this.setState(getNewSettings());
       }.bind(this)
     );
@@ -287,11 +296,10 @@ class Homepage extends React.Component {
     return (
       <div className="react-page-container container-fluid">
         <CustomNavbar />
-        <div className="container large-mt">
+        <div className="container large-mt welcome-part-container">
           <div className="container mx-auto">
             <div className="row mt-lg mt-3">
-              <div className="col-xl-1"></div>
-              <div className="col-lg-5 mx-auto align-self-center">
+              <div className="col-lg-6 mx-auto align-self-center">
                 <div className="large-margin">
                   <p className="ratio ratio-16x9">
                     <video controls poster="/IMG/cybervolunteers_thumbnail.png">
@@ -304,7 +312,7 @@ class Homepage extends React.Component {
                   </p>
                 </div>
               </div>
-              <div className="col-lg-5 container first-lines-container mt-3">
+              <div className="col-lg-6 container first-lines-container mt-3">
                 <div className="mx-auto">
                   <span className="row">
                     <span className="col-lg main-header-text">
@@ -318,12 +326,12 @@ class Homepage extends React.Component {
                       <span className="blue-text thick-text p-3">Purpose</span>
                     </span>
                   </span>
-                  <span className="row text-right">
+                  {/* <span className="row text-right">
                     <span className="col-lg-12 dark-grey-text main-subheading-text text-left mt-4">
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit,
                       sed do eiusmod tempor incididunt ut labore
                     </span>
-                  </span>
+                  </span> */}
                   <span className="row">
                     <span className="col-lg-12 find-opportunity-button-container">
                       <Button
