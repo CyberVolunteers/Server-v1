@@ -217,7 +217,7 @@ class Homepage extends React.Component {
         {
           uuid: "7af5a892-8bfc-11eb-afb8-dadd5bd8c1d2",
           categoryName: "test",
-          opportunityTitle: "Black and Minority Ethnic Youth Champions",
+          opportunityTitle: "BMEYPP Champions",
           charityName: "Black and Minority Ethnic Young People's Project",
           imgName: "BMEYPP_youth_champs.jpeg",
         },
@@ -263,8 +263,8 @@ class Homepage extends React.Component {
       const out = {
         categoriesPerSlide: screen.width > 992 ? 3 : 1, // bootstrap breakpoint
         maxCategoriesPages: screen.width > 992 ? 2 : 6,
-        maxCharactersListingCharityName: screen.width > 485 ? 100 : 50,
-        maxCharactersListingTitle: screen.width > 485 ? 50 : 30,
+        maxCharactersListingCharityName: screen.width > 485 ? 35 : 20,
+        maxCharactersListingTitle: screen.width > 485 ? 35 : 20,
       };
 
       if (screen.width >= 1200) {
@@ -460,13 +460,13 @@ class Homepage extends React.Component {
                       className="mx-auto d-block listing-img img-fluid"
                       onDragStart={(evt) => evt.preventDefault()}
                     />
-                    <Card.Body className="listing-card-body">
+                    <Card.Body className="listing-card-body d-flex align-items-center flex-column">
                       <Card.Title className="pt-1 listing-title">
-                        <span>
+                        <span className="w-100">
                           <Button
                             variant="link"
                             href={`./listing?uuid=${item.uuid}`}
-                            className="mx-auto d-block listing-title"
+                            className="mx-auto d-block listing-title w-100 h-100"
                           >
                             {truncate(
                               item.opportunityTitle,
@@ -483,7 +483,7 @@ class Homepage extends React.Component {
                       </Card.Text>
                       <Button
                         href={`./listing?uuid=${item.uuid}`}
-                        className="mx-auto d-block"
+                        className="mt-auto listing-button d-block"
                         variant="primary"
                       >
                         I want to help

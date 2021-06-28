@@ -155,8 +155,8 @@
 a.listing-title {
   color: black !important;
   text-decoration: none !important;
-  font-weight: 450;
-  font-size: 1.1rem;
+  font-weight: 520;
+  font-size: 1rem;
 }
 
 .carousel-control-next > .carousel-control-next-icon {
@@ -170,77 +170,94 @@ a.listing-title {
 }
 
 .listing-box {
+  width: 100%;
   height: 100%;
   border: none !important;
   box-shadow: 0px 0px 3px 2px rgba(119, 119, 119, 0.185);
-}
-
-.listing-card-body {
-  padding: 0.5rem 1rem !important;
-}
-
-.listing-title {
-  height: 40%;
-  margin: 0;
-  margin-bottom: 1.5rem;
-}
-
-.listing-charity-name {
-  padding-top: 0;
-  margin-bottom: 0.5rem;
-  height: 30%;
 }
 
 .category-container {
   height: 80px;
 }
 
+.listing-card-body {
+  padding: 0.5rem 1rem !important;
+}
+
 .listing-container {
-  height: 400px;
+  width: 250px !important;
+  min-width: 210px !important;
+  height: 320px;
+}
+
+.listing-title {
+  /* margin: 0; */
+  /* margin-bottom: 1.5rem; */
+  height: 35%;
+}
+
+.listing-charity-name {
+  /* padding-top: 0; */
+  /* margin-bottom: 0.5rem; */
+  height: 30%;
+  margin-bottom: 0 !important;
+  text-align: center;
+}
+
+.listing-charity-name,
+.listing-title {
+  width: 90%;
+  display: block;
+  word-wrap: break-word;
 }
 
 @media only screen and (max-width: 485px) {
   .listing-container {
-    height: 380px;
+    /* height: 380px; */
   }
 
   .listing-title {
-    height: 80px;
-    font-size: 0.8rem;
-    margin: 0;
+    /* height: 80px; */
+    /* font-size: 0.8rem; */
+    /* margin: 0; */
   }
 
   .listing-charity-name {
-    padding-top: 0;
-    font-size: 0.8rem;
-    height: 30%;
+    /* padding-top: 0; */
+    /* font-size: 0.8rem; */
+    /* height: 30%; */
   }
 }
 
 @media only screen and (max-width: 390px) {
   .listing-box {
-    width: 10rem;
+    /* width: 10rem; */
   }
 
   .card-body {
-    padding: 0.5rem 0.5rem !important;
+    /* padding: 0.5rem 0.5rem !important; */
   }
 
   .listing-container {
-    height: 340px;
+    /* height: 340px; */
   }
 
   .listing-title {
-    height: 70px;
-    font-size: 0.8rem;
-    margin: 0;
+    /* height: 70px; */
+    /* font-size: 0.8rem; */
+    /* margin: 0; */
   }
 
   .listing-charity-name {
-    padding-top: 0;
-    font-size: 0.8rem;
-    height: 30%;
+    /* padding-top: 0; */
+    /* font-size: 0.8rem; */
+    /* height: 30%; */
   }
+}
+
+.listing-button {
+  width: 80%;
+  margin-bottom: 5px;
 }
 
 .btn-link:focus {
@@ -260,10 +277,6 @@ a.listing-title {
   user-select: none;
 }
 
-.listing-img {
-  user-drag: none;
-}
-
 /* for box-shadow */
 .carousel-item {
   padding-top: 10px;
@@ -278,30 +291,16 @@ div.react-page-container {
   padding: 0;
 }
 
-.listing-box {
-  width: 100%;
-}
-
 .find-opportunity-button {
   width: 300px;
   font-size: 1.7rem !important;
 }
 
 @media only screen and (max-width: 991px) {
-  .listing-box {
-    width: 18rem;
-  }
-
   .find-opportunity-button {
     width: 80%;
     font-size: 1.5rem !important;
     margin: auto;
-  }
-}
-
-@media only screen and (max-width: 485px) {
-  .listing-box {
-    width: 12rem;
   }
 }
 
