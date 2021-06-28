@@ -204,40 +204,40 @@ class Homepage extends React.Component {
     super(props);
     this.state = {
       categories: [
-        "Advocacy & Human Rights",
-        "Arts & Culture",
-        "Community",
-        "Computers & Technology",
-        "Education",
-        "Healthcare & Medicine",
-        "Elderly",
-        "Law",
+        "Advocacy & Human Rights", // 0
+        "Arts & Culture", // 1
+        "Community", // 2
+        "Computers & Technology", // 3
+        "Education", // 4
+        "Healthcare & Medicine", // 5
+        "Elderly", // 6
+        "Law", // 7
       ],
       listings: [
         {
           uuid: "7af5a892-8bfc-11eb-afb8-dadd5bd8c1d2",
-          categoryName: "test",
+          categoryIndex: 2,
           opportunityTitle: "BMEYPP Champions",
           charityName: "Black and Minority Ethnic Young People's Project",
           imgName: "BMEYPP_youth_champs.jpeg",
         },
         {
           uuid: "9bd6f5d6-8c17-11eb-afb8-dadd5bd8c1d2",
-          categoryName: "test",
+          categoryName: 5,
           opportunityTitle: "Home from Hospital Volunteers",
           charityName: "Guild Care",
           imgName: "Guild_care_home_and_hosptial_volunteers.jpeg",
         },
         {
           uuid: "470037bb-9553-11eb-afb8-dadd5bd8c1d2",
-          categoryName: "test",
+          categoryName: 4,
           opportunityTitle: "Mentoring Young People",
           charityName: "OSCAR Foundation",
           imgName: "oscar_mentioring_young_people.jpeg",
         },
         {
           uuid: "f7b249b7-9552-11eb-afb8-dadd5bd8c1d2",
-          categoryName: "test",
+          categoryName: 4,
           opportunityTitle: "Report Writing",
           charityName: "OSCAR Foundation",
           imgName: "oscar_report_writing.jpeg",
@@ -284,7 +284,6 @@ class Homepage extends React.Component {
     window.addEventListener(
       "resize",
       function () {
-        console.log(getNewSettings());
         this.setState(getNewSettings());
       }.bind(this)
     );

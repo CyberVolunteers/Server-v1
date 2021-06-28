@@ -187,13 +187,13 @@ a.listing-title {
 .listing-container {
   width: 250px !important;
   min-width: 210px !important;
-  height: 320px;
+  height: 340px;
 }
 
 .listing-title {
   /* margin: 0; */
   /* margin-bottom: 1.5rem; */
-  height: 35%;
+  height: 40%;
 }
 
 .listing-charity-name {
