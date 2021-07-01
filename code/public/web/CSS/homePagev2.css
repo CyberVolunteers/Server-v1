@@ -1,3 +1,7 @@
+.width-min {
+  width: min-content;
+}
+
 .green-text {
   color: yellowgreen;
 }
@@ -190,6 +194,14 @@ a.listing-title {
   height: 340px;
 }
 
+@media only screen and (min-width: 992px) {
+  .listing-container {
+    width: 290px !important;
+    min-width: 210px !important;
+    height: 400px;
+  }
+}
+
 .listing-title {
   /* margin: 0; */
   /* margin-bottom: 1.5rem; */
@@ -209,50 +221,6 @@ a.listing-title {
   width: 90%;
   display: block;
   word-wrap: break-word;
-}
-
-@media only screen and (max-width: 485px) {
-  .listing-container {
-    /* height: 380px; */
-  }
-
-  .listing-title {
-    /* height: 80px; */
-    /* font-size: 0.8rem; */
-    /* margin: 0; */
-  }
-
-  .listing-charity-name {
-    /* padding-top: 0; */
-    /* font-size: 0.8rem; */
-    /* height: 30%; */
-  }
-}
-
-@media only screen and (max-width: 390px) {
-  .listing-box {
-    /* width: 10rem; */
-  }
-
-  .card-body {
-    /* padding: 0.5rem 0.5rem !important; */
-  }
-
-  .listing-container {
-    /* height: 340px; */
-  }
-
-  .listing-title {
-    /* height: 70px; */
-    /* font-size: 0.8rem; */
-    /* margin: 0; */
-  }
-
-  .listing-charity-name {
-    /* padding-top: 0; */
-    /* font-size: 0.8rem; */
-    /* height: 30%; */
-  }
 }
 
 .listing-button {

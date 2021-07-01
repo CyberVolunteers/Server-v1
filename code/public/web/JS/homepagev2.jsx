@@ -44,8 +44,7 @@ class CustomNavbar extends React.Component {
         <Navbar expand="lg mx-auto" style={{ maxWidth: "1000px" }}>
           <Navbar.Brand className="ps-2 ps-lg-0" href="/">
             <img
-              src="/IMG/Logo main 2.svg"
-              width="40"
+              src="/IMG/Logo main 3.svg"
               height="40"
               className="d-inline-block align-top"
               alt="Home"
@@ -79,11 +78,18 @@ class MultipleItemCarousel extends React.Component {
     super(props);
     this.state = {
       activeIndex: 0,
-      isRightButtonActive: true,
+      isRightButtonActive: this.props.items.length > this.props.itemsPerSlide, // if more than one slide
       isLeftButtonActive: false,
       touchX: null,
       touchEnabled: true,
     };
+  }
+
+  componentWillReceiveProps(props) {
+    if (!this.props.resetSlide) return;
+    this.setState({ slide: false }); // disable the animation
+    this.moveToBeginning(props);
+    setTimeout(() => this.setState({ slide: true }), 0); // re-enable the animation as soon as possible once everything else finishes
   }
 
   updateButtons() {
@@ -125,17 +131,32 @@ class MultipleItemCarousel extends React.Component {
     this.setState({ touchX: null });
   }
 
+  moveToBeginning(props) {
+    this.setState({
+      activeIndex: 0,
+      isLeftButtonActive: false,
+      isRightButtonActive: props.items.length > props.itemsPerSlide, // if more than one slide
+    });
+
+    this.updateButtons();
+  }
+
   move(isLeft) {
     let activeIndex = this.state.activeIndex;
     let index;
+    const numberOfPagesNeededToShowItems = Math.ceil(
+      this.props.items.length / this.props.itemsPerSlide
+    );
+    const maxPageIndex =
+      Math.min(numberOfPagesNeededToShowItems, this.props.maxItemsPages) - 1; // number of pages - 1 = index
+    console.log(maxPageIndex);
     if (isLeft) index = Math.max(0, activeIndex - 1);
-    if (!isLeft)
-      index = Math.min(this.props.maxItemsPages - 1, activeIndex + 1);
+    if (!isLeft) index = Math.min(maxPageIndex, activeIndex + 1); // only scroll if it is not on a boundary
 
     let isRightButtonActive = true;
     let isLeftButtonActive = true;
     if (index == 0) isLeftButtonActive = false;
-    if (index == this.props.maxItemsPages - 1) isRightButtonActive = false;
+    if (index == maxPageIndex) isRightButtonActive = false;
 
     this.setState({
       activeIndex: index,
@@ -157,6 +178,7 @@ class MultipleItemCarousel extends React.Component {
         onMouseMove={(evt) => this.updateTouch(evt)}
         onMouseUp={() => this.endTouch()}
         onMouseLeave={() => this.endTouch()}
+        slide={this.state.slide}
         wrap={true} // to enable the buttons
         touch={false}
         ref={(ref) => {
@@ -182,13 +204,20 @@ class MultipleItemCarousel extends React.Component {
         ).map((slideItems, slideIdex) => (
           <Carousel.Item key={slideIdex} className="container">
             <div className="row g-4 justify-content-around">
-              {slideItems.map((item, index) => {
+              {slideItems.map((item) => {
+                const index = this.props.items.findIndex((el) => el == item);
                 const InnerComponent =
-                  item instanceof SeeMoreFiller
+                  item instanceof SeeMoreFiller ||
+                  item.listing instanceof SeeMoreFiller
                     ? this.props.seeMoreComponent
                     : this.props.normalItemComponent;
                 return (
-                  <InnerComponent key={index} item={item}></InnerComponent>
+                  <InnerComponent
+                    key={index}
+                    item={item}
+                    index={index}
+                    carousel={this}
+                  ></InnerComponent>
                 );
               })}
             </div>
@@ -204,16 +233,100 @@ class Homepage extends React.Component {
     super(props);
     this.state = {
       categories: [
-        "Advocacy & Human Rights", // 0
-        "Arts & Culture", // 1
-        "Community", // 2
-        "Computers & Technology", // 3
-        "Education", // 4
-        "Healthcare & Medicine", // 5
-        "Elderly", // 6
-        "Law", // 7
+        "Community", // 0
+        "Computers & Technology", // 1
+        "Education", // 2
+        "Healthcare & Medicine", // 3
+        "Elderly", // 4
+        "Arts & Culture", // 5
+        "Advocacy & Human Rights", // 6
       ],
       listings: [
+        {
+          uuid: "7af5a892-8bfc-11eb-afb8-dadd5bd8c1d2",
+          categoryIndex: 0,
+          opportunityTitle: "BMEYPP Champions",
+          charityName: "Black and Minority Ethnic Young People's Project",
+          imgName: "BMEYPP_youth_champs.jpeg",
+        },
+        {
+          uuid: "25d459b7-8c18-11eb-afb8-dadd5bd8c1d2",
+          categoryIndex: 0,
+          opportunityTitle: "Gardening volunteer",
+          charityName: "Guild Care",
+          imgName: "guildCare1.jpg",
+        },
+        {
+          uuid: "710627d9-9586-11eb-afb8-dadd5bd8c1d2",
+          categoryIndex: 0,
+          opportunityTitle: "Workshop Manager",
+          charityName: "Freedom Power Chairs",
+          imgName: "freedomPowerChairs1.png",
+        },
+        {
+          uuid: "b5a544db-8bff-11eb-afb8-dadd5bd8c1d2",
+          categoryIndex: 0,
+          opportunityTitle: "Retail Charity Shop Assistant",
+          charityName: "Guild Care",
+          imgName: "guildCare2.jpg",
+        },
+        {
+          uuid: "ed6ea111-8c20-11eb-afb8-dadd5bd8c1d2",
+          categoryIndex: 0,
+          opportunityTitle: "Youth Club volunteers",
+          charityName: "Hangleton and Knoll Project",
+          imgName: "hkProject1.jpg",
+        },
+        {
+          categoryIndex: 0,
+          listing: new SeeMoreFiller(),
+        },
+        {
+          uuid: "21b505cb-9553-11eb-afb8-dadd5bd8c1d2",
+          categoryIndex: 1,
+          opportunityTitle: "Social Media Manager",
+          charityName: "OSCAR Foundation",
+          imgName: "oscar_social_media_manger.jpeg",
+        },
+        {
+          uuid: "85730846-8ca5-11eb-afb8-dadd5bd8c1d2",
+          categoryIndex: 1,
+          opportunityTitle: "Network Manager",
+          charityName: "Freedom Power Chairs",
+          imgName: "freedomPowerChairs1.png",
+        },
+        {
+          uuid: "1602cd06-9195-11eb-afb8-dadd5bd8c1d2",
+          categoryIndex: 1,
+          opportunityTitle: "Youth Club Social Media Volunteer",
+          charityName: "Hangleton and Knoll Project",
+          imgName: "hkProject1.jpg",
+        },
+        {
+          uuid: "c37df565-9583-11eb-afb8-dadd5bd8c1d2",
+          categoryIndex: 1,
+          opportunityTitle: "CAD Designer",
+          charityName: "Freedom Power Chairs",
+          imgName: "freedomPowerChairs1.png",
+        },
+        {
+          uuid: "b5a544db-8bff-11eb-afb8-dadd5bd8c1d2",
+          categoryIndex: 1,
+          opportunityTitle: "Retail Charity Shop Assistant",
+          charityName: "Guild Care",
+          imgName: "guildCareShop.jpg",
+        },
+        {
+          categoryIndex: 1,
+          listing: new SeeMoreFiller(),
+        },
+        {
+          uuid: "470037bb-9553-11eb-afb8-dadd5bd8c1d2",
+          categoryIndex: 2,
+          opportunityTitle: "Mentoring Young People",
+          charityName: "OSCAR Foundation",
+          imgName: "oscar_mentioring_young_people.jpeg",
+        },
         {
           uuid: "7af5a892-8bfc-11eb-afb8-dadd5bd8c1d2",
           categoryIndex: 2,
@@ -222,41 +335,111 @@ class Homepage extends React.Component {
           imgName: "BMEYPP_youth_champs.jpeg",
         },
         {
-          uuid: "9bd6f5d6-8c17-11eb-afb8-dadd5bd8c1d2",
-          categoryName: 5,
-          opportunityTitle: "Home from Hospital Volunteers",
-          charityName: "Guild Care",
-          imgName: "Guild_care_home_and_hosptial_volunteers.jpeg",
-        },
-        {
-          uuid: "470037bb-9553-11eb-afb8-dadd5bd8c1d2",
-          categoryName: 4,
-          opportunityTitle: "Mentoring Young People",
-          charityName: "OSCAR Foundation",
-          imgName: "oscar_mentioring_young_people.jpeg",
-        },
-        {
           uuid: "f7b249b7-9552-11eb-afb8-dadd5bd8c1d2",
-          categoryName: 4,
+          categoryIndex: 2,
           opportunityTitle: "Report Writing",
           charityName: "OSCAR Foundation",
           imgName: "oscar_report_writing.jpeg",
         },
         {
-          uuid: "21b505cb-9553-11eb-afb8-dadd5bd8c1d2",
-          categoryName: "test",
-          opportunityTitle: "Social Media Manager",
+          uuid: "7d9da10d-92e8-11eb-afb8-dadd5bd8c1d2",
+          categoryIndex: 2,
+          opportunityTitle: "Records & Statistics",
+          charityName: "Freedom Power Chairs",
+          imgName: "freedomPowerChairs1.png",
+        },
+        {
+          uuid: "d2b5ac05-9552-11eb-afb8-dadd5bd8c1d2",
+          categoryIndex: 2,
+          opportunityTitle: "Part Time Helper",
           charityName: "OSCAR Foundation",
-          imgName: "oscar_social_media_manger.jpeg",
+          imgName: "oscar1.jpg",
+        },
+        {
+          categoryIndex: 2,
+          listing: new SeeMoreFiller(),
+        },
+        {
+          uuid: "5ad1b3b8-8ca4-11eb-afb8-dadd5bd8c1d2",
+          categoryIndex: 3,
+          opportunityTitle: "Admin – Assistant to the Trustees",
+          charityName: "Freedom Power Chairs",
+          imgName: "freedomPowerChairs1.png",
+        },
+        {
+          uuid: "9bd6f5d6-8c17-11eb-afb8-dadd5bd8c1d2",
+          categoryIndex: 3,
+          opportunityTitle: "Home from Hospital Volunteers",
+          charityName: "Guild Care",
+          imgName: "Guild_care_home_and_hosptial_volunteers.jpeg",
+        },
+        {
+          uuid: "845386ff-9581-11eb-afb8-dadd5bd8c1d2",
+          categoryIndex: 3,
+          opportunityTitle: "Assessor - Clients",
+          charityName: "Freedom Power Chairs",
+          imgName: "freedomPowerChairs1.png",
         },
         {
           uuid: "0c8c3b1c-8c20-11eb-afb8-dadd5bd8c1d2",
-          categoryName: "test",
+          categoryIndex: 3,
           opportunityTitle: "Befriending an older person in the community.",
           charityName: "Time to Talk Befriending",
           imgName: "ttb_befriending_older_people.jpeg",
         },
+        {
+          uuid: "710627d9-9586-11eb-afb8-dadd5bd8c1d2",
+          categoryIndex: 3,
+          opportunityTitle: "Workshop Manager",
+          charityName: "Freedom Power Chairs",
+          imgName: "freedomPowerChairs1.png",
+        },
+        {
+          categoryIndex: 3,
+          listing: new SeeMoreFiller(),
+        },
+        {
+          uuid: "0c8c3b1c-8c20-11eb-afb8-dadd5bd8c1d2",
+          categoryIndex: 4,
+          opportunityTitle: "Befriending an older person in the community.",
+          charityName: "Time to Talk Befriending",
+          imgName: "ttb_befriending_older_people.jpeg",
+        },
+        {
+          uuid: "25d459b7-8c18-11eb-afb8-dadd5bd8c1d2",
+          categoryIndex: 4,
+          opportunityTitle: "Gardening volunteer",
+          charityName: "Guild Care",
+          imgName: "guildCare2.jpg",
+        },
+        {
+          uuid: "845386ff-9581-11eb-afb8-dadd5bd8c1d2",
+          categoryIndex: 4,
+          opportunityTitle: "Assessor - Clients",
+          charityName: "Freedom Power Chairs",
+          imgName: "freedomPowerChairs1.png",
+        },
+        {
+          uuid: "9bd6f5d6-8c17-11eb-afb8-dadd5bd8c1d2",
+          categoryIndex: 4,
+          opportunityTitle: "Home from Hospital Volunteers",
+          charityName: "Guild Care",
+          imgName: "Guild_care_home_and_hosptial_volunteers.jpeg",
+        },
+        {
+          uuid: "5ad1b3b8-8ca4-11eb-afb8-dadd5bd8c1d2",
+          categoryIndex: 4,
+          opportunityTitle: "Admin – Assistant to the Trustees",
+          charityName: "Freedom Power Chairs",
+          imgName: "freedomPowerChairs1.png",
+        },
+        {
+          categoryIndex: 4,
+          listing: new SeeMoreFiller(),
+        },
       ],
+
+      currentCategoryIndex: 0,
     };
 
     function getNewSettings() {
@@ -267,7 +450,7 @@ class Homepage extends React.Component {
         maxCharactersListingTitle: screen.width > 485 ? 35 : 20,
       };
 
-      if (screen.width >= 1200) {
+      if (screen.width >= 1400) {
         out.listingsPerSlide = 3;
         out.maxListingPages = 2;
       } else if (screen.width >= 992) {
@@ -298,7 +481,7 @@ class Homepage extends React.Component {
         <div className="container large-mt welcome-part-container">
           <div className="container mx-auto">
             <div className="row mt-lg mt-3">
-              <div className="col-lg-6 mx-auto align-self-center">
+              <div className="col-lg-7 mx-auto align-self-center">
                 <div className="large-margin">
                   <p className="ratio ratio-16x9">
                     <video controls poster="/IMG/cybervolunteers_thumbnail.png">
@@ -311,36 +494,47 @@ class Homepage extends React.Component {
                   </p>
                 </div>
               </div>
-              <div className="col-lg-6 container first-lines-container mt-3">
+              <div className="col-lg-5 container first-lines-container mt-3">
                 <div className="mx-auto">
-                  <span className="row">
-                    <span className="col-lg main-header-text">
-                      <span className="grey-text thin-text">Connecting</span>
-                      <span className="green-text thick-text p-3">People</span>
-                    </span>
-                  </span>
-                  <span className="row text-right">
-                    <span className="col-lg main-header-text">
-                      <span className="grey-text thin-text">with</span>
-                      <span className="blue-text thick-text p-3">Purpose</span>
-                    </span>
-                  </span>
-                  {/* <span className="row text-right">
+                  <div className="ms-auto width-min">
+                    <div className="width-min text-container">
+                      <div className="width-min">
+                        <span className="col-lg main-header-text">
+                          <span className="grey-text thin-text">
+                            Connecting
+                          </span>
+                          <span className="green-text thick-text ps-3 pt-3">
+                            People
+                          </span>
+                        </span>
+                      </div>
+                      <div className="width-min text-right">
+                        <span className="col-lg main-header-text">
+                          <span className="grey-text thin-text">with</span>
+                          <span className="blue-text thick-text ps-3 pt-3">
+                            Purpose
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* <span className="row text-right">
                     <span className="col-lg-12 dark-grey-text main-subheading-text text-left mt-4">
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit,
                       sed do eiusmod tempor incididunt ut labore
                     </span>
                   </span> */}
-                  <span className="row">
-                    <span className="col-lg-12 find-opportunity-button-container">
-                      <Button
-                        variant="primary d-block mr-auto p-2 find-opportunity-button text-center"
-                        href={`./listingsPage`}
-                      >
-                        Find an opportunity
-                      </Button>
+                    <span className="row">
+                      <span className="col-lg-12 find-opportunity-button-container">
+                        <Button
+                          variant="primary d-block mr-auto p-2 find-opportunity-button text-center"
+                          href={`./listingsPage`}
+                        >
+                          Find an opportunity
+                        </Button>
+                      </span>
                     </span>
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -396,6 +590,9 @@ class Homepage extends React.Component {
                     style={{ height: "100%", width: "100%" }}
                     variant="link"
                     className="category-box existing-category mx-auto d-block"
+                    onClick={() =>
+                      this.setState({ currentCategoryIndex: props.index })
+                    }
                   >
                     <table style={{ height: "100%", width: "100%" }}>
                       <tbody>
@@ -411,9 +608,13 @@ class Homepage extends React.Component {
           ></MultipleItemCarousel>
 
           <MultipleItemCarousel
+            resetSlide={true}
+            ref={(el) => (this.listingCarousel = el)}
             itemsPerSlide={this.state.listingsPerSlide}
             maxItemsPages={this.state.maxListingPages}
-            items={this.state.listings}
+            items={this.state.listings.filter((el) => {
+              return el.categoryIndex === this.state.currentCategoryIndex;
+            })}
             className="listings-carousel"
             seeMoreComponent={() => {
               return (
@@ -520,6 +721,7 @@ function splitIntoGroups(array, numberPerPage, maxPages) {
     groups[currentIndex].push(item);
     lastItemIndex = itemIndex;
   }
+
   // replace the last object with a filler, but only if there is more to see
   if (lastItemIndex == array.length - 1) return groups;
 
