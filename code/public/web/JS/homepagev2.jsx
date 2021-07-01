@@ -480,7 +480,7 @@ class Homepage extends React.Component {
         <CustomNavbar />
         <div className="container large-mt welcome-part-container">
           <div className="container mx-auto">
-            <div className="row mt-lg mt-3">
+            <div className="row mt-lg g-3">
               <div className="col-lg-7 mx-auto align-self-center">
                 <div className="large-margin">
                   <p className="ratio ratio-16x9">
@@ -496,9 +496,9 @@ class Homepage extends React.Component {
               </div>
               <div className="col-lg-5 container first-lines-container mt-3">
                 <div className="mx-auto">
-                  <div className="ms-auto width-min">
-                    <div className="width-min text-container">
-                      <div className="width-min">
+                  <div className="ms-lg-auto mx-auto width-min-lg-max">
+                    <div className="text-center width-min-lg-max text-container">
+                      <div className="width-min-lg-max">
                         <span className="col-lg main-header-text">
                           <span className="grey-text thin-text">
                             Connecting
@@ -508,7 +508,7 @@ class Homepage extends React.Component {
                           </span>
                         </span>
                       </div>
-                      <div className="width-min text-right">
+                      <div className="width-min-lg-max text-right">
                         <span className="col-lg main-header-text">
                           <span className="grey-text thin-text">with</span>
                           <span className="blue-text thick-text ps-3 pt-3">
