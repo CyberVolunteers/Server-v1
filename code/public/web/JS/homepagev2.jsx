@@ -45,7 +45,7 @@ class CustomNavbar extends React.Component {
           <Navbar.Brand className="ps-2 ps-lg-0" href="/">
             <img
               src="/IMG/Logo main 3.svg"
-              height="40"
+              height="50"
               className="d-inline-block align-top"
               alt="Home"
             />
@@ -261,7 +261,7 @@ class Homepage extends React.Component {
           categoryIndex: 0,
           opportunityTitle: "Workshop Manager",
           charityName: "Freedom Power Chairs",
-          imgName: "freedomPowerChairs1.png",
+          imgName: "FPC2.jpg",
         },
         {
           uuid: "b5a544db-8bff-11eb-afb8-dadd5bd8c1d2",
@@ -293,7 +293,7 @@ class Homepage extends React.Component {
           categoryIndex: 1,
           opportunityTitle: "Network Manager",
           charityName: "Freedom Power Chairs",
-          imgName: "freedomPowerChairs1.png",
+          imgName: "FPC3.jpg",
         },
         {
           uuid: "1602cd06-9195-11eb-afb8-dadd5bd8c1d2",
@@ -307,7 +307,7 @@ class Homepage extends React.Component {
           categoryIndex: 1,
           opportunityTitle: "CAD Designer",
           charityName: "Freedom Power Chairs",
-          imgName: "freedomPowerChairs1.png",
+          imgName: "FPC4.jpg",
         },
         {
           uuid: "b5a544db-8bff-11eb-afb8-dadd5bd8c1d2",
@@ -346,7 +346,7 @@ class Homepage extends React.Component {
           categoryIndex: 2,
           opportunityTitle: "Records & Statistics",
           charityName: "Freedom Power Chairs",
-          imgName: "freedomPowerChairs1.png",
+          imgName: "FPC5.jpg",
         },
         {
           uuid: "d2b5ac05-9552-11eb-afb8-dadd5bd8c1d2",
@@ -364,7 +364,7 @@ class Homepage extends React.Component {
           categoryIndex: 3,
           opportunityTitle: "Admin – Assistant to the Trustees",
           charityName: "Freedom Power Chairs",
-          imgName: "freedomPowerChairs1.png",
+          imgName: "FPC2.jpg",
         },
         {
           uuid: "9bd6f5d6-8c17-11eb-afb8-dadd5bd8c1d2",
@@ -378,7 +378,7 @@ class Homepage extends React.Component {
           categoryIndex: 3,
           opportunityTitle: "Assessor - Clients",
           charityName: "Freedom Power Chairs",
-          imgName: "freedomPowerChairs1.png",
+          imgName: "FPC3.jpg",
         },
         {
           uuid: "0c8c3b1c-8c20-11eb-afb8-dadd5bd8c1d2",
@@ -392,7 +392,7 @@ class Homepage extends React.Component {
           categoryIndex: 3,
           opportunityTitle: "Workshop Manager",
           charityName: "Freedom Power Chairs",
-          imgName: "freedomPowerChairs1.png",
+          imgName: "FPC4.jpg",
         },
         {
           categoryIndex: 3,
@@ -417,7 +417,7 @@ class Homepage extends React.Component {
           categoryIndex: 4,
           opportunityTitle: "Assessor - Clients",
           charityName: "Freedom Power Chairs",
-          imgName: "freedomPowerChairs1.png",
+          imgName: "FPC5.jpg",
         },
         {
           uuid: "9bd6f5d6-8c17-11eb-afb8-dadd5bd8c1d2",
@@ -431,7 +431,7 @@ class Homepage extends React.Component {
           categoryIndex: 4,
           opportunityTitle: "Admin – Assistant to the Trustees",
           charityName: "Freedom Power Chairs",
-          imgName: "freedomPowerChairs1.png",
+          imgName: "FPC2.jpg",
         },
         {
           categoryIndex: 4,
@@ -503,7 +503,7 @@ class Homepage extends React.Component {
                           <span className="grey-text thin-text">
                             Connecting
                           </span>
-                          <span className="green-text thick-text ps-3 pt-3">
+                          <span className="blue-text thick-text ps-3 pt-3">
                             People
                           </span>
                         </span>
