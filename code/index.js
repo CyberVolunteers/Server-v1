@@ -220,8 +220,8 @@ app.use((req, res, next) => {
 app.use(express.static(path.join(__dirname, "pictures"))); // to serve pictures
 
 //pages
-app.get("/", renderPage("homepage"));
-app.get("/homepagev2", renderPage("homepagev2"));
+app.get("/", renderPage("homepagev2"));
+// app.get("/homepagev2", renderPage("homepagev2"));
 app.get("/login", logout(false), renderPage("login"));
 app.get("/volunteerSignUp", csrfProtection, renderPage("volunteerSignUp"));
 app.get("/charitySignUp", csrfProtection, renderPage("charitySignUp"));

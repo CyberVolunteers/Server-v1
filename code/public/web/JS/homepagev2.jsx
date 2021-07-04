@@ -45,7 +45,7 @@ class CustomNavbar extends React.Component {
           <Navbar.Brand className="ps-2 ps-lg-0" href="/">
             <img
               src="/IMG/Logo main 3.svg"
-              height="50"
+              height={screen.width > 400 ? "50" : "40"}
               className="d-inline-block align-top"
               alt="Home"
             />
