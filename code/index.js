@@ -53,7 +53,7 @@ const listingsIndex = flexSearch.create({
 });
 
 // add all the existing listings
-pool.query(
+pool.query?.(
   "SELECT listings.id, listings.opportunityDesc, listings.opportunityCategory, listings.opportunityTitle, charities.charityName FROM listings INNER JOIN charities ON charities.id=listings.charityId;",
   function (err, results) {
     if (err) throw err;

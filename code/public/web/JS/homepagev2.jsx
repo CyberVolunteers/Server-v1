@@ -254,14 +254,14 @@ class Homepage extends React.Component {
           categoryIndex: 0,
           opportunityTitle: "Gardening volunteer",
           charityName: "Guild Care",
-          imgName: "guildCare1.jpg",
+          imgName: "gardening.jpg",
         },
         {
           uuid: "710627d9-9586-11eb-afb8-dadd5bd8c1d2",
           categoryIndex: 0,
           opportunityTitle: "Workshop Manager",
           charityName: "Freedom Power Chairs",
-          imgName: "FPC2.jpg",
+          imgName: "workshop.jpg",
         },
         {
           uuid: "b5a544db-8bff-11eb-afb8-dadd5bd8c1d2",
@@ -293,7 +293,7 @@ class Homepage extends React.Component {
           categoryIndex: 1,
           opportunityTitle: "Network Manager",
           charityName: "Freedom Power Chairs",
-          imgName: "FPC3.jpg",
+          imgName: "network.jpg",
         },
         {
           uuid: "1602cd06-9195-11eb-afb8-dadd5bd8c1d2",
@@ -307,7 +307,7 @@ class Homepage extends React.Component {
           categoryIndex: 1,
           opportunityTitle: "CAD Designer",
           charityName: "Freedom Power Chairs",
-          imgName: "FPC4.jpg",
+          imgName: "cad.jpg",
         },
         {
           uuid: "b5a544db-8bff-11eb-afb8-dadd5bd8c1d2",
@@ -346,7 +346,7 @@ class Homepage extends React.Component {
           categoryIndex: 2,
           opportunityTitle: "Records & Statistics",
           charityName: "Freedom Power Chairs",
-          imgName: "FPC5.jpg",
+          imgName: "stats.jpg",
         },
         {
           uuid: "d2b5ac05-9552-11eb-afb8-dadd5bd8c1d2",
@@ -364,7 +364,7 @@ class Homepage extends React.Component {
           categoryIndex: 3,
           opportunityTitle: "Admin – Assistant to the Trustees",
           charityName: "Freedom Power Chairs",
-          imgName: "FPC2.jpg",
+          imgName: "trustees.jpg",
         },
         {
           uuid: "9bd6f5d6-8c17-11eb-afb8-dadd5bd8c1d2",
@@ -378,7 +378,7 @@ class Homepage extends React.Component {
           categoryIndex: 3,
           opportunityTitle: "Assessor - Clients",
           charityName: "Freedom Power Chairs",
-          imgName: "FPC3.jpg",
+          imgName: "FPC2.jpg",
         },
         {
           uuid: "0c8c3b1c-8c20-11eb-afb8-dadd5bd8c1d2",
@@ -392,7 +392,7 @@ class Homepage extends React.Component {
           categoryIndex: 3,
           opportunityTitle: "Workshop Manager",
           charityName: "Freedom Power Chairs",
-          imgName: "FPC4.jpg",
+          imgName: "workshop2.jpg",
         },
         {
           categoryIndex: 3,
@@ -417,7 +417,7 @@ class Homepage extends React.Component {
           categoryIndex: 4,
           opportunityTitle: "Assessor - Clients",
           charityName: "Freedom Power Chairs",
-          imgName: "FPC5.jpg",
+          imgName: "FPC2.jpg",
         },
         {
           uuid: "9bd6f5d6-8c17-11eb-afb8-dadd5bd8c1d2",
@@ -431,7 +431,7 @@ class Homepage extends React.Component {
           categoryIndex: 4,
           opportunityTitle: "Admin – Assistant to the Trustees",
           charityName: "Freedom Power Chairs",
-          imgName: "FPC2.jpg",
+          imgName: "trustees.jpg",
         },
         {
           categoryIndex: 4,
