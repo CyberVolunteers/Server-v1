@@ -1,0 +1,17 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.w-1000 {
+  width: 1000px;
+  margin: 0rem auto;
+}
+body {
+  background-color: #ffffff;
+}
+@media screen and (max-width: 1000px) {
+  .w-1000 {
+    width: 95%;
+  }
+}
