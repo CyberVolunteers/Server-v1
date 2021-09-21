@@ -33,14 +33,14 @@ const hostName = isProduction
   : "http://localhost:1234/";
 
 // connect to the mysql db
-const pool = mysql.createPool({
-  connectionLimit: 10,
-  host: "localhost",
-  user: "serverQueryManager",
-  password: require("./data/serverQueryManagerPass"),
-  database: "cybervolunteers",
-  timezone: "utc",
-});
+const pool = {}; //mysql.createPool({
+//   connectionLimit: 10,
+//   host: "localhost",
+//   user: "serverQueryManager",
+//   password: require("./data/serverQueryManagerPass"),
+//   database: "cybervolunteers",
+//   timezone: "utc",
+// });
 
 //set up the full text search
 const listingsIndex = flexSearch.create({

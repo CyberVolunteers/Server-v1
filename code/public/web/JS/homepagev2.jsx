@@ -275,7 +275,7 @@ class Homepage extends React.Component {
           categoryIndex: 0,
           opportunityTitle: "Youth Club volunteers",
           charityName: "Hangleton and Knoll Project",
-          imgName: "hkProject1.jpg",
+          imgName: "socialMediaVolunteer.jpg",
         },
         {
           categoryIndex: 0,
@@ -300,7 +300,7 @@ class Homepage extends React.Component {
           categoryIndex: 1,
           opportunityTitle: "Youth Club Social Media Volunteer",
           charityName: "Hangleton and Knoll Project",
-          imgName: "hkProject1.jpg",
+          imgName: "socialMediaVolunteer.jpg",
         },
         {
           uuid: "c37df565-9583-11eb-afb8-dadd5bd8c1d2",
@@ -346,7 +346,7 @@ class Homepage extends React.Component {
           categoryIndex: 2,
           opportunityTitle: "Records & Statistics",
           charityName: "Freedom Power Chairs",
-          imgName: "stats.jpg",
+          imgName: "stats.png",
         },
         {
           uuid: "d2b5ac05-9552-11eb-afb8-dadd5bd8c1d2",
@@ -410,7 +410,7 @@ class Homepage extends React.Component {
           categoryIndex: 4,
           opportunityTitle: "Gardening volunteer",
           charityName: "Guild Care",
-          imgName: "guildCare2.jpg",
+          imgName: "gardening.jpg",
         },
         {
           uuid: "845386ff-9581-11eb-afb8-dadd5bd8c1d2",
