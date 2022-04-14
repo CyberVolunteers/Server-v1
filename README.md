@@ -14,4 +14,6 @@ Please visit the [CyberVolunteers](http://cybervolunteers.org.uk/) website for m
 The `code/` folder contains all the main code. The `popCornWebsite/` folder contains some react files that have been copied over to replace some of the pages to give them a new look.
 
 ## Running the code
-Run `npm i` in the `code` folder to install the dependencies. Make sure that MySql has been installed. After that, start the server with `node index.js` or `nodemon index.js` if you want to live-refresh the code as you are editing it.
+Run `npm i` in the `code` folder to install the dependencies. 
+Make sure that MySql has been installed. There should be a user called `serverQueryManager` with a password copied to `./data/serverQueryManagerPass`. We called the database `cybervolunteers`.
+After that, start the server with `node index.js` or `nodemon index.js` if you want to live-refresh the code as you are editing it.
