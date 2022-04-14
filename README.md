@@ -16,4 +16,5 @@ The `code/` folder contains all the main code. The `popCornWebsite/` folder cont
 ## Running the code
 Run `npm i` in the `code` folder to install the dependencies. 
 Make sure that MySql has been installed. There should be a user called `serverQueryManager` with a password copied to `./data/serverQueryManagerPass`. We called the database `cybervolunteers`.
+Unfortunately, you will have to set up the database schema yourself (we no longer have the backups of the data for this old schema).
 After that, start the server with `node index.js` or `nodemon index.js` if you want to live-refresh the code as you are editing it.
