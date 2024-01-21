@@ -1,7 +1,7 @@
-# Server v1
-This is the first version of the code and the web pages for the [CyberVolunteers](http://cybervolunteers.org.uk/) website. The current website runs the second version of the code that is being kept private for security reasons.
+# CyberVolunteers.org.uk website v1
+This is the first version of the code and the web pages for the [CyberVolunteers](http://cybervolunteers.org.uk/) website. The latest version of the website can be found [here](https://github.com/CyberVolunteers/Website-v2).
 
-Please visit the [CyberVolunteers](http://cybervolunteers.org.uk/) website for more information on the project's goals.
+CyberVolunteers was a project aimed at connecting lesser-known charities with the enthusiastic volunteers.
 
 ## The software used
 - Node.js
